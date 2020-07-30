@@ -43,6 +43,11 @@ class DoubleExpr;
 
 class IdentifierExpr;
 
+class IRBuilder{
+public:
+    
+};
+
 }
 
 #pragma GCC visibility pop
