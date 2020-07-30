@@ -8,5 +8,12 @@
 #include <stdio.h>
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Type.h>
+#include "scheat.hpp"
 
+using namespace scheat;
 
+class Statement {
+    
+public:
+    
+};
