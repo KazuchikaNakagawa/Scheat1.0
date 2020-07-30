@@ -13,5 +13,6 @@ int main(int argc, const char * argv[]) {
     scheat::Scheat sch = scheat::Scheat();
     sch.FatalError("Use this as a test.", __LINE__);
     printf("this is iMac text;\n");
+    printf("this is MacBook text\n");
     return 0;
 }
