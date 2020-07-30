@@ -8,9 +8,11 @@
 #include <iostream>
 #include "ProjectSpica.hpp"
 #include "ProjectSpicaPriv.hpp"
+#include <llvm/IR/Module.h>
 
 void ProjectSpica::HelloWorld(const char * s)
 {
+    llvm::LLVMContext context;
     ProjectSpicaPriv *theObj = new ProjectSpicaPriv;
     theObj->HelloWorldPriv(s);
     delete theObj;

@@ -17,5 +17,11 @@ class ProjectSpica
     void HelloWorld(const char *);
 };
 
+class Spica {
+    
+public:
+    
+};
+
 #pragma GCC visibility pop
 #endif

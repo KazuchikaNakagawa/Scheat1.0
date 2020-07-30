@@ -14,4 +14,6 @@ class ProjectSpicaPriv
     void HelloWorldPriv(const char *);
 };
 
+
+
 #pragma GCC visibility pop
