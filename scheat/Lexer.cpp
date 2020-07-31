@@ -32,9 +32,6 @@ Token *Token::first(){
 
 Lexer::Lexer(scheat::Scheat *host){
     buf = "";
-    
-    
-    state = initState;
     this->host = host;
 }
 
