@@ -80,6 +80,8 @@
 		82E6976824D32C0200F13264 /* libz.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976324D32C0100F13264 /* libz.1.tbd */; };
 		82E6976924D32C0200F13264 /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976424D32C0100F13264 /* libz.1.1.3.tbd */; };
 		82E6976A24D32C0200F13264 /* libz.1.2.8.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976524D32C0200F13264 /* libz.1.2.8.tbd */; };
+		82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82ECF52C24D3A72900EB8316 /* Lexer.cpp */; };
+		82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82ECF52D24D3A72900EB8316 /* Lexer.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -165,6 +167,8 @@
 		82E6976324D32C0100F13264 /* libz.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.tbd; path = usr/lib/libz.1.tbd; sourceTree = SDKROOT; };
 		82E6976424D32C0100F13264 /* libz.1.1.3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.1.3.tbd; path = usr/lib/libz.1.1.3.tbd; sourceTree = SDKROOT; };
 		82E6976524D32C0200F13264 /* libz.1.2.8.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.8.tbd; path = usr/lib/libz.1.2.8.tbd; sourceTree = SDKROOT; };
+		82ECF52C24D3A72900EB8316 /* Lexer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lexer.cpp; sourceTree = "<group>"; };
+		82ECF52D24D3A72900EB8316 /* Lexer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lexer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,6 +299,8 @@
 				829849EF24D2DA20004A7A64 /* scheatPriv.hpp */,
 				829849F124D2DA20004A7A64 /* scheat.cpp */,
 				82984A0524D2E0B7004A7A64 /* Nodes.cpp */,
+				82ECF52C24D3A72900EB8316 /* Lexer.cpp */,
+				82ECF52D24D3A72900EB8316 /* Lexer.hpp */,
 			);
 			path = scheat;
 			sourceTree = "<group>";
@@ -389,6 +395,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */,
 				829849EE24D2DA20004A7A64 /* scheat.hpp in Headers */,
 				829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */,
 			);
@@ -500,6 +507,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
 				829849F224D2DA20004A7A64 /* scheat.cpp in Sources */,
 				82984A0624D2E0B7004A7A64 /* Nodes.cpp in Sources */,
 			);

@@ -45,10 +45,11 @@ struct MemberData {
     StructureData type;
 };
 
-class ClassData {
+class ClassData : StructureData {
     
 public:
     std::map<std::string, MemberData> members;
+    std::string mangle();
 };
 
 enum class Open {
@@ -75,11 +76,13 @@ public:
 };
 
 class IRBuilderReplica {
-    
+    static bool ready;
 public:
     static llvm::LLVMContext context;
     static llvm::IRBuilder<> builder;
     static std::unique_ptr<llvm::Module> module;
+    static scheat::Scheat *host;
+    static void check();
 };
 
 #pragma GCC visibility pop
