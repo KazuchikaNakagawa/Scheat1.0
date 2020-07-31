@@ -8,6 +8,7 @@
 #include <iostream>
 #include "scheat.hpp"
 
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     scheat::Scheat sch = scheat::Scheat();

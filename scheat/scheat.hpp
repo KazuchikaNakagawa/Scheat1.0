@@ -10,6 +10,7 @@
 
 /* The classes below are exported */
 #pragma GCC visibility push(default)
+#include <string>
 
 namespace scheat{
 
@@ -44,6 +45,7 @@ class DoubleExpr;
 class IdentifierExpr;
 
 class IRBuilder{
+    void *replica;
 public:
     
 };

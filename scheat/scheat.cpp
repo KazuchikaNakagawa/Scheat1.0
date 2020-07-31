@@ -11,6 +11,10 @@
 
 using namespace scheat;
 
+llvm::LLVMContext IRBuilderReplica::context;
+llvm::IRBuilder<> IRBuilderReplica::builder(IRBuilderReplica::context);
+std::unique_ptr<llvm::Module> IRBuilderReplica::module;
+
 void Scheat::HelloWorld(const char * s)
 {
     scheatPriv *theObj = new scheatPriv;
