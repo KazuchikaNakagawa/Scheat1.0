@@ -34,3 +34,19 @@ Lexer::Lexer(scheat::Scheat *host){
     state = initState;
     this->host = host;
 }
+
+void Lexer::lex(std::ifstream stream){
+    if (!stream.is_open()) {
+        host->FatalError("input file is not open --Lexer", __LINE__);
+    }
+    int c;
+    while (c = stream.get(), c != EOF) {
+        input(c);
+    }
+}
+
+void Lexer::input(int c){
+    if (state == longCommentState) {
+        return;
+    }
+}

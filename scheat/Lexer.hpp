@@ -38,22 +38,25 @@ struct Token {
     TokenValue value;
     Token *last();
     Token *first();
-    
+    SourceLocation location;
 };
 
 enum LexerState {
     commentState,
+    longCommentState,
     numberState,
     doubleState,
     stringState,
     identifierState,
-    initState
+    initState,
+    ErrorState,
 };
 
 class Lexer {
     std::string buf;
     LexerState state;
     scheat::Scheat *host;
+    void input(int c);
 public:
     Lexer(scheat::Scheat*);
     void lex(std::ifstream);

@@ -58,5 +58,10 @@ public:
 
 }
 
+struct SourceLocation {
+    int line;
+    int column;
+};
+
 #pragma GCC visibility pop
 #endif
