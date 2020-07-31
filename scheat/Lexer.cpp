@@ -6,29 +6,31 @@
 //
 
 #include "Lexer.hpp"
-#include "scheat.hpp"
-#include <fstream>
 
-enum TokenKind {
-    val_identifier,
-    val_num,
-    val_str,
-    val_double,
-    
-    tok_this,
-    tok_that,
-    tok_is,
-};
+Token *Token::last(){
+    Token *cpy = this;
+    if (cpy == nullptr) {
+        return nullptr;
+    }
+    while (cpy->next != nullptr) {
+        cpy = cpy->next;
+    }
+    return cpy;
+}
 
-struct Token {
-    Token *next;
-    Token *prev;
-    
-};
+Token *Token::first(){
+    Token *cpy = this;
+    if (cpy == nullptr) {
+        return nullptr;
+    }
+    while (cpy->prev != nullptr) {
+        cpy = cpy->prev;
+    }
+    return cpy;
+}
 
-class Lexer {
-    std::string buf;
-public:
-    void lex(std::ifstream);
-    
-};
+Lexer::Lexer(scheat::Scheat *host){
+    buf = "";
+    state = initState;
+    this->host = host;
+}

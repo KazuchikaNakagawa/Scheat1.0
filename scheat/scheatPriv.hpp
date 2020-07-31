@@ -40,9 +40,17 @@ public:
     virtual std::string mangle();
 };
 
+enum class Open {
+    _public,
+    _private,
+    _default,
+    _fileprivate,
+};
+
 struct MemberData {
     int index;
     StructureData type;
+    Open access;
 };
 
 class ClassData : StructureData {
@@ -52,12 +60,6 @@ public:
     std::string mangle();
 };
 
-enum class Open {
-    _public,
-    _private,
-    _default,
-    _fileprivate,
-};
 
 class VariableData {
     
@@ -69,10 +71,10 @@ public:
 };
 
 class IRContext {
-    
-public:
     static std::map<std::string, StructureData*> types;
     static std::map<std::string, VariableData*> ids;
+public:
+    
 };
 
 class IRBuilderReplica {
