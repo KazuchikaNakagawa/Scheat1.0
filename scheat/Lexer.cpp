@@ -27,6 +27,7 @@ Token *Token::first(){
     while (cpy->prev != nullptr) {
         cpy = cpy->prev;
     }
+    
     return cpy;
 }
 
