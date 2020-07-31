@@ -176,6 +176,40 @@
 			<key>uniqueIdentifier</key>
 			<string>A5B1FAE0-8A17-4C32-B536-E021C7DFA245</string>
 		</dict>
+		<key>AA2E8B8D-918E-4F95-8B24-15332B5C2145</key>
+		<dict>
+			<key>className</key>
+			<string>DBGConsoleLog</string>
+			<key>documentTypeString</key>
+			<string>com.apple.dt.IDE.DebuggerLogContentType</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
+			<key>fileName</key>
+			<string>AA2E8B8D-918E-4F95-8B24-15332B5C2145.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ProjectSpica project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>TestScheat</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Run TestScheat</string>
+			<key>timeStartedRecording</key>
+			<real>617856647.37891197</real>
+			<key>timeStoppedRecording</key>
+			<real>617856648.05179298</real>
+			<key>title</key>
+			<string>Run TestScheat</string>
+			<key>uniqueIdentifier</key>
+			<string>AA2E8B8D-918E-4F95-8B24-15332B5C2145</string>
+		</dict>
 		<key>B0EE7E44-27AD-4B7D-864D-3567E8C3D278</key>
 		<dict>
 			<key>className</key>

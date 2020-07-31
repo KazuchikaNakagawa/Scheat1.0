@@ -23,6 +23,7 @@ Token *Token::first(){
     if (cpy == nullptr) {
         return nullptr;
     }
+    
     while (cpy->prev != nullptr) {
         cpy = cpy->prev;
     }
@@ -31,6 +32,8 @@ Token *Token::first(){
 
 Lexer::Lexer(scheat::Scheat *host){
     buf = "";
+    
+    
     state = initState;
     this->host = host;
 }
