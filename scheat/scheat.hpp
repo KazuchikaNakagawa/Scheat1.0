@@ -61,6 +61,10 @@ public:
 struct SourceLocation {
     int line;
     int column;
+    SourceLocation(){
+        line = 1;
+        column = 1;
+    }
 };
 
 #pragma GCC visibility pop

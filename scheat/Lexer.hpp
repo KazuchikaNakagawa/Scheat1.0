@@ -56,11 +56,16 @@ class Lexer {
     std::string buf;
     LexerState state;
     scheat::Scheat *host;
+    SourceLocation location;
+    Token *tokens;
     void input(int c);
+    void genTok();
 public:
     Lexer(scheat::Scheat*);
     void lex(std::ifstream);
     void addToken();
+    void clear();
+    Token *getTokens() { return tokens; };
 };
 
 

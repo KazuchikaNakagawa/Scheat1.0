@@ -46,8 +46,28 @@ void Lexer::lex(std::ifstream stream){
     }
 }
 
+void Lexer::genTok(){
+    
+}
+
+void Lexer::clear(){
+    state = initState;
+    buf = "";
+}
+
 void Lexer::input(int c){
+    location.column++;
+    if (c == '\n') {
+        location.line++;
+    }
     if (state == longCommentState) {
         return;
+    }
+    if (true
+        && state == commentState
+        && c != '\n') {
+        return;
+    }else if (state == commentState && c == '\n'){
+        clear();
     }
 }
