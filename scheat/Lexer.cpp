@@ -91,11 +91,29 @@ void Token::valDouble(std::string k){
     kind = TokenKind::val_double;
 }
 
+Token *Token::add(Token *tokens, Token *token){
+    tokens->next = token;
+    token->prev = token;
+    token = token->next;
+    return token;
+}
+
 void Lexer::genTok(){
+    if (buf.empty()) {
+        return;
+    }
     Token *tok = new Token();
     if (state == numberState) {
-        tok->kind = TokenKind::val_num;
-        tok->value.intValue = atoi(buf.c_str());
+        tok->valInt(buf);
+        tokens = Token::add(tokens, tok);
+    }
+    if (state == stringState) {
+        tok->valStr(buf);
+        tokens = Token::add(tokens, tok);
+    }
+    if (state == doubleState) {
+        tok->valStr(buf);
+        tokens = Token::add(tokens, tok);
     }
 }
 
@@ -117,7 +135,7 @@ void Lexer::input(int c, int next){
         location.line++;
     }
     
-    if (commentDepth > 0 && c == '*' && next == '#') {
+    if (commentDepth > 0 && c == '*' && next == '#' && state != stringState) {
         commentDepth--;
         skipFlag = true;
         return;
@@ -135,37 +153,56 @@ void Lexer::input(int c, int next){
         
     }else if (state == commentState && c == '\n'){
         clear();
+        return;
     }
     
     if (c == '"' && state == stringState) {
         buf.push_back(c);
         genTok();
+        return;
     }
     
     if (c == '"') {
         genTok();
         buf.push_back(c);
         state = stringState;
+        return;
     }
     
     if (state == stringState) {
         buf.push_back(c);
+        return;
     }
     
     if (c == '\n') {
         genTok();
+        return;
     }
     
     if (c == ' ') {
         genTok();
+        return;
     }
     
     if (c == '\t') {
         genTok();
+        return;
     }
     
     if (c == '#' && c == '*') {
         state = longCommentState;
+    }
+    
+    if (isalpha(c)) {
+        if (state == initState) {
+            state = identifierState;
+            buf.push_back(c);
+        }
+        if (state == identifierState) {
+            buf.push_back(c);
+        }
+        
+        return;
     }
     
 }
