@@ -12,16 +12,17 @@
 #include "scheat.hpp"
 #include <fstream>
 
-enum TokenKind {
+enum class TokenKind : int {
     val_identifier,
     val_num,
     val_str,
     val_double,
+    val_bool,
     
     tok_this,
     tok_that,
     tok_is,
-    tok_external,
+    tok_external
 };
 
 union TokenValue {
@@ -29,6 +30,12 @@ union TokenValue {
     int intValue;
     bool boolValue;
     double doubleValue;
+    TokenValue(){
+        doubleValue = 0.0;
+    }
+    ~TokenValue(){
+        
+    }
 };
 
 struct Token {
@@ -39,6 +46,10 @@ struct Token {
     Token *last();
     Token *first();
     SourceLocation location;
+    void valInt(std::string);
+    void valStr(std::string);
+    void valBool(std::string);
+    void valDouble(std::string);
 };
 
 enum LexerState {

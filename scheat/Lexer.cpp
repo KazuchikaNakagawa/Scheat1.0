@@ -49,8 +49,54 @@ void Lexer::lex(std::ifstream stream){
     }
 }
 
+void Token::valInt(std::string k){
+    value.intValue = atoi(k.c_str());
+    kind = TokenKind::val_num;
+}
+
+void Token::valStr(std::string k){
+    if (k[0] != '"') {
+        printf("Scheat System Error %u\n", __LINE__);
+        printf("    reason: string started \" else character.\n");
+        exit(0);
+    }
+    if (k[k.length() - 1] != '"') {
+        printf("Scheat System Error %u\n", __LINE__);
+        printf("    reason: string ended \" else character.\n");
+        exit(0);
+    }
+    value.strValue = k;
+    kind = TokenKind::val_str;
+}
+
+void Token::valBool(std::string k){
+    if (k == "true") {
+        value.boolValue = true;
+    }else if (k == "false"){
+        value.boolValue = false;
+    }else if (k == "Yes"){
+        value.boolValue = true;
+    }else if (k == "No"){
+        value.boolValue = false;
+    }else{
+        printf("Scheat System Error %u\n", __LINE__);
+        printf("    reason: bool error\n");
+        exit(0);
+    }
+    kind = TokenKind::val_bool;
+}
+
+void Token::valDouble(std::string k){
+    value.doubleValue = atof(k.c_str());
+    kind = TokenKind::val_double;
+}
+
 void Lexer::genTok(){
-    
+    Token *tok = new Token();
+    if (state == numberState) {
+        tok->kind = TokenKind::val_num;
+        tok->value.intValue = atoi(buf.c_str());
+    }
 }
 
 void Lexer::clear(){
