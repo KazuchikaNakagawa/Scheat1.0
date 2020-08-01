@@ -33,7 +33,9 @@ Token *Token::first(){
 
 Lexer::Lexer(scheat::Scheat *host){
     buf = "";
+    skipFlag = false;
     this->host = host;
+    commentDepth = 0;
 }
 
 void Lexer::lex(std::ifstream stream){
@@ -42,7 +44,8 @@ void Lexer::lex(std::ifstream stream){
     }
     int c;
     while (c = stream.get(), c != EOF) {
-        input(c);
+        input(c, stream.get());
+        stream.unget();
     }
 }
 
@@ -55,19 +58,68 @@ void Lexer::clear(){
     buf = "";
 }
 
-void Lexer::input(int c){
+void Lexer::input(int c, int next){
+    
     location.column++;
+    
+    if (skipFlag) {
+        skipFlag = !skipFlag;
+        return;
+    }
+    
     if (c == '\n') {
         location.line++;
     }
-    if (state == longCommentState) {
+    
+    if (commentDepth > 0 && c == '*' && next == '#') {
+        commentDepth--;
+        skipFlag = true;
         return;
     }
+    
+    if (commentDepth > 0) {
+        return;
+    }
+    
     if (true
         && state == commentState
         && c != '\n') {
+        
         return;
+        
     }else if (state == commentState && c == '\n'){
         clear();
     }
+    
+    if (c == '"' && state == stringState) {
+        buf.push_back(c);
+        genTok();
+    }
+    
+    if (c == '"') {
+        genTok();
+        buf.push_back(c);
+        state = stringState;
+    }
+    
+    if (state == stringState) {
+        buf.push_back(c);
+    }
+    
+    if (c == '\n') {
+        genTok();
+    }
+    
+    if (c == ' ') {
+        genTok();
+    }
+    
+    if (c == '\t') {
+        genTok();
+    }
+    
+    if (c == '#' && c == '*') {
+        state = longCommentState;
+    }
+    
 }

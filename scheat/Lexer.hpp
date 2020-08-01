@@ -58,8 +58,10 @@ class Lexer {
     scheat::Scheat *host;
     SourceLocation location;
     Token *tokens;
-    void input(int c);
+    void input(int c, int next);
     void genTok();
+    int commentDepth;
+    bool skipFlag;
 public:
     Lexer(scheat::Scheat*);
     void lex(std::ifstream);
