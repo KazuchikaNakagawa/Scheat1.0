@@ -141,6 +141,12 @@ void Token::out(){
             printf("bool token ->false\n");
         }
     }
+    if (kind == TokenKind::val_identifier) {
+        printf("id token ->%s\n", value.strValue.c_str());
+    }
+    if (kind == TokenKind::tok_this) {
+        
+    }
 }
 
 void Lexer::clear(){
