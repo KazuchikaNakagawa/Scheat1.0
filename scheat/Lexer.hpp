@@ -74,6 +74,7 @@ struct Token {
     void valBool(std::string);
     void valDouble(std::string);
     static Token *add(Token *, Token *);
+    void out();
 };
 
 enum LexerState {

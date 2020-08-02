@@ -115,6 +115,32 @@ void Lexer::genTok(){
         tok->valStr(buf);
         tokens = Token::add(tokens, tok);
     }
+    if (state == operatorState) {
+        tok->value.strValue = buf;
+        tok->kind = TokenKind::val_operator;
+    }
+}
+
+void Token::out(){
+    if (kind == TokenKind::val_num) {
+        printf("integer token ->%d\n", value.intValue);
+    }
+    if (kind == TokenKind::val_str) {
+        printf("string token ->%s\n", value.strValue.c_str());
+    }
+    if (kind == TokenKind::val_operator) {
+        printf("operator token ->%s\n", value.strValue.c_str());
+    }
+    if (kind == TokenKind::val_double) {
+        printf("float-point token ->%lf\n", value.doubleValue);
+    }
+    if (kind == TokenKind::val_bool) {
+        if (value.boolValue) {
+            printf("bool token ->true\n");
+        }else{
+            printf("bool token ->false\n");
+        }
+    }
 }
 
 void Lexer::clear(){
