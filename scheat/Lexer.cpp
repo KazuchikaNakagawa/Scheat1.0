@@ -145,7 +145,13 @@ void Token::out(){
         printf("id token ->%s\n", value.strValue.c_str());
     }
     if (kind == TokenKind::tok_this) {
-        
+        printf("this token\n");
+    }
+    if (kind == TokenKind::tok_is) {
+        printf("is token\n");
+    }
+    if (kind == TokenKind::tok_that) {
+        printf("that token\n");
     }
 }
 
