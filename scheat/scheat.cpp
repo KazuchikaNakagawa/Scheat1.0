@@ -48,7 +48,7 @@ Scheat::Scheat(int version, int section, int part, const char *target, bool debu
     this->debug = debugOpt;
 }
 
-void Scheat::Debug(const char *msg, unsigned int line){
+void Scheat::old_Debug(const char *msg, unsigned int line){
     if (!debug) {
         return;
     }
@@ -58,6 +58,17 @@ void Scheat::Debug(const char *msg, unsigned int line){
 void Scheat::FatalError(unsigned int line, const char *fmt, ...)
 {
     printf("Error\n source line%u : ", line);
+    va_list arg;
+    
+    va_start(arg, fmt);
+    ::vprintf(fmt, arg);
+    va_end(arg);
+    printf("\n");
+}
+
+void Scheat::Debug(unsigned int line, const char *fmt, ...)
+{
+    printf("Debug\n source line%u : ", line);
     va_list arg;
     
     va_start(arg, fmt);

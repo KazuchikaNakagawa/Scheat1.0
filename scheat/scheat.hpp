@@ -11,6 +11,7 @@
 /* The classes below are exported */
 #pragma GCC visibility push(default)
 #include <string>
+#include "Lexer.hpp"
 
 namespace scheat{
 
@@ -34,7 +35,8 @@ public:
     void HelloWorld(const char *);
     __deprecated void old_FatalError(const char *, unsigned int);
     void FatalError(unsigned int, const char *, ...);
-    void Debug(const char *, unsigned int);
+    __deprecated void old_Debug(const char *, unsigned int);
+    void Debug(unsigned int, const char *, ...);
     void flagDebug() { debug = !debug; };
 };
 
@@ -59,15 +61,6 @@ public:
 };
 
 }
-
-struct SourceLocation {
-    int line;
-    int column;
-    SourceLocation(){
-        line = 1;
-        column = 1;
-    }
-};
 
 #pragma GCC visibility pop
 #endif

@@ -63,6 +63,21 @@
 		829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849EF24D2DA20004A7A64 /* scheatPriv.hpp */; };
 		829849F224D2DA20004A7A64 /* scheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849F124D2DA20004A7A64 /* scheat.cpp */; };
 		82984A0624D2E0B7004A7A64 /* Nodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82984A0524D2E0B7004A7A64 /* Nodes.cpp */; };
+		82A1A22724D80AFE009C2E5F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849FC24D2DFA4004A7A64 /* main.cpp */; };
+		82A1A22924D80AFE009C2E5F /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976124D32C0100F13264 /* libz.1.2.5.tbd */; };
+		82A1A22A24D80AFE009C2E5F /* libz.1.2.11.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976224D32C0100F13264 /* libz.1.2.11.tbd */; };
+		82A1A22B24D80AFE009C2E5F /* libz.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976324D32C0100F13264 /* libz.1.tbd */; };
+		82A1A22C24D80AFE009C2E5F /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976424D32C0100F13264 /* libz.1.1.3.tbd */; };
+		82A1A22D24D80AFE009C2E5F /* libz.1.2.8.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976524D32C0200F13264 /* libz.1.2.8.tbd */; };
+		82A1A22E24D80AFE009C2E5F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18724D31CE8001C5130 /* libz.tbd */; };
+		82A1A22F24D80AFE009C2E5F /* libm.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18D24D31D0D001C5130 /* libm.tbd */; };
+		82A1A23024D80AFE009C2E5F /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18B24D31D02001C5130 /* libcurses.tbd */; };
+		82A1A23124D80AFE009C2E5F /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975A24D32BC000F13264 /* libxml2.2.tbd */; };
+		82A1A23224D80AFE009C2E5F /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974F24D32ACB00F13264 /* libxml2.tbd */; };
+		82A1A23324D80AFE009C2E5F /* libncurses.5.4.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975324D32B5500F13264 /* libncurses.5.4.tbd */; };
+		82A1A23424D80AFE009C2E5F /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975224D32B5500F13264 /* libncurses.5.tbd */; };
+		82A1A23524D80AFE009C2E5F /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974C24D321B400F13264 /* libncurses.tbd */; };
+		82A1A23624D80AFE009C2E5F /* libscheat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829849EB24D2DA20004A7A64 /* libscheat.a */; };
 		82E6975024D32ACB00F13264 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974F24D32ACB00F13264 /* libxml2.tbd */; };
 		82E6975124D32B5500F13264 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974C24D321B400F13264 /* libncurses.tbd */; };
 		82E6975424D32B5500F13264 /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975224D32B5500F13264 /* libncurses.5.tbd */; };
@@ -86,6 +101,15 @@
 
 /* Begin PBXCopyFilesBuildPhase section */
 		829849F824D2DFA4004A7A64 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		82A1A23724D80AFE009C2E5F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -155,6 +179,7 @@
 		829849FA24D2DFA4004A7A64 /* TestScheat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestScheat; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849FC24D2DFA4004A7A64 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		82984A0524D2E0B7004A7A64 /* Nodes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Nodes.cpp; sourceTree = "<group>"; };
+		82A1A23B24D80AFE009C2E5F /* scheat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = scheat; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E6974C24D321B400F13264 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
 		82E6974E24D324B600F13264 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		82E6974F24D32ACB00F13264 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -258,6 +283,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82A1A22824D80AFE009C2E5F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82A1A22924D80AFE009C2E5F /* libz.1.2.5.tbd in Frameworks */,
+				82A1A22A24D80AFE009C2E5F /* libz.1.2.11.tbd in Frameworks */,
+				82A1A22B24D80AFE009C2E5F /* libz.1.tbd in Frameworks */,
+				82A1A22C24D80AFE009C2E5F /* libz.1.1.3.tbd in Frameworks */,
+				82A1A22D24D80AFE009C2E5F /* libz.1.2.8.tbd in Frameworks */,
+				82A1A22E24D80AFE009C2E5F /* libz.tbd in Frameworks */,
+				82A1A22F24D80AFE009C2E5F /* libm.tbd in Frameworks */,
+				82A1A23024D80AFE009C2E5F /* libcurses.tbd in Frameworks */,
+				82A1A23124D80AFE009C2E5F /* libxml2.2.tbd in Frameworks */,
+				82A1A23224D80AFE009C2E5F /* libxml2.tbd in Frameworks */,
+				82A1A23324D80AFE009C2E5F /* libncurses.5.4.tbd in Frameworks */,
+				82A1A23424D80AFE009C2E5F /* libncurses.5.tbd in Frameworks */,
+				82A1A23524D80AFE009C2E5F /* libncurses.tbd in Frameworks */,
+				82A1A23624D80AFE009C2E5F /* libscheat.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -278,6 +324,7 @@
 				829849D924D1B5A7004A7A64 /* libspica.a */,
 				829849EB24D2DA20004A7A64 /* libscheat.a */,
 				829849FA24D2DFA4004A7A64 /* TestScheat */,
+				82A1A23B24D80AFE009C2E5F /* scheat */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -455,6 +502,23 @@
 			productReference = 829849FA24D2DFA4004A7A64 /* TestScheat */;
 			productType = "com.apple.product-type.tool";
 		};
+		82A1A22524D80AFE009C2E5F /* productscheat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82A1A23824D80AFE009C2E5F /* Build configuration list for PBXNativeTarget "productscheat" */;
+			buildPhases = (
+				82A1A22624D80AFE009C2E5F /* Sources */,
+				82A1A22824D80AFE009C2E5F /* Frameworks */,
+				82A1A23724D80AFE009C2E5F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = productscheat;
+			productName = TestScheat;
+			productReference = 82A1A23B24D80AFE009C2E5F /* scheat */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -490,6 +554,7 @@
 				829849D824D1B5A7004A7A64 /* ProjectSpica */,
 				829849EA24D2DA20004A7A64 /* scheat */,
 				829849F924D2DFA4004A7A64 /* TestScheat */,
+				82A1A22524D80AFE009C2E5F /* productscheat */,
 			);
 		};
 /* End PBXProject section */
@@ -518,6 +583,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8205E12D24D3178C001C5130 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82A1A22624D80AFE009C2E5F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82A1A22724D80AFE009C2E5F /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,6 +860,62 @@
 			};
 			name = Release;
 		};
+		82A1A23924D80AFE009C2E5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = NO;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = NO;
+				CLANG_WARN_ENUM_CONVERSION = NO;
+				CLANG_WARN_INT_CONVERSION = NO;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = NO;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/include,
+					/Users/kaz04/ProjectSpica/scheat/,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/lib,
+					"$(SDKROOT)/usr/lib/system",
+				);
+				PRODUCT_NAME = scheat;
+			};
+			name = Debug;
+		};
+		82A1A23A24D80AFE009C2E5F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = NO;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = NO;
+				CLANG_WARN_ENUM_CONVERSION = NO;
+				CLANG_WARN_INT_CONVERSION = NO;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = NO;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/include,
+					/Users/kaz04/ProjectSpica/scheat/,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/lib,
+					"$(SDKROOT)/usr/lib/system",
+				);
+				PRODUCT_NAME = scheat;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -822,6 +951,15 @@
 			buildConfigurations = (
 				829849FF24D2DFA4004A7A64 /* Debug */,
 				82984A0024D2DFA4004A7A64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82A1A23824D80AFE009C2E5F /* Build configuration list for PBXNativeTarget "productscheat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82A1A23924D80AFE009C2E5F /* Debug */,
+				82A1A23A24D80AFE009C2E5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

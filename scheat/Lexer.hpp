@@ -9,8 +9,22 @@
 #define Lexer_hpp
 
 #include <stdio.h>
-#include "scheat.hpp"
 #include <fstream>
+
+
+struct SourceLocation {
+    int line;
+    int column;
+    SourceLocation(){
+        line = 1;
+        column = 1;
+    }
+};
+
+
+namespace scheat {
+class Scheat;
+
 
 enum class TokenKind : int {
     
@@ -78,6 +92,13 @@ struct Token {
     static Token *add(Token *, Token *);
     void enumerate();
     void out();
+    Token(){
+        next = nullptr;
+        prev = nullptr;
+        kind = TokenKind::val_num;
+        value.intValue = 0;
+        location = SourceLocation();
+    }
 };
 
 enum LexerState {
@@ -121,5 +142,7 @@ public:
     Token *getTokens() { return tokens; };
 };
 
+
+}
 
 #endif /* Lexer_hpp */

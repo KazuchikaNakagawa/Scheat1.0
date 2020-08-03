@@ -5,8 +5,10 @@
 //  Created by かずちか on 2020/07/31.
 //
 
-#include "Lexer.hpp"
+#include "scheat.hpp"
 
+
+using namespace scheat;
 Token *Token::last(){
     Token *cpy = this;
     if (cpy == nullptr) {
@@ -35,7 +37,9 @@ Lexer::Lexer(scheat::Scheat *host){
     buf = "";
     skipFlag = false;
     this->host = host;
+    tokens = nullptr;
     commentDepth = 0;
+    state = initState;
 }
 
 void Lexer::lex(std::ifstream stream){
@@ -93,69 +97,89 @@ void Token::valDouble(std::string k){
 }
 
 Token *Token::add(Token *tokens, Token *token){
+    if (tokens == nullptr) {
+        return token;
+    }
     tokens->next = token;
-    token->prev = token;
-    token = token->next;
-    return token;
+    token->prev = tokens;
+    tokens = tokens->next;
+    return tokens;
 }
 
 #define tadd tokens = Token::add(tokens, tok)
 
 void Lexer::genTok(){
     if (buf.empty()) {
+        state = initState;
         return;
     }
     Token *tok = new Token();
     if (buf == ".") {
         tok->kind = TokenKind::tok_period;
         tokens = Token::add(tokens, tok);
+        clear();
         return;
     }
     if (buf == ",") {
         tok->kind = TokenKind::tok_comma;
         tokens = Token::add(tokens, tok);
+        clear();
         return;
     }
     if (state == numberState) {
         tok->valInt(buf);
         tokens = Token::add(tokens, tok);
+        clear();
         return;
     }
     if (state == stringState) {
         tok->valStr(buf);
         tokens = Token::add(tokens, tok);
+        clear();
         return;
     }
     if (state == doubleState) {
         tok->valStr(buf);
         tokens = Token::add(tokens, tok);
+        clear();
         return;
     }
     if (state == operatorState) {
         tok->value.strValue = buf;
         tok->kind = TokenKind::val_operator;
         tokens = Token::add(tokens, tok);
+        clear();
         return;
     }
     if (buf == "this" || buf == "new" || buf == "these") {
         tok->kind = TokenKind::tok_this;
         tadd;
+        clear();
         return;
     }
     
     if (buf == "is" || buf == "are") {
         tok->kind = TokenKind::tok_is;
         tadd;
+        clear();
         return;
     }
     
     if (buf == "that" || buf == "the" || buf == "those") {
         tok->kind = TokenKind::tok_that;
         tadd;
+        clear();
+        return;
     }
     
     if (buf == "remember") {
         
+    }
+    
+    if (state == identifierState) {
+        tok->value.strValue = buf;
+        tok->kind = TokenKind::val_identifier;
+        tadd;
     }
     clear();
 }
@@ -207,6 +231,12 @@ void Token::out(){
         printf("remember token\n");
         return;
     }
+    if (kind == TokenKind::tok_period) {
+        printf(". token\n");
+    }
+    if (kind == TokenKind::tok_comma) {
+        printf(", token\n");
+    }
 }
 
 void Lexer::clear(){
@@ -215,7 +245,7 @@ void Lexer::clear(){
 }
 
 void Lexer::input(int c, int next){
-    
+    host->Debug(__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
     if (c == '\0' || c == EOF) {
         return;
     }
@@ -401,7 +431,7 @@ void Lexer::lex(std::string str){
     for (int i = 0; i < length; i++) {
         input(str[i], str[i + 1]);
         if (str[i+1] == '\0') {
-            break;
+            input(' ', ' ');
         }
     }
 }
