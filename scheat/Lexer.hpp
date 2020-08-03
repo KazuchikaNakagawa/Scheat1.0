@@ -76,6 +76,7 @@ struct Token {
     void valBool(std::string);
     void valDouble(std::string);
     static Token *add(Token *, Token *);
+    void enumerate();
     void out();
 };
 
@@ -102,10 +103,21 @@ class Lexer {
     int commentDepth;
     bool skipFlag;
 public:
+    
+    // initializer
+    // Scheat object for version management
     Lexer(scheat::Scheat*);
+    
+    // lex(ifstream)
+    // lex file and return token
     void lex(std::ifstream);
-    void addToken();
+    
+    void lex(std::string);
+    
+    // this function has fatal probrem
+    // void addToken();
     void clear();
+    
     Token *getTokens() { return tokens; };
 };
 

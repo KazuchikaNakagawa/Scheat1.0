@@ -35,6 +35,7 @@ public:
     __deprecated void old_FatalError(const char *, unsigned int);
     void FatalError(unsigned int, const char *, ...);
     void Debug(const char *, unsigned int);
+    void flagDebug() { debug = !debug; };
 };
 
 class Statement;

@@ -99,6 +99,8 @@ Token *Token::add(Token *tokens, Token *token){
     return token;
 }
 
+#define tadd tokens = Token::add(tokens, tok)
+
 void Lexer::genTok(){
     if (buf.empty()) {
         return;
@@ -135,21 +137,47 @@ void Lexer::genTok(){
         tokens = Token::add(tokens, tok);
         return;
     }
+    if (buf == "this" || buf == "new" || buf == "these") {
+        tok->kind = TokenKind::tok_this;
+        tadd;
+        return;
+    }
+    
+    if (buf == "is" || buf == "are") {
+        tok->kind = TokenKind::tok_is;
+        tadd;
+        return;
+    }
+    
+    if (buf == "that" || buf == "the" || buf == "those") {
+        tok->kind = TokenKind::tok_that;
+        tadd;
+    }
+    
+    if (buf == "remember") {
+        
+    }
     clear();
 }
+
+#undef tadd
 
 void Token::out(){
     if (kind == TokenKind::val_num) {
         printf("integer token ->%d\n", value.intValue);
+        return;
     }
     if (kind == TokenKind::val_str) {
         printf("string token ->%s\n", value.strValue.c_str());
+        return;
     }
     if (kind == TokenKind::val_operator) {
         printf("operator token ->%s\n", value.strValue.c_str());
+        return;
     }
     if (kind == TokenKind::val_double) {
         printf("float-point token ->%lf\n", value.doubleValue);
+        return;
     }
     if (kind == TokenKind::val_bool) {
         if (value.boolValue) {
@@ -157,18 +185,27 @@ void Token::out(){
         }else{
             printf("bool token ->false\n");
         }
+        return;
     }
     if (kind == TokenKind::val_identifier) {
         printf("id token ->%s\n", value.strValue.c_str());
+        return;
     }
     if (kind == TokenKind::tok_this) {
         printf("this token\n");
+        return;
     }
     if (kind == TokenKind::tok_is) {
         printf("is token\n");
+        return;
     }
     if (kind == TokenKind::tok_that) {
         printf("that token\n");
+        return;
+    }
+    if (kind == TokenKind::tok_external) {
+        printf("remember token\n");
+        return;
     }
 }
 
@@ -178,6 +215,10 @@ void Lexer::clear(){
 }
 
 void Lexer::input(int c, int next){
+    
+    if (c == '\0' || c == EOF) {
+        return;
+    }
     
     location.column++;
     
@@ -263,6 +304,7 @@ void Lexer::input(int c, int next){
         if (state == operatorState) {
             genTok();
             buf.push_back(c);
+            state = identifierState;
             return;
         }
         if (state == initState) {
@@ -282,6 +324,7 @@ void Lexer::input(int c, int next){
         if (state == operatorState) {
             genTok();
             buf.push_back(c);
+            state = numberState;
             return;
         }
         if (state == numberState) {
@@ -343,4 +386,22 @@ void Lexer::input(int c, int next){
         return;
     }
     
+}
+
+void Token::enumerate(){
+    Token *a = this->first();
+    while (a != nullptr) {
+        a->out();
+        a = a->next;
+    }
+}
+
+void Lexer::lex(std::string str){
+    int length = str.length();
+    for (int i = 0; i < length; i++) {
+        input(str[i], str[i + 1]);
+        if (str[i+1] == '\0') {
+            break;
+        }
+    }
 }

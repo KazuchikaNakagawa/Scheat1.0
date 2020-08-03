@@ -12,7 +12,8 @@
 int main(int argc, const char * argv[]) {
     // insert code here...
     scheat::Scheat sch = scheat::Scheat();
-    sch.Debug("Use this as a test.", __LINE__);
+    sch.flagDebug();
+    sch.Debug("Hello", __LINE__);
     
     return 0;
 }

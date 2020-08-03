@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>346B0567-F407-48C8-BD96-C41411BFA20C</key>
+		<key>A03B9F0C-CDE7-4E44-A95B-7A33A6A209DD</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.tool</string>
 			<key>fileName</key>
-			<string>346B0567-F407-48C8-BD96-C41411BFA20C.xcactivitylog</string>
+			<string>A03B9F0C-CDE7-4E44-A95B-7A33A6A209DD.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -26,15 +26,15 @@
 			<key>signature</key>
 			<string>TestScheat-dkmufxdyilnmwwaknwfupqpzcang</string>
 			<key>timeStartedRecording</key>
-			<real>618115626.88864303</real>
+			<real>618136246.06560004</real>
 			<key>timeStoppedRecording</key>
-			<real>618115627.94236004</real>
+			<real>618136246.35850203</real>
 			<key>title</key>
 			<string>Build target TestScheat</string>
 			<key>uniqueIdentifier</key>
-			<string>346B0567-F407-48C8-BD96-C41411BFA20C</string>
+			<string>A03B9F0C-CDE7-4E44-A95B-7A33A6A209DD</string>
 		</dict>
-		<key>A41566BB-DF17-4C0E-9439-682600E2BE82</key>
+		<key>AE14A216-4489-4BEB-8294-637156FF0650</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -43,24 +43,24 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.library.static</string>
 			<key>fileName</key>
-			<string>A41566BB-DF17-4C0E-9439-682600E2BE82.xcactivitylog</string>
+			<string>AE14A216-4489-4BEB-8294-637156FF0650.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>W</string>
+				<string>S</string>
 			</dict>
 			<key>signature</key>
 			<string>scheat-dkmufxdyilnmwwaknwfupqpzcang</string>
 			<key>timeStartedRecording</key>
-			<real>618115623.87838197</real>
+			<real>618136244.38746905</real>
 			<key>timeStoppedRecording</key>
-			<real>618115626.88656902</real>
+			<real>618136246.06421804</real>
 			<key>title</key>
 			<string>Build target scheat</string>
 			<key>uniqueIdentifier</key>
-			<string>A41566BB-DF17-4C0E-9439-682600E2BE82</string>
+			<string>AE14A216-4489-4BEB-8294-637156FF0650</string>
 		</dict>
 	</dict>
 	<key>preserveOldLogs</key>

@@ -6,6 +6,7 @@
 //
 
 #include <iostream>
+#include <stdio.h>
 #include <cstdarg>
 #include "scheat.hpp"
 #include "scheatPriv.hpp"
@@ -44,13 +45,14 @@ Scheat::Scheat(int version, int section, int part, const char *target, bool debu
     this->section = section;
     this->part = part;
     this->target = target;
+    this->debug = debugOpt;
 }
 
 void Scheat::Debug(const char *msg, unsigned int line){
     if (!debug) {
         return;
     }
-    printf("%u : %s\n", line, msg);
+    printf("line%u : %s\n", line, msg);
 }
 
 void Scheat::FatalError(unsigned int line, const char *fmt, ...)
