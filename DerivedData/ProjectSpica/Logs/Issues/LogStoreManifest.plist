@@ -62,7 +62,7 @@
 			<key>uniqueIdentifier</key>
 			<string>5252000F-D5F2-4379-86E8-8D2F83684292</string>
 		</dict>
-		<key>F004ACA6-A1D9-46DF-B4AE-3335F77967C0</key>
+		<key>8F5491C4-C64C-430B-9939-EBC4EA60F0DA</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -71,7 +71,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.tool</string>
 			<key>fileName</key>
-			<string>F004ACA6-A1D9-46DF-B4AE-3335F77967C0.xcactivitylog</string>
+			<string>8F5491C4-C64C-430B-9939-EBC4EA60F0DA.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,13 +82,41 @@
 			<key>signature</key>
 			<string>productscheat-dkmufxdyilnmwwaknwfupqpzcang</string>
 			<key>timeStartedRecording</key>
-			<real>618138419.490201</real>
+			<real>618141309.93620706</real>
 			<key>timeStoppedRecording</key>
-			<real>618138420.16359901</real>
+			<real>618141310.441149</real>
 			<key>title</key>
 			<string>Build target productscheat</string>
 			<key>uniqueIdentifier</key>
-			<string>F004ACA6-A1D9-46DF-B4AE-3335F77967C0</string>
+			<string>8F5491C4-C64C-430B-9939-EBC4EA60F0DA</string>
+		</dict>
+		<key>AA9D96AA-BFAF-4273-A49B-63619E622C8C</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogMajorGroupSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.target.product-type.library.static</string>
+			<key>fileName</key>
+			<string>AA9D96AA-BFAF-4273-A49B-63619E622C8C.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>signature</key>
+			<string>ProjectSpica-dkmufxdyilnmwwaknwfupqpzcang</string>
+			<key>timeStartedRecording</key>
+			<real>618139102.572451</real>
+			<key>timeStoppedRecording</key>
+			<real>618139103.45488405</real>
+			<key>title</key>
+			<string>Build target ProjectSpica</string>
+			<key>uniqueIdentifier</key>
+			<string>AA9D96AA-BFAF-4273-A49B-63619E622C8C</string>
 		</dict>
 	</dict>
 	<key>preserveOldLogs</key>

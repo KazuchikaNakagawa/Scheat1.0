@@ -56,6 +56,7 @@
 		8205E18A24D31CF4001C5130 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18924D31CF4001C5130 /* libedit.tbd */; };
 		8205E18C24D31D02001C5130 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18B24D31D02001C5130 /* libcurses.tbd */; };
 		8205E18E24D31D0D001C5130 /* libm.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18D24D31D0D001C5130 /* libm.tbd */; };
+		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
 		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
 		829849E124D1B5A7004A7A64 /* ProjectSpica.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849E024D1B5A7004A7A64 /* ProjectSpica.cpp */; };
@@ -63,7 +64,6 @@
 		829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849EF24D2DA20004A7A64 /* scheatPriv.hpp */; };
 		829849F224D2DA20004A7A64 /* scheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849F124D2DA20004A7A64 /* scheat.cpp */; };
 		82984A0624D2E0B7004A7A64 /* Nodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82984A0524D2E0B7004A7A64 /* Nodes.cpp */; };
-		82A1A22724D80AFE009C2E5F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849FC24D2DFA4004A7A64 /* main.cpp */; };
 		82A1A22924D80AFE009C2E5F /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976124D32C0100F13264 /* libz.1.2.5.tbd */; };
 		82A1A22A24D80AFE009C2E5F /* libz.1.2.11.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976224D32C0100F13264 /* libz.1.2.11.tbd */; };
 		82A1A22B24D80AFE009C2E5F /* libz.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976324D32C0100F13264 /* libz.1.tbd */; };
@@ -168,6 +168,7 @@
 		8205E18924D31CF4001C5130 /* libedit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libedit.tbd; path = usr/lib/libedit.tbd; sourceTree = SDKROOT; };
 		8205E18B24D31D02001C5130 /* libcurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurses.tbd; path = usr/lib/libcurses.tbd; sourceTree = SDKROOT; };
 		8205E18D24D31D0D001C5130 /* libm.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libm.tbd; path = usr/lib/libm.tbd; sourceTree = SDKROOT; };
+		828FFCB724D80E28007BEBFF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		829849D924D1B5A7004A7A64 /* libspica.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libspica.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpica.hpp; sourceTree = "<group>"; };
 		829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpicaPriv.hpp; sourceTree = "<group>"; };
@@ -307,9 +308,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		828FFCB624D80DFF007BEBFF /* scheat-commandlineTool */ = {
+			isa = PBXGroup;
+			children = (
+				828FFCB724D80E28007BEBFF /* main.cpp */,
+			);
+			path = "scheat-commandlineTool";
+			sourceTree = "<group>";
+		};
 		829849D024D1B5A7004A7A64 = {
 			isa = PBXGroup;
 			children = (
+				828FFCB624D80DFF007BEBFF /* scheat-commandlineTool */,
 				829849DB24D1B5A7004A7A64 /* ProjectSpica */,
 				829849EC24D2DA20004A7A64 /* scheat */,
 				829849FB24D2DFA4004A7A64 /* TestScheat */,
@@ -590,7 +600,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82A1A22724D80AFE009C2E5F /* main.cpp in Sources */,
+				828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
