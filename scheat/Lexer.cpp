@@ -104,22 +104,38 @@ void Lexer::genTok(){
         return;
     }
     Token *tok = new Token();
+    if (buf == ".") {
+        tok->kind = TokenKind::tok_period;
+        tokens = Token::add(tokens, tok);
+        return;
+    }
+    if (buf == ",") {
+        tok->kind = TokenKind::tok_comma;
+        tokens = Token::add(tokens, tok);
+        return;
+    }
     if (state == numberState) {
         tok->valInt(buf);
         tokens = Token::add(tokens, tok);
+        return;
     }
     if (state == stringState) {
         tok->valStr(buf);
         tokens = Token::add(tokens, tok);
+        return;
     }
     if (state == doubleState) {
         tok->valStr(buf);
         tokens = Token::add(tokens, tok);
+        return;
     }
     if (state == operatorState) {
         tok->value.strValue = buf;
         tok->kind = TokenKind::val_operator;
+        tokens = Token::add(tokens, tok);
+        return;
     }
+    clear();
 }
 
 void Token::out(){
@@ -165,13 +181,13 @@ void Lexer::input(int c, int next){
     
     location.column++;
     
+    if (c == '\n') {
+        location.line++;
+    }
+    
     if (skipFlag) {
         skipFlag = !skipFlag;
         return;
-    }
-    
-    if (c == '\n') {
-        location.line++;
     }
     
     if (commentDepth > 0 && c == '*' && next == '#' && state != stringState) {
@@ -211,6 +227,12 @@ void Lexer::input(int c, int next){
         return;
     }
     
+    if (state == stringState && c == '\\') {
+        buf.push_back(next);
+        skipFlag = true;
+        return;
+    }
+    
     if (state == stringState) {
         buf.push_back(c);
         return;
@@ -231,12 +253,18 @@ void Lexer::input(int c, int next){
         return;
     }
     
-    if (c == '#' && c == '*') {
+    if (c == '#' && next == '*') {
+        genTok();
         state = longCommentState;
         commentDepth++;
     }
     
     if (isalpha(c)) {
+        if (state == operatorState) {
+            genTok();
+            buf.push_back(c);
+            return;
+        }
         if (state == initState) {
             state = identifierState;
             buf.push_back(c);
@@ -251,12 +279,68 @@ void Lexer::input(int c, int next){
     }
     
     if (isdigit(c)) {
+        if (state == operatorState) {
+            genTok();
+            buf.push_back(c);
+            return;
+        }
         if (state == numberState) {
             buf.push_back(c);
+            return;
         }
         if (state == identifierState) {
             buf.push_back(c);
+            return;
         }
+        if (state == initState) {
+            buf.push_back(c);
+            state = numberState;
+        }
+        host->FatalError(__LINE__, "in file %d.%d illegal character %c was input.", location.line, location.column, c);
+        return;
+    }
+    
+    if (c == '.') {
+        if (state == numberState && isdigit(next)) {
+            state = doubleState;
+            buf.push_back(c);
+            return;
+        }
+        genTok();
+        buf.push_back(c);
+        genTok();
+    }
+    
+    if (c == ',') {
+        if (state == numberState && isdigit(next)) {
+            return;
+        }
+        genTok();
+        buf.push_back(c);
+        genTok();
+    }
+    
+    if (false
+        || c == '+'
+        || c == '-'
+        || c == '='
+        || c == '&'
+        || c == '*'
+        || c == '/'
+        || c == '^') {
+        if (state == initState) {
+            state = operatorState;
+            buf.push_back(c);
+            return;
+        }
+        if (state == operatorState) {
+            buf.push_back(c);
+            return;
+        }
+        genTok();
+        buf.push_back(c);
+        state = operatorState;
+        return;
     }
     
 }

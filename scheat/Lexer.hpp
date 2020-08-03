@@ -24,6 +24,8 @@ enum class TokenKind : int {
     tok_this,
     tok_that,
     tok_is,
+    tok_period,
+    tok_comma,
     tok_external
 };
 
