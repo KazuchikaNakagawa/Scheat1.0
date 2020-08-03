@@ -40,7 +40,7 @@ Lexer::Lexer(scheat::Scheat *host){
 
 void Lexer::lex(std::ifstream stream){
     if (!stream.is_open()) {
-        host->FatalError("input file is not open --Lexer", __LINE__);
+        host->FatalError(__LINE__, "input file is not open --Lexer");
     }
     int c;
     while (c = stream.get(), c != EOF) {
@@ -60,6 +60,7 @@ void Token::valStr(std::string k){
         printf("    reason: string started \" else character.\n");
         exit(0);
     }
+    // not sure if it doesn't make crash
     if (k[k.length() - 1] != '"') {
         printf("Scheat System Error %u\n", __LINE__);
         printf("    reason: string ended \" else character.\n");
@@ -80,7 +81,7 @@ void Token::valBool(std::string k){
         value.boolValue = false;
     }else{
         printf("Scheat System Error %u\n", __LINE__);
-        printf("    reason: bool error\n");
+        printf("    reason: illegal bool token error\n");
         exit(0);
     }
     kind = TokenKind::val_bool;
@@ -176,6 +177,9 @@ void Lexer::input(int c, int next){
     if (commentDepth > 0 && c == '*' && next == '#' && state != stringState) {
         commentDepth--;
         skipFlag = true;
+        if (commentDepth == 0) {
+            clear();
+        }
         return;
     }
     
@@ -229,18 +233,30 @@ void Lexer::input(int c, int next){
     
     if (c == '#' && c == '*') {
         state = longCommentState;
+        commentDepth++;
     }
     
     if (isalpha(c)) {
         if (state == initState) {
             state = identifierState;
             buf.push_back(c);
+            return;
+        }
+        if (state == identifierState) {
+            buf.push_back(c);
+            return;
+        }
+        host->FatalError(__LINE__, "in file %d.%d illegal character %c was input.", location.line, location.column, c);
+        return;
+    }
+    
+    if (isdigit(c)) {
+        if (state == numberState) {
+            buf.push_back(c);
         }
         if (state == identifierState) {
             buf.push_back(c);
         }
-        
-        return;
     }
     
 }

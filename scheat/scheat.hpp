@@ -32,7 +32,8 @@ class Scheat
 public:
     Scheat(int version = 1, int section = 0, int part = 0, const char *target = "", bool debugOpt = false);
     void HelloWorld(const char *);
-    void FatalError(const char *, unsigned int);
+    __deprecated void old_FatalError(const char *, unsigned int);
+    void FatalError(unsigned int, const char *, ...);
     void Debug(const char *, unsigned int);
 };
 

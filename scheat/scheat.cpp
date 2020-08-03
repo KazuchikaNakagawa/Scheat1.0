@@ -6,6 +6,7 @@
 //
 
 #include <iostream>
+#include <cstdarg>
 #include "scheat.hpp"
 #include "scheatPriv.hpp"
 
@@ -52,7 +53,18 @@ void Scheat::Debug(const char *msg, unsigned int line){
     printf("%u : %s\n", line, msg);
 }
 
-void Scheat::FatalError(const char *msg, unsigned int line){
+void Scheat::FatalError(unsigned int line, const char *fmt, ...)
+{
+    printf("Error\n source line%u : ", line);
+    va_list arg;
+    
+    va_start(arg, fmt);
+    ::vprintf(fmt, arg);
+    va_end(arg);
+    printf("\n");
+}
+
+void Scheat::old_FatalError(const char *msg, unsigned int line){
     printf("FatalError %u : %s\n", line, msg);
     exit(0);
 }
