@@ -49,7 +49,7 @@ enum class Open {
 
 struct MemberData {
     int index;
-    StructureData type;
+    StructureData* type;
     Open access;
 };
 
@@ -64,7 +64,7 @@ public:
 class VariableData {
     
 public:
-    StructureData type;
+    StructureData* type;
     Open accessibility;
     llvm::Value *value;
     bool constData;
@@ -74,7 +74,10 @@ class IRContext {
     static std::map<std::string, StructureData*> types;
     static std::map<std::string, VariableData*> ids;
 public:
-    
+    static StructureData *getType(std::string, bool);
+    static VariableData *getVar(std::string, bool);
+    static bool addType(std::string, StructureData *);
+    static bool addVar(std::string, VariableData *);
 };
 
 class IRBuilderReplica {
