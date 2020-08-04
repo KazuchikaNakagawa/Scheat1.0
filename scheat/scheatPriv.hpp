@@ -73,7 +73,9 @@ public:
 class IRContext {
     static std::map<std::string, StructureData*> types;
     static std::map<std::string, VariableData*> ids;
+    static bool isLaunched;
 public:
+    static void launch();
     static StructureData *getType(std::string, bool);
     static VariableData *getVar(std::string, bool);
     static bool addType(std::string, StructureData *);
@@ -88,6 +90,10 @@ public:
     static std::unique_ptr<llvm::Module> module;
     static scheat::Scheat *host;
     static void check();
+    static void setReady(){
+        ready = !ready;
+    };
+    static bool isReady() { return ready; };
 };
 
 #pragma GCC visibility pop

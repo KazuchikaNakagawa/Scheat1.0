@@ -22,13 +22,21 @@ Scheat *IRBuilderReplica::host = nullptr;
 bool IRBuilderReplica::ready = false;
 
 IRBuilder::IRBuilder(Scheat *obj, std::string modname){
+    if (IRBuilderReplica::isReady()) {
+        return;
+    }
     IRBuilderReplica::host = obj;
     IRBuilderReplica::module = std::make_unique<llvm::Module>(modname, IRBuilderReplica::context);
+    IRBuilderReplica::setReady();
 }
 
 void IRBuilderReplica::check(){
     if (!ready) {
-        printf("Systematic error: IRBuilder used before initialized\n");
+        if (!ready) {
+            printf("ERROR: TO DEVELOPER\n");
+            printf("    YOU NEED TO CALL IRBuilder::IRBuilder() FIRST.\n");
+            exit(0);
+        }
         exit(0);
     }
 }

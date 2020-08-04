@@ -40,20 +40,6 @@ public:
     void flagDebug() { debug = !debug; };
 };
 
-class Statement;
-
-class Expression;
-
-class IntExpr;
-
-class StringExpr;
-
-class BoolExpr;
-
-class DoubleExpr;
-
-class IdentifierExpr;
-
 class IRBuilder{
     
 public:
