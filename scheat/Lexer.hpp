@@ -40,7 +40,11 @@ enum class TokenKind : int {
     tok_is,
     tok_period,
     tok_comma,
-    tok_external
+    tok_external,
+    
+    embbed_func_print,
+    embbed_func_import,
+    embbed_func_free,
 };
 
 union TokenValue {

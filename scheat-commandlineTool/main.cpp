@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include "scheat.hpp"
 
 int main(int argc, const char *argv[]){
     if (argc == 1) {

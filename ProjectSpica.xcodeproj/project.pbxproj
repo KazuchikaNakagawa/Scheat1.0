@@ -99,6 +99,16 @@
 		82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82ECF52D24D3A72900EB8316 /* Lexer.hpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		828FFCBB24D841EF007BEBFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 829849EA24D2DA20004A7A64;
+			remoteInfo = scheat;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		829849F824D2DFA4004A7A64 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -523,6 +533,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				828FFCBC24D841EF007BEBFF /* PBXTargetDependency */,
 			);
 			name = productscheat;
 			productName = TestScheat;
@@ -605,6 +616,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		828FFCBC24D841EF007BEBFF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 829849EA24D2DA20004A7A64 /* scheat */;
+			targetProxy = 828FFCBB24D841EF007BEBFF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		829849E224D1B5A7004A7A64 /* Debug */ = {

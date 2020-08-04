@@ -173,7 +173,17 @@ void Lexer::genTok(){
     }
     
     if (buf == "remember") {
-        
+        tok->kind = TokenKind::tok_external;
+        tadd;
+        clear();
+        return;
+    }
+    
+    if (buf == "print") {
+        tok->kind = TokenKind::embbed_func_print;
+        tadd;
+        clear();
+        return;
     }
     
     if (state == identifierState) {
@@ -236,6 +246,9 @@ void Token::out(){
     }
     if (kind == TokenKind::tok_comma) {
         printf(", token\n");
+    }
+    if (kind == TokenKind::embbed_func_print) {
+        printf("print token\n");
     }
 }
 
@@ -330,7 +343,7 @@ void Lexer::input(int c, int next){
         commentDepth++;
     }
     
-    if (isalpha(c)) {
+    if (isalpha(c) || c == '_') {
         if (state == operatorState) {
             genTok();
             buf.push_back(c);
