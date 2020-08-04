@@ -64,6 +64,7 @@ void Scheat::FatalError(unsigned int line, const char *fmt, ...)
     ::vprintf(fmt, arg);
     va_end(arg);
     printf("\n");
+    exit(0);
 }
 
 void Scheat::Debug(unsigned int line, const char *fmt, ...)

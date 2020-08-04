@@ -139,7 +139,7 @@ void Lexer::genTok(){
         return;
     }
     if (state == doubleState) {
-        tok->valStr(buf);
+        tok->valDouble(buf);
         tokens = Token::add(tokens, tok);
         clear();
         return;
@@ -381,6 +381,12 @@ void Lexer::input(int c, int next){
         if (state == initState) {
             buf.push_back(c);
             state = numberState;
+            return;
+        }
+        if (state == doubleState) {
+            buf.push_back(c);
+            state = doubleState;
+            return;
         }
         host->FatalError(__LINE__, "in file %d.%d illegal character %c was input.", location.line, location.column, c);
         return;

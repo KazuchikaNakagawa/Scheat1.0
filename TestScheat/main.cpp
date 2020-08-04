@@ -15,7 +15,7 @@ int main(int argc, const char * argv[]) {
     sch.flagDebug();
     sch.Debug(__LINE__, "Hello");
     scheat::Lexer lexer = scheat::Lexer(&sch);
-    lexer.lex("this a is 90+0.");
+    lexer.lex("this a is 90+0.99. print a.");
     lexer.getTokens()->enumerate();
     return 0;
 }
