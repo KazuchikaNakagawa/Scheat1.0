@@ -6,6 +6,34 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
+		<key>13D92D7C-470D-4D2F-B61F-E6E9D68E6CE6</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogMajorGroupSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.target.product-type.tool</string>
+			<key>fileName</key>
+			<string>13D92D7C-470D-4D2F-B61F-E6E9D68E6CE6.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>signature</key>
+			<string>TestScheat-dkmufxdyilnmwwaknwfupqpzcang</string>
+			<key>timeStartedRecording</key>
+			<real>618304717.50022602</real>
+			<key>timeStoppedRecording</key>
+			<real>618304718.32914197</real>
+			<key>title</key>
+			<string>Build target TestScheat</string>
+			<key>uniqueIdentifier</key>
+			<string>13D92D7C-470D-4D2F-B61F-E6E9D68E6CE6</string>
+		</dict>
 		<key>38115791-63A1-43F4-B484-ECFE5B8AFA7F</key>
 		<dict>
 			<key>className</key>
@@ -34,35 +62,7 @@
 			<key>uniqueIdentifier</key>
 			<string>38115791-63A1-43F4-B484-ECFE5B8AFA7F</string>
 		</dict>
-		<key>8FD7DB82-68BB-4503-B6EF-5ECE868B4EEB</key>
-		<dict>
-			<key>className</key>
-			<string>IDEActivityLogMajorGroupSection</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.target.product-type.tool</string>
-			<key>fileName</key>
-			<string>8FD7DB82-68BB-4503-B6EF-5ECE868B4EEB.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>S</string>
-			</dict>
-			<key>signature</key>
-			<string>TestScheat-dkmufxdyilnmwwaknwfupqpzcang</string>
-			<key>timeStartedRecording</key>
-			<real>618244139.06399596</real>
-			<key>timeStoppedRecording</key>
-			<real>618244139.81184494</real>
-			<key>title</key>
-			<string>Build target TestScheat</string>
-			<key>uniqueIdentifier</key>
-			<string>8FD7DB82-68BB-4503-B6EF-5ECE868B4EEB</string>
-		</dict>
-		<key>A151B9DF-CF52-44C4-8D9E-BFD3C4E44868</key>
+		<key>44B056A5-7E34-402E-9DA2-8956912FB594</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -71,7 +71,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.library.static</string>
 			<key>fileName</key>
-			<string>A151B9DF-CF52-44C4-8D9E-BFD3C4E44868.xcactivitylog</string>
+			<string>44B056A5-7E34-402E-9DA2-8956912FB594.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,13 +82,13 @@
 			<key>signature</key>
 			<string>scheat-dkmufxdyilnmwwaknwfupqpzcang</string>
 			<key>timeStartedRecording</key>
-			<real>618243114.30715597</real>
+			<real>618304714.62882102</real>
 			<key>timeStoppedRecording</key>
-			<real>618243118.25734305</real>
+			<real>618304717.49897504</real>
 			<key>title</key>
 			<string>Build target scheat</string>
 			<key>uniqueIdentifier</key>
-			<string>A151B9DF-CF52-44C4-8D9E-BFD3C4E44868</string>
+			<string>44B056A5-7E34-402E-9DA2-8956912FB594</string>
 		</dict>
 		<key>AA9D96AA-BFAF-4273-A49B-63619E622C8C</key>
 		<dict>

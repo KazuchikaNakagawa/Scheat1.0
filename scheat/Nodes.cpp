@@ -49,8 +49,14 @@ class IntExpr : public Expression {
     int i;
 public:
     IntExpr(int i) : i(i) {};
-    
+    llvm::Value * codegen() override;
 };
+
+llvm::Value *IntExpr::codegen(){
+    return llvm::ConstantInt::get(IRBuilderReplica::context, llvm::APInt(32, i));
+}
+
+// -------------------------------------------------------------
 
 std::map<std::string, StructureData*> IRContext::types;
 std::map<std::string, VariableData*> IRContext::ids;

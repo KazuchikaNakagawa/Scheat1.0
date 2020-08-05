@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>34BC4DD7-D693-49D7-A55B-9D7B64C802E0</key>
+		<key>2015C877-3462-4FBC-AFDE-783C619BB458</key>
 		<dict>
 			<key>className</key>
 			<string>DBGConsoleLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
 			<key>fileName</key>
-			<string>34BC4DD7-D693-49D7-A55B-9D7B64C802E0.xcactivitylog</string>
+			<string>2015C877-3462-4FBC-AFDE-783C619BB458.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -26,19 +26,53 @@
 			<key>schemeIdentifier-containerName</key>
 			<string>ProjectSpica project</string>
 			<key>schemeIdentifier-schemeName</key>
-			<string>TestScheat copy</string>
+			<string>TestScheat</string>
 			<key>schemeIdentifier-sharedScheme</key>
 			<integer>1</integer>
 			<key>signature</key>
-			<string>Run scheat</string>
+			<string>Run TestScheat</string>
 			<key>timeStartedRecording</key>
-			<real>618138420.17609</real>
+			<real>618245434.42243397</real>
 			<key>timeStoppedRecording</key>
-			<real>618138421.33989203</real>
+			<real>618245435.70999706</real>
 			<key>title</key>
-			<string>Run scheat</string>
+			<string>Run TestScheat</string>
 			<key>uniqueIdentifier</key>
-			<string>34BC4DD7-D693-49D7-A55B-9D7B64C802E0</string>
+			<string>2015C877-3462-4FBC-AFDE-783C619BB458</string>
+		</dict>
+		<key>F584A483-4F44-4E31-AF68-F21ACD21F461</key>
+		<dict>
+			<key>className</key>
+			<string>DBGConsoleLog</string>
+			<key>documentTypeString</key>
+			<string>com.apple.dt.IDE.DebuggerLogContentType</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
+			<key>fileName</key>
+			<string>F584A483-4F44-4E31-AF68-F21ACD21F461.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ProjectSpica project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>TestScheat</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Run TestScheat</string>
+			<key>timeStartedRecording</key>
+			<real>618304718.34639704</real>
+			<key>timeStoppedRecording</key>
+			<real>618304726.761711</real>
+			<key>title</key>
+			<string>Run TestScheat</string>
+			<key>uniqueIdentifier</key>
+			<string>F584A483-4F44-4E31-AF68-F21ACD21F461</string>
 		</dict>
 	</dict>
 </dict>
