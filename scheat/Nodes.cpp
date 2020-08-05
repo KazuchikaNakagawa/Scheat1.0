@@ -45,15 +45,37 @@ public:
     virtual llvm::Value *codegen() = 0;
 };
 
-class IntExpr : public Expression {
+class IntToken : public Expression {
     int i;
 public:
-    IntExpr(int i) : i(i) {};
+    IntToken(Token *token) { i = token->value.intValue; };
     llvm::Value * codegen() override;
 };
 
-llvm::Value *IntExpr::codegen(){
+class VariableToken : public Expression {
+    VariableData* idData;
+public:
+    VariableToken(Token *id);
+    llvm::Value * codegen() override;
+};
+
+VariableToken::VariableToken(Token *id){
+    idData = IRContext::getVar(id->value.strValue, false);
+    if (idData->accessibility == Open::_private) {
+        
+    }
+    if (idData == NULL){
+        IRBuilderReplica::host->FatalError(__LINE__, "in %d.%d %s is undefined", id->location.line, id->location.column, id->value.strValue.c_str());
+    }
+
+}
+
+llvm::Value *IntToken::codegen(){
     return llvm::ConstantInt::get(IRBuilderReplica::context, llvm::APInt(32, i));
+}
+
+llvm::Value * VariableToken::codegen(){
+    return IRBuilderReplica::builder.CreateLoad(idData->value, idData->name);
 }
 
 // -------------------------------------------------------------

@@ -64,6 +64,7 @@ public:
 class VariableData {
     
 public:
+    std::string name;
     StructureData* type;
     Open accessibility;
     llvm::Value *value;
