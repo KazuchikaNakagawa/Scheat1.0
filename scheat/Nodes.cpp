@@ -52,30 +52,24 @@ public:
     llvm::Value * codegen() override;
 };
 
-class VariableToken : public Expression {
-    VariableData* idData;
+class IdentifierToken : public Expression {
+    std::string idData;
 public:
-    VariableToken(Token *id);
+    IdentifierToken(Token *id);
     llvm::Value * codegen() override;
 };
 
-VariableToken::VariableToken(Token *id){
-    idData = IRContext::getVar(id->value.strValue, false);
-    if (idData->accessibility == Open::_private) {
-        
-    }
-    if (idData == NULL){
-        IRBuilderReplica::host->FatalError(__LINE__, "in %d.%d %s is undefined", id->location.line, id->location.column, id->value.strValue.c_str());
-    }
-
+IdentifierToken::IdentifierToken(Token *id){
+    idData = id->value.strValue;
 }
 
 llvm::Value *IntToken::codegen(){
     return llvm::ConstantInt::get(IRBuilderReplica::context, llvm::APInt(32, i));
 }
 
-llvm::Value * VariableToken::codegen(){
-    return IRBuilderReplica::builder.CreateLoad(idData->value, idData->name);
+llvm::Value * IdentifierToken::codegen(){
+    IRBuilderReplica::host->FatalError(__LINE__, "this codegen() is not to be called.");
+    return NULL;
 }
 
 // -------------------------------------------------------------
