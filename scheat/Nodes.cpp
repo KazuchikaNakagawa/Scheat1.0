@@ -28,6 +28,8 @@
 #include "scheat.hpp"
 #include "scheatPriv.hpp"
 
+#define unique(a) std::unique_ptr<a>
+
 using namespace scheat;
 
 class Statement {
@@ -48,15 +50,32 @@ public:
 class IntToken : public Expression {
     int i;
 public:
-    IntToken(Token *token) { i = token->value.intValue; };
+    __deprecated IntToken(Token *token) { i = token->value.intValue; };
     llvm::Value * codegen() override;
+    ~IntToken() {};
+    void dump() override{
+        printf(" Int(%d) ", i);
+    }
+    static unique(IntToken) init(Token *k) {
+        return std::make_unique<IntToken>(k);
+    };
 };
 
 class IdentifierToken : public Expression {
     std::string idData;
 public:
-    IdentifierToken(Token *id);
+    __deprecated IdentifierToken(Token *id);
+    void dump() override{
+        
+    }
     llvm::Value * codegen() override;
+};
+
+class PrimaryExprIdentifier {
+    unique(PrimaryExprIdentifier) body;
+    unique(IdentifierToken) child;
+public:
+    
 };
 
 IdentifierToken::IdentifierToken(Token *id){

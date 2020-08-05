@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>13D92D7C-470D-4D2F-B61F-E6E9D68E6CE6</key>
+		<key>EA8FD028-D409-4449-A7C0-BEA51EFFA7BE</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.tool</string>
 			<key>fileName</key>
-			<string>13D92D7C-470D-4D2F-B61F-E6E9D68E6CE6.xcactivitylog</string>
+			<string>EA8FD028-D409-4449-A7C0-BEA51EFFA7BE.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -26,43 +26,15 @@
 			<key>signature</key>
 			<string>TestScheat-dkmufxdyilnmwwaknwfupqpzcang</string>
 			<key>timeStartedRecording</key>
-			<real>618304717.50022602</real>
+			<real>618311536.82341194</real>
 			<key>timeStoppedRecording</key>
-			<real>618304718.32914197</real>
+			<real>618311537.12837398</real>
 			<key>title</key>
 			<string>Build target TestScheat</string>
 			<key>uniqueIdentifier</key>
-			<string>13D92D7C-470D-4D2F-B61F-E6E9D68E6CE6</string>
+			<string>EA8FD028-D409-4449-A7C0-BEA51EFFA7BE</string>
 		</dict>
-		<key>38115791-63A1-43F4-B484-ECFE5B8AFA7F</key>
-		<dict>
-			<key>className</key>
-			<string>IDEActivityLogMajorGroupSection</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.target.product-type.tool</string>
-			<key>fileName</key>
-			<string>38115791-63A1-43F4-B484-ECFE5B8AFA7F.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>S</string>
-			</dict>
-			<key>signature</key>
-			<string>productscheat-dkmufxdyilnmwwaknwfupqpzcang</string>
-			<key>timeStartedRecording</key>
-			<real>618152451.85913301</real>
-			<key>timeStoppedRecording</key>
-			<real>618152452.46684098</real>
-			<key>title</key>
-			<string>Build target productscheat</string>
-			<key>uniqueIdentifier</key>
-			<string>38115791-63A1-43F4-B484-ECFE5B8AFA7F</string>
-		</dict>
-		<key>44B056A5-7E34-402E-9DA2-8956912FB594</key>
+		<key>FF41325D-3D0C-4EAC-9FA4-A27C1D5C989F</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -71,7 +43,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.library.static</string>
 			<key>fileName</key>
-			<string>44B056A5-7E34-402E-9DA2-8956912FB594.xcactivitylog</string>
+			<string>FF41325D-3D0C-4EAC-9FA4-A27C1D5C989F.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,41 +54,13 @@
 			<key>signature</key>
 			<string>scheat-dkmufxdyilnmwwaknwfupqpzcang</string>
 			<key>timeStartedRecording</key>
-			<real>618304714.62882102</real>
+			<real>618311534.94975102</real>
 			<key>timeStoppedRecording</key>
-			<real>618304717.49897504</real>
+			<real>618311536.82226598</real>
 			<key>title</key>
 			<string>Build target scheat</string>
 			<key>uniqueIdentifier</key>
-			<string>44B056A5-7E34-402E-9DA2-8956912FB594</string>
-		</dict>
-		<key>AA9D96AA-BFAF-4273-A49B-63619E622C8C</key>
-		<dict>
-			<key>className</key>
-			<string>IDEActivityLogMajorGroupSection</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.target.product-type.library.static</string>
-			<key>fileName</key>
-			<string>AA9D96AA-BFAF-4273-A49B-63619E622C8C.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>S</string>
-			</dict>
-			<key>signature</key>
-			<string>ProjectSpica-dkmufxdyilnmwwaknwfupqpzcang</string>
-			<key>timeStartedRecording</key>
-			<real>618139102.572451</real>
-			<key>timeStoppedRecording</key>
-			<real>618139103.45488405</real>
-			<key>title</key>
-			<string>Build target ProjectSpica</string>
-			<key>uniqueIdentifier</key>
-			<string>AA9D96AA-BFAF-4273-A49B-63619E622C8C</string>
+			<string>FF41325D-3D0C-4EAC-9FA4-A27C1D5C989F</string>
 		</dict>
 	</dict>
 	<key>preserveOldLogs</key>
