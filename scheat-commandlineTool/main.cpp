@@ -30,6 +30,7 @@ int main(int argc, const char *argv[]){
         std::cout << "product name>";
         std::cin >> outputFilePath;
         std::cout << "this compiling service is unavailable yet. sorry! :)" << std::endl;
+        return 0;
     }
     if (strcmp(argv[1], "-play") == 0) {
         std::cout << "Scheat 2.0.0(C++ Edition)" << std::endl;
@@ -41,6 +42,7 @@ int main(int argc, const char *argv[]){
             std::cout << "this feature is not available yet." << std::endl;
             break;
         }
+        return 0;
     }
     if (strcmp(argv[1], "-help") == 0) {
         std::cout <<
@@ -50,7 +52,22 @@ int main(int argc, const char *argv[]){
         "-play:" << std::endl <<
         "   execute Scheat as shell.\n" <<
         "";
+        return 0;
     }
     
+    if (strcmp(argv[1], "-test") == 0) {
+        scheat::Scheat sch = scheat::Scheat();
+        sch.flagDebug();
+        scheat::Lexer lexer = scheat::Lexer(&sch);
+        if (argc == 2){
+            lexer.lex("\tnani are 1,500.");
+        }else if (argc == 3){
+            lexer.lex(argv[2]);
+        }
+        
+        lexer.getTokens()->enumerate();
+        return 0;
+    }
+    printf("Illegal command options. To show helps, try scheat -help\n");
     return 0;
 }

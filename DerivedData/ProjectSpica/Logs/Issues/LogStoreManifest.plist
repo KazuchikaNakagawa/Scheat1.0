@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>EA8FD028-D409-4449-A7C0-BEA51EFFA7BE</key>
+		<key>5FEF1DE6-317B-41DC-8693-5ECC295ACB37</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.tool</string>
 			<key>fileName</key>
-			<string>EA8FD028-D409-4449-A7C0-BEA51EFFA7BE.xcactivitylog</string>
+			<string>5FEF1DE6-317B-41DC-8693-5ECC295ACB37.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -24,17 +24,17 @@
 				<string>S</string>
 			</dict>
 			<key>signature</key>
-			<string>TestScheat-dkmufxdyilnmwwaknwfupqpzcang</string>
+			<string>productscheat-dkmufxdyilnmwwaknwfupqpzcang</string>
 			<key>timeStartedRecording</key>
-			<real>618311536.82341194</real>
+			<real>618328110.93725896</real>
 			<key>timeStoppedRecording</key>
-			<real>618311537.12837398</real>
+			<real>618328111.72165298</real>
 			<key>title</key>
-			<string>Build target TestScheat</string>
+			<string>Build target productscheat</string>
 			<key>uniqueIdentifier</key>
-			<string>EA8FD028-D409-4449-A7C0-BEA51EFFA7BE</string>
+			<string>5FEF1DE6-317B-41DC-8693-5ECC295ACB37</string>
 		</dict>
-		<key>FF41325D-3D0C-4EAC-9FA4-A27C1D5C989F</key>
+		<key>FF8289A8-5B02-45DA-9E3D-7431CFE07C0A</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -43,7 +43,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.library.static</string>
 			<key>fileName</key>
-			<string>FF41325D-3D0C-4EAC-9FA4-A27C1D5C989F.xcactivitylog</string>
+			<string>FF8289A8-5B02-45DA-9E3D-7431CFE07C0A.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -54,13 +54,13 @@
 			<key>signature</key>
 			<string>scheat-dkmufxdyilnmwwaknwfupqpzcang</string>
 			<key>timeStartedRecording</key>
-			<real>618311534.94975102</real>
+			<real>618327695.03417206</real>
 			<key>timeStoppedRecording</key>
-			<real>618311536.82226598</real>
+			<real>618327697.28580999</real>
 			<key>title</key>
 			<string>Build target scheat</string>
 			<key>uniqueIdentifier</key>
-			<string>FF41325D-3D0C-4EAC-9FA4-A27C1D5C989F</string>
+			<string>FF8289A8-5B02-45DA-9E3D-7431CFE07C0A</string>
 		</dict>
 	</dict>
 	<key>preserveOldLogs</key>
