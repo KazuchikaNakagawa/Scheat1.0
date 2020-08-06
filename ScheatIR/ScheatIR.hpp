@@ -63,9 +63,9 @@ class IR {
     std::string val;
 public:
     // outputs to file.
-    void outll(std::ofstream);
+    virtual void outll(std::string);
     
-    void dump(std::ofstream);
+    virtual void dump(std::string);
     
     // if this ir does not have the return type, it returns nullptr
     TypeData *getType();
@@ -84,9 +84,12 @@ public:
 };
 
 class IR_DefineVar : public IR {
-    
+    std::string id;
+    TypeData *type;
 public:
     IR_DefineVar(std::string, TypeData *);
+    void outll(std::string) override;
+    
 };
 
 class IRHolder {
@@ -97,16 +100,33 @@ public:
     void addIRToEntry(IR *);
     void addIRToBody(IR *);
     void addIRToTail(IR *);
+    void outll(std::string);
+    void dump();
+    IRHolder(){
+        entry = nullptr;
+        body = nullptr;
+        tail = nullptr;
+    }
 };
 
 class IRContext;
 
+enum InsertOption {
+    toEntry,
+    toBody,
+    toTail,
+};
+
 class ScheatIR {
     std::string path;
+    std::vector<IRHolder> irs;
+    IRHolder *insertPoint;
 public:
     ScheatIR(std::string);
     bool exportTo(FileType);
     bool include(std::string, FileType);
+    IRHolder *getInsertPoint() const { return insertPoint; };
+    void addIR(InsertOption opt, IR *ir);
 };
 
 }

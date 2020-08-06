@@ -9,7 +9,10 @@
 #include "ScheatIR.hpp"
 #include "ScheatIR_Hidd.hpp"
 
+#define crash printf("CrashReporter:\ncrashed in %u\n", __LINE__); exit(0)
+
 using namespace scheatIR;
+static IRContext *nowContext;
 
 IR *IR::last(){
     IR *copy = this;
@@ -22,8 +25,12 @@ IR *IR::last(){
     return copy;
 }
 
-void IR::outll(std::ofstream o){
-    o << val << std::endl;
+void IR::outll(std::string o){
+    std::ofstream f(o);
+    if (!f) {
+        crash;
+    }
+    f << val << std::endl;
 };
 
 IR *IR::first(){
@@ -47,4 +54,33 @@ void IRHolder::addIRToTail(IR *ir){
     tail->next = ir;
     ir->prev = tail;
     tail = tail->next;
+}
+
+void IRHolder::outll(std::string o){
+    std::ofstream f;
+    f.open(o.c_str());
+    if (!f.is_open()) {
+        printf("CrashReporter:\ncrashed in %u\n", __LINE__);
+        exit(0);
+    }
+    IR *copy1 = entry;
+    while (copy1 != nullptr) {
+        copy1->outll(o);
+        copy1 = copy1->next;
+    }
+    IR *copy2 = body;
+    while (copy2 != nullptr) {
+        copy2->outll(o);
+        copy2 = copy2->next;
+    }
+    IR *copy3 = tail;
+    while (copy3 != nullptr) {
+        copy3->outll(o);
+        copy3 = copy3->next;
+    }
+}
+
+void IR_DefineVar::outll(std::string p){
+    std::ofstream f(p);
+    f << "%" << id << " = " << type->ir_used << "*" << std::endl;
 }
