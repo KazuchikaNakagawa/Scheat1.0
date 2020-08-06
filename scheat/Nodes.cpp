@@ -66,16 +66,21 @@ class IdentifierToken : public Expression {
 public:
     __deprecated IdentifierToken(Token *id);
     void dump() override{
-        
+        printf(" ID(%s) ", idData.c_str());
     }
     llvm::Value * codegen() override;
+    static unique(IdentifierToken) init(Token * id){
+        return std::make_unique<IdentifierToken>(id);
+    };
+    std::string getIdData() const{ return idData; };
 };
 
-class PrimaryExprIdentifier {
+class PrimaryExprIdentifier : public Expression {
     unique(PrimaryExprIdentifier) body;
     unique(IdentifierToken) child;
 public:
-    
+    __deprecated PrimaryExprIdentifier(unique(IdentifierToken) add, unique(PrimaryExprIdentifier) body = nullptr);
+    llvm::Value * codegen() override;
 };
 
 IdentifierToken::IdentifierToken(Token *id){
@@ -89,6 +94,20 @@ llvm::Value *IntToken::codegen(){
 llvm::Value * IdentifierToken::codegen(){
     IRBuilderReplica::host->FatalError(__LINE__, "this codegen() is not to be called.");
     return NULL;
+}
+
+PrimaryExprIdentifier::PrimaryExprIdentifier(unique(IdentifierToken) add, unique(PrimaryExprIdentifier) body){
+    if (body != nullptr) this->body = std::move(body);
+    child = std::move(add);
+}
+
+llvm::Value *PrimaryExprIdentifier::codegen(){
+    if (body == nullptr) {
+        return IRContext::getVar(child->getIdData(), false)->value;
+    }else{
+        
+    }
+    return nullptr;
 }
 
 // -------------------------------------------------------------
