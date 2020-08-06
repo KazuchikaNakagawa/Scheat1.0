@@ -18,16 +18,16 @@ int main(int argc, const char *argv[]){
     }
     if (strcmp(argv[1], "-build") == 0) {
         std::string path;
-        std::cout << "main source>";
+        std::cout << "main source> ";
         std::cin >> path;
         std::string includes;
-        std::cout << "header search path>";
+        std::cout << "header search path> ";
         std::cin >> includes;
         std::string libs;
-        std::cout << "library search path>";
+        std::cout << "library search path> ";
         std::cin >> libs;
         std::string outputFilePath;
-        std::cout << "product name>";
+        std::cout << "product name> ";
         std::cin >> outputFilePath;
         std::cout << "this compiling service is unavailable yet. sorry! :)" << std::endl;
         return 0;
@@ -35,7 +35,7 @@ int main(int argc, const char *argv[]){
     if (strcmp(argv[1], "-play") == 0) {
         std::cout << "Scheat 2.0.0(C++ Edition)" << std::endl;
         std::cout << "[based on LLVM 10.0.0]" << std::endl;
-        std::cout << ">";
+        std::cout << "> ";
         while (true) {
             std::string cod;
             std::cin >> cod;
