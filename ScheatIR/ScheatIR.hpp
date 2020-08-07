@@ -23,6 +23,7 @@ enum class FileType{
     _scht,
     _scheat,
     _schir,
+    _ll,
     // _schlib
 };
 
@@ -121,6 +122,7 @@ class ScheatIR {
     std::string path;
     std::vector<IRHolder> irs;
     IRHolder *insertPoint;
+    bool exportToMach_O();
 public:
     ScheatIR(std::string);
     bool exportTo(FileType);

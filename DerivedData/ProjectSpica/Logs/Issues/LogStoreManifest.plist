@@ -6,35 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>113E0C23-B9D0-4790-BADC-C155042F11D1</key>
-		<dict>
-			<key>className</key>
-			<string>IDEActivityLogMajorGroupSection</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.target.product-type.tool</string>
-			<key>fileName</key>
-			<string>113E0C23-B9D0-4790-BADC-C155042F11D1.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>S</string>
-			</dict>
-			<key>signature</key>
-			<string>productscheat-dkmufxdyilnmwwaknwfupqpzcang</string>
-			<key>timeStartedRecording</key>
-			<real>618332428.79276299</real>
-			<key>timeStoppedRecording</key>
-			<real>618332429.62294698</real>
-			<key>title</key>
-			<string>Build target productscheat</string>
-			<key>uniqueIdentifier</key>
-			<string>113E0C23-B9D0-4790-BADC-C155042F11D1</string>
-		</dict>
-		<key>FF8289A8-5B02-45DA-9E3D-7431CFE07C0A</key>
+		<key>1423B93E-7174-4E0E-AB0E-94B77F46E794</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -43,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.library.static</string>
 			<key>fileName</key>
-			<string>FF8289A8-5B02-45DA-9E3D-7431CFE07C0A.xcactivitylog</string>
+			<string>1423B93E-7174-4E0E-AB0E-94B77F46E794.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -54,13 +26,69 @@
 			<key>signature</key>
 			<string>scheat-dkmufxdyilnmwwaknwfupqpzcang</string>
 			<key>timeStartedRecording</key>
-			<real>618327695.03417206</real>
+			<real>618474571.30146599</real>
 			<key>timeStoppedRecording</key>
-			<real>618327697.28580999</real>
+			<real>618474574.87026596</real>
 			<key>title</key>
 			<string>Build target scheat</string>
 			<key>uniqueIdentifier</key>
-			<string>FF8289A8-5B02-45DA-9E3D-7431CFE07C0A</string>
+			<string>1423B93E-7174-4E0E-AB0E-94B77F46E794</string>
+		</dict>
+		<key>36151115-C869-42CB-951E-E4FFC54A50FF</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogMajorGroupSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.target.product-type.tool</string>
+			<key>fileName</key>
+			<string>36151115-C869-42CB-951E-E4FFC54A50FF.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>signature</key>
+			<string>productscheat-dkmufxdyilnmwwaknwfupqpzcang</string>
+			<key>timeStartedRecording</key>
+			<real>618474571.30475903</real>
+			<key>timeStoppedRecording</key>
+			<real>618474575.33900797</real>
+			<key>title</key>
+			<string>Build target productscheat</string>
+			<key>uniqueIdentifier</key>
+			<string>36151115-C869-42CB-951E-E4FFC54A50FF</string>
+		</dict>
+		<key>559F6282-DB1D-4100-851B-21C2D6D96245</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogMajorGroupSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.target.product-type.library.static</string>
+			<key>fileName</key>
+			<string>559F6282-DB1D-4100-851B-21C2D6D96245.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>signature</key>
+			<string>scheatIRBuilder-dkmufxdyilnmwwaknwfupqpzcang</string>
+			<key>timeStartedRecording</key>
+			<real>618474601.43931699</real>
+			<key>timeStoppedRecording</key>
+			<real>618474602.83784199</real>
+			<key>title</key>
+			<string>Build target scheatIRBuilder</string>
+			<key>uniqueIdentifier</key>
+			<string>559F6282-DB1D-4100-851B-21C2D6D96245</string>
 		</dict>
 	</dict>
 	<key>preserveOldLogs</key>

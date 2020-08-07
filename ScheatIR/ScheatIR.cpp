@@ -8,6 +8,20 @@
 #include <stdio.h>
 #include "ScheatIR.hpp"
 #include "ScheatIR_Hidd.hpp"
+#include <llvm/IR/Module.h>
+#include <llvm/IRReader/IRReader.h>
+#include <llvm/Support/SourceMgr.h>
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include <llvm/ExecutionEngine/GenericValue.h>
+#include <llvm/Support/FileSystem.h>
+#include <llvm/Support/Host.h>
+#include <llvm/Support/raw_ostream.h>
+#include <llvm/Support/TargetRegistry.h>
+#include <llvm/Support/TargetSelect.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/Target/TargetOptions.h>
+#include <llvm/IR/LegacyPassManager.h>
+#include "llvm/Support/raw_ostream.h"
 
 #define crash printf("CrashReporter:\ncrashed in %u\n", __LINE__); exit(0)
 
@@ -83,4 +97,77 @@ void IRHolder::outll(std::string o){
 void IR_DefineVar::outll(std::string p){
     std::ofstream f(p);
     f << "%" << id << " = alloca " << type->ir_used << std::endl;
+}
+
+// ------------------------------------------------------------
+
+ScheatIR::ScheatIR(std::string p) {
+    path = p;
+    irs = {};
+    insertPoint = nullptr;
+}
+
+bool ScheatIR::exportTo(FileType ft){
+    if (ft == FileType::_o) {
+        return exportToMach_O();
+    }
+    printf("o file else is not supported yet\n");
+    return false;
+}
+
+bool ScheatIR::exportToMach_O(){
+    for (int i = 0;  i < irs.size(); i++) {
+        irs[i].outll(path + ".ll");
+    }
+    llvm::LLVMContext context;
+    llvm::SMDiagnostic err;
+    std::unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(path + ".ll"), err, context);
+    
+    auto TargetTriple = llvm::sys::getDefaultTargetTriple();
+    module->setTargetTriple(TargetTriple);
+    
+    std::string Error;
+    auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
+    
+    // Print an error and exit if we couldn't find the requested target.
+    // This generally occurs if we've forgotten to initialise the
+    // TargetRegistry or we have a bogus target triple.
+    if (!Target) {
+        llvm::errs() << Error;
+        return false;
+    }
+    
+    auto CPU = "generic";
+    auto Features = "";
+    
+    llvm::TargetOptions opt;
+    auto RM = llvm::Optional<llvm::Reloc::Model>();
+    auto TheTargetMachine =
+    Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
+    
+    module->setDataLayout(TheTargetMachine->createDataLayout());
+    
+    auto Filename = "output.o";
+    std::error_code EC;
+    llvm::raw_fd_ostream dest(Filename, EC, llvm::sys::fs::OF_None);
+    
+    if (EC) {
+        llvm::errs() << "Could not open file: " << EC.message();
+        return false;
+    }
+
+    
+    llvm::legacy::PassManager pass;
+    auto FileType = llvm::CGFT_ObjectFile;
+    
+    if (TheTargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
+        llvm::errs() << "TheTargetMachine can't emit a file of this type";
+        return false;
+    }
+    
+    pass.run(*module);
+    dest.flush();
+    
+    return true;
+    
 }

@@ -1029,6 +1029,7 @@
 		829849F324D2DA20004A7A64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = NO;
@@ -1055,6 +1056,7 @@
 		829849F424D2DA20004A7A64 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = NO;
@@ -1077,6 +1079,7 @@
 		829849FF24D2DFA4004A7A64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
@@ -1105,6 +1108,7 @@
 		82984A0024D2DFA4004A7A64 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
@@ -1133,6 +1137,7 @@
 		82A1A23924D80AFE009C2E5F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
@@ -1161,6 +1166,7 @@
 		82A1A23A24D80AFE009C2E5F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
@@ -1207,6 +1213,7 @@
 		82AEB66624DC3DC400889AC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = NO;
@@ -1233,6 +1240,7 @@
 		82AEB66724DC3DC400889AC3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = NO;
