@@ -99,6 +99,8 @@ public:
     
     IR *last();
     IR *first();
+    
+    std::string getValue() const{ return val; };
 };
 
 class IR_DefineVar : public IR {

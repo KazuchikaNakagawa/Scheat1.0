@@ -117,8 +117,10 @@ bool ScheatIR::exportTo(FileType ft){
 }
 
 bool ScheatIR::exportToMach_O(){
-    for (int i = 0;  i < irs.size(); i++) {
-        irs[i].outll(path + ".ll");
+    IR *cp = irs->first();
+    while (cp != nullptr) {
+        cp->outll(path + ".ll");
+        cp = cp->next;
     }
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
@@ -178,5 +180,13 @@ InsertPoint *ScheatIR::getInsertPoint(std::string named = ""){
     if (named.empty()) {
         return insertPoint;
     }
-    
+    IR *copy = irs->first();
+    while (copy != nullptr) {
+        if (copy->isPoint()) {
+            if (copy->getValue() == named) {
+                return static_cast<InsertPoint *>(copy);
+            }
+        }
+    }
+    return nullptr;
 }
