@@ -82,5 +82,5 @@ void IRHolder::outll(std::string o){
 
 void IR_DefineVar::outll(std::string p){
     std::ofstream f(p);
-    f << "%" << id << " = " << type->ir_used << "*" << std::endl;
+    f << "%" << id << " = alloca " << type->ir_used << std::endl;
 }
