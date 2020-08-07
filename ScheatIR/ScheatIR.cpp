@@ -126,11 +126,11 @@ bool ScheatIR::exportToMach_O(){
     llvm::SMDiagnostic err;
     std::unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(path + ".ll"), err, context);
     
-    auto TargetTriple = llvm::sys::getDefaultTargetTriple();
-    module->setTargetTriple(TargetTriple);
+    //auto TargetTriple = llvm::sys::getDefaultTargetTriple();
+    //module->setTargetTriple(TargetTriple);
     
     std::string Error;
-    auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
+    auto Target = llvm::TargetRegistry::lookupTarget(module->getTargetTriple(), Error);
     
     if (!Target) {
         llvm::errs() << Error;
@@ -143,7 +143,7 @@ bool ScheatIR::exportToMach_O(){
     llvm::TargetOptions opt;
     auto RM = llvm::Optional<llvm::Reloc::Model>();
     auto TheTargetMachine =
-    Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
+    Target->createTargetMachine(module->getTargetTriple(), CPU, Features, opt, RM);
     
     module->setDataLayout(TheTargetMachine->createDataLayout());
     
