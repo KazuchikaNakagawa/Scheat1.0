@@ -27,6 +27,7 @@
 
 using namespace scheatIR;
 static IRContext *nowContext;
+static IRContext *globalContext;
 
 IR *IR::last(){
     IR *copy = this;
@@ -129,9 +130,6 @@ bool ScheatIR::exportToMach_O(){
     std::string Error;
     auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
     
-    // Print an error and exit if we couldn't find the requested target.
-    // This generally occurs if we've forgotten to initialise the
-    // TargetRegistry or we have a bogus target triple.
     if (!Target) {
         llvm::errs() << Error;
         return false;
@@ -169,5 +167,16 @@ bool ScheatIR::exportToMach_O(){
     dest.flush();
     
     return true;
+    
+}
+
+void ScheatIR::addMainIR(){
+    
+}
+
+InsertPoint *ScheatIR::getInsertPoint(std::string named = ""){
+    if (named.empty()) {
+        return insertPoint;
+    }
     
 }

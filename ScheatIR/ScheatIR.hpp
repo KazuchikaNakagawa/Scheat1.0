@@ -27,16 +27,29 @@ enum class FileType{
     // _schlib
 };
 
-struct TypeData {
-    std::string name;
+class TypeData {
+    
+public:
     std::string ir_used;
+    std::string name;
+    
+    bool operator==(TypeData *rhs){
+        return this->name == rhs->name
+        && this->mangledName() == rhs->mangledName();
+    }
+    virtual std::string mangledName() const{ return ir_used; };
+    TypeData(std::string nm){
+        name = nm;
+        ir_used = "%" + nm;
+    }
 };
 
-struct GenericTypeData : public TypeData {
+class GenericTypeData : public TypeData {
     std::vector<TypeData *> temp;
+public:
     using TypeData::name;
-    using TypeData::ir_used;
-    GenericTypeData(){
+    
+    GenericTypeData(std::string nm) : TypeData(nm){
         temp = {};
         name = "";
         ir_used = "";
@@ -49,19 +62,20 @@ struct Variabledata {
     TypeData *type;
 };
 
-struct StructureTypeData : public TypeData {
+class StructureTypeData : public TypeData {
+public:
     using TypeData::name;
-    using TypeData::ir_used;
     std::map<Variabledata *, int> members;
-    StructureTypeData() {
-        name = "";
-        ir_used = "";
+    StructureTypeData(std::string nm) : TypeData(nm) {
+        name = nm;
+        ir_used = "%" + nm;
         members = {};
     }
 };
 
 class IR {
     std::string val;
+    bool isInsertPoint;
 public:
     // outputs to file.
     virtual void outll(std::string);
@@ -74,11 +88,14 @@ public:
     IR *next;
     IR *prev;
     
-    IR(){
+    IR(std::string v){
         next = nullptr;
         prev = nullptr;
-        val = "";
+        val = v;
+        isInsertPoint = false;
     }
+    
+    bool isPoint() const { return isInsertPoint;};
     
     IR *last();
     IR *first();
@@ -90,6 +107,12 @@ class IR_DefineVar : public IR {
 public:
     IR_DefineVar(std::string, TypeData *);
     void outll(std::string) override;
+    
+};
+
+class InsertPoint : public IR {
+    
+public:
     
 };
 
@@ -120,15 +143,16 @@ enum InsertOption {
 
 class ScheatIR {
     std::string path;
-    std::vector<IRHolder> irs;
-    IRHolder *insertPoint;
+    IR *irs;
+    InsertPoint *insertPoint;
     bool exportToMach_O();
 public:
     ScheatIR(std::string);
     bool exportTo(FileType);
     bool include(std::string, FileType);
-    IRHolder *getInsertPoint() const { return insertPoint; };
+    InsertPoint *getInsertPoint(std::string);
     void addIR(InsertOption opt, IR *ir);
+    void addMainIR();
 };
 
 }

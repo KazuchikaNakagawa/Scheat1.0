@@ -16,7 +16,7 @@ namespace scheatIR {
 
 class IRContext {
     // in almost all case, it will be empty.
-    // this will be filled only in  ScheatIR.globalContext
+    // this will be filled only in  globalContext
     std::map<std::string, TypeData *> types;
     
     // this has variable data.
@@ -24,6 +24,7 @@ class IRContext {
 public:
     TypeData *getType(std::string key, bool forced = false);
     Variabledata *getVar(std::string key, bool forced = false);
+    void addType(TypeData *);
 };
 
 }
