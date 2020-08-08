@@ -40,12 +40,13 @@ IR *IR::last(){
     return copy;
 }
 
-void IR::outll(std::string o){
+std::string IR::outll(std::string o){
     std::ofstream f(o);
     if (!f) {
         crash;
     }
     f << val << std::endl;
+    return "";
 };
 
 IR *IR::first(){
@@ -95,9 +96,14 @@ void IRHolder::outll(std::string o){
     }
 }
 
-void IR_DefineVar::outll(std::string p){
+std::string IR_DefineVar::outll(std::string p){
     std::ofstream f(p);
-    f << "%" << id << " = alloca " << type->ir_used << std::endl;
+    if (globalContext->getType(type->name) == nullptr) {
+        printf("%s is undefined.", type->name.c_str());
+        return "";
+    }
+    f << "%" << id << " = alloca " << type->mangledName() << std::endl;
+    return "%" + id;
 }
 
 // ------------------------------------------------------------
@@ -125,6 +131,12 @@ bool ScheatIR::exportToMach_O(){
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     std::unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(path + ".ll"), err, context);
+    
+    llvm::InitializeAllTargetInfos();
+    llvm::InitializeAllTargets();
+    llvm::InitializeAllTargetMCs();
+    llvm::InitializeAllAsmParsers();
+    llvm::InitializeAllAsmPrinters();
     
     //auto TargetTriple = llvm::sys::getDefaultTargetTriple();
     //module->setTargetTriple(TargetTriple);
@@ -189,4 +201,16 @@ InsertPoint *ScheatIR::getInsertPoint(std::string named = ""){
         }
     }
     return nullptr;
+}
+
+FunctionTypeData::FunctionTypeData(TypeData *ret, std::string nm)
+: TypeData(nm) {
+    
+}
+
+IRContext::IRContext(){
+    column = nullptr;
+    line = nullptr;
+    types = {};
+    variables = {};
 }

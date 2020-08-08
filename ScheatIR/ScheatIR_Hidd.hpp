@@ -20,11 +20,14 @@ class IRContext {
     std::map<std::string, TypeData *> types;
     
     // this has variable data.
-    std::map<std::string, Variabledata *> variables;
+    std::map<std::string, VariableData *> variables;
 public:
     TypeData *getType(std::string key, bool forced = false);
-    Variabledata *getVar(std::string key, bool forced = false);
+    VariableData *getVar(std::string key, bool forced = false);
     void addType(TypeData *);
+    int *column;
+    int *line;
+    IRContext();
 };
 
 }

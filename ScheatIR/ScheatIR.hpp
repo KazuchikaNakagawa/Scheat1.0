@@ -56,7 +56,14 @@ public:
     }
 };
 
-struct Variabledata {
+class FunctionTypeData : public TypeData {
+    std::vector<TypeData *> argType;
+    TypeData *return_type;
+public:
+    FunctionTypeData(TypeData *, std::string);
+};
+
+struct VariableData {
     std::string name;
     std::string ir_used;
     TypeData *type;
@@ -65,7 +72,7 @@ struct Variabledata {
 class StructureTypeData : public TypeData {
 public:
     using TypeData::name;
-    std::map<Variabledata *, int> members;
+    std::map<VariableData *, int> members;
     StructureTypeData(std::string nm) : TypeData(nm) {
         name = nm;
         ir_used = "%" + nm;
@@ -78,7 +85,7 @@ class IR {
     bool isInsertPoint;
 public:
     // outputs to file.
-    virtual void outll(std::string);
+    virtual std::string outll(std::string);
     
     virtual void dump(std::string);
     
@@ -108,7 +115,7 @@ class IR_DefineVar : public IR {
     TypeData *type;
 public:
     IR_DefineVar(std::string, TypeData *);
-    void outll(std::string) override;
+    std::string outll(std::string) override;
     
 };
 
