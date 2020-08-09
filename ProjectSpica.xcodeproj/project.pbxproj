@@ -74,6 +74,8 @@
 		8205E18A24D31CF4001C5130 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18924D31CF4001C5130 /* libedit.tbd */; };
 		8205E18C24D31D02001C5130 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18B24D31D02001C5130 /* libcurses.tbd */; };
 		8205E18E24D31D0D001C5130 /* libm.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18D24D31D0D001C5130 /* libm.tbd */; };
+		8225412224E01BD600DBF05C /* LegacyTypeScheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412024E01BD600DBF05C /* LegacyTypeScheat.cpp */; };
+		8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
 		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
@@ -283,6 +285,8 @@
 		8205E18924D31CF4001C5130 /* libedit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libedit.tbd; path = usr/lib/libedit.tbd; sourceTree = SDKROOT; };
 		8205E18B24D31D02001C5130 /* libcurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurses.tbd; path = usr/lib/libcurses.tbd; sourceTree = SDKROOT; };
 		8205E18D24D31D0D001C5130 /* libm.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libm.tbd; path = usr/lib/libm.tbd; sourceTree = SDKROOT; };
+		8225412024E01BD600DBF05C /* LegacyTypeScheat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LegacyTypeScheat.cpp; sourceTree = "<group>"; };
+		8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LegacyTypeScheat.hpp; sourceTree = "<group>"; };
 		828FFCB724D80E28007BEBFF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		829849D924D1B5A7004A7A64 /* libspica.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libspica.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpica.hpp; sourceTree = "<group>"; };
@@ -537,6 +541,8 @@
 				82984A0524D2E0B7004A7A64 /* Nodes.cpp */,
 				82ECF52C24D3A72900EB8316 /* Lexer.cpp */,
 				82ECF52D24D3A72900EB8316 /* Lexer.hpp */,
+				8225412024E01BD600DBF05C /* LegacyTypeScheat.cpp */,
+				8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */,
 			);
 			path = scheat;
 			sourceTree = "<group>";
@@ -642,6 +648,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */,
+				8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */,
 				829849EE24D2DA20004A7A64 /* scheat.hpp in Headers */,
 				829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */,
 			);
@@ -801,6 +808,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8225412224E01BD600DBF05C /* LegacyTypeScheat.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
 				829849F224D2DA20004A7A64 /* scheat.cpp in Sources */,
 				82984A0624D2E0B7004A7A64 /* Nodes.cpp in Sources */,

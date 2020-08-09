@@ -23,7 +23,7 @@
 #include <llvm/IR/LegacyPassManager.h>
 #include "llvm/Support/raw_ostream.h"
 
-#define crash printf("CrashReporter:\ncrashed in %u\n", __LINE__); exit(0)
+#define crash printf("Source%i.%i\nCrashReporter:\ncrashed in %u\n", *(nowContext->column), *(nowContext->line),__LINE__); exit(0)
 
 using namespace scheatIR;
 static IRContext *nowContext;
@@ -128,6 +128,7 @@ bool ScheatIR::exportToMach_O(){
         cp->outll(path + ".ll");
         cp = cp->next;
     }
+    
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     std::unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(path + ".ll"), err, context);
