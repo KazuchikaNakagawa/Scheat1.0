@@ -35,6 +35,9 @@ public:
     std::string mangledName;
     // do NOT think about pointer. it shows what value it has.
     TypeData type;
+    Variable(std::string s, TypeData t) : mangledName(s), type(t) {
+        
+    }
 };
 
 class Context {
@@ -71,15 +74,33 @@ class Node {
     
 public:
     virtual NodeData* codegen(std::ofstream&) { return nullptr; };
+    
+    virtual ~Node() {};
 };
 
 class TermInt : public Node {
     scheat::Token *itok;
+    int ival;
+    Variable *vval;
+    bool initedFromNum;
 public:
-    __deprecated TermInt(scheat::Token *t) : itok(t) {};
+    __deprecated TermInt(scheat::Token *t) : Node() {
+        if (t->kind == scheat::TokenKind::val_num) {
+            ival = t->value.intValue;
+            vval = nullptr;
+            initedFromNum = true;
+        }else if (t->kind == scheat::TokenKind::val_identifier){
+            ival = 0;
+            initedFromNum = false;
+        }else{
+            
+        }
+    };
+    TermInt(const TermInt &r) : Node(r) {};
+    TermInt(TermInt &&) = default;
     NodeData * codegen(std::ofstream&) override;
     unique(TermInt) init(scheat::Token *i);
-    
+    ~TermInt() {};
 };
 
 class PrimaryExprInt : public Node {
@@ -88,7 +109,38 @@ class PrimaryExprInt : public Node {
     unique(TermInt) term;
 public:
     NodeData * codegen(std::ofstream &) override;
+    __deprecated PrimaryExprInt(unique(TermInt) t, scheat::Token *tok, unique(PrimaryExprInt) e);
+    static unique(PrimaryExprInt) init(unique(TermInt) t, scheat::Token *tok, unique(PrimaryExprInt) e);
+    ~PrimaryExprInt() {};
 };
+
+PrimaryExprInt::PrimaryExprInt(unique(TermInt) t, scheat::Token *tok, unique(PrimaryExprInt) e){
+    term = std::move(t);
+    exprs = std::move(e);
+    opTok = tok;
+}
+
+unique(PrimaryExprInt) PrimaryExprInt::init(unique(TermInt) t, scheat::Token *tok, unique(PrimaryExprInt) e){
+    return std::make_unique<PrimaryExprInt>(std::move(t),tok,std::move(e));
+}
+
+class ExprInt : public Node {
+    unique(ExprInt) exprs;
+    scheat::Token *opToken;
+    unique(PrimaryExprInt) term;
+public:
+    NodeData * codegen(std::ofstream &) override;
+    __deprecated ExprInt(unique(PrimaryExprInt) term, scheat::Token *opTok = nullptr, unique(ExprInt) exprs = nullptr);
+    ~ExprInt();
+};
+
+ExprInt::ExprInt(unique(PrimaryExprInt) term, scheat::Token *opTok, unique(ExprInt) exprs){
+    this->term = std::move(term);
+    this->opToken = opTok;
+    this->exprs = std::move(exprs);
+}
+
+
 
 NodeData *PrimaryExprInt::codegen(std::ofstream &f){
     if (opTok == nullptr) {

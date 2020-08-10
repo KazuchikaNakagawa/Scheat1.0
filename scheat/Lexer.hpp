@@ -19,6 +19,7 @@ struct SourceLocation {
         line = 1;
         column = 1;
     }
+    ~SourceLocation() = default;
 };
 
 
@@ -56,6 +57,12 @@ union TokenValue {
         doubleValue = 0.0;
     }
     ~TokenValue(){
+        
+    }
+    TokenValue(TokenValue &&){
+        
+    }
+    TokenValue(const TokenValue &){
         
     }
 };
@@ -103,6 +110,8 @@ struct Token {
         value.intValue = 0;
         location = SourceLocation();
     }
+    Token(Token &&) {};
+    Token(const Token &) {};
 };
 
 enum LexerState {
