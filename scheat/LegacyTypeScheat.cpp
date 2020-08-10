@@ -46,6 +46,12 @@ public:
     std::string getRegister();
 };
 
+std::string Context::getRegister(){
+    std::string v = "%tmp" + std::to_string(rnum);
+    rnum++;
+    return v;
+}
+
 Variable *Context::findVariable(std::string key){
     Variable *v = variables[key];
     if (v != nullptr) {
@@ -85,7 +91,24 @@ public:
 };
 
 NodeData *PrimaryExprInt::codegen(std::ofstream &f){
-    
+    if (opTok == nullptr) {
+        return term->codegen(f);
+    }else{
+        if (opTok->value.strValue == "*") {
+            std::string r = local_context->getRegister();
+            std::string k = exprs->codegen(f)->value;
+            std::string l = term->codegen(f)->value;
+            f << r << " = imul i32 " << k << ", " << l << std::endl;
+            return new NodeData(r, "i32");
+        }
+        if (opTok->value.strValue == "/") {
+            std::string r = local_context->getRegister();
+            std::string k = exprs->codegen(f)->value;
+            std::string l = term->codegen(f)->value;
+            f << r << " = idiv i32 " << k << ", " << l << std::endl;
+            return new NodeData(r, "i32");
+        }
+    }
     return nullptr;
 }
 
