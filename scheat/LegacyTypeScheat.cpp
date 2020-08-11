@@ -141,8 +141,6 @@ ExprInt::ExprInt(unique(PrimaryExprInt) term, scheat::Token *opTok, unique(ExprI
     this->exprs = std::move(exprs);
 }
 
-
-
 NodeData *PrimaryExprInt::codegen(std::ofstream &f){
     if (opTok == nullptr) {
         return term->codegen(f);
@@ -172,7 +170,11 @@ NodeData *TermInt::codegen(std::ofstream &f){
             scheat::FatalError(__LINE__, "in %d.%d %s is undefined.", itok->location.line, itok->location.column, itok->value.strValue.c_str());
         }
         if (v->type.size != "i32") {
-            scheat::FatalError(__LINE__, "in %d.%d %s is not an integer value.",  itok->location.line, itok->location.column, itok->value.strValue.c_str());
+            scheat::FatalError(__LINE__,
+                               "in %d.%d %s is not an integer value.",
+                               itok->location.line,
+                               itok->location.column,
+                               itok->value.strValue.c_str());
         }
         std::string r = local_context.top().getRegister();
         f << r << " = load " << v->type.name << ", " << v->type.name << "* " << v->mangledName << std::endl;
@@ -184,7 +186,10 @@ NodeData *TermInt::codegen(std::ofstream &f){
 unique(TermInt) TermInt::init(scheat::Token *i){
     if (i->kind != scheat::TokenKind::val_num &&
         i->kind != scheat::TokenKind::val_identifier) {
-        scheat::FatalError(__LINE__, "in %d.%d illegal Node is shifted.", i->location.line, i->location.column);
+        scheat::FatalError(__LINE__,
+                           "in %d.%d illegal Node is shifted.",
+                           i->location.line,
+                           i->location.column);
         return nullptr;
     }
     return std::make_unique<TermInt>(i);
