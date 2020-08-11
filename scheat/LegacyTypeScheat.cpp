@@ -108,18 +108,26 @@ class PrimaryExprInt : public Node {
     unique(TermInt) term;
 public:
     NodeData * codegen(std::ofstream &) override;
-    __deprecated PrimaryExprInt(unique(TermInt) t, scheat::Token *tok, unique(PrimaryExprInt) e);
-    static unique(PrimaryExprInt) init(unique(TermInt) t, scheat::Token *tok, unique(PrimaryExprInt) e);
+    __deprecated PrimaryExprInt(unique(TermInt) t,
+                                scheat::Token *tok,
+                                unique(PrimaryExprInt) e);
+    static unique(PrimaryExprInt) init(unique(TermInt) t,
+                                       scheat::Token *tok,
+                                       unique(PrimaryExprInt) e);
     ~PrimaryExprInt() {};
 };
 
-PrimaryExprInt::PrimaryExprInt(unique(TermInt) t, scheat::Token *tok, unique(PrimaryExprInt) e){
+PrimaryExprInt::PrimaryExprInt(unique(TermInt) t,
+                               scheat::Token *tok,
+                               unique(PrimaryExprInt) e){
     term = std::move(t);
     exprs = std::move(e);
     opTok = tok;
 }
 
-unique(PrimaryExprInt) PrimaryExprInt::init(unique(TermInt) t, scheat::Token *tok, unique(PrimaryExprInt) e){
+unique(PrimaryExprInt) PrimaryExprInt::init(unique(TermInt) t,
+                                            scheat::Token *tok,
+                                            unique(PrimaryExprInt) e){
     return std::make_unique<PrimaryExprInt>(std::move(t),
                                             tok,
                                             std::move(e));
@@ -131,11 +139,15 @@ class ExprInt : public Node {
     unique(PrimaryExprInt) term;
 public:
     NodeData * codegen(std::ofstream &) override;
-    __deprecated ExprInt(unique(PrimaryExprInt) term, scheat::Token *opTok = nullptr, unique(ExprInt) exprs = nullptr);
+    __deprecated ExprInt(unique(PrimaryExprInt) term,
+                         scheat::Token *opTok = nullptr,
+                         unique(ExprInt) exprs = nullptr);
     ~ExprInt();
 };
 
-ExprInt::ExprInt(unique(PrimaryExprInt) term, scheat::Token *opTok, unique(ExprInt) exprs){
+ExprInt::ExprInt(unique(PrimaryExprInt) term,
+                 scheat::Token *opTok,
+                 unique(ExprInt) exprs){
     this->term = std::move(term);
     this->opToken = opTok;
     this->exprs = std::move(exprs);
