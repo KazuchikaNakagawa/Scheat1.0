@@ -46,6 +46,29 @@ public:
     IRBuilder(Scheat*, std::string);
 };
 
+static void FatalError(unsigned int line, const char *format, ...){
+    printf("Error\n source line%u : ", line);
+    va_list arg;
+    
+    va_start(arg, format);
+    ::vprintf(format, arg);
+    va_end(arg);
+    printf("\n");
+    exit(0);
+
+}
+
+static void Debug(unsigned int line, const char *fmt, ...)
+{
+    printf("Debug\n source line%u : ", line);
+    va_list arg;
+    
+    va_start(arg, fmt);
+    ::vprintf(fmt, arg);
+    va_end(arg);
+    printf("\n");
+}
+
 }
 
 #pragma GCC visibility pop

@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				8225413424E2356200DBF05C /* PBXTargetDependency */,
 				82AEB66A24DC3DE500889AC3 /* PBXTargetDependency */,
 				82AEB62124DC347100889AC3 /* PBXTargetDependency */,
 				82AEB62324DC347100889AC3 /* PBXTargetDependency */,
@@ -175,6 +176,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8225413324E2356200DBF05C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8225412724E175F700DBF05C;
+			remoteInfo = ScheatRun;
+		};
 		828FFCBB24D841EF007BEBFF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
@@ -906,6 +914,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8225413424E2356200DBF05C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8225412724E175F700DBF05C /* ScheatRun */;
+			targetProxy = 8225413324E2356200DBF05C /* PBXContainerItemProxy */;
+		};
 		828FFCBC24D841EF007BEBFF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 829849EA24D2DA20004A7A64 /* scheat */;
@@ -1039,7 +1052,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/include;
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/lib;
@@ -1104,7 +1117,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/include;
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/lib;

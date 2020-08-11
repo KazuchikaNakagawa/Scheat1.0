@@ -55,8 +55,35 @@ enum class InstructionType : unsigned char {
     //         | register value(8bit)
     sub = 5,
     
+    // div instruction: instruction number 6
+    // calcuate two register and store first register
+    //      length : 8bit
+    //      arg : register value(8bit)
+    //          | register value(8bit)
+    div = 6,
     
+    // fadd instruction: instruction number 7
+    //      length : 8bit(less than 32 is unacceptable)
+    //      arg : register value(8bit)
+    //          | register value(8bit)
+    fadd = 7,
     
+    // fsub instruction: instruction number 8
+    //      length : 8bit(less than 32 is unacceptable)
+    //      arg : register value(8bit)
+    //          | register value(8bit)
+    fsub = 8,
+    
+    // fmul instruction: instruction number 9
+    //      length : 8bit(less than 32 is unacceptable)
+    //      arg : register value(8bit)
+    //          | register value(8bit)
+    
+    // extended instruction: instruction number x
+    // calls external function in ScheatRun
+    //     length : 8bit (shows how many argument it has.)
+    //     arg : name(8bit*)
+    extended,
 };
 
 class Instruction;

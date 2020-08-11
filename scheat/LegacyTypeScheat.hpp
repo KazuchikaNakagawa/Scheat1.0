@@ -9,5 +9,6 @@
 #define LegacyTypeScheat_hpp
 
 #include <stdio.h>
+#include "scheat.hpp"
 
 #endif /* LegacyTypeScheat_hpp */
