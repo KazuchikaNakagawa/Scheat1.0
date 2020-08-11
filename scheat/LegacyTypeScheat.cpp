@@ -82,20 +82,17 @@ public:
 
 class TermInt : public Node {
     scheat::Token *itok;
-    int ival;
-    Variable *vval;
-    bool initedFromNum;
 public:
     __deprecated TermInt(scheat::Token *t) : Node() {
         if (t->kind == scheat::TokenKind::val_num) {
-            ival = t->value.intValue;
-            vval = nullptr;
-            initedFromNum = true;
+            itok = t;
         }else if (t->kind == scheat::TokenKind::val_identifier){
-            ival = 0;
-            initedFromNum = false;
+            itok = t;
         }else{
-            
+            scheat::FatalError(__LINE__,
+                               "in %d.%d this is not suitable for int type.",
+                               t->location.line,
+                               t->location.column);
         }
     };
     TermInt(const TermInt &r) : Node(r) {};
@@ -178,7 +175,7 @@ NodeData *TermInt::codegen(std::ofstream &f){
             scheat::FatalError(__LINE__, "in %d.%d %s is not an integer value.",  itok->location.line, itok->location.column, itok->value.strValue.c_str());
         }
         std::string r = local_context.top().getRegister();
-        f << r << " = load " << v->type.name << std::endl;
+        f << r << " = load " << v->type.name << ", " << v->type.name << "* " << v->mangledName << std::endl;
         return new NodeData(r, "i32");
     }
     return new NodeData(std::to_string(itok->value.intValue), "i32");

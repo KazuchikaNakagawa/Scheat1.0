@@ -93,6 +93,7 @@ enum class InstructionType : unsigned char {
     extended,
 };
 
+// 8|1|8 bit
 struct InstructionHead;
 
 class Instruction;

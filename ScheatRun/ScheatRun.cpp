@@ -19,9 +19,8 @@ enum class InstMap : bool {
 
 struct ScheatRunSystem::InstructionHead {
     std::bitset<8> length;
+    InstMap bitmap;
     InstructionType type;
-    template <unsigned char Size>
-    Instruction<Size> *makeInst(std::ifstream &);
     InstructionHead();
 };
 
