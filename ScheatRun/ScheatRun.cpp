@@ -8,14 +8,24 @@
 #include <iostream>
 #include "ScheatRun.hpp"
 #include "ScheatRunPriv.hpp"
+#include <fstream>
 
-class ScheatRunSystem::Instruction {
-    
-public:
-    
+using namespace ScheatRunSystem;
+
+enum class InstMap : bool {
+    rr = 0,
+    ri = 1,
 };
 
-void ScheatRun::HelloWorld(const char * s)
+struct ScheatRunSystem::InstructionHead {
+    std::bitset<8> length;
+    InstructionType type;
+    template <unsigned char Size>
+    Instruction<Size> *makeInst(std::ifstream &);
+    InstructionHead();
+};
+
+void ScheatRunSystem::ScheatRun::HelloWorld(const char * s)
 {
     ScheatRunPriv *theObj = new ScheatRunPriv;
     theObj->HelloWorldPriv(s);

@@ -78,6 +78,13 @@ enum class InstructionType : unsigned char {
     //      length : 8bit(less than 32 is unacceptable)
     //      arg : register value(8bit)
     //          | register value(8bit)
+    fmul = 9,
+    
+    // fdiv instruction: instruction number 10
+    //      length : 8bit(less than 32 is unacceptable)
+    //      arg : register value(8bit)
+    //          | register value(8bit)
+    fdiv = 10,
     
     // extended instruction: instruction number x
     // calls external function in ScheatRun
@@ -85,6 +92,8 @@ enum class InstructionType : unsigned char {
     //     arg : name(8bit*)
     extended,
 };
+
+struct InstructionHead;
 
 class Instruction;
 
@@ -95,7 +104,7 @@ public:
     static void FatalError(unsigned int, const char *format, ...);
     static void Debug(unsigned int, const char *format, ...);
     void run(std::string);
-    void runStream(Instruction *);
+    void runStream(InstructionHead *);
 };
 
 }
