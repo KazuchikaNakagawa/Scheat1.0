@@ -68,7 +68,7 @@ Variable *Context::findVariable(std::string key){
     }
 }
 
-static Context *local_context;
+static std::stack<Context> local_context;
 
 class Node {
     
@@ -121,7 +121,9 @@ PrimaryExprInt::PrimaryExprInt(unique(TermInt) t, scheat::Token *tok, unique(Pri
 }
 
 unique(PrimaryExprInt) PrimaryExprInt::init(unique(TermInt) t, scheat::Token *tok, unique(PrimaryExprInt) e){
-    return std::make_unique<PrimaryExprInt>(std::move(t),tok,std::move(e));
+    return std::make_unique<PrimaryExprInt>(std::move(t),
+                                            tok,
+                                            std::move(e));
 }
 
 class ExprInt : public Node {
@@ -147,14 +149,14 @@ NodeData *PrimaryExprInt::codegen(std::ofstream &f){
         return term->codegen(f);
     }else{
         if (opTok->value.strValue == "*") {
-            std::string r = local_context->getRegister();
+            std::string r = local_context.top().getRegister();
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
             f << r << " = imul i32 " << k << ", " << l << std::endl;
             return new NodeData(r, "i32");
         }
         if (opTok->value.strValue == "/") {
-            std::string r = local_context->getRegister();
+            std::string r = local_context.top().getRegister();
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
             f << r << " = idiv i32 " << k << ", " << l << std::endl;
@@ -166,14 +168,14 @@ NodeData *PrimaryExprInt::codegen(std::ofstream &f){
 
 NodeData *TermInt::codegen(std::ofstream &f){
     if (itok->kind == scheat::TokenKind::val_identifier) {
-        Variable *v = local_context->findVariable(itok->value.strValue);
+        Variable *v = local_context.top().findVariable(itok->value.strValue);
         if (v == nullptr) {
             scheat::Scheat().FatalError(__LINE__, "in %d.%d %s is undefined.", itok->location.line, itok->location.column, itok->value.strValue.c_str());
         }
         if (v->type.size != "i32") {
             scheat::Scheat().FatalError(__LINE__, "in %d.%d %s is not an integer value.",  itok->location.line, itok->location.column, itok->value.strValue.c_str());
         }
-        std::string r = local_context->getRegister();
+        std::string r = local_context.top().getRegister();
         f << r << " = load " << v->type.name << std::endl;
         return new NodeData(r, "i32");
     }
