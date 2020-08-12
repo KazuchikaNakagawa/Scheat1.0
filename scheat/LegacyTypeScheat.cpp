@@ -111,6 +111,7 @@ public:
     __deprecated PrimaryExprInt(unique(TermInt) t,
                                 scheat::Token *tok,
                                 unique(PrimaryExprInt) e);
+    
     static unique(PrimaryExprInt) init(unique(TermInt) t,
                                        scheat::Token *tok,
                                        unique(PrimaryExprInt) e);
@@ -179,7 +180,11 @@ NodeData *TermInt::codegen(std::ofstream &f){
     if (itok->kind == scheat::TokenKind::val_identifier) {
         Variable *v = local_context.top().findVariable(itok->value.strValue);
         if (v == nullptr) {
-            scheat::FatalError(__LINE__, "in %d.%d %s is undefined.", itok->location.line, itok->location.column, itok->value.strValue.c_str());
+            scheat::FatalError(__LINE__,
+                               "in %d.%d %s is undefined.",
+                               itok->location.line,
+                               itok->location.column,
+                               itok->value.strValue.c_str());
         }
         if (v->type.size != "i32") {
             scheat::FatalError(__LINE__,
