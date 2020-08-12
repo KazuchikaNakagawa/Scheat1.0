@@ -126,6 +126,18 @@ void Lexer::genTok(){
         clear();
         return;
     }
+    if (buf == "(") {
+        tok->kind = TokenKind::tok_paren_l;
+        tadd;
+        clear();
+        return;
+    }
+    if (buf == ")") {
+        tok->kind = TokenKind::tok_paren_r;
+        tadd;
+        clear();
+        return;
+    }
     if (state == numberState) {
         tok->valInt(buf);
         tokens = Token::add(tokens, tok);
@@ -246,6 +258,12 @@ void Token::out(){
     }
     if (kind == TokenKind::tok_comma) {
         printf(", token\n");
+    }
+    if (kind == TokenKind::tok_paren_l) {
+        printf("( token\n");
+    }
+    if (kind == TokenKind::tok_paren_r) {
+        printf(") token\n");
     }
     if (kind == TokenKind::embbed_func_print) {
         printf("print token\n");
@@ -412,6 +430,18 @@ void Lexer::input(int c, int next){
         genTok();
     }
     
+    if (c == '(') {
+        genTok();
+        buf.push_back(c);
+        genTok();
+    }
+    
+    if (c == ')') {
+        genTok();
+        buf.push_back(c);
+        genTok();
+    }
+    
     if (false
         || c == '+'
         || c == '-'
@@ -419,7 +449,8 @@ void Lexer::input(int c, int next){
         || c == '&'
         || c == '*'
         || c == '/'
-        || c == '^') {
+        || c == '^'
+        || c == '!') {
         if (state == initState) {
             state = operatorState;
             buf.push_back(c);

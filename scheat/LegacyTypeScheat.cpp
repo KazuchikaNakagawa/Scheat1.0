@@ -31,6 +31,10 @@ public:
     std::string size;
 };
 
+class Function{
+    
+};
+
 class Variable {
 
 public:
@@ -46,9 +50,16 @@ class Context {
     Context *base;
     unsigned int rnum;
     std::map<std::string, Variable *> variables;
+    std::map<std::string, Function *> funcs;
 public:
     Variable *findVariable(std::string);
     std::string getRegister();
+    Context(){
+        variables = {};
+        funcs = {};
+        rnum = 0;
+        base = nullptr;
+    }
 };
 
 std::string Context::getRegister(){
@@ -70,7 +81,8 @@ Variable *Context::findVariable(std::string key){
     }
 }
 
-static std::stack<Context> local_context;
+static Context *global_context;
+static std::stack<Context *> local_context;
 
 class Node {
     
@@ -80,8 +92,23 @@ public:
     virtual ~Node() {};
 };
 
+class PrototypeExpr : public Node {
+    scheat::Token *id;
+    TypeData *type;
+public:
+    __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : id(t), type(ty), Node() {};
+    
+};
+
+class FunctionExpr : public Node {
+    std::vector<unique(PrototypeExpr)> args;
+public:
+    
+};
+
 class TermInt : public Node {
     scheat::Token *itok;
+    unique(Node) func;
 public:
     __deprecated TermInt(scheat::Token *t) : Node() {
         if (t->kind == scheat::TokenKind::val_num) {
@@ -154,31 +181,46 @@ ExprInt::ExprInt(unique(PrimaryExprInt) term,
     this->exprs = std::move(exprs);
 }
 
+NodeData *ExprInt::codegen(std::ofstream &f){
+    if (opToken == nullptr) {
+        return term->codegen(f);
+    }else{
+        
+    }
+    return nullptr;
+}
+
 NodeData *PrimaryExprInt::codegen(std::ofstream &f){
     if (opTok == nullptr) {
         return term->codegen(f);
     }else{
         if (opTok->value.strValue == "*") {
-            std::string r = local_context.top().getRegister();
+            std::string r = local_context.top()->getRegister();
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
             f << r << " = imul i32 " << k << ", " << l << std::endl;
             return new NodeData(r, "i32");
         }
         if (opTok->value.strValue == "/") {
-            std::string r = local_context.top().getRegister();
+            std::string r = local_context.top()->getRegister();
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
             f << r << " = idiv i32 " << k << ", " << l << std::endl;
             return new NodeData(r, "i32");
+        }
+        if (opTok->value.strValue == "!") {
+            
         }
     }
     return nullptr;
 }
 
 NodeData *TermInt::codegen(std::ofstream &f){
+    if (itok == nullptr) {
+        return func->codegen(f);
+    }
     if (itok->kind == scheat::TokenKind::val_identifier) {
-        Variable *v = local_context.top().findVariable(itok->value.strValue);
+        Variable *v = local_context.top()->findVariable(itok->value.strValue);
         if (v == nullptr) {
             scheat::FatalError(__LINE__,
                                "in %d.%d %s is undefined.",
@@ -193,7 +235,7 @@ NodeData *TermInt::codegen(std::ofstream &f){
                                itok->location.column,
                                itok->value.strValue.c_str());
         }
-        std::string r = local_context.top().getRegister();
+        std::string r = local_context.top()->getRegister();
         f << r << " = load " << v->type.name << ", " << v->type.name << "* " << v->mangledName << std::endl;
         return new NodeData(r, "i32");
     }

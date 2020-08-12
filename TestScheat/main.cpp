@@ -14,7 +14,7 @@ int main(int argc, const char * argv[]) {
     sch.flagDebug();
     sch.Debug(__LINE__, "Hello");
     scheat::Lexer lexer = scheat::Lexer(&sch);
-    lexer.lex("\tnani are 1,500.");
+    lexer.lex("\tnani are (1,500!).");
     lexer.getTokens()->enumerate();
     return 0;
 }

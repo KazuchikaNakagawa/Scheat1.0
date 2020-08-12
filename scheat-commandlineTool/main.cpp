@@ -60,7 +60,7 @@ int main(int argc, const char *argv[]){
         sch.flagDebug();
         scheat::Lexer lexer = scheat::Lexer(&sch);
         if (argc == 2){
-            lexer.lex("\tnani are 1,500.");
+            lexer.lex("\tnani are 1,500!.");
         }else if (argc == 3){
             lexer.lex(argv[2]);
         }

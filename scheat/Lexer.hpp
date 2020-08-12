@@ -41,6 +41,8 @@ enum class TokenKind : int {
     tok_is,
     tok_period,
     tok_comma,
+    tok_paren_l,
+    tok_paren_r,
     tok_external,
     
     embbed_func_print,
