@@ -11,4 +11,14 @@
 #include <stdio.h>
 #include "scheat.hpp"
 
+namespace LegacyScheat {
+
+namespace E9 {
+
+void InitializeContexts();
+
+}
+
+}
+
 #endif /* LegacyTypeScheat_hpp */

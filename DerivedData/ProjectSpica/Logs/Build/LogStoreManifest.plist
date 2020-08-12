@@ -6,6 +6,40 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
+		<key>02831145-FF52-4AF8-BDBC-E37EB9905F81</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>02831145-FF52-4AF8-BDBC-E37EB9905F81.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ProjectSpica project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>TestScheat</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Clean TestScheat</string>
+			<key>timeStartedRecording</key>
+			<real>618913758.58677602</real>
+			<key>timeStoppedRecording</key>
+			<real>618913758.76919794</real>
+			<key>title</key>
+			<string>Clean TestScheat</string>
+			<key>uniqueIdentifier</key>
+			<string>02831145-FF52-4AF8-BDBC-E37EB9905F81</string>
+		</dict>
 		<key>16202111-5006-4535-8910-A776A366FD5F</key>
 		<dict>
 			<key>className</key>
@@ -413,6 +447,40 @@
 			<string>Build All-Build</string>
 			<key>uniqueIdentifier</key>
 			<string>F6D11C12-2C46-4A17-ABEF-1D30C55719F4</string>
+		</dict>
+		<key>FC318BF6-FBEB-4AF6-93B6-D66EA537F5EA</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>FC318BF6-FBEB-4AF6-93B6-D66EA537F5EA.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ProjectSpica project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>All-Build</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build All-Build</string>
+			<key>timeStartedRecording</key>
+			<real>618924223.07526803</real>
+			<key>timeStoppedRecording</key>
+			<real>618924230.43215203</real>
+			<key>title</key>
+			<string>Build All-Build</string>
+			<key>uniqueIdentifier</key>
+			<string>FC318BF6-FBEB-4AF6-93B6-D66EA537F5EA</string>
 		</dict>
 	</dict>
 </dict>

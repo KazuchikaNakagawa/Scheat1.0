@@ -47,11 +47,12 @@ public:
 };
 
 class Context {
-    Context *base;
     unsigned int rnum;
     std::map<std::string, Variable *> variables;
     std::map<std::string, Function *> funcs;
 public:
+    std::string name;
+    Context *base;
     Variable *findVariable(std::string);
     std::string getRegister();
     Context(){
@@ -59,6 +60,7 @@ public:
         funcs = {};
         rnum = 0;
         base = nullptr;
+        name = "";
     }
 };
 
@@ -83,6 +85,12 @@ Variable *Context::findVariable(std::string key){
 
 static Context *global_context;
 static std::stack<Context *> local_context;
+
+void LegacyScheat::E9::InitializeContexts(){
+    global_context = new Context();
+    global_context->name = "glbl";
+    local_context.push(global_context);
+}
 
 class Node {
     
