@@ -28,12 +28,29 @@ class TypeData {
     
 public:
     std::string name;
-    std::string size;
+    std::string mangledName;
 };
 
 class Function{
-    
+public:
+    std::string mangledName;
+    TypeData return_type;
+    std::vector<TypeData> argTypes;
+    std::string lltype();
 };
+
+std::string Function::lltype(){
+    std::string base = return_type.mangledName + "(";
+    for (int i = 0; i < argTypes.size(); i++) {
+        base = base + argTypes[i].mangledName;
+        
+        if (i < argTypes.size()) {
+            base = base + ", ";
+        }
+    }
+    base = base + ")";
+    return base;
+}
 
 class Variable {
 
@@ -54,6 +71,7 @@ public:
     std::string name;
     Context *base;
     Variable *findVariable(std::string);
+    bool isExists(std::string);
     std::string getRegister();
     Context(){
         variables = {};
@@ -63,6 +81,16 @@ public:
         name = "";
     }
 };
+
+bool Context::isExists(std::string key){
+    if (variables[key] != nullptr) {
+        return true;
+    }
+    if (funcs[key] != nullptr) {
+        return true;
+    }
+    return false;
+}
 
 std::string Context::getRegister(){
     std::string v = "%tmp" + std::to_string(rnum);
@@ -107,6 +135,18 @@ public:
     __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : id(t), type(ty), Node() {};
     
 };
+
+class TermIdentifier : public Node {
+    scheat::Token *idTok;
+public:
+    __deprecated TermIdentifier(scheat::Token *t) : idTok(t), Node() {};
+    NodeData *codegen(std::ofstream &) override;
+};
+
+NodeData *TermIdentifier::codegen(std::ofstream &f){
+    
+    return nullptr;
+}
 
 class FunctionExpr : public Node {
     std::vector<unique(PrototypeExpr)> args;
@@ -236,7 +276,7 @@ NodeData *TermInt::codegen(std::ofstream &f){
                                itok->location.column,
                                itok->value.strValue.c_str());
         }
-        if (v->type.size != "i32") {
+        if (v->type.mangledName != "i32") {
             scheat::FatalError(__LINE__,
                                "in %d.%d %s is not an integer value.",
                                itok->location.line,

@@ -40,6 +40,74 @@
 			<key>uniqueIdentifier</key>
 			<string>02831145-FF52-4AF8-BDBC-E37EB9905F81</string>
 		</dict>
+		<key>0EC62674-5DFE-475C-BC25-B00EDC022860</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>0EC62674-5DFE-475C-BC25-B00EDC022860.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ProjectSpica project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>productscheat</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build productscheat</string>
+			<key>timeStartedRecording</key>
+			<real>618975758.51589</real>
+			<key>timeStoppedRecording</key>
+			<real>618975759.34168804</real>
+			<key>title</key>
+			<string>Build productscheat</string>
+			<key>uniqueIdentifier</key>
+			<string>0EC62674-5DFE-475C-BC25-B00EDC022860</string>
+		</dict>
+		<key>0FBA974D-E12A-458F-ADD5-ED06A99C6334</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>0FBA974D-E12A-458F-ADD5-ED06A99C6334.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ProjectSpica project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>productscheat</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build productscheat</string>
+			<key>timeStartedRecording</key>
+			<real>618975665.58569205</real>
+			<key>timeStoppedRecording</key>
+			<real>618975670.27409697</real>
+			<key>title</key>
+			<string>Build productscheat</string>
+			<key>uniqueIdentifier</key>
+			<string>0FBA974D-E12A-458F-ADD5-ED06A99C6334</string>
+		</dict>
 		<key>16202111-5006-4535-8910-A776A366FD5F</key>
 		<dict>
 			<key>className</key>

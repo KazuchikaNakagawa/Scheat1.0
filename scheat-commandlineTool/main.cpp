@@ -33,7 +33,7 @@ int main(int argc, const char *argv[]){
         return 0;
     }
     if (strcmp(argv[1], "-play") == 0) {
-        std::cout << "Scheat 2.0.0(C++ Edition)" << std::endl;
+        std::cout << "Scheat 2.0.1 beta(C++ Edition)" << std::endl;
         std::cout << "[based on LLVM 10.0.0]" << std::endl;
         std::cout << "> ";
         while (true) {
