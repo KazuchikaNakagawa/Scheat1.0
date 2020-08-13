@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "scheat.hpp"
+#include <fstream>
 
 namespace LegacyScheat {
 
@@ -18,6 +19,8 @@ namespace E9 {
 void InitializeContexts();
 
 }
+
+void Parse(scheat::Token *tokens, std::ofstream&);
 
 }
 

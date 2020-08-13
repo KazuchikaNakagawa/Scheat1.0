@@ -63,11 +63,38 @@ public:
     }
 };
 
+class IRStream {
+public:
+    std::vector<std::string> irs;
+    IRStream *operator <<(std::string v){
+        irs.push_back(v);
+        return this;
+    };
+    IRStream *operator <<(const char v[]){
+        std::string vs(v);
+        irs.push_back(vs);
+        return this;
+    }
+    void exportTo(std::ofstream &f);
+    IRStream(){
+        irs = {};
+    };
+};
+
+void IRStream::exportTo(std::ofstream &f){
+    for (int i = 0; i < irs.size(); i++) {
+        f << irs[i];
+    }
+}
+
 class Context {
     unsigned int rnum;
     std::map<std::string, Variable *> variables;
     std::map<std::string, Function *> funcs;
 public:
+    IRStream stream_entry;
+    IRStream stream_body;
+    IRStream stream_tail;
     std::string name;
     Context *base;
     Variable *findVariable(std::string);
@@ -111,6 +138,7 @@ Variable *Context::findVariable(std::string key){
     }
 }
 
+static std::vector<Context *> contextCenter = {};
 static Context *global_context;
 static std::stack<Context *> local_context;
 
@@ -118,12 +146,13 @@ void LegacyScheat::E9::InitializeContexts(){
     global_context = new Context();
     global_context->name = "glbl";
     local_context.push(global_context);
+    contextCenter.push_back(global_context);
 }
 
 class Node {
     
 public:
-    virtual NodeData* codegen(std::ofstream&) { return nullptr; };
+    virtual NodeData* codegen(IRStream &) { return nullptr; };
     
     virtual ~Node() {};
 };
@@ -136,14 +165,20 @@ public:
     
 };
 
+class Statement : public Node {
+    
+public:
+    virtual void dump(std::ofstream &) {};
+};
+
 class TermIdentifier : public Node {
     scheat::Token *idTok;
 public:
     __deprecated TermIdentifier(scheat::Token *t) : idTok(t), Node() {};
-    NodeData *codegen(std::ofstream &) override;
+    NodeData *codegen(IRStream &) override;
 };
 
-NodeData *TermIdentifier::codegen(std::ofstream &f){
+NodeData *TermIdentifier::codegen(IRStream &f){
     
     return nullptr;
 }
@@ -172,7 +207,7 @@ public:
     };
     TermInt(const TermInt &r) : Node(r) {};
     TermInt(TermInt &&) = default;
-    NodeData * codegen(std::ofstream&) override;
+    NodeData * codegen(IRStream &) override;
     unique(TermInt) init(scheat::Token *i);
     ~TermInt() {};
 };
@@ -182,7 +217,7 @@ class PrimaryExprInt : public Node {
     scheat::Token *opTok;
     unique(TermInt) term;
 public:
-    NodeData * codegen(std::ofstream &) override;
+    NodeData * codegen(IRStream &) override;
     __deprecated PrimaryExprInt(unique(TermInt) t,
                                 scheat::Token *tok,
                                 unique(PrimaryExprInt) e);
@@ -214,7 +249,7 @@ class ExprInt : public Node {
     scheat::Token *opToken;
     unique(PrimaryExprInt) term;
 public:
-    NodeData * codegen(std::ofstream &) override;
+    NodeData * codegen(IRStream &) override;
     __deprecated ExprInt(unique(PrimaryExprInt) term,
                          scheat::Token *opTok = nullptr,
                          unique(ExprInt) exprs = nullptr);
@@ -229,7 +264,7 @@ ExprInt::ExprInt(unique(PrimaryExprInt) term,
     this->exprs = std::move(exprs);
 }
 
-NodeData *ExprInt::codegen(std::ofstream &f){
+NodeData *ExprInt::codegen(IRStream &f){
     if (opToken == nullptr) {
         return term->codegen(f);
     }else{
@@ -238,7 +273,7 @@ NodeData *ExprInt::codegen(std::ofstream &f){
     return nullptr;
 }
 
-NodeData *PrimaryExprInt::codegen(std::ofstream &f){
+NodeData *PrimaryExprInt::codegen(IRStream &f){
     if (opTok == nullptr) {
         return term->codegen(f);
     }else{
@@ -246,14 +281,14 @@ NodeData *PrimaryExprInt::codegen(std::ofstream &f){
             std::string r = local_context.top()->getRegister();
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
-            f << r << " = imul i32 " << k << ", " << l << std::endl;
+            f << r << " = imul i32 " << k << ", " << l << "\n";
             return new NodeData(r, "i32");
         }
         if (opTok->value.strValue == "/") {
             std::string r = local_context.top()->getRegister();
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
-            f << r << " = idiv i32 " << k << ", " << l << std::endl;
+            f << r << " = idiv i32 " << k << ", " << l << "\n";
             return new NodeData(r, "i32");
         }
         if (opTok->value.strValue == "!") {
@@ -263,7 +298,7 @@ NodeData *PrimaryExprInt::codegen(std::ofstream &f){
     return nullptr;
 }
 
-NodeData *TermInt::codegen(std::ofstream &f){
+NodeData *TermInt::codegen(IRStream *f){
     if (itok == nullptr) {
         return func->codegen(f);
     }
@@ -302,4 +337,20 @@ unique(TermInt) TermInt::init(scheat::Token *i){
     return std::make_unique<TermInt>(i);
 }
 
+// ----------------------------------------------------------------------------------------------------------------------------
 
+unique(Statement) parseStatement(scheat::Token *tokens){
+    if (tokens->kind == scheat::TokenKind::embbed_func_print) {
+        
+    }
+    return nullptr;
+};
+
+void LegacyScheat::Parse(scheat::Token *tokens, std::ofstream &f){
+    E9::InitializeContexts();
+    unique(Statement) stmt = nullptr;
+    while (stmt != nullptr) {
+        stmt->codegen(f);
+        stmt = nullptr;
+    }
+}

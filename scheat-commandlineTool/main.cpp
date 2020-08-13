@@ -48,7 +48,7 @@ int main(int argc, const char *argv[]){
         std::cout <<
         "-build:" << std::endl <<
         "   build Scheat source code into .o or .a file." << std::endl <<
-        "   to build .o file, give .scht file to 'main source'.\n" <<
+        "   to build .a file(static library), give .scht file to 'main source'.\n" <<
         "-play:" << std::endl <<
         "   execute Scheat as shell.\n" <<
         "";
