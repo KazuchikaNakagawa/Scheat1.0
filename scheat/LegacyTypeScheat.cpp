@@ -66,14 +66,14 @@ public:
 class IRStream {
 public:
     std::vector<std::string> irs;
-    IRStream *operator <<(std::string v){
+    IRStream operator <<(std::string v){
         irs.push_back(v);
-        return this;
+        return *this;
     };
-    IRStream *operator <<(const char v[]){
+    IRStream operator <<(const char v[]){
         std::string vs(v);
         irs.push_back(vs);
-        return this;
+        return *this;
     }
     void exportTo(std::ofstream &f);
     IRStream(){
@@ -168,7 +168,7 @@ public:
 class Statement : public Node {
     
 public:
-    virtual void dump(std::ofstream &) {};
+    virtual void dump(IRStream &) {};
 };
 
 class TermIdentifier : public Node {
@@ -298,7 +298,7 @@ NodeData *PrimaryExprInt::codegen(IRStream &f){
     return nullptr;
 }
 
-NodeData *TermInt::codegen(IRStream *f){
+NodeData *TermInt::codegen(IRStream &f){
     if (itok == nullptr) {
         return func->codegen(f);
     }
@@ -319,7 +319,7 @@ NodeData *TermInt::codegen(IRStream *f){
                                itok->value.strValue.c_str());
         }
         std::string r = local_context.top()->getRegister();
-        f << r << " = load " << v->type.name << ", " << v->type.name << "* " << v->mangledName << std::endl;
+        f << r << " = load " << v->type.name << ", " << v->type.name << "* " << v->mangledName << "\n";
         return new NodeData(r, "i32");
     }
     return new NodeData(std::to_string(itok->value.intValue), "i32");
@@ -350,7 +350,7 @@ void LegacyScheat::Parse(scheat::Token *tokens, std::ofstream &f){
     E9::InitializeContexts();
     unique(Statement) stmt = nullptr;
     while (stmt != nullptr) {
-        stmt->codegen(f);
+        stmt->codegen(local_context.top()->stream_body);
         stmt = nullptr;
     }
 }
