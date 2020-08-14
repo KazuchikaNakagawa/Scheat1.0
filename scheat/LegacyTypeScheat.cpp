@@ -141,12 +141,18 @@ Variable *Context::findVariable(std::string key){
 static std::vector<Context *> contextCenter = {};
 static Context *global_context;
 static std::stack<Context *> local_context;
+static scheat::Token *gltokens;
+
+static void getNextTok(){
+    gltokens = gltokens->next;
+};
 
 void LegacyScheat::E9::InitializeContexts(){
     global_context = new Context();
     global_context->name = "glbl";
     local_context.push(global_context);
     contextCenter.push_back(global_context);
+    gltokens = nullptr;
 }
 
 class Node {
@@ -157,11 +163,17 @@ public:
     virtual ~Node() {};
 };
 
-class PrototypeExpr : public Node {
+class Expr : public Node {
+    
+public:
+    NodeData * codegen(IRStream &) override{ return nullptr; };
+};
+
+class PrototypeExpr : public Expr {
     scheat::Token *id;
     TypeData *type;
 public:
-    __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : id(t), type(ty), Node() {};
+    __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : id(t), type(ty), Expr() {};
     
 };
 
@@ -171,10 +183,10 @@ public:
     virtual void dump(IRStream &) {};
 };
 
-class TermIdentifier : public Node {
+class TermIdentifier : public Expr {
     scheat::Token *idTok;
 public:
-    __deprecated TermIdentifier(scheat::Token *t) : idTok(t), Node() {};
+    __deprecated TermIdentifier(scheat::Token *t) : idTok(t), Expr() {};
     NodeData *codegen(IRStream &) override;
 };
 
@@ -183,17 +195,17 @@ NodeData *TermIdentifier::codegen(IRStream &f){
     return nullptr;
 }
 
-class FunctionExpr : public Node {
+class FunctionExpr : public Expr {
     std::vector<unique(PrototypeExpr)> args;
 public:
     
 };
 
-class TermInt : public Node {
+class TermInt : public Expr {
     scheat::Token *itok;
-    unique(Node) func;
+    unique(Expr) func;
 public:
-    __deprecated TermInt(scheat::Token *t) : Node() {
+    __deprecated TermInt(scheat::Token *t) : Expr() {
         if (t->kind == scheat::TokenKind::val_num) {
             itok = t;
         }else if (t->kind == scheat::TokenKind::val_identifier){
@@ -205,14 +217,51 @@ public:
                                t->location.column);
         }
     };
-    TermInt(const TermInt &r) : Node(r) {};
+    TermInt(const TermInt &r) : Expr(r) {};
     TermInt(TermInt &&) = default;
     NodeData * codegen(IRStream &) override;
     unique(TermInt) init(scheat::Token *i);
     ~TermInt() {};
 };
 
-class PrimaryExprInt : public Node {
+class PrimaryExpr : public Expr {
+    unique(Expr) exprs;
+    scheat::Token *opTok;
+    unique(PrimaryExpr) primary_expr;
+public:
+    NodeData * codegen(IRStream &) override;
+};
+
+static NodeData *subFunc_OpInt(IRStream &f, unique(Expr) lhs, scheat::Token *tok,unique(PrimaryExpr) rhs){
+    if (tok->value.strValue == "+") {
+        
+    }
+    scheat::FatalError(__LINE__,
+                       "in %d.%d Int(llvm i32) does not have %s operator.",
+                       tok->location.line,
+                       tok->location.column,
+                       tok->value.strValue.c_str());
+    return nullptr;
+};
+
+NodeData *PrimaryExpr::codegen(IRStream &f){
+    if (exprs == nullptr) {
+        return primary_expr->codegen(f);
+    }
+    auto lhs = exprs->codegen(f);
+    auto rhs = primary_expr->codegen(f);
+    if (lhs == nullptr || rhs == nullptr) {
+        scheat::FatalError(__LINE__, "SystemError. error code: %u", __LINE__);
+        return nullptr;
+    }
+    if (lhs->size == "i32" &&
+        rhs->size == "i32") {
+        
+    }
+    return nullptr;
+}
+
+class PrimaryExprInt : public Expr {
     unique(PrimaryExprInt) exprs;
     scheat::Token *opTok;
     unique(TermInt) term;
@@ -244,7 +293,7 @@ unique(PrimaryExprInt) PrimaryExprInt::init(unique(TermInt) t,
                                             std::move(e));
 }
 
-class ExprInt : public Node {
+class ExprInt : public Expr {
     unique(ExprInt) exprs;
     scheat::Token *opToken;
     unique(PrimaryExprInt) term;
@@ -339,8 +388,20 @@ unique(TermInt) TermInt::init(scheat::Token *i){
 
 // ----------------------------------------------------------------------------------------------------------------------------
 
-unique(Statement) parseStatement(scheat::Token *tokens){
-    if (tokens->kind == scheat::TokenKind::embbed_func_print) {
+
+
+unique(Expr) parseExpr(){
+    if (gltokens->kind == scheat::TokenKind::val_operator) {
+        if (gltokens->value.strValue == "!") {
+            // unique(BoolExpr) parseBoolExpr();
+        }
+    }
+    
+    return nullptr;
+}
+
+unique(Statement) parseStatement(){
+    if (gltokens->kind == scheat::TokenKind::embbed_func_print) {
         
     }
     return nullptr;
@@ -348,6 +409,7 @@ unique(Statement) parseStatement(scheat::Token *tokens){
 
 void LegacyScheat::Parse(scheat::Token *tokens, std::ofstream &f){
     E9::InitializeContexts();
+    gltokens = tokens;
     unique(Statement) stmt = nullptr;
     while (stmt != nullptr) {
         stmt->codegen(local_context.top()->stream_body);

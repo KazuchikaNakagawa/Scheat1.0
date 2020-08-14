@@ -51,11 +51,13 @@ int main(int argc, const char *argv[]){
         "   to build .a file(static library), give .scht file to 'main source'.\n" <<
         "-play:" << std::endl <<
         "   execute Scheat as shell.\n" <<
-        "";
+        "-lex:" << std::endl <<
+        "   lex texts and show token kind.\n"
+        "   option: -f enables you to lex file. Enter file path after -f option.";
         return 0;
     }
     
-    if (strcmp(argv[1], "-test") == 0) {
+    if (strcmp(argv[1], "-lex") == 0) {
         scheat::Scheat sch = scheat::Scheat();
         sch.flagDebug();
         scheat::Lexer lexer = scheat::Lexer(&sch);
@@ -63,6 +65,9 @@ int main(int argc, const char *argv[]){
             lexer.lex("\tnani are 1,500!.");
         }else if (argc == 3){
             lexer.lex(argv[2]);
+        }else if (argc == 4 && strcmp(argv[2], "-f") == 0){
+            std::ifstream ifs(argv[3]);
+            lexer.lex(ifs);
         }
         
         lexer.getTokens()->enumerate();

@@ -48,6 +48,7 @@ enum class TokenKind : int {
     embbed_func_print,
     embbed_func_import,
     embbed_func_free,
+    embbed_func_assemble,
 };
 
 union TokenValue {
@@ -146,7 +147,7 @@ public:
     
     // lex(ifstream)
     // lex file and return token
-    void lex(std::ifstream);
+    void lex(std::ifstream &);
     
     void lex(std::string);
     

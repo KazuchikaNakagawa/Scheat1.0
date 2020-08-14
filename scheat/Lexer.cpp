@@ -42,7 +42,7 @@ Lexer::Lexer(scheat::Scheat *host){
     state = initState;
 }
 
-void Lexer::lex(std::ifstream stream){
+void Lexer::lex(std::ifstream &stream){
     if (!stream.is_open()) {
         host->FatalError(__LINE__, "input file is not open --Lexer");
     }
@@ -198,6 +198,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "assemble") {
+        tok->kind = TokenKind::embbed_func_assemble;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (state == identifierState) {
         tok->value.strValue = buf;
         tok->kind = TokenKind::val_identifier;
@@ -330,6 +337,21 @@ void Lexer::input(int c, int next){
     }
     
     if (state == stringState && c == '\\') {
+        if (next == 'n') {
+            buf.push_back('\n');
+            skipFlag = true;
+            return;
+        }
+        if (next == 'b') {
+            buf.push_back('\b');
+            skipFlag = true;
+            return;
+        }
+        if (next == '0') {
+            buf.push_back('\0');
+            skipFlag = true;
+            return;
+        }
         buf.push_back(next);
         skipFlag = true;
         return;
@@ -359,6 +381,11 @@ void Lexer::input(int c, int next){
         genTok();
         state = longCommentState;
         commentDepth++;
+    }
+    
+    if (c == '#') {
+        state = commentState;
+        return;
     }
     
     if (isalpha(c) || c == '_') {
