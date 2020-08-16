@@ -63,9 +63,9 @@ void Scheat::old_Debug(const char *msg, unsigned int line){
     printf("line%u : %s\n", line, msg);
 }
 
-void Scheat::FatalError(unsigned int line, const char *fmt, ...)
+void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...)
 {
-    printf("Error\n source line%u : ", line);
+    printf("Error\n source %s line%u : ", fn, line);
     va_list arg;
     
     va_start(arg, fmt);
@@ -75,9 +75,9 @@ void Scheat::FatalError(unsigned int line, const char *fmt, ...)
     exit(0);
 }
 
-void Scheat::Debug(unsigned int line, const char *fmt, ...)
+void Scheat::Debug(const char *fn, unsigned int line, const char *fmt, ...)
 {
-    printf("Debug\n source line%u : ", line);
+    printf("Debug\n source %s line%u : ", fn, line);
     va_list arg;
     
     va_start(arg, fmt);
@@ -101,4 +101,31 @@ class Statement {
 public:
     
 };
+
+class DUMSCHEAT {
+    int version;
+    
+    int section;
+    
+    int part;
+    
+    const char *target;
+    
+    bool debug;
+public:
+    
+};
+
+scheat::Scheat::Scheat(const char *format, const char *target, bool debugOpt){
+    if (sscanf(format,
+               "%d.%d.%d",
+               &version,
+               &section,
+               &part
+               ) != 3) {
+        Debug(__FILE_NAME__,__LINE__, "Warning: Illegal version");
+        
+    }
+}
+
 

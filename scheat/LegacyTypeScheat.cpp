@@ -211,7 +211,8 @@ public:
         }else if (t->kind == scheat::TokenKind::val_identifier){
             itok = t;
         }else{
-            scheat::FatalError(__LINE__,
+            scheat::FatalError(__FILE_NAME__,
+                               __LINE__,
                                "in %d.%d this is not suitable for int type.",
                                t->location.line,
                                t->location.column);
@@ -236,7 +237,8 @@ static NodeData *subFunc_OpInt(IRStream &f, unique(Expr) lhs, scheat::Token *tok
     if (tok->value.strValue == "+") {
         
     }
-    scheat::FatalError(__LINE__,
+    scheat::FatalError(__FILE_NAME__,
+                       __LINE__,
                        "in %d.%d Int(llvm i32) does not have %s operator.",
                        tok->location.line,
                        tok->location.column,
@@ -251,7 +253,8 @@ NodeData *PrimaryExpr::codegen(IRStream &f){
     auto lhs = exprs->codegen(f);
     auto rhs = primary_expr->codegen(f);
     if (lhs == nullptr || rhs == nullptr) {
-        scheat::FatalError(__LINE__, "SystemError. error code: %u", __LINE__);
+        scheat::FatalError(__FILE_NAME__,
+                           __LINE__, "SystemError. error code: %u", __LINE__);
         return nullptr;
     }
     if (lhs->size == "i32" &&
@@ -354,14 +357,16 @@ NodeData *TermInt::codegen(IRStream &f){
     if (itok->kind == scheat::TokenKind::val_identifier) {
         Variable *v = local_context.top()->findVariable(itok->value.strValue);
         if (v == nullptr) {
-            scheat::FatalError(__LINE__,
+            scheat::FatalError(__FILE_NAME__,
+                               __LINE__,
                                "in %d.%d %s is undefined.",
                                itok->location.line,
                                itok->location.column,
                                itok->value.strValue.c_str());
         }
         if (v->type.mangledName != "i32") {
-            scheat::FatalError(__LINE__,
+            scheat::FatalError(__FILE_NAME__,
+                               __LINE__,
                                "in %d.%d %s is not an integer value.",
                                itok->location.line,
                                itok->location.column,
@@ -377,7 +382,8 @@ NodeData *TermInt::codegen(IRStream &f){
 unique(TermInt) TermInt::init(scheat::Token *i){
     if (i->kind != scheat::TokenKind::val_num &&
         i->kind != scheat::TokenKind::val_identifier) {
-        scheat::FatalError(__LINE__,
+        scheat::FatalError(__FILE_NAME__,
+                           __LINE__,
                            "in %d.%d illegal Node is shifted.",
                            i->location.line,
                            i->location.column);

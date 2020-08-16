@@ -44,7 +44,7 @@ Lexer::Lexer(scheat::Scheat *host){
 
 void Lexer::lex(std::ifstream &stream){
     if (!stream.is_open()) {
-        host->FatalError(__LINE__, "input file is not open --Lexer");
+        host->FatalError(__FILE_NAME__, __LINE__, "input file is not open --Lexer");
     }
     int c;
     while (c = stream.get(), c != EOF) {
@@ -283,7 +283,7 @@ void Lexer::clear(){
 }
 
 void Lexer::input(int c, int next){
-    host->Debug(__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
+    host->Debug(__FILE_NAME__,__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
     if (c == '\0' || c == EOF) {
         return;
     }
@@ -404,7 +404,7 @@ void Lexer::input(int c, int next){
             buf.push_back(c);
             return;
         }
-        host->FatalError(__LINE__, "in file %d.%d illegal character %c was input.", location.line, location.column, c);
+        host->FatalError(__FILE_NAME__,__LINE__, "in file %d.%d illegal character %c was input.", location.line, location.column, c);
         return;
     }
     
@@ -433,7 +433,7 @@ void Lexer::input(int c, int next){
             state = doubleState;
             return;
         }
-        host->FatalError(__LINE__, "in file %d.%d illegal character %c was input.", location.line, location.column, c);
+        host->FatalError(__FILE_NAME__,__LINE__, "in file %d.%d illegal character %c was input.", location.line, location.column, c);
         return;
     }
     
@@ -494,7 +494,7 @@ void Lexer::input(int c, int next){
         state = operatorState;
         return;
     }
-    
+
 }
 
 void Token::enumerate(){

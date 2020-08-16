@@ -92,7 +92,7 @@ llvm::Value *IntToken::codegen(){
 }
 
 llvm::Value * IdentifierToken::codegen(){
-    IRBuilderReplica::host->FatalError(__LINE__, "this codegen() is not to be called.");
+    IRBuilderReplica::host->FatalError(__FILE_NAME__, __LINE__, "this codegen() is not to be called.");
     return NULL;
 }
 

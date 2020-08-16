@@ -32,11 +32,12 @@ class Scheat
     
 public:
     Scheat(int version = 1, int section = 0, int part = 0, const char *target = "", bool debugOpt = false);
+    Scheat(const char *format, const char *target = "", bool debugOpt = false);
     void HelloWorld(const char *);
     __deprecated void old_FatalError(const char *, unsigned int);
-    void FatalError(unsigned int, const char *, ...);
+    void FatalError(const char *, unsigned int, const char *, ...);
     __deprecated void old_Debug(const char *, unsigned int);
-    void Debug(unsigned int, const char *, ...);
+    void Debug(const char *,unsigned int, const char *, ...);
     void flagDebug() { debug = !debug; };
 };
 
@@ -46,8 +47,10 @@ public:
     IRBuilder(Scheat*, std::string);
 };
 
-static void FatalError(unsigned int line, const char *format, ...){
-    printf("Error\n source line%u : ", line);
+static void FatalError(const char *fn, unsigned int line, const char *format, ...){
+    // for product version
+    //printf("Error\n");
+    printf("Error\n source %s line%u : ", fn,line);
     va_list arg;
     
     va_start(arg, format);
@@ -58,9 +61,9 @@ static void FatalError(unsigned int line, const char *format, ...){
 
 }
 
-static void Debug(unsigned int line, const char *fmt, ...)
+static void Debug(const char *fn, unsigned int line, const char *fmt, ...)
 {
-    printf("Debug\n source line%u : ", line);
+    printf("Debug\n source %s line%u : ", fn, line);
     va_list arg;
     
     va_start(arg, fmt);

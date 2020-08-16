@@ -12,10 +12,13 @@
 
 int main(int argc, const char *argv[]){
     if (argc == 1) {
-        printf("Scheat Compiler++\n    Scheat's main compiler.\n");
-        printf("version 0.0.0 beta\n");
+        scheat::Scheat s;
+        
+        printf("Scheat Compiler(C++ Edition)\n    Scheat's main compiler.\n");
+        printf("    version 1.0.1 beta\n");
         return 0;
     }
+    
     if (strcmp(argv[1], "-build") == 0) {
         std::string path;
         std::cout << "main source> ";
@@ -37,8 +40,8 @@ int main(int argc, const char *argv[]){
         std::cout << "[based on LLVM 10.0.0]" << std::endl;
         std::cout << "> ";
         while (true) {
-            std::string cod;
-            std::cin >> cod;
+            std::string code;
+            std::cin >> code;
             std::cout << "this feature is not available yet." << std::endl;
             break;
         }
