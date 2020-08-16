@@ -283,7 +283,7 @@ void Lexer::clear(){
 }
 
 void Lexer::input(int c, int next){
-    host->Debug(__FILE_NAME__,__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
+    host->Log(__FILE_NAME__,__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
     if (c == '\0' || c == EOF) {
         return;
     }

@@ -37,7 +37,7 @@ public:
     __deprecated void old_FatalError(const char *, unsigned int);
     void FatalError(const char *, unsigned int, const char *, ...);
     __deprecated void old_Debug(const char *, unsigned int);
-    void Debug(const char *,unsigned int, const char *, ...);
+    void Log(const char *,unsigned int, const char *, ...);
     void flagDebug() { debug = !debug; };
 };
 
@@ -61,7 +61,7 @@ static void FatalError(const char *fn, unsigned int line, const char *format, ..
 
 }
 
-static void Debug(const char *fn, unsigned int line, const char *fmt, ...)
+static void Log(const char *fn, unsigned int line, const char *fmt, ...)
 {
     printf("Debug\n source %s line%u : ", fn, line);
     va_list arg;

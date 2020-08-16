@@ -75,7 +75,7 @@ void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...)
     exit(0);
 }
 
-void Scheat::Debug(const char *fn, unsigned int line, const char *fmt, ...)
+void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...)
 {
     printf("Debug\n source %s line%u : ", fn, line);
     va_list arg;
@@ -123,7 +123,7 @@ scheat::Scheat::Scheat(const char *format, const char *target, bool debugOpt){
                &section,
                &part
                ) != 3) {
-        Debug(__FILE_NAME__,__LINE__, "Warning: Illegal version");
+        Log(__FILE_NAME__,__LINE__, "Warning: Illegal version");
         
     }
 }
