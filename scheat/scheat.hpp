@@ -31,7 +31,7 @@ class Scheat
     bool debug;
     
 public:
-    Scheat(int version = 1, int section = 0, int part = 0, const char *target = "", bool debugOpt = false);
+    Scheat(int version = 1, int section = 0, int part = 1, const char *target = "", bool debugOpt = false);
     Scheat(const char *format, const char *target = "", bool debugOpt = false);
     void HelloWorld(const char *);
     __deprecated void old_FatalError(const char *, unsigned int);
@@ -39,6 +39,10 @@ public:
     __deprecated void old_Debug(const char *, unsigned int);
     void Log(const char *,unsigned int, const char *, ...);
     void flagDebug() { debug = !debug; };
+    void printVersion();
+    int getVersion() const { return version; };
+    int getSection() const { return section; };
+    int getPart() const { return part; };
 };
 
 class IRBuilder{

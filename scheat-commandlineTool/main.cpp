@@ -13,9 +13,10 @@
 int main(int argc, const char *argv[]){
     if (argc == 1) {
         scheat::Scheat s;
-        
         printf("Scheat Compiler(C++ Edition)\n    Scheat's main compiler.\n");
         printf("    version 1.0.1 beta\n");
+        std::cout << s.getVersion() << "." << s.getSection() << "." <<
+        s.getPart() << std::endl;
         return 0;
     }
     

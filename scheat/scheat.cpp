@@ -117,6 +117,7 @@ public:
 };
 
 scheat::Scheat::Scheat(const char *format, const char *target, bool debugOpt){
+    version = 0; section = 0; part = 0;
     if (sscanf(format,
                "%d.%d.%d",
                &version,
@@ -128,4 +129,10 @@ scheat::Scheat::Scheat(const char *format, const char *target, bool debugOpt){
     }
 }
 
+void scheat::Scheat::printVersion(){
+    
+    printf("%s\n", (std::to_string(version) + "." +
+            std::to_string(section) + "." +
+            std::to_string(part)).c_str());
+}
 

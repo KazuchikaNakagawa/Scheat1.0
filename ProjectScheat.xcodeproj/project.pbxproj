@@ -724,9 +724,9 @@
 			productReference = 8225412824E175F700DBF05C /* libScheatRun.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		829849D824D1B5A7004A7A64 /* ProjectSpica */ = {
+		829849D824D1B5A7004A7A64 /* ProjectScheat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 829849E424D1B5A7004A7A64 /* Build configuration list for PBXNativeTarget "ProjectSpica" */;
+			buildConfigurationList = 829849E424D1B5A7004A7A64 /* Build configuration list for PBXNativeTarget "ProjectScheat" */;
 			buildPhases = (
 				829849D524D1B5A7004A7A64 /* Headers */,
 				829849D624D1B5A7004A7A64 /* Sources */,
@@ -736,7 +736,7 @@
 			);
 			dependencies = (
 			);
-			name = ProjectSpica;
+			name = ProjectScheat;
 			productName = ProjectSpica;
 			productReference = 829849D924D1B5A7004A7A64 /* libspica.a */;
 			productType = "com.apple.product-type.library.static";
@@ -835,7 +835,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 829849D424D1B5A7004A7A64 /* Build configuration list for PBXProject "ProjectSpica" */;
+			buildConfigurationList = 829849D424D1B5A7004A7A64 /* Build configuration list for PBXProject "ProjectScheat" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -849,7 +849,7 @@
 			projectRoot = "";
 			targets = (
 				82AEB61C24DC346400889AC3 /* All-Build */,
-				829849D824D1B5A7004A7A64 /* ProjectSpica */,
+				829849D824D1B5A7004A7A64 /* ProjectScheat */,
 				829849EA24D2DA20004A7A64 /* scheat */,
 				829849F924D2DFA4004A7A64 /* TestScheat */,
 				82A1A22524D80AFE009C2E5F /* productscheat */,
@@ -926,7 +926,7 @@
 		};
 		82AEB62124DC347100889AC3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 829849D824D1B5A7004A7A64 /* ProjectSpica */;
+			target = 829849D824D1B5A7004A7A64 /* ProjectScheat */;
 			targetProxy = 82AEB62024DC347100889AC3 /* PBXContainerItemProxy */;
 		};
 		82AEB62324DC347100889AC3 /* PBXTargetDependency */ = {
@@ -1408,7 +1408,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		829849D424D1B5A7004A7A64 /* Build configuration list for PBXProject "ProjectSpica" */ = {
+		829849D424D1B5A7004A7A64 /* Build configuration list for PBXProject "ProjectScheat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				829849E224D1B5A7004A7A64 /* Debug */,
@@ -1417,7 +1417,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		829849E424D1B5A7004A7A64 /* Build configuration list for PBXNativeTarget "ProjectSpica" */ = {
+		829849E424D1B5A7004A7A64 /* Build configuration list for PBXNativeTarget "ProjectScheat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				829849E524D1B5A7004A7A64 /* Debug */,
