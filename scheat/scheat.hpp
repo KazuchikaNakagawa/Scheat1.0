@@ -15,20 +15,22 @@
 
 namespace scheat{
 
+static bool DEBUGOPTION = false;
+
 /// Scheat needs this object to move.
 class Scheat
 {
     /// version.section.part
     /// 1.0.0
-    int version;
+    int version = 1;
     
-    int section;
+    int section = 0;
     
-    int part;
+    int part = 0;
     
-    const char *target;
+    const char *target = "UNKNOWN TARGET";
     
-    bool debug;
+    bool debug = false;
     
 public:
     Scheat(int version = 1, int section = 0, int part = 1, const char *target = "", bool debugOpt = false);
@@ -38,7 +40,7 @@ public:
     void FatalError(const char *, unsigned int, const char *, ...);
     __deprecated void old_Debug(const char *, unsigned int);
     void Log(const char *,unsigned int, const char *, ...);
-    void flagDebug() { debug = !debug; };
+    void flagDebug() { debug = !debug; DEBUGOPTION = debug; };
     void printVersion();
     int getVersion() const { return version; };
     int getSection() const { return section; };
@@ -67,6 +69,9 @@ static void FatalError(const char *fn, unsigned int line, const char *format, ..
 
 static void Log(const char *fn, unsigned int line, const char *fmt, ...)
 {
+    if (!DEBUGOPTION) {
+        return;
+    }
     printf("Debug\n source %s line%u : ", fn, line);
     va_list arg;
     

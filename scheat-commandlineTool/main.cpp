@@ -11,12 +11,12 @@
 #include "scheat.hpp"
 
 int main(int argc, const char *argv[]){
+    // std::cout << argc << std::endl;
+    
     if (argc == 1) {
         scheat::Scheat s;
         printf("Scheat Compiler(C++ Edition)\n    Scheat's main compiler.\n");
         printf("    version 1.0.1 beta\n");
-        std::cout << s.getVersion() << "." << s.getSection() << "." <<
-        s.getPart() << std::endl;
         return 0;
     }
     
@@ -63,16 +63,28 @@ int main(int argc, const char *argv[]){
     
     if (strcmp(argv[1], "-lex") == 0) {
         scheat::Scheat sch = scheat::Scheat();
-        sch.flagDebug();
+        
         scheat::Lexer lexer = scheat::Lexer(&sch);
         if (argc == 2){
-            lexer.lex("\tnani are 1,500!.");
+            
+            std::string kv;
+            std::cout << "> ";
+            std::getline(std::cin, kv);
+            lexer.lex(kv);
+        }else if (argc == 3 && strcmp(argv[2], "-wdebug") == 0){
+            sch.flagDebug();
+            std::string kv;
+            std::cout << "> ";
+            std::getline(std::cin, kv);
+            lexer.lex(kv);
         }else if (argc == 3){
-            lexer.lex(argv[2]);
-        }else if (argc == 4 && strcmp(argv[2], "-f") == 0){
+            std::cout << "this option was obsoluted..." << std::endl;
+            return 0;
+        }/*else if (argc == 4 && (strcmp(argv[2], "-f") == 0)){
+            //
             std::ifstream ifs(argv[3]);
             lexer.lex(ifs);
-        }
+        }*/
         
         lexer.getTokens()->enumerate();
         return 0;

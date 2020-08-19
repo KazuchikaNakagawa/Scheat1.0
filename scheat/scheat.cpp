@@ -54,6 +54,7 @@ Scheat::Scheat(int version, int section, int part, const char *target, bool debu
     this->part = part;
     this->target = target;
     this->debug = debugOpt;
+    DEBUGOPTION = debugOpt;
 }
 
 void Scheat::old_Debug(const char *msg, unsigned int line){
@@ -77,6 +78,9 @@ void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...)
 
 void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...)
 {
+    if (!debug) {
+        return;
+    }
     printf("Debug\n source %s line%u : ", fn, line);
     va_list arg;
     
