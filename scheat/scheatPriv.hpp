@@ -31,6 +31,7 @@
 class scheatPriv
 {
     public:
+    __unavailable
     void HelloWorldPriv(const char *);
 };
 

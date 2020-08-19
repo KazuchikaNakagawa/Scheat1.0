@@ -64,8 +64,8 @@ void Scheat::old_Debug(const char *msg, unsigned int line){
     printf("line%u : %s\n", line, msg);
 }
 
-void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...)
-{
+void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...){
+
     printf("Error\n source %s line%u : ", fn, line);
     va_list arg;
     

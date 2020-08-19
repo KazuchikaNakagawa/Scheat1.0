@@ -15,6 +15,7 @@
 
 namespace scheat{
 
+// DO NOT ACCESS TO THIS
 static bool DEBUGOPTION = false;
 
 /// Scheat needs this object to move.
@@ -33,11 +34,17 @@ class Scheat
     bool debug = false;
     
 public:
+    
+    // initialize with three integers.
     Scheat(int version = 1, int section = 0, int part = 1, const char *target = "", bool debugOpt = false);
+    
+    // initialize with string that shows version.
     Scheat(const char *format, const char *target = "", bool debugOpt = false);
+    __unavailable
     void HelloWorld(const char *);
+    // this function was deprecated because new function with varg is there instead of this.
     __deprecated void old_FatalError(const char *, unsigned int);
-    void FatalError(const char *, unsigned int, const char *, ...);
+    void FatalError(const char *, unsigned int, const char *, ...) ;
     __deprecated void old_Debug(const char *, unsigned int);
     void Log(const char *,unsigned int, const char *, ...);
     void flagDebug() { debug = !debug; DEBUGOPTION = debug; };
