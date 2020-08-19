@@ -163,6 +163,12 @@ public:
     virtual ~Node() {};
 };
 
+class Term : public Node {
+    
+public:
+    NodeData * codegen(IRStream &) override { return nullptr;}
+};
+
 class Expr : public Node {
     
 public:
@@ -183,10 +189,10 @@ public:
     virtual void dump(IRStream &) {};
 };
 
-class TermIdentifier : public Expr {
+class TermIdentifier : public Term {
     scheat::Token *idTok;
 public:
-    __deprecated TermIdentifier(scheat::Token *t) : idTok(t), Expr() {};
+    __deprecated TermIdentifier(scheat::Token *t) : idTok(t), Term() {};
     NodeData *codegen(IRStream &) override;
 };
 
@@ -201,11 +207,11 @@ public:
     
 };
 
-class TermInt : public Expr {
+class TermInt : public Term {
     scheat::Token *itok;
     unique(Expr) func;
 public:
-    __deprecated TermInt(scheat::Token *t) : Expr() {
+    __deprecated TermInt(scheat::Token *t) : Term() {
         if (t->kind == scheat::TokenKind::val_num) {
             itok = t;
         }else if (t->kind == scheat::TokenKind::val_identifier){
@@ -218,8 +224,6 @@ public:
                                t->location.column);
         }
     };
-    TermInt(const TermInt &r) : Expr(r) {};
-    TermInt(TermInt &&) = default;
     NodeData * codegen(IRStream &) override;
     unique(TermInt) init(scheat::Token *i);
     ~TermInt() {};
@@ -233,9 +237,22 @@ public:
     NodeData * codegen(IRStream &) override;
 };
 
-static NodeData *subFunc_OpInt(IRStream &f, unique(Expr) lhs, scheat::Token *tok,unique(PrimaryExpr) rhs){
+static NodeData *subFunc_OpInt(IRStream &f, NodeData *lhs, scheat::Token *tok,NodeData *rhs){
     if (tok->value.strValue == "+") {
-        
+        std::string r1 = lhs->value;
+        std::string r2 = rhs->value;
+        std::string r = local_context.top()->getRegister();
+        f << r << " = add nsw i32 "
+        << r1 << ", " << r2 << "\n";
+        return new NodeData(r, "i32");
+    }
+    if (tok->value.strValue == "-") {
+        std::string r1 = lhs->value;
+        std::string r2 = rhs->value;
+        std::string r = local_context.top()->getRegister();
+        f << r << " = sub nsw i32 "
+        << r1 << ", " << r2 << "\n";
+        return new NodeData(r, "i32");
     }
     scheat::FatalError(__FILE_NAME__,
                        __LINE__,
@@ -245,6 +262,32 @@ static NodeData *subFunc_OpInt(IRStream &f, unique(Expr) lhs, scheat::Token *tok
                        tok->value.strValue.c_str());
     return nullptr;
 };
+
+static NodeData *subFunc_OpInt_Primary(IRStream &f, NodeData *lhs, scheat::Token *tok, NodeData *rhs){
+    if (tok->value.strValue == "*") {
+        std::string r1 = lhs->value;
+        std::string r2 = rhs->value;
+        std::string r = local_context.top()->getRegister();
+        f << r << " = imul nsw i32 "
+        << r1 << ", " << r2 << "\n";
+        return new NodeData(r, "i32");
+    }
+    if (tok->value.strValue == "/") {
+        std::string r1 = lhs->value;
+        std::string r2 = rhs->value;
+        std::string r = local_context.top()->getRegister();
+        f << r << " = idiv nsw i32 "
+        << r1 << ", " << r2 << "\n";
+        return new NodeData(r, "i32");
+    }
+    scheat::FatalError(__FILE_NAME__,
+                       __LINE__,
+                       "in %d.%d Int(llvm i32) does not have %s operator.",
+                       tok->location.line,
+                       tok->location.column,
+                       tok->value.strValue.c_str());
+    return nullptr;
+}
 
 NodeData *PrimaryExpr::codegen(IRStream &f){
     if (exprs == nullptr) {
@@ -259,7 +302,7 @@ NodeData *PrimaryExpr::codegen(IRStream &f){
     }
     if (lhs->size == "i32" &&
         rhs->size == "i32") {
-        
+        subFunc_OpInt_Primary(f, lhs, opTok, rhs);
     }
     return nullptr;
 }
