@@ -47,6 +47,13 @@ public:
         infix,
         postfix
     } position;
+    
+    enum{
+        primary,
+        non_primary,
+        term
+    } precidence;
+    
     TypeData return_type;
     
 };
