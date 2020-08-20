@@ -8,12 +8,16 @@
 #ifndef scheat_
 #define scheat_
 
-/* The classes below are exported */
 #pragma GCC visibility push(default)
 #include <string>
 #include "Lexer.hpp"
 
 namespace scheat{
+
+enum class ScheatError : int {
+    ERR_node_has_illegal_value = -1,
+    ERR_UNKNOWN = 0,
+};
 
 // DO NOT ACCESS TO THIS
 static bool DEBUGOPTION = false;

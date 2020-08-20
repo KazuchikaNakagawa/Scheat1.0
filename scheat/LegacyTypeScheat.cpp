@@ -39,6 +39,27 @@ public:
     std::string lltype();
 };
 
+class Operator {
+    
+public:
+    enum{
+        prefix,
+        infix,
+        postfix
+    } position;
+    TypeData return_type;
+    
+};
+
+class Class {
+    std::map<std::string, unsigned int> properties;
+    std::map<std::string, void*> operators;
+    
+public:
+    std::string name;
+    std::string mangledName;
+};
+
 std::string Function::lltype(){
     std::string base = return_type.mangledName + "(";
     for (int i = 0; i < argTypes.size(); i++) {
@@ -297,12 +318,17 @@ NodeData *PrimaryExpr::codegen(IRStream &f){
     auto rhs = primary_expr->codegen(f);
     if (lhs == nullptr || rhs == nullptr) {
         scheat::FatalError(__FILE_NAME__,
-                           __LINE__, "SystemError. error code: %u", __LINE__);
+                           __LINE__,
+                           "SystemError. error code: %u",
+                           scheat::ScheatError::ERR_node_has_illegal_value);
         return nullptr;
     }
     if (lhs->size == "i32" &&
         rhs->size == "i32") {
         subFunc_OpInt_Primary(f, lhs, opTok, rhs);
+    }
+    if (lhs->size[0] == '%') {
+        
     }
     return nullptr;
 }
