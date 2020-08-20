@@ -42,7 +42,7 @@ int main(int argc, const char *argv[]){
         std::cout << "> ";
         while (true) {
             std::string code;
-            std::cin >> code;
+            std::getline(std::cin, code);
             std::cout << "this feature is not available yet." << std::endl;
             break;
         }
