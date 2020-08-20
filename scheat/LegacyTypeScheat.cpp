@@ -55,12 +55,16 @@ public:
     } precidence;
     
     TypeData return_type;
-    
+    // if postfix operator, this will be nullptr
+    TypeData *rhs_type;
+    // if prefix operator, this will be nullptr
+    TypeData *lhs_type;
+    std::string func_name;
 };
 
 class Class {
     std::map<std::string, unsigned int> properties;
-    std::map<std::string, void*> operators;
+    std::map<std::string, Operator> operators;
     
 public:
     std::string name;
