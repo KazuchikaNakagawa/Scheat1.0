@@ -123,6 +123,13 @@ class Context {
     std::map<std::string, Variable *> variables;
     std::map<std::string, Function *> funcs;
     std::map<std::string , Class *> classes;
+    Context(std::string name, Context *parents){
+        variables = {};
+        funcs = {};
+        rnum = 0;
+        base = parents;
+        this->name = name;
+    }
 public:
     IRStream stream_entry;
     IRStream stream_body;
@@ -139,6 +146,9 @@ public:
         base = nullptr;
         name = "";
     }
+    
+    
+    static Context *create(std::string name, Context *parents);
 };
 
 bool Context::isExists(std::string key){
@@ -175,10 +185,17 @@ static Context *global_context;
 static Context *main_Context;
 static std::stack<Context *> local_context;
 static scheat::Token *gltokens;
+static std::string fname = "";
 
 static void getNextTok(){
     gltokens = gltokens->next;
 };
+
+Context *Context::create(std::string name, Context *parents){
+    Context *cnt = new Context(name, parents);
+    contextCenter.push_back(cnt);
+    return cnt;
+}
 
 void LegacyScheat::E9::InitializeContexts(){
     global_context = new Context();
