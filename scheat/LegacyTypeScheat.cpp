@@ -67,8 +67,7 @@ class Class {
     std::map<std::string, Operator> operators;
     
 public:
-    std::string name;
-    std::string mangledName;
+    TypeData *type;
 };
 
 std::string Function::lltype(){
@@ -123,6 +122,7 @@ class Context {
     unsigned int rnum;
     std::map<std::string, Variable *> variables;
     std::map<std::string, Function *> funcs;
+    std::map<std::string , Class *> classes;
 public:
     IRStream stream_entry;
     IRStream stream_body;
@@ -172,6 +172,7 @@ Variable *Context::findVariable(std::string key){
 
 static std::vector<Context *> contextCenter = {};
 static Context *global_context;
+static Context *main_Context;
 static std::stack<Context *> local_context;
 static scheat::Token *gltokens;
 
@@ -184,7 +185,12 @@ void LegacyScheat::E9::InitializeContexts(){
     global_context->name = "glbl";
     local_context.push(global_context);
     contextCenter.push_back(global_context);
+    main_Context = nullptr;
     gltokens = nullptr;
+}
+
+void LegacyScheat::E9::CreateMainContext(){
+    
 }
 
 class Node {

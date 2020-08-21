@@ -18,6 +18,8 @@ namespace E9 {
 
 void InitializeContexts();
 
+void CreateMainContext();
+
 }
 
 void Parse(scheat::Token *tokens, std::ofstream&);
