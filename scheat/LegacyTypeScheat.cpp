@@ -152,7 +152,7 @@ bool Context::isExists(std::string key){
 }
 
 std::string Context::getRegister(){
-    std::string v = "%tmp" + std::to_string(rnum);
+    std::string v = "%r" + std::to_string(rnum);
     rnum++;
     return v;
 }
