@@ -285,12 +285,31 @@ public:
 };
 
 class PrimaryExpr : public Expr {
-    unique(Expr) exprs;
+    unique(PrimaryExpr) exprs;
     scheat::Token *opTok;
-    unique(PrimaryExpr) primary_expr;
+    unique(Term) term;
 public:
+    __deprecated PrimaryExpr();
     NodeData * codegen(IRStream &) override;
+    static unique(PrimaryExpr) make(unique(Term));
+    static unique(PrimaryExpr) make(unique(PrimaryExpr), scheat::Token *, unique(Term));
 };
+
+unique(PrimaryExpr) PrimaryExpr::make(unique(Term) t){
+    unique(PrimaryExpr) ex = std::make_unique<PrimaryExpr>();
+    ex->exprs = nullptr;
+    ex->opTok = nullptr;
+    ex->term = std::move(t);
+    return ex;
+}
+
+unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> e, scheat::Token *token, std::unique_ptr<Term> t){
+    unique(PrimaryExpr) ex = std::make_unique<PrimaryExpr>();
+    ex->exprs = std::move(e);
+    ex->opTok = token;
+    ex->term = std::move(t);
+    return ex;
+}
 
 static NodeData *subFunc_OpInt(IRStream &f, NodeData *lhs, scheat::Token *tok,NodeData *rhs){
     if (tok->value.strValue == "+") {
@@ -346,10 +365,16 @@ static NodeData *subFunc_OpInt_Primary(IRStream &f, NodeData *lhs, scheat::Token
 
 NodeData *PrimaryExpr::codegen(IRStream &f){
     if (exprs == nullptr) {
-        return primary_expr->codegen(f);
+        return term->codegen(f);
     }
+    
+    if (opTok != nullptr && exprs == nullptr) {
+        auto rhs = term->codegen(f);
+        return subFunc_OpInt(f, nullptr, opTok, rhs);
+    }
+    
     auto lhs = exprs->codegen(f);
-    auto rhs = primary_expr->codegen(f);
+    auto rhs = term->codegen(f);
     if (lhs == nullptr || rhs == nullptr) {
         scheat::FatalError(__FILE_NAME__,
                            __LINE__,
@@ -359,7 +384,7 @@ NodeData *PrimaryExpr::codegen(IRStream &f){
     }
     if (lhs->size == "i32" &&
         rhs->size == "i32") {
-        subFunc_OpInt_Primary(f, lhs, opTok, rhs);
+        return subFunc_OpInt_Primary(f, lhs, opTok, rhs);
     }
     if (lhs->size[0] == '%') {
         
