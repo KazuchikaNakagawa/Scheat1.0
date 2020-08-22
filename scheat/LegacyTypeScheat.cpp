@@ -15,7 +15,7 @@
 #include <map>
 
 #define unique(id) std::unique_ptr<id>
-
+using std::move;
 class NodeData {
     
 public:
@@ -245,9 +245,34 @@ class Term : public Node {
     scheat::Token *opTok;
     unique(TermNode) node;
 public:
-    NodeData * codegen(IRStream &) override { return nullptr;}
-    static unique(Term) create();
+    NodeData * codegen(IRStream &) override;
+    static unique(Term) create(unique(TermNode));
+    static unique(Term) create(unique(Term), scheat::Token *, unique(TermNode));
 };
+
+unique(Term) Term::create(std::unique_ptr<TermNode> term){
+    unique(Term) t = std::make_unique<Term>();
+    t->opTok = nullptr;
+    t->terms = nullptr;
+    t->node = std::move(term);
+    return t;
+};
+
+unique(Term) Term::create(std::unique_ptr<Term> term, scheat::Token *opT, std::unique_ptr<TermNode> tn){
+    unique(Term) t = std::make_unique<Term>();
+    t->terms = move(term);
+    t->opTok = opT;
+    t->node = move(tn);
+    return t;
+}
+
+NodeData *Term::codegen(IRStream &f){
+    if (terms == nullptr) {
+        return node->codegen(f);
+    }
+    
+    return nullptr;
+}
 
 class Expr : public Node {
     
