@@ -218,10 +218,35 @@ public:
     virtual ~Node() {};
 };
 
-class Term : public Node {
+class TermNode : public Node {
+    
     
 public:
+    NodeData * codegen(IRStream &) override{ return nullptr; };
+    virtual ~TermNode();
+};
+
+class PrimaryExprNode : public Node {
+    
+public:
+    NodeData * codegen(IRStream &) override { return nullptr; };
+    virtual ~PrimaryExprNode();
+};
+
+class ExprNode : public Node {
+    
+public:
+    NodeData * codegen(IRStream &) override { return nullptr; };
+    virtual ~ExprNode();
+};
+
+class Term : public Node {
+    unique(Term) terms;
+    scheat::Token *opTok;
+    unique(TermNode) node;
+public:
     NodeData * codegen(IRStream &) override { return nullptr;}
+    static unique(Term) create();
 };
 
 class Expr : public Node {
@@ -230,11 +255,11 @@ public:
     NodeData * codegen(IRStream &) override{ return nullptr; };
 };
 
-class PrototypeExpr : public Expr {
+class PrototypeExpr : public ExprNode {
     scheat::Token *id;
     TypeData *type;
 public:
-    __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : id(t), type(ty), Expr() {};
+    __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : id(t), type(ty), ExprNode() {};
     
 };
 
@@ -256,17 +281,17 @@ NodeData *TermIdentifier::codegen(IRStream &f){
     return nullptr;
 }
 
-class FunctionExpr : public Expr {
+class FunctionExpr : public ExprNode {
     std::vector<unique(PrototypeExpr)> args;
 public:
     
 };
 
-class TermInt : public Term {
+class TermInt : public TermNode {
     scheat::Token *itok;
     unique(Expr) func;
 public:
-    __deprecated TermInt(scheat::Token *t) : Term() {
+    __deprecated TermInt(scheat::Token *t) : TermNode() {
         if (t->kind == scheat::TokenKind::val_num) {
             itok = t;
         }else if (t->kind == scheat::TokenKind::val_identifier){
@@ -284,7 +309,7 @@ public:
     ~TermInt() {};
 };
 
-class PrimaryExpr : public Expr {
+class PrimaryExpr : public ExprNode {
     unique(PrimaryExpr) exprs;
     scheat::Token *opTok;
     unique(Term) term;
@@ -424,7 +449,7 @@ unique(PrimaryExprInt) PrimaryExprInt::init(unique(TermInt) t,
                                             std::move(e));
 }
 
-class ExprInt : public Expr {
+class ExprInt : public ExprNode {
     unique(ExprInt) exprs;
     scheat::Token *opToken;
     unique(PrimaryExprInt) term;
