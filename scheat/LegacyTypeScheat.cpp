@@ -15,7 +15,25 @@
 #include <map>
 
 #define unique(id) std::unique_ptr<id>
+
 using std::move;
+class TypeData {
+    
+public:
+    std::string ir_used;
+    std::string name;
+    
+    bool operator==(TypeData *rhs){
+        return this->name == rhs->name
+        && this->mangledName() == rhs->mangledName();
+    }
+    virtual std::string mangledName() const{ return ir_used; };
+    TypeData(std::string nm){
+        name = nm;
+        ir_used = "%" + nm;
+    }
+};
+
 class NodeData {
     
 public:
@@ -24,19 +42,16 @@ public:
     NodeData(std::string a, std::string b) : value(a), size(b) {};
 };
 
-class TypeData {
-    
-public:
-    std::string name;
-    std::string mangledName;
-};
+class Context;
 
-class Function{
+class sFunction{
 public:
     std::string mangledName;
     TypeData return_type;
     std::vector<TypeData> argTypes;
     std::string lltype();
+    Context *context;
+    sFunction(std::string ,std::string);
 };
 
 class Operator {
@@ -70,10 +85,10 @@ public:
     TypeData *type;
 };
 
-std::string Function::lltype(){
-    std::string base = return_type.mangledName + "(";
+std::string sFunction::lltype(){
+    std::string base = return_type.mangledName() + "(";
     for (int i = 0; i < argTypes.size(); i++) {
-        base = base + argTypes[i].mangledName;
+        base = base + argTypes[i].mangledName();
         
         if (i < argTypes.size()) {
             base = base + ", ";
@@ -112,16 +127,10 @@ public:
     };
 };
 
-void IRStream::exportTo(std::ofstream &f){
-    for (int i = 0; i < irs.size(); i++) {
-        f << irs[i];
-    }
-}
-
 class Context {
     unsigned int rnum;
     std::map<std::string, Variable *> variables;
-    std::map<std::string, Function *> funcs;
+    std::map<std::string, sFunction *> funcs;
     std::map<std::string , Class *> classes;
     Context(std::string name, Context *parents){
         variables = {};
@@ -147,9 +156,45 @@ public:
         name = "";
     }
     
+    void addFunction(std::string, sFunction *);
+    
+    void addClass(std::string, Class *);
+    
+    void addVariable(std::string, Variable *);
     
     static Context *create(std::string name, Context *parents);
 };
+
+static std::vector<Context *> contextCenter = {};
+static Context *global_context;
+static Context *main_Context;
+static std::stack<Context *> local_context;
+static scheat::Token *gltokens;
+static std::string fname = "";
+
+sFunction::sFunction(std::string type, std::string nm) : return_type(type){
+    mangledName = "%" + local_context.top()->name + "_main";
+    argTypes = {};
+    context = Context::create(nm, local_context.top());
+}
+
+void IRStream::exportTo(std::ofstream &f){
+    for (int i = 0; i < irs.size(); i++) {
+        f << irs[i];
+    }
+}
+
+void Context::addFunction(std::string key, sFunction *value){
+    funcs[key] = value;
+}
+
+void Context::addClass(std::string key, Class *value){
+    classes[key] = value;
+}
+
+void Context::addVariable(std::string key, Variable *value){
+    variables[key] = value;
+}
 
 bool Context::isExists(std::string key){
     if (variables[key] != nullptr) {
@@ -180,12 +225,6 @@ Variable *Context::findVariable(std::string key){
     }
 }
 
-static std::vector<Context *> contextCenter = {};
-static Context *global_context;
-static Context *main_Context;
-static std::stack<Context *> local_context;
-static scheat::Token *gltokens;
-static std::string fname = "";
 
 static void getNextTok(){
     gltokens = gltokens->next;
@@ -199,7 +238,7 @@ Context *Context::create(std::string name, Context *parents){
 
 void LegacyScheat::E9::InitializeContexts(){
     global_context = new Context();
-    global_context->name = "glbl";
+    global_context->name = "Global";
     local_context.push(global_context);
     contextCenter.push_back(global_context);
     main_Context = nullptr;
@@ -207,7 +246,9 @@ void LegacyScheat::E9::InitializeContexts(){
 }
 
 void LegacyScheat::E9::CreateMainContext(){
-    
+    sFunction *mainf = new sFunction("i32", "main");
+    mainf->mangledName = global_context->name + "_main";
+    mainf->argTypes.push_back(TypeData("i32"));
 }
 
 class Node {
@@ -542,7 +583,7 @@ NodeData *TermInt::codegen(IRStream &f){
                                itok->location.column,
                                itok->value.strValue.c_str());
         }
-        if (v->type.mangledName != "i32") {
+        if (v->type.mangledName() != "i32") {
             scheat::FatalError(__FILE_NAME__,
                                __LINE__,
                                "in %d.%d %s is not an integer value.",
