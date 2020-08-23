@@ -45,14 +45,27 @@ public:
 class Context;
 
 class sFunction{
-public:
     std::string mangledName;
+public:
+    std::string getName();
     TypeData return_type;
     std::vector<TypeData> argTypes;
     std::string lltype();
     Context *context;
     sFunction(std::string ,std::string);
 };
+
+std::string sFunction::getName(){
+    std::string base = return_type.mangledName() + "_";
+    for (int i = 0; i < argTypes.size(); i++) {
+        base = base + argTypes[i].mangledName();
+        
+        if (i < argTypes.size()) {
+            base = base + "_";
+        }
+    }
+    return mangledName + base;
+}
 
 class Operator {
     
