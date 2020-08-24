@@ -263,6 +263,7 @@ void LegacyScheat::E9::InitializeContexts(){
     gltokens = nullptr;
     
     auto Int = new Class(new TypeData("i32"));
+    global_context->addClass("Int", Int);
 }
 
 void LegacyScheat::E9::CreateMainContext(){
