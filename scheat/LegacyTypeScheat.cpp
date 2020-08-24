@@ -45,8 +45,9 @@ public:
 class Context;
 
 class sFunction{
-    std::string mangledName;
+    
 public:
+    std::string mangledName;
     std::string getName();
     TypeData return_type;
     std::vector<TypeData> argTypes;
@@ -262,6 +263,12 @@ void LegacyScheat::E9::CreateMainContext(){
     sFunction *mainf = new sFunction("i32", "main");
     mainf->mangledName = global_context->name + "_main";
     mainf->argTypes.push_back(TypeData("i32"));
+    mainf->return_type = TypeData("i8**");
+    main_Context = mainf->context;
+    Variable *argc = new Variable("argc", TypeData("i32"));
+    main_Context->addVariable("argc", argc);
+    Variable *argv = new Variable("argv", TypeData("i8**"));
+    main_Context->addVariable("argv", argv);
 }
 
 class Node {
