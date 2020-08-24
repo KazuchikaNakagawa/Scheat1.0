@@ -91,16 +91,22 @@ public:
     std::string func_name;
 };
 
+class Property {
+    
+public:
+    unsigned int index;
+    TypeData type;
+    Property(TypeData ty) : type(ty) { index = 0; };
+};
+
 class Class {
     std::map<std::string, unsigned int> properties;
     std::map<std::string, Operator> operators;
-    
+    unsigned int propCount = 0;
 public:
     TypeData *type;
-    Class(TypeData *ty) : type(ty){
-        properties = {};
-        operators = {};
-    };
+    Context *context;
+    Class(TypeData *ty);
 };
 
 std::string sFunction::lltype(){
@@ -180,14 +186,37 @@ public:
     
     void addVariable(std::string, Variable *);
     
+    void dump(std::ofstream &);
+    
     static Context *create(std::string name, Context *parents);
 };
+
+void Context::dump(std::ofstream &f){
+    
+    typename std::map<std::string, Class *>::iterator iter = begin(classes);
+    while (iter != classes.end()) {
+        auto pair = *iter;
+        pair.second->context->dump(f);
+    }
+    
+    stream_entry.exportTo(f);
+    stream_body.exportTo(f);
+    stream_tail.exportTo(f);
+    
+    typename std::map<std::string, sFunction *>::iterator iter_f = begin(funcs);
+    while (iter_f != funcs.end()) {
+        auto pair = *iter_f;
+        pair.second->context->dump(f);
+    }
+    
+}
 
 static std::vector<Context *> contextCenter = {};
 static Context *global_context;
 static Context *main_Context;
 static std::stack<Context *> local_context;
 static scheat::Token *gltokens;
+static std::map<int, std::vector<std::string>> objects;
 static std::string fname = "";
 
 sFunction::sFunction(std::string type, std::string nm) : return_type(type){
@@ -264,6 +293,8 @@ void LegacyScheat::E9::InitializeContexts(){
     
     auto Int = new Class(new TypeData("i32"));
     global_context->addClass("Int", Int);
+    auto String = new Class(new TypeData("String"));
+    global_context->addClass("String", String);
 }
 
 void LegacyScheat::E9::CreateMainContext(){
@@ -333,6 +364,12 @@ unique(Term) Term::create(std::unique_ptr<Term> term, scheat::Token *opT, std::u
     t->node = move(tn);
     return t;
 }
+
+Class::Class(TypeData *ty) : type(ty){
+    properties = {};
+    operators = {};
+    context = Context::create(ty->name, global_context);
+};
 
 static NodeData *embbed_op_func_term_int(IRStream &f, NodeData *lhs, scheat::Token *tok, NodeData *rhs){
     if (lhs == nullptr) {

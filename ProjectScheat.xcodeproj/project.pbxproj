@@ -13,6 +13,8 @@
 			buildPhases = (
 			);
 			dependencies = (
+				82D6F4EC24F402260003D0EA /* PBXTargetDependency */,
+				82D6F4EA24F4020F0003D0EA /* PBXTargetDependency */,
 				8225413424E2356200DBF05C /* PBXTargetDependency */,
 				82AEB66A24DC3DE500889AC3 /* PBXTargetDependency */,
 				82AEB62124DC347100889AC3 /* PBXTargetDependency */,
@@ -154,6 +156,11 @@
 		82AEB66324DC3DC400889AC3 /* libLLVMBitWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13B24D31A40001C5130 /* libLLVMBitWriter.a */; };
 		82AEB66424DC3DC400889AC3 /* libLLVMBitReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13924D31A39001C5130 /* libLLVMBitReader.a */; };
 		82AEB66F24DC3EFD00889AC3 /* ScheatIR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82AEB66E24DC3EFD00889AC3 /* ScheatIR.cpp */; };
+		82D6F4D324F3EE240003D0EA /* ScheatARC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */; };
+		82D6F4D524F3EE240003D0EA /* ScheatARCPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */; };
+		82D6F4D724F3EE240003D0EA /* ScheatARC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */; };
+		82D6F4E224F3FC670003D0EA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82D6F4E124F3FC670003D0EA /* main.cpp */; };
+		82D6F4E824F3FC800003D0EA /* libScheatARC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4D024F3EE240003D0EA /* libScheatARC.a */; };
 		82E6975024D32ACB00F13264 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974F24D32ACB00F13264 /* libxml2.tbd */; };
 		82E6975124D32B5500F13264 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974C24D321B400F13264 /* libncurses.tbd */; };
 		82E6975424D32B5500F13264 /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975224D32B5500F13264 /* libncurses.5.tbd */; };
@@ -225,6 +232,27 @@
 			remoteGlobalIDString = 82AEB62824DC3DC400889AC3;
 			remoteInfo = scheatIRBuilder;
 		};
+		82D6F4E624F3FC790003D0EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82D6F4CF24F3EE240003D0EA;
+			remoteInfo = ScheatARC;
+		};
+		82D6F4E924F4020F0003D0EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82D6F4DE24F3FC670003D0EA;
+			remoteInfo = ARCTest;
+		};
+		82D6F4EB24F402260003D0EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82D6F4CF24F3EE240003D0EA;
+			remoteInfo = ScheatARC;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -238,6 +266,15 @@
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		82A1A23724D80AFE009C2E5F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		82D6F4DD24F3FC670003D0EA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -319,6 +356,12 @@
 		82AEB66C24DC3E2500889AC3 /* ScheatIR.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatIR.hpp; sourceTree = "<group>"; };
 		82AEB66D24DC3E3500889AC3 /* ScheatIR_Hidd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatIR_Hidd.hpp; sourceTree = "<group>"; };
 		82AEB66E24DC3EFD00889AC3 /* ScheatIR.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatIR.cpp; sourceTree = "<group>"; };
+		82D6F4D024F3EE240003D0EA /* libScheatARC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatARC.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARC.hpp; sourceTree = "<group>"; };
+		82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARCPriv.hpp; sourceTree = "<group>"; };
+		82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatARC.cpp; sourceTree = "<group>"; };
+		82D6F4DF24F3FC670003D0EA /* ARCTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ARCTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		82D6F4E124F3FC670003D0EA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		82E6974C24D321B400F13264 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
 		82E6974E24D324B600F13264 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		82E6974F24D32ACB00F13264 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -508,6 +551,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82D6F4CE24F3EE240003D0EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82D6F4DC24F3FC670003D0EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82D6F4E824F3FC800003D0EA /* libScheatARC.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -538,6 +596,8 @@
 				829849EC24D2DA20004A7A64 /* scheat */,
 				829849FB24D2DFA4004A7A64 /* TestScheat */,
 				8225412924E175F700DBF05C /* ScheatRun */,
+				82D6F4D124F3EE240003D0EA /* ScheatARC */,
+				82D6F4E024F3FC670003D0EA /* ARCTest */,
 				829849DA24D1B5A7004A7A64 /* Products */,
 				82984A0324D2E070004A7A64 /* Frameworks */,
 			);
@@ -552,6 +612,8 @@
 				82A1A23B24D80AFE009C2E5F /* scheat */,
 				82AEB66824DC3DC400889AC3 /* libscheatIRBuilder.a */,
 				8225412824E175F700DBF05C /* libScheatRun.a */,
+				82D6F4D024F3EE240003D0EA /* libScheatARC.a */,
+				82D6F4DF24F3FC670003D0EA /* ARCTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -665,6 +727,24 @@
 			path = ScheatIR;
 			sourceTree = "<group>";
 		};
+		82D6F4D124F3EE240003D0EA /* ScheatARC */ = {
+			isa = PBXGroup;
+			children = (
+				82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */,
+				82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */,
+				82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */,
+			);
+			path = ScheatARC;
+			sourceTree = "<group>";
+		};
+		82D6F4E024F3FC670003D0EA /* ARCTest */ = {
+			isa = PBXGroup;
+			children = (
+				82D6F4E124F3FC670003D0EA /* main.cpp */,
+			);
+			path = ARCTest;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -701,6 +781,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82D6F4CC24F3EE240003D0EA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82D6F4D524F3EE240003D0EA /* ScheatARCPriv.hpp in Headers */,
+				82D6F4D324F3EE240003D0EA /* ScheatARC.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,6 +899,41 @@
 			productReference = 82AEB66824DC3DC400889AC3 /* libscheatIRBuilder.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		82D6F4CF24F3EE240003D0EA /* ScheatARC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82D6F4DA24F3EE240003D0EA /* Build configuration list for PBXNativeTarget "ScheatARC" */;
+			buildPhases = (
+				82D6F4CC24F3EE240003D0EA /* Headers */,
+				82D6F4CD24F3EE240003D0EA /* Sources */,
+				82D6F4CE24F3EE240003D0EA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScheatARC;
+			productName = ScheatARC;
+			productReference = 82D6F4D024F3EE240003D0EA /* libScheatARC.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		82D6F4DE24F3FC670003D0EA /* ARCTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82D6F4E324F3FC670003D0EA /* Build configuration list for PBXNativeTarget "ARCTest" */;
+			buildPhases = (
+				82D6F4DB24F3FC670003D0EA /* Sources */,
+				82D6F4DC24F3FC670003D0EA /* Frameworks */,
+				82D6F4DD24F3FC670003D0EA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82D6F4E724F3FC790003D0EA /* PBXTargetDependency */,
+			);
+			name = ARCTest;
+			productName = ARCTest;
+			productReference = 82D6F4DF24F3FC670003D0EA /* ARCTest */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -831,6 +955,12 @@
 						CreatedOnToolsVersion = 12.0;
 					};
 					82AEB61C24DC346400889AC3 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					82D6F4CF24F3EE240003D0EA = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					82D6F4DE24F3FC670003D0EA = {
 						CreatedOnToolsVersion = 12.0;
 					};
 				};
@@ -855,6 +985,8 @@
 				82A1A22524D80AFE009C2E5F /* productscheat */,
 				82AEB62824DC3DC400889AC3 /* scheatIRBuilder */,
 				8225412724E175F700DBF05C /* ScheatRun */,
+				82D6F4CF24F3EE240003D0EA /* ScheatARC */,
+				82D6F4DE24F3FC670003D0EA /* ARCTest */,
 			);
 		};
 /* End PBXProject section */
@@ -911,6 +1043,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82D6F4CD24F3EE240003D0EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82D6F4D724F3EE240003D0EA /* ScheatARC.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82D6F4DB24F3FC670003D0EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82D6F4E224F3FC670003D0EA /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -948,6 +1096,21 @@
 			isa = PBXTargetDependency;
 			target = 82AEB62824DC3DC400889AC3 /* scheatIRBuilder */;
 			targetProxy = 82AEB66924DC3DE500889AC3 /* PBXContainerItemProxy */;
+		};
+		82D6F4E724F3FC790003D0EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82D6F4CF24F3EE240003D0EA /* ScheatARC */;
+			targetProxy = 82D6F4E624F3FC790003D0EA /* PBXContainerItemProxy */;
+		};
+		82D6F4EA24F4020F0003D0EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82D6F4DE24F3FC670003D0EA /* ARCTest */;
+			targetProxy = 82D6F4E924F4020F0003D0EA /* PBXContainerItemProxy */;
+		};
+		82D6F4EC24F402260003D0EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82D6F4CF24F3EE240003D0EA /* ScheatARC */;
+			targetProxy = 82D6F4EB24F402260003D0EA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1396,6 +1559,114 @@
 			};
 			name = Release;
 		};
+		82D6F4D824F3EE240003D0EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		82D6F4D924F3EE240003D0EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		82D6F4E424F3FC670003D0EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/include,
+					"/Users/kaz04/XcodeProjects/Language-Scheat/ScheatARC",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		82D6F4E524F3FC670003D0EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/include,
+					"/Users/kaz04/XcodeProjects/Language-Scheat/ScheatARC",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1467,6 +1738,24 @@
 			buildConfigurations = (
 				82AEB66624DC3DC400889AC3 /* Debug */,
 				82AEB66724DC3DC400889AC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82D6F4DA24F3EE240003D0EA /* Build configuration list for PBXNativeTarget "ScheatARC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82D6F4D824F3EE240003D0EA /* Debug */,
+				82D6F4D924F3EE240003D0EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82D6F4E324F3FC670003D0EA /* Build configuration list for PBXNativeTarget "ARCTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82D6F4E424F3FC670003D0EA /* Debug */,
+				82D6F4E524F3FC670003D0EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
