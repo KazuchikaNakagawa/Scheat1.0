@@ -97,6 +97,10 @@ class Class {
     
 public:
     TypeData *type;
+    Class(TypeData *ty) : type(ty){
+        properties = {};
+        operators = {};
+    };
 };
 
 std::string sFunction::lltype(){
@@ -257,6 +261,8 @@ void LegacyScheat::E9::InitializeContexts(){
     contextCenter.push_back(global_context);
     main_Context = nullptr;
     gltokens = nullptr;
+    
+    auto Int = new Class(new TypeData("i32"));
 }
 
 void LegacyScheat::E9::CreateMainContext(){
@@ -327,11 +333,28 @@ unique(Term) Term::create(std::unique_ptr<Term> term, scheat::Token *opT, std::u
     return t;
 }
 
+static NodeData *embbed_op_func_term_int(IRStream &f, NodeData *lhs, scheat::Token *tok, NodeData *rhs){
+    if (lhs == nullptr) {
+        // in this case, (OP Term) = prefix operator.
+        scheat::FatalError(__FILE_NAME__, __LINE__, "Int(llvm i32) has no operator(%s)(Int)", tok->value.strValue.c_str());
+    }
+    if (rhs == nullptr) {
+        // in this case, (Term OP) = postfix operator.
+        if (tok->value.strValue != "!") {
+            
+        }
+    }
+    scheat::FatalError(__FILE_NAME__, __LINE__, "Unknown Error code %u", __LINE__);
+    return nullptr;
+}
+
 NodeData *Term::codegen(IRStream &f){
-    if (terms == nullptr) {
+    if (terms == nullptr && opTok == nullptr) {
         return node->codegen(f);
     }
-    
+    if (terms == nullptr && opTok != nullptr) {
+        
+    }
     return nullptr;
 }
 
