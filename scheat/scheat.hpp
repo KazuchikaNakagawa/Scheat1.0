@@ -9,7 +9,7 @@
 #define scheat_
 
 #pragma GCC visibility push(default)
-#include <string>
+// #include <string>
 #include "Lexer.hpp"
 
 namespace scheat{
@@ -58,11 +58,7 @@ public:
     int getPart() const { return part; };
 };
 
-class IRBuilder{
-    
-public:
-    IRBuilder(Scheat*, std::string);
-};
+class IRBuilder;
 
 static void FatalError(const char *fn, unsigned int line, const char *format, ...){
     // for product version

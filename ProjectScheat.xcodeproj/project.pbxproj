@@ -161,6 +161,26 @@
 		82D6F4D724F3EE240003D0EA /* ScheatARC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */; };
 		82D6F4E224F3FC670003D0EA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82D6F4E124F3FC670003D0EA /* main.cpp */; };
 		82D6F4E824F3FC800003D0EA /* libScheatARC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4D024F3EE240003D0EA /* libScheatARC.a */; };
+		82D6F4F724F555F40003D0EA /* liblldMachO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4ED24F555F30003D0EA /* liblldMachO.a */; };
+		82D6F4F824F555F40003D0EA /* liblldMachO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4ED24F555F30003D0EA /* liblldMachO.a */; };
+		82D6F4F924F555F40003D0EA /* liblldCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4EE24F555F30003D0EA /* liblldCommon.a */; };
+		82D6F4FA24F555F40003D0EA /* liblldCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4EE24F555F30003D0EA /* liblldCommon.a */; };
+		82D6F4FB24F555F40003D0EA /* liblldMinGW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4EF24F555F30003D0EA /* liblldMinGW.a */; };
+		82D6F4FC24F555F40003D0EA /* liblldMinGW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4EF24F555F30003D0EA /* liblldMinGW.a */; };
+		82D6F4FD24F555F40003D0EA /* liblldDriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F024F555F30003D0EA /* liblldDriver.a */; };
+		82D6F4FE24F555F40003D0EA /* liblldDriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F024F555F30003D0EA /* liblldDriver.a */; };
+		82D6F4FF24F555F40003D0EA /* liblldYAML.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F124F555F30003D0EA /* liblldYAML.a */; };
+		82D6F50024F555F40003D0EA /* liblldYAML.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F124F555F30003D0EA /* liblldYAML.a */; };
+		82D6F50124F555F40003D0EA /* liblldCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F224F555F30003D0EA /* liblldCore.a */; };
+		82D6F50224F555F40003D0EA /* liblldCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F224F555F30003D0EA /* liblldCore.a */; };
+		82D6F50324F555F40003D0EA /* liblldWasm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F324F555F30003D0EA /* liblldWasm.a */; };
+		82D6F50424F555F40003D0EA /* liblldWasm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F324F555F30003D0EA /* liblldWasm.a */; };
+		82D6F50524F555F40003D0EA /* liblldELF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F424F555F30003D0EA /* liblldELF.a */; };
+		82D6F50624F555F40003D0EA /* liblldELF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F424F555F30003D0EA /* liblldELF.a */; };
+		82D6F50724F555F40003D0EA /* liblldCOFF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F524F555F40003D0EA /* liblldCOFF.a */; };
+		82D6F50824F555F40003D0EA /* liblldCOFF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F524F555F40003D0EA /* liblldCOFF.a */; };
+		82D6F50924F555F40003D0EA /* liblldReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F624F555F40003D0EA /* liblldReaderWriter.a */; };
+		82D6F50A24F555F40003D0EA /* liblldReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F624F555F40003D0EA /* liblldReaderWriter.a */; };
 		82E6975024D32ACB00F13264 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974F24D32ACB00F13264 /* libxml2.tbd */; };
 		82E6975124D32B5500F13264 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974C24D321B400F13264 /* libncurses.tbd */; };
 		82E6975424D32B5500F13264 /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975224D32B5500F13264 /* libncurses.5.tbd */; };
@@ -362,6 +382,16 @@
 		82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatARC.cpp; sourceTree = "<group>"; };
 		82D6F4DF24F3FC670003D0EA /* ARCTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ARCTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D6F4E124F3FC670003D0EA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		82D6F4ED24F555F30003D0EA /* liblldMachO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldMachO.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldMachO.a; sourceTree = "<group>"; };
+		82D6F4EE24F555F30003D0EA /* liblldCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldCommon.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldCommon.a; sourceTree = "<group>"; };
+		82D6F4EF24F555F30003D0EA /* liblldMinGW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldMinGW.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldMinGW.a; sourceTree = "<group>"; };
+		82D6F4F024F555F30003D0EA /* liblldDriver.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldDriver.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldDriver.a; sourceTree = "<group>"; };
+		82D6F4F124F555F30003D0EA /* liblldYAML.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldYAML.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldYAML.a; sourceTree = "<group>"; };
+		82D6F4F224F555F30003D0EA /* liblldCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldCore.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldCore.a; sourceTree = "<group>"; };
+		82D6F4F324F555F30003D0EA /* liblldWasm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldWasm.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldWasm.a; sourceTree = "<group>"; };
+		82D6F4F424F555F30003D0EA /* liblldELF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldELF.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldELF.a; sourceTree = "<group>"; };
+		82D6F4F524F555F40003D0EA /* liblldCOFF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldCOFF.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldCOFF.a; sourceTree = "<group>"; };
+		82D6F4F624F555F40003D0EA /* liblldReaderWriter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldReaderWriter.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldReaderWriter.a; sourceTree = "<group>"; };
 		82E6974C24D321B400F13264 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
 		82E6974E24D324B600F13264 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		82E6974F24D32ACB00F13264 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -397,7 +427,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D6F50724F555F40003D0EA /* liblldCOFF.a in Frameworks */,
 				82E6975424D32B5500F13264 /* libncurses.5.tbd in Frameworks */,
+				82D6F4FF24F555F40003D0EA /* liblldYAML.a in Frameworks */,
 				82E6975524D32B5500F13264 /* libncurses.5.4.tbd in Frameworks */,
 				82E6975124D32B5500F13264 /* libncurses.tbd in Frameworks */,
 				82E6975024D32ACB00F13264 /* libxml2.tbd in Frameworks */,
@@ -406,13 +438,17 @@
 				8205E18A24D31CF4001C5130 /* libedit.tbd in Frameworks */,
 				8205E18824D31CE8001C5130 /* libz.tbd in Frameworks */,
 				8205E18624D31CDE001C5130 /* libpthread.tbd in Frameworks */,
+				82D6F50124F555F40003D0EA /* liblldCore.a in Frameworks */,
 				8205E16224D31AF8001C5130 /* libLLVMMC.a in Frameworks */,
+				82D6F50924F555F40003D0EA /* liblldReaderWriter.a in Frameworks */,
+				82D6F50324F555F40003D0EA /* liblldWasm.a in Frameworks */,
 				8205E16424D31B2B001C5130 /* libLLVMMCDisassembler.a in Frameworks */,
 				8205E16024D31AEC001C5130 /* libLLVMLinker.a in Frameworks */,
 				8205E17424D31BD7001C5130 /* libLLVMTarget.a in Frameworks */,
 				8205E17824D31BE5001C5130 /* libLLVMVectorize.a in Frameworks */,
 				8205E17E24D31C00001C5130 /* libLLVMX86Info.a in Frameworks */,
 				8205E17F24D31C00001C5130 /* libLLVMX86Desc.a in Frameworks */,
+				82D6F4F924F555F40003D0EA /* liblldCommon.a in Frameworks */,
 				8205E18024D31C01001C5130 /* libLLVMX86AsmParser.a in Frameworks */,
 				8205E18124D31C01001C5130 /* libLLVMX86CodeGen.a in Frameworks */,
 				8205E18224D31C01001C5130 /* libLLVMX86Disassembler.a in Frameworks */,
@@ -424,14 +460,17 @@
 				8205E16F24D31BC1001C5130 /* libLLVMSelectionDAG.a in Frameworks */,
 				8205E17024D31BC1001C5130 /* libLLVMScalarOpts.a in Frameworks */,
 				8205E16A24D31BA1001C5130 /* libLLVMRuntimeDyld.a in Frameworks */,
+				82D6F4FD24F555F40003D0EA /* liblldDriver.a in Frameworks */,
 				8205E16824D31B9C001C5130 /* libLLVMRemarks.a in Frameworks */,
 				8205E13424D319F5001C5130 /* libLLVMAsmPrinter.a in Frameworks */,
 				8205E14624D31A6A001C5130 /* libLLVMCFGuard.a in Frameworks */,
+				82D6F4FB24F555F40003D0EA /* liblldMinGW.a in Frameworks */,
 				8205E15924D31ACA001C5130 /* libLLVMInstrumentation.a in Frameworks */,
 				8205E15A24D31ACA001C5130 /* libLLVMipo.a in Frameworks */,
 				8205E15B24D31ACA001C5130 /* libLLVMInstCombine.a in Frameworks */,
 				8205E16624D31B56001C5130 /* libLLVMMCParser.a in Frameworks */,
 				8205E15C24D31ACA001C5130 /* libLLVMIRReader.a in Frameworks */,
+				82D6F4F724F555F40003D0EA /* liblldMachO.a in Frameworks */,
 				8205E15224D31AA2001C5130 /* libLLVMFrontendOpenMP.a in Frameworks */,
 				8205E15424D31AAC001C5130 /* libLLVMGlobalISel.a in Frameworks */,
 				8205E14E24D31A8A001C5130 /* libLLVMDebugInfoMSF.a in Frameworks */,
@@ -445,6 +484,7 @@
 				8205E14024D31A55001C5130 /* libLLVMCore.a in Frameworks */,
 				8205E13E24D31A44001C5130 /* libLLVMBitstreamReader.a in Frameworks */,
 				8205E13624D319F5001C5130 /* libLLVMAnalysis.a in Frameworks */,
+				82D6F50524F555F40003D0EA /* liblldELF.a in Frameworks */,
 				8205E13824D31A36001C5130 /* libLLVMBinaryFormat.a in Frameworks */,
 				8205E13C24D31A40001C5130 /* libLLVMBitWriter.a in Frameworks */,
 				8205E13A24D31A39001C5130 /* libLLVMBitReader.a in Frameworks */,
@@ -497,7 +537,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D6F50824F555F40003D0EA /* liblldCOFF.a in Frameworks */,
 				82AEB63224DC3DC400889AC3 /* libncurses.5.tbd in Frameworks */,
+				82D6F50024F555F40003D0EA /* liblldYAML.a in Frameworks */,
 				82AEB63324DC3DC400889AC3 /* libncurses.5.4.tbd in Frameworks */,
 				82AEB63424DC3DC400889AC3 /* libncurses.tbd in Frameworks */,
 				82AEB63524DC3DC400889AC3 /* libxml2.tbd in Frameworks */,
@@ -506,13 +548,17 @@
 				82AEB63824DC3DC400889AC3 /* libedit.tbd in Frameworks */,
 				82AEB63924DC3DC400889AC3 /* libz.tbd in Frameworks */,
 				82AEB63A24DC3DC400889AC3 /* libpthread.tbd in Frameworks */,
+				82D6F50224F555F40003D0EA /* liblldCore.a in Frameworks */,
 				82AEB63B24DC3DC400889AC3 /* libLLVMMC.a in Frameworks */,
+				82D6F50A24F555F40003D0EA /* liblldReaderWriter.a in Frameworks */,
+				82D6F50424F555F40003D0EA /* liblldWasm.a in Frameworks */,
 				82AEB63C24DC3DC400889AC3 /* libLLVMMCDisassembler.a in Frameworks */,
 				82AEB63D24DC3DC400889AC3 /* libLLVMLinker.a in Frameworks */,
 				82AEB63E24DC3DC400889AC3 /* libLLVMTarget.a in Frameworks */,
 				82AEB63F24DC3DC400889AC3 /* libLLVMVectorize.a in Frameworks */,
 				82AEB64024DC3DC400889AC3 /* libLLVMX86Info.a in Frameworks */,
 				82AEB64124DC3DC400889AC3 /* libLLVMX86Desc.a in Frameworks */,
+				82D6F4FA24F555F40003D0EA /* liblldCommon.a in Frameworks */,
 				82AEB64224DC3DC400889AC3 /* libLLVMX86AsmParser.a in Frameworks */,
 				82AEB64324DC3DC400889AC3 /* libLLVMX86CodeGen.a in Frameworks */,
 				82AEB64424DC3DC400889AC3 /* libLLVMX86Disassembler.a in Frameworks */,
@@ -524,14 +570,17 @@
 				82AEB64A24DC3DC400889AC3 /* libLLVMSelectionDAG.a in Frameworks */,
 				82AEB64B24DC3DC400889AC3 /* libLLVMScalarOpts.a in Frameworks */,
 				82AEB64C24DC3DC400889AC3 /* libLLVMRuntimeDyld.a in Frameworks */,
+				82D6F4FE24F555F40003D0EA /* liblldDriver.a in Frameworks */,
 				82AEB64D24DC3DC400889AC3 /* libLLVMRemarks.a in Frameworks */,
 				82AEB64E24DC3DC400889AC3 /* libLLVMAsmPrinter.a in Frameworks */,
 				82AEB64F24DC3DC400889AC3 /* libLLVMCFGuard.a in Frameworks */,
+				82D6F4FC24F555F40003D0EA /* liblldMinGW.a in Frameworks */,
 				82AEB65024DC3DC400889AC3 /* libLLVMInstrumentation.a in Frameworks */,
 				82AEB65124DC3DC400889AC3 /* libLLVMipo.a in Frameworks */,
 				82AEB65224DC3DC400889AC3 /* libLLVMInstCombine.a in Frameworks */,
 				82AEB65324DC3DC400889AC3 /* libLLVMMCParser.a in Frameworks */,
 				82AEB65424DC3DC400889AC3 /* libLLVMIRReader.a in Frameworks */,
+				82D6F4F824F555F40003D0EA /* liblldMachO.a in Frameworks */,
 				82AEB65524DC3DC400889AC3 /* libLLVMFrontendOpenMP.a in Frameworks */,
 				82AEB65624DC3DC400889AC3 /* libLLVMGlobalISel.a in Frameworks */,
 				82AEB65724DC3DC400889AC3 /* libLLVMDebugInfoMSF.a in Frameworks */,
@@ -545,6 +594,7 @@
 				82AEB65F24DC3DC400889AC3 /* libLLVMCore.a in Frameworks */,
 				82AEB66024DC3DC400889AC3 /* libLLVMBitstreamReader.a in Frameworks */,
 				82AEB66124DC3DC400889AC3 /* libLLVMAnalysis.a in Frameworks */,
+				82D6F50624F555F40003D0EA /* liblldELF.a in Frameworks */,
 				82AEB66224DC3DC400889AC3 /* libLLVMBinaryFormat.a in Frameworks */,
 				82AEB66324DC3DC400889AC3 /* libLLVMBitWriter.a in Frameworks */,
 				82AEB66424DC3DC400889AC3 /* libLLVMBitReader.a in Frameworks */,
@@ -655,6 +705,16 @@
 		82984A0324D2E070004A7A64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82D6F4F524F555F40003D0EA /* liblldCOFF.a */,
+				82D6F4EE24F555F30003D0EA /* liblldCommon.a */,
+				82D6F4F224F555F30003D0EA /* liblldCore.a */,
+				82D6F4F024F555F30003D0EA /* liblldDriver.a */,
+				82D6F4F424F555F30003D0EA /* liblldELF.a */,
+				82D6F4ED24F555F30003D0EA /* liblldMachO.a */,
+				82D6F4EF24F555F30003D0EA /* liblldMinGW.a */,
+				82D6F4F624F555F40003D0EA /* liblldReaderWriter.a */,
+				82D6F4F324F555F30003D0EA /* liblldWasm.a */,
+				82D6F4F124F555F30003D0EA /* liblldYAML.a */,
 				82E6976424D32C0100F13264 /* libz.1.1.3.tbd */,
 				82E6976124D32C0100F13264 /* libz.1.2.5.tbd */,
 				82E6976524D32C0200F13264 /* libz.1.2.8.tbd */,

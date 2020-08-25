@@ -21,7 +21,13 @@ std::map<std::string, VariableData*> IRContext::ids;
 Scheat *IRBuilderReplica::host = nullptr;
 bool IRBuilderReplica::ready = false;
 
-IRBuilder::IRBuilder(Scheat *obj, std::string modname){
+class scheat::IRBuilder {
+    
+public:
+    IRBuilder(scheat::Scheat*, std::string);
+};
+
+scheat::IRBuilder::IRBuilder(Scheat *obj, std::string modname){
     if (IRBuilderReplica::isReady()) {
         return;
     }
