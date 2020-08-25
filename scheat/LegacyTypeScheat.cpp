@@ -193,10 +193,12 @@ public:
 
 void Context::dump(std::ofstream &f){
     
-    typename std::map<std::string, Class *>::iterator iter = begin(classes);
+    // typename std::map<std::string, Class *>::iterator
+    auto iter = begin(classes);
     while (iter != classes.end()) {
         auto pair = *iter;
         pair.second->context->dump(f);
+        iter = std::next(iter);
     }
     
     stream_entry.exportTo(f);
