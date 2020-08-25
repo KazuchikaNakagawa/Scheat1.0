@@ -35,10 +35,15 @@ class Reference {
     unsigned int ref_id;
     std::vector<Reference> child_ref;
 public:
-    Reference();
+    Reference(ObjectKey k) : ref_id(k.getID()) {
+        child_ref = {};
+    };
     void reref(Reference *);
     void unref();
-    
+    ~Reference(){
+        unref();
+    }
+    static Reference copyReference();
 };
 
 }
