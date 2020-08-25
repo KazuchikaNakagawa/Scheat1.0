@@ -140,7 +140,7 @@ public:
         irs.push_back(v);
         return *this;
     };
-    IRStream operator <<(const char v[]){
+    IRStream& operator <<(const char v[]){
         std::string vs(v);
         irs.push_back(vs);
         return *this;
