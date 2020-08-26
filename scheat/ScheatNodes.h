@@ -10,8 +10,12 @@
 
 namespace scheat {
 #define unique(id) std::unique_ptr<id>
+#include <string>
 namespace node{
 
+// NodeData
+// have a parsed data.
+// basically, value is register
 class NodeData {
     
 public:
@@ -50,6 +54,21 @@ public:
     virtual ~ExprNode();
 };
 
+class IdentifierTerm : public TermNode {
+    std::string value;
+    
+public:
+    __unavailable
+    IdentifierTerm(std::string v) : value(v) {};
+    static unique(IdentifierTerm) create(std::string, bool);
+};
+
+class IntTerm : public TermNode {
+    
+public:
+    
+};
+
 class Term : public Node {
     unique(Term) terms;
     scheat::Token *opTok;
@@ -67,10 +86,10 @@ public:
 };
 
 class PrototypeExpr : public ExprNode {
-    scheat::Token *id;
+    scheat::Token *identifier;
     TypeData *type;
 public:
-    __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : id(t), type(ty), ExprNode() {};
+    __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : identifier(t), type(ty), ExprNode() {};
     
 };
 

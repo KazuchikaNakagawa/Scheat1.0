@@ -64,7 +64,7 @@ void Context::dump(std::ofstream &f){
     stream_body.exportTo(f);
     stream_tail.exportTo(f);
     
-    typename std::map<std::string, Function *>::iterator iter_f = begin(funcs);
+    auto iter_f = begin(funcs);
     while (iter_f != funcs.end()) {
         auto pair = *iter_f;
         pair.second->context->dump(f);
@@ -480,6 +480,18 @@ unique(TermInt) TermInt::init(scheat::Token *i){
         return nullptr;
     }
     return std::make_unique<TermInt>(i);
+}
+
+unique(IdentifierTerm) IdentifierTerm::create(std::string v, bool n){
+    auto cond = local_context.top()->isExists(v);
+    if (cond && !n) {
+        FatalError(__FILE_NAME__, __LINE__, "%s already exists.", v.c_str());
+    }
+    if (!cond && !n) {
+        FatalError(__FILE_NAME__, __LINE__, "%s does not exists.", v.c_str());
+    }
+    auto o = std::make_unique<IdentifierTerm>(v);
+    return o;
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------
