@@ -109,6 +109,7 @@ Token *Token::add(Token *tokens, Token *token){
 #define tadd tokens = Token::add(tokens, tok)
 
 void Lexer::genTok(){
+    //printf("genTok with %s\n", buf.c_str());
     if (buf.empty()) {
         state = initState;
         return;
@@ -473,6 +474,7 @@ void Lexer::input(int c, int next){
             // .. token
             FatalError(__FILE_NAME__, __LINE__, "invalid input '..' . Did you mean '...'?");
         }
+        genTok();
         buf.push_back(c);
         genTok();
     }
