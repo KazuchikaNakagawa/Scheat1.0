@@ -108,12 +108,25 @@ class Instruction;
 }
 class ScheatRun
 {
+    ScheatRun(){};
 public:
+    __unavailable
     void HelloWorld(const char *);
+    
     static void FatalError(unsigned int, const char *format, ...);
+    
     static void Debug(unsigned int, const char *format, ...);
+    
     void run(std::string);
+    
     void runStream(instruction::InstructionHead *);
+    
+    ScheatRun(const ScheatRun&) = delete;
+    
+    static ScheatRun& shared(){
+        static ScheatRun r;
+        return r;
+    }
 };
 
 }

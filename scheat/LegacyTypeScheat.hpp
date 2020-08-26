@@ -26,4 +26,6 @@ void Parse(scheat::Token *tokens, std::ofstream&);
 
 }
 
+
+
 #endif /* LegacyTypeScheat_hpp */

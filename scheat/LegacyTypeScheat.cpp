@@ -9,6 +9,8 @@
 #include "scheat.hpp"
 #include "scheatPriv.hpp"
 #include "Lexer.hpp"
+#include "ScheatContext.h"
+#include "ScheatNodes.h"
 #include <fstream>
 #include <iostream>
 #include <stdio.h>
@@ -16,47 +18,13 @@
 
 #define unique(id) std::unique_ptr<id>
 
+using namespace LegacyScheat;
+using namespace scheat;
+using namespace scheat::basicStructs;
+
 using std::move;
-class TypeData {
-    
-public:
-    std::string ir_used;
-    std::string name;
-    
-    bool operator==(TypeData *rhs){
-        return this->name == rhs->name
-        && this->mangledName() == rhs->mangledName();
-    }
-    virtual std::string mangledName() const{ return ir_used; };
-    TypeData(std::string nm){
-        name = nm;
-        ir_used = "%" + nm;
-    }
-};
 
-class NodeData {
-    
-public:
-    std::string value;
-    std::string size;
-    NodeData(std::string a, std::string b) : value(a), size(b) {};
-};
-
-class Context;
-
-class sFunction{
-    
-public:
-    std::string mangledName;
-    std::string getName();
-    TypeData return_type;
-    std::vector<TypeData> argTypes;
-    std::string lltype();
-    Context *context;
-    sFunction(std::string ,std::string);
-};
-
-std::string sFunction::getName(){
+std::string Function::getName(){
     std::string base = return_type.mangledName() + "_";
     for (int i = 0; i < argTypes.size(); i++) {
         base = base + argTypes[i].mangledName();
@@ -68,48 +36,7 @@ std::string sFunction::getName(){
     return mangledName + base;
 }
 
-class Operator {
-    
-public:
-    enum{
-        prefix,
-        infix,
-        postfix
-    } position;
-    
-    enum{
-        primary,
-        non_primary,
-        term
-    } precidence;
-    
-    TypeData return_type;
-    // if postfix operator, this will be nullptr
-    TypeData *rhs_type;
-    // if prefix operator, this will be nullptr
-    TypeData *lhs_type;
-    std::string func_name;
-};
-
-class Property {
-    
-public:
-    unsigned int index;
-    TypeData type;
-    Property(TypeData ty) : type(ty) { index = 0; };
-};
-
-class Class {
-    std::map<std::string, unsigned int> properties;
-    std::map<std::string, Operator> operators;
-    unsigned int propCount = 0;
-public:
-    TypeData *type;
-    Context *context;
-    Class(TypeData *ty);
-};
-
-std::string sFunction::lltype(){
+std::string basicStructs::Function::lltype(){
     std::string base = return_type.mangledName() + "(";
     for (int i = 0; i < argTypes.size(); i++) {
         base = base + argTypes[i].mangledName();
@@ -121,75 +48,6 @@ std::string sFunction::lltype(){
     base = base + ")";
     return base;
 }
-
-class Variable {
-
-public:
-    std::string mangledName;
-    // do NOT think about pointer. it shows what value it has.
-    TypeData type;
-    Variable(std::string s, TypeData t) : mangledName(s), type(t) {
-        
-    }
-};
-
-class IRStream {
-public:
-    std::vector<std::string> irs;
-    IRStream operator <<(std::string v){
-        irs.push_back(v);
-        return *this;
-    };
-    IRStream& operator <<(const char v[]){
-        std::string vs(v);
-        irs.push_back(vs);
-        return *this;
-    }
-    void exportTo(std::ofstream &f);
-    IRStream(){
-        irs = {};
-    };
-};
-
-class Context {
-    unsigned int rnum;
-    std::map<std::string, Variable *> variables;
-    std::map<std::string, sFunction *> funcs;
-    std::map<std::string , Class *> classes;
-    Context(std::string name, Context *parents){
-        variables = {};
-        funcs = {};
-        rnum = 0;
-        base = parents;
-        this->name = name;
-    }
-public:
-    IRStream stream_entry;
-    IRStream stream_body;
-    IRStream stream_tail;
-    std::string name;
-    Context *base;
-    Variable *findVariable(std::string);
-    bool isExists(std::string);
-    std::string getRegister();
-    Context(){
-        variables = {};
-        funcs = {};
-        rnum = 0;
-        base = nullptr;
-        name = "";
-    }
-    
-    void addFunction(std::string, sFunction *);
-    
-    void addClass(std::string, Class *);
-    
-    void addVariable(std::string, Variable *);
-    
-    void dump(std::ofstream &);
-    
-    static Context *create(std::string name, Context *parents);
-};
 
 void Context::dump(std::ofstream &f){
     
@@ -205,7 +63,7 @@ void Context::dump(std::ofstream &f){
     stream_body.exportTo(f);
     stream_tail.exportTo(f);
     
-    typename std::map<std::string, sFunction *>::iterator iter_f = begin(funcs);
+    typename std::map<std::string, Function *>::iterator iter_f = begin(funcs);
     while (iter_f != funcs.end()) {
         auto pair = *iter_f;
         pair.second->context->dump(f);
@@ -221,7 +79,7 @@ static scheat::Token *gltokens;
 static std::map<int, std::vector<std::string>> objects;
 static std::string fname = "";
 
-sFunction::sFunction(std::string type, std::string nm) : return_type(type){
+Function::Function(std::string type, std::string nm) : return_type(type){
     mangledName = "%" + local_context.top()->name + "_main";
     argTypes = {};
     context = Context::create(nm, local_context.top());
@@ -233,7 +91,7 @@ void IRStream::exportTo(std::ofstream &f){
     }
 }
 
-void Context::addFunction(std::string key, sFunction *value){
+void Context::addFunction(std::string key, Function *value){
     funcs[key] = value;
 }
 
@@ -300,7 +158,7 @@ void LegacyScheat::E9::InitializeContexts(){
 }
 
 void LegacyScheat::E9::CreateMainContext(){
-    sFunction *mainf = new sFunction("i32", "main");
+    Function *mainf = new Function("i32", "main");
     mainf->mangledName = global_context->name + "_main";
     mainf->argTypes.push_back(TypeData("i32"));
     mainf->return_type = TypeData("i8**");
@@ -314,7 +172,7 @@ void LegacyScheat::E9::CreateMainContext(){
 class Node {
     
 public:
-    virtual NodeData* codegen(IRStream &) { return nullptr; };
+    virtual node::NodeData* codegen(IRStream &) { return nullptr; };
     
     virtual ~Node() {};
 };
@@ -323,21 +181,21 @@ class TermNode : public Node {
     
     
 public:
-    NodeData * codegen(IRStream &) override{ return nullptr; };
+    node::NodeData * codegen(IRStream &) override{ return nullptr; };
     virtual ~TermNode();
 };
 
 class PrimaryExprNode : public Node {
     
 public:
-    NodeData * codegen(IRStream &) override { return nullptr; };
+    node::NodeData * codegen(IRStream &) override { return nullptr; };
     virtual ~PrimaryExprNode();
 };
 
 class ExprNode : public Node {
     
 public:
-    NodeData * codegen(IRStream &) override { return nullptr; };
+    node::NodeData * codegen(IRStream &) override { return nullptr; };
     virtual ~ExprNode();
 };
 
@@ -346,7 +204,7 @@ class Term : public Node {
     scheat::Token *opTok;
     unique(TermNode) node;
 public:
-    NodeData * codegen(IRStream &) override;
+    node::NodeData * codegen(IRStream &) override;
     static unique(Term) create(unique(TermNode));
     static unique(Term) create(unique(Term), scheat::Token *, unique(TermNode));
 };
@@ -373,7 +231,7 @@ Class::Class(TypeData *ty) : type(ty){
     context = Context::create(ty->name, global_context);
 };
 
-static NodeData *embbed_op_func_term_int(IRStream &f, NodeData *lhs, scheat::Token *tok, NodeData *rhs){
+static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs, scheat::Token *tok, node::NodeData *rhs){
     if (lhs == nullptr) {
         // in this case, (OP Term) = prefix operator.
         scheat::FatalError(__FILE_NAME__, __LINE__, "Int(llvm i32) has no operator(%s)(Int)", tok->value.strValue.c_str());
@@ -388,7 +246,7 @@ static NodeData *embbed_op_func_term_int(IRStream &f, NodeData *lhs, scheat::Tok
     return nullptr;
 }
 
-NodeData *Term::codegen(IRStream &f){
+node::NodeData *Term::codegen(IRStream &f){
     if (terms == nullptr && opTok == nullptr) {
         return node->codegen(f);
     }
@@ -401,7 +259,7 @@ NodeData *Term::codegen(IRStream &f){
 class Expr : public Node {
     
 public:
-    NodeData * codegen(IRStream &) override{ return nullptr; };
+    node::NodeData * codegen(IRStream &) override{ return nullptr; };
 };
 
 class PrototypeExpr : public ExprNode {
@@ -422,10 +280,10 @@ class TermIdentifier : public Term {
     scheat::Token *idTok;
 public:
     __deprecated TermIdentifier(scheat::Token *t) : idTok(t), Term() {};
-    NodeData *codegen(IRStream &) override;
+    node::NodeData *codegen(IRStream &) override;
 };
 
-NodeData *TermIdentifier::codegen(IRStream &f){
+node::NodeData *TermIdentifier::codegen(IRStream &f){
     
     return nullptr;
 }
@@ -453,7 +311,7 @@ public:
                                t->location.column);
         }
     };
-    NodeData * codegen(IRStream &) override;
+    node::NodeData * codegen(IRStream &) override;
     unique(TermInt) init(scheat::Token *i);
     ~TermInt() {};
 };
@@ -464,7 +322,7 @@ class PrimaryExpr : public ExprNode {
     unique(Term) term;
 public:
     __deprecated PrimaryExpr();
-    NodeData * codegen(IRStream &) override;
+    node::NodeData * codegen(IRStream &) override;
     static unique(PrimaryExpr) make(unique(Term));
     static unique(PrimaryExpr) make(unique(PrimaryExpr), scheat::Token *, unique(Term));
 };
@@ -485,14 +343,14 @@ unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> e, scheat::To
     return ex;
 }
 
-static NodeData *subFunc_OpInt(IRStream &f, NodeData *lhs, scheat::Token *tok,NodeData *rhs){
+static node::NodeData *subFunc_OpInt(IRStream &f, node::NodeData *lhs, scheat::Token *tok,node::NodeData *rhs){
     if (tok->value.strValue == "+") {
         std::string r1 = lhs->value;
         std::string r2 = rhs->value;
         std::string r = local_context.top()->getRegister();
         f << r << " = add nsw i32 "
         << r1 << ", " << r2 << "\n";
-        return new NodeData(r, "i32");
+        return new node::NodeData(r, "i32");
     }
     if (tok->value.strValue == "-") {
         std::string r1 = lhs->value;
@@ -500,7 +358,7 @@ static NodeData *subFunc_OpInt(IRStream &f, NodeData *lhs, scheat::Token *tok,No
         std::string r = local_context.top()->getRegister();
         f << r << " = sub nsw i32 "
         << r1 << ", " << r2 << "\n";
-        return new NodeData(r, "i32");
+        return new node::NodeData(r, "i32");
     }
     scheat::FatalError(__FILE_NAME__,
                        __LINE__,
@@ -511,14 +369,14 @@ static NodeData *subFunc_OpInt(IRStream &f, NodeData *lhs, scheat::Token *tok,No
     return nullptr;
 };
 
-static NodeData *subFunc_OpInt_Primary(IRStream &f, NodeData *lhs, scheat::Token *tok, NodeData *rhs){
+static node::NodeData *subFunc_OpInt_Primary(IRStream &f, node::NodeData *lhs, scheat::Token *tok, node::NodeData *rhs){
     if (tok->value.strValue == "*") {
         std::string r1 = lhs->value;
         std::string r2 = rhs->value;
         std::string r = local_context.top()->getRegister();
         f << r << " = imul nsw i32 "
         << r1 << ", " << r2 << "\n";
-        return new NodeData(r, "i32");
+        return new node::NodeData(r, "i32");
     }
     if (tok->value.strValue == "/") {
         std::string r1 = lhs->value;
@@ -526,7 +384,7 @@ static NodeData *subFunc_OpInt_Primary(IRStream &f, NodeData *lhs, scheat::Token
         std::string r = local_context.top()->getRegister();
         f << r << " = idiv nsw i32 "
         << r1 << ", " << r2 << "\n";
-        return new NodeData(r, "i32");
+        return new node::NodeData(r, "i32");
     }
     scheat::FatalError(__FILE_NAME__,
                        __LINE__,
@@ -537,7 +395,7 @@ static NodeData *subFunc_OpInt_Primary(IRStream &f, NodeData *lhs, scheat::Token
     return nullptr;
 }
 
-NodeData *PrimaryExpr::codegen(IRStream &f){
+node::NodeData *PrimaryExpr::codegen(IRStream &f){
     if (exprs == nullptr) {
         return term->codegen(f);
     }
@@ -571,7 +429,7 @@ class PrimaryExprInt : public Expr {
     scheat::Token *opTok;
     unique(TermInt) term;
 public:
-    NodeData * codegen(IRStream &) override;
+    node::NodeData * codegen(IRStream &) override;
     __deprecated PrimaryExprInt(unique(TermInt) t,
                                 scheat::Token *tok,
                                 unique(PrimaryExprInt) e);
@@ -603,7 +461,7 @@ class ExprInt : public ExprNode {
     scheat::Token *opToken;
     unique(PrimaryExprInt) term;
 public:
-    NodeData * codegen(IRStream &) override;
+    node::NodeData * codegen(IRStream &) override;
     __deprecated ExprInt(unique(PrimaryExprInt) term,
                          scheat::Token *opTok = nullptr,
                          unique(ExprInt) exprs = nullptr);
@@ -618,7 +476,7 @@ ExprInt::ExprInt(unique(PrimaryExprInt) term,
     this->exprs = std::move(exprs);
 }
 
-NodeData *ExprInt::codegen(IRStream &f){
+node::NodeData *ExprInt::codegen(IRStream &f){
     if (opToken == nullptr) {
         return term->codegen(f);
     }else{
@@ -627,7 +485,7 @@ NodeData *ExprInt::codegen(IRStream &f){
     return nullptr;
 }
 
-NodeData *PrimaryExprInt::codegen(IRStream &f){
+node::NodeData *PrimaryExprInt::codegen(IRStream &f){
     if (opTok == nullptr) {
         return term->codegen(f);
     }else{
@@ -636,14 +494,14 @@ NodeData *PrimaryExprInt::codegen(IRStream &f){
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
             f << r << " = imul i32 " << k << ", " << l << "\n";
-            return new NodeData(r, "i32");
+            return new node::NodeData(r, "i32");
         }
         if (opTok->value.strValue == "/") {
             std::string r = local_context.top()->getRegister();
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
             f << r << " = idiv i32 " << k << ", " << l << "\n";
-            return new NodeData(r, "i32");
+            return new node::NodeData(r, "i32");
         }
         if (opTok->value.strValue == "!") {
             
@@ -652,7 +510,7 @@ NodeData *PrimaryExprInt::codegen(IRStream &f){
     return nullptr;
 }
 
-NodeData *TermInt::codegen(IRStream &f){
+node::NodeData *TermInt::codegen(IRStream &f){
     if (itok == nullptr) {
         return func->codegen(f);
     }
@@ -676,9 +534,9 @@ NodeData *TermInt::codegen(IRStream &f){
         }
         std::string r = local_context.top()->getRegister();
         f << r << " = load " << v->type.name << ", " << v->type.name << "* " << v->mangledName << "\n";
-        return new NodeData(r, "i32");
+        return new node::NodeData(r, "i32");
     }
-    return new NodeData(std::to_string(itok->value.intValue), "i32");
+    return new node::NodeData(std::to_string(itok->value.intValue), "i32");
 }
 
 unique(TermInt) TermInt::init(scheat::Token *i){
