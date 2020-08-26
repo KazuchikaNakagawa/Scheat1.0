@@ -21,6 +21,7 @@
 using namespace LegacyScheat;
 using namespace scheat;
 using namespace scheat::basicStructs;
+using namespace scheat::node;
 
 using std::move;
 
@@ -169,46 +170,6 @@ void LegacyScheat::E9::CreateMainContext(){
     main_Context->addVariable("argv", argv);
 }
 
-class Node {
-    
-public:
-    virtual node::NodeData* codegen(IRStream &) { return nullptr; };
-    
-    virtual ~Node() {};
-};
-
-class TermNode : public Node {
-    
-    
-public:
-    node::NodeData * codegen(IRStream &) override{ return nullptr; };
-    virtual ~TermNode();
-};
-
-class PrimaryExprNode : public Node {
-    
-public:
-    node::NodeData * codegen(IRStream &) override { return nullptr; };
-    virtual ~PrimaryExprNode();
-};
-
-class ExprNode : public Node {
-    
-public:
-    node::NodeData * codegen(IRStream &) override { return nullptr; };
-    virtual ~ExprNode();
-};
-
-class Term : public Node {
-    unique(Term) terms;
-    scheat::Token *opTok;
-    unique(TermNode) node;
-public:
-    node::NodeData * codegen(IRStream &) override;
-    static unique(Term) create(unique(TermNode));
-    static unique(Term) create(unique(Term), scheat::Token *, unique(TermNode));
-};
-
 unique(Term) Term::create(std::unique_ptr<TermNode> term){
     unique(Term) t = std::make_unique<Term>();
     t->opTok = nullptr;
@@ -256,26 +217,6 @@ node::NodeData *Term::codegen(IRStream &f){
     return nullptr;
 }
 
-class Expr : public Node {
-    
-public:
-    node::NodeData * codegen(IRStream &) override{ return nullptr; };
-};
-
-class PrototypeExpr : public ExprNode {
-    scheat::Token *id;
-    TypeData *type;
-public:
-    __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : id(t), type(ty), ExprNode() {};
-    
-};
-
-class Statement : public Node {
-    
-public:
-    virtual void dump(IRStream &) {};
-};
-
 class TermIdentifier : public Term {
     scheat::Token *idTok;
 public:
@@ -314,17 +255,6 @@ public:
     node::NodeData * codegen(IRStream &) override;
     unique(TermInt) init(scheat::Token *i);
     ~TermInt() {};
-};
-
-class PrimaryExpr : public ExprNode {
-    unique(PrimaryExpr) exprs;
-    scheat::Token *opTok;
-    unique(Term) term;
-public:
-    __deprecated PrimaryExpr();
-    node::NodeData * codegen(IRStream &) override;
-    static unique(PrimaryExpr) make(unique(Term));
-    static unique(PrimaryExpr) make(unique(PrimaryExpr), scheat::Token *, unique(Term));
 };
 
 unique(PrimaryExpr) PrimaryExpr::make(unique(Term) t){

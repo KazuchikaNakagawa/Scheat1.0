@@ -43,7 +43,7 @@ public:
     
     enum{
         primary,
-        non_primary,
+        secondary,
         term
     } precidence;
     
