@@ -18,6 +18,7 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Type.h"
 #include "llvm/IR/Verifier.h"
+#include "lld/Common/Driver.h"
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
