@@ -114,6 +114,13 @@ void Lexer::genTok(){
         return;
     }
     Token *tok = new Token();
+    if (buf == "...") {
+        tok->kind = TokenKind::val_operator;
+        tok->value.strValue = buf;
+        tokens = Token::add(tokens, tok);
+        clear();
+        return;
+    }
     if (buf == ".") {
         tok->kind = TokenKind::tok_period;
         tokens = Token::add(tokens, tok);
@@ -216,6 +223,9 @@ void Lexer::genTok(){
 #undef tadd
 
 void Token::out(){
+    if (kind == TokenKind::tok_range) {
+        printf("... token\n");
+    }
     if (kind == TokenKind::val_num) {
         printf("integer token ->%d\n", value.intValue);
         return;
@@ -280,6 +290,7 @@ void Token::out(){
 void Lexer::clear(){
     state = initState;
     buf = "";
+    isPossibleForPPPTok = false;
 }
 
 void Lexer::input(int c, int next){
@@ -443,7 +454,25 @@ void Lexer::input(int c, int next){
             buf.push_back(c);
             return;
         }
-        genTok();
+        
+        if (next == '.' && isPossibleForPPPTok) {
+            // .. <- .
+            buf.push_back(c);
+            buf.push_back(next);
+            genTok();
+            skipFlag = true;
+            return;
+        }
+        else if (next == '.' && !isPossibleForPPPTok) {
+            genTok();
+            buf.push_back(c);
+            isPossibleForPPPTok = true;
+            return;
+        }
+        else if (isPossibleForPPPTok && next != '.'){
+            // .. token
+            FatalError(__FILE_NAME__, __LINE__, "invalid input '..' . Did you mean '...'?");
+        }
         buf.push_back(c);
         genTok();
     }

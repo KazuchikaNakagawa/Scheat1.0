@@ -12,6 +12,8 @@
 #include "scheat.hpp"
 #include <fstream>
 
+namespace scheat{
+
 namespace LegacyScheat {
 
 namespace E9 {
@@ -27,5 +29,5 @@ void Parse(scheat::Token *tokens, std::ofstream&);
 }
 
 
-
+}
 #endif /* LegacyTypeScheat_hpp */

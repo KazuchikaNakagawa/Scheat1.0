@@ -58,9 +58,18 @@ class IdentifierTerm : public TermNode {
     std::string value;
     
 public:
-    __unavailable
+    __deprecated_msg("this class is only available for unique_ptr")
     IdentifierTerm(std::string v) : value(v) {};
     static unique(IdentifierTerm) create(std::string, bool);
+};
+
+class IdentifierExpr : public ExprNode {
+    unique(IdentifierExpr) expr;
+    // operator or . token
+    scheat::Token * opTok;
+    unique(IdentifierTerm) term;
+public:
+    
 };
 
 class IntTerm : public TermNode {

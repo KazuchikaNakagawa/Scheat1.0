@@ -12,6 +12,8 @@
 // #include <string>
 #include "Lexer.hpp"
 
+#define SV_P 7
+
 namespace scheat{
 
 enum class ScheatError : int {
@@ -31,7 +33,7 @@ class Scheat
     
     int section = 0;
     
-    int part = 0;
+    int part = SV_P;
     
     const char *target = "UNKNOWN TARGET";
     
@@ -40,7 +42,7 @@ class Scheat
 public:
     
     // initialize with three integers.
-    Scheat(int version = 1, int section = 0, int part = 1, const char *target = "", bool debugOpt = false);
+    Scheat(int version = 1, int section = 0, int part = SV_P, const char *target = "", bool debugOpt = false);
     
     // initialize with string that shows version.
     Scheat(const char *format, const char *target = "", bool debugOpt = false);

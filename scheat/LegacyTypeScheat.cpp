@@ -18,7 +18,7 @@
 
 #define unique(id) std::unique_ptr<id>
 
-using namespace LegacyScheat;
+using namespace scheat::LegacyScheat;
 using namespace scheat;
 using namespace scheat::basicStructs;
 using namespace scheat::node;

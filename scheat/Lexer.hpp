@@ -41,6 +41,7 @@ enum class TokenKind : int {
     tok_is,
     tok_period,
     tok_comma,
+    tok_range,
     tok_paren_l,
     tok_paren_r,
     tok_external,
@@ -139,6 +140,7 @@ class Lexer {
     void genTok();
     int commentDepth;
     bool skipFlag;
+    bool isPossibleForPPPTok = false;
 public:
     
     // initializer

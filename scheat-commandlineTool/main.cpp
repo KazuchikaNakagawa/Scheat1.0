@@ -16,8 +16,10 @@ int main(int argc, const char *argv[]){
     if (argc == 1) {
         scheat::Scheat s;
         printf("Scheat Compiler(C++ Edition)\n    Scheat's main compiler.\n");
-        printf("    version 1.0.1 beta\n");
+        printf("    version 1.0.%d beta\n", SV_P);
         return 0;
+    }else{
+        printf("version 1.0.%d beta\n", SV_P);
     }
     
     if (strcmp(argv[1], "-build") == 0) {
