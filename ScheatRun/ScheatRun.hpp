@@ -12,9 +12,9 @@
 /* The classes below are exported */
 #pragma GCC visibility push(default)
 
-namespace ScheatRunSystem{
-
-enum class InstructionType : unsigned char {
+namespace scheatRun{
+namespace instruction{
+enum class InstructionType : uint8_t {
     // mov instruction: instruction number 0
     // moves a immediate value to a register.
     //     length : 8bit
@@ -86,6 +86,14 @@ enum class InstructionType : unsigned char {
     //          | register value(8bit)
     fdiv = 10,
     
+    // fillzero instruction: instruction number 11
+    //     length : 8bit()
+    //     arg : address(64bit)
+    fillzero = 11,
+    
+    // label instruction: instruction number 12
+    label = 12,
+    
     // extended instruction: instruction number x
     // calls external function in ScheatRun
     //     length : 8bit (shows how many argument it has.)
@@ -97,7 +105,7 @@ enum class InstructionType : unsigned char {
 struct InstructionHead;
 
 class Instruction;
-
+}
 class ScheatRun
 {
 public:
@@ -105,7 +113,7 @@ public:
     static void FatalError(unsigned int, const char *format, ...);
     static void Debug(unsigned int, const char *format, ...);
     void run(std::string);
-    void runStream(InstructionHead *);
+    void runStream(instruction::InstructionHead *);
 };
 
 }

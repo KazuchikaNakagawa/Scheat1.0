@@ -81,7 +81,7 @@
 		8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */; };
 		8225412B24E175F700DBF05C /* ScheatRun.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412A24E175F700DBF05C /* ScheatRun.hpp */; };
 		8225412D24E175F700DBF05C /* ScheatRunPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */; };
-		8225412F24E175F700DBF05C /* ScheatRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412E24E175F700DBF05C /* ScheatRun.cpp */; };
+		8225412F24E175F700DBF05C /* scheatRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412E24E175F700DBF05C /* scheatRun.cpp */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
 		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
@@ -358,7 +358,7 @@
 		8225412824E175F700DBF05C /* libScheatRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatRun.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8225412A24E175F700DBF05C /* ScheatRun.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatRun.hpp; sourceTree = "<group>"; };
 		8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatRunPriv.hpp; sourceTree = "<group>"; };
-		8225412E24E175F700DBF05C /* ScheatRun.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatRun.cpp; sourceTree = "<group>"; };
+		8225412E24E175F700DBF05C /* scheatRun.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scheatRun.cpp; sourceTree = "<group>"; };
 		828FFCB724D80E28007BEBFF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		829849D924D1B5A7004A7A64 /* libspica.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libspica.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpica.hpp; sourceTree = "<group>"; };
@@ -624,7 +624,7 @@
 			children = (
 				8225412A24E175F700DBF05C /* ScheatRun.hpp */,
 				8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */,
-				8225412E24E175F700DBF05C /* ScheatRun.cpp */,
+				8225412E24E175F700DBF05C /* scheatRun.cpp */,
 			);
 			path = ScheatRun;
 			sourceTree = "<group>";
@@ -1056,7 +1056,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8225412F24E175F700DBF05C /* ScheatRun.cpp in Sources */,
+				8225412F24E175F700DBF05C /* scheatRun.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
