@@ -12,6 +12,8 @@
 /* The classes below are exported */
 #pragma GCC visibility push(default)
 
+#include "BasicStructures.h"
+
 namespace scheatRun{
 namespace instruction{
 enum class InstructionType : uint8_t {

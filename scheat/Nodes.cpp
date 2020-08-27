@@ -25,7 +25,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "scheat.hpp"
+#include "scheat.h"
 #include "scheatPriv.hpp"
 
 #define unique(a) std::unique_ptr<a>

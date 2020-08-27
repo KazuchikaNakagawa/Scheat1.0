@@ -8,7 +8,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <cstdarg>
-#include "scheat.hpp"
+#include "scheat.h"
 #include "scheatPriv.hpp"
 
 using namespace scheat;

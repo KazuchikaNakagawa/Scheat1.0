@@ -9,6 +9,7 @@
 #define BasicStructures_h
 
 #include <map>
+#include <vector>
 namespace scheat {
 
 class Context;
@@ -25,7 +26,7 @@ public:
         return this->name == rhs->name
         && this->mangledName() == rhs->mangledName();
     }
-    virtual std::string mangledName() const{ return ir_used; };
+    std::string mangledName() const{ return ir_used; };
     TypeData(std::string nm){
         name = nm;
         ir_used = "%" + nm;

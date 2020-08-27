@@ -6,7 +6,7 @@
 //
 
 #include "LegacyTypeScheat.hpp"
-#include "scheat.hpp"
+#include "scheat.h"
 #include "scheatPriv.hpp"
 #include "Lexer.hpp"
 #include "ScheatContext.h"

@@ -79,14 +79,14 @@
 		8205E18E24D31D0D001C5130 /* libm.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18D24D31D0D001C5130 /* libm.tbd */; };
 		8225412224E01BD600DBF05C /* LegacyTypeScheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412024E01BD600DBF05C /* LegacyTypeScheat.cpp */; };
 		8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */; };
-		8225412B24E175F700DBF05C /* ScheatRun.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412A24E175F700DBF05C /* ScheatRun.hpp */; };
+		8225412B24E175F700DBF05C /* ScheatRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 8225412A24E175F700DBF05C /* ScheatRun.h */; };
 		8225412D24E175F700DBF05C /* ScheatRunPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */; };
 		8225412F24E175F700DBF05C /* scheatRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412E24E175F700DBF05C /* scheatRun.cpp */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
 		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
 		829849E124D1B5A7004A7A64 /* ProjectSpica.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849E024D1B5A7004A7A64 /* ProjectSpica.cpp */; };
-		829849EE24D2DA20004A7A64 /* scheat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849ED24D2DA20004A7A64 /* scheat.hpp */; };
+		829849EE24D2DA20004A7A64 /* scheat.h in Headers */ = {isa = PBXBuildFile; fileRef = 829849ED24D2DA20004A7A64 /* scheat.h */; };
 		829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849EF24D2DA20004A7A64 /* scheatPriv.hpp */; };
 		829849F224D2DA20004A7A64 /* scheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849F124D2DA20004A7A64 /* scheat.cpp */; };
 		82984A0624D2E0B7004A7A64 /* Nodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82984A0524D2E0B7004A7A64 /* Nodes.cpp */; };
@@ -356,7 +356,7 @@
 		8225412024E01BD600DBF05C /* LegacyTypeScheat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LegacyTypeScheat.cpp; sourceTree = "<group>"; };
 		8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LegacyTypeScheat.hpp; sourceTree = "<group>"; };
 		8225412824E175F700DBF05C /* libScheatRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatRun.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8225412A24E175F700DBF05C /* ScheatRun.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatRun.hpp; sourceTree = "<group>"; };
+		8225412A24E175F700DBF05C /* ScheatRun.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatRun.h; sourceTree = "<group>"; };
 		8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatRunPriv.hpp; sourceTree = "<group>"; };
 		8225412E24E175F700DBF05C /* scheatRun.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scheatRun.cpp; sourceTree = "<group>"; };
 		826720A524F64ADB00C94D22 /* ScheatNodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatNodes.h; sourceTree = "<group>"; };
@@ -368,7 +368,7 @@
 		829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpicaPriv.hpp; sourceTree = "<group>"; };
 		829849E024D1B5A7004A7A64 /* ProjectSpica.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectSpica.cpp; sourceTree = "<group>"; };
 		829849EB24D2DA20004A7A64 /* libscheat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libscheat.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		829849ED24D2DA20004A7A64 /* scheat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scheat.hpp; sourceTree = "<group>"; };
+		829849ED24D2DA20004A7A64 /* scheat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scheat.h; sourceTree = "<group>"; };
 		829849EF24D2DA20004A7A64 /* scheatPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scheatPriv.hpp; sourceTree = "<group>"; };
 		829849F124D2DA20004A7A64 /* scheat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scheat.cpp; sourceTree = "<group>"; };
 		829849FA24D2DFA4004A7A64 /* TestScheat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestScheat; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -625,7 +625,7 @@
 		8225412924E175F700DBF05C /* ScheatRun */ = {
 			isa = PBXGroup;
 			children = (
-				8225412A24E175F700DBF05C /* ScheatRun.hpp */,
+				8225412A24E175F700DBF05C /* ScheatRun.h */,
 				8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */,
 				8225412E24E175F700DBF05C /* scheatRun.cpp */,
 			);
@@ -684,7 +684,7 @@
 		829849EC24D2DA20004A7A64 /* scheat */ = {
 			isa = PBXGroup;
 			children = (
-				829849ED24D2DA20004A7A64 /* scheat.hpp */,
+				829849ED24D2DA20004A7A64 /* scheat.h */,
 				826720A724F64C4300C94D22 /* BasicStructures.h */,
 				826720A624F64B8200C94D22 /* ScheatContext.h */,
 				826720A524F64ADB00C94D22 /* ScheatNodes.h */,
@@ -818,7 +818,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8225412B24E175F700DBF05C /* ScheatRun.hpp in Headers */,
+				8225412B24E175F700DBF05C /* ScheatRun.h in Headers */,
 				8225412D24E175F700DBF05C /* ScheatRunPriv.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -838,7 +838,7 @@
 			files = (
 				82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */,
 				8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */,
-				829849EE24D2DA20004A7A64 /* scheat.hpp in Headers */,
+				829849EE24D2DA20004A7A64 /* scheat.h in Headers */,
 				829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1202,6 +1202,10 @@
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/include,
+					"\"$(SRCROOT)/scheat\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1226,6 +1230,10 @@
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/include,
+					"\"$(SRCROOT)/scheat\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

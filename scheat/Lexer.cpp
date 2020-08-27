@@ -5,7 +5,7 @@
 //  Created by かずちか on 2020/07/31.
 //
 
-#include "scheat.hpp"
+#include "scheat.h"
 
 
 using namespace scheat;
