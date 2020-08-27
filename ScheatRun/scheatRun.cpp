@@ -6,8 +6,9 @@
 //
 
 #include <iostream>
-#include "ScheatRun.hpp"
+#include "ScheatRun.h"
 #include "ScheatRunPriv.hpp"
+#include "ScheatEngine.h"
 #include <fstream>
 
 using namespace scheatRun;

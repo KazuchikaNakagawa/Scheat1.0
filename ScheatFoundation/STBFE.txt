@@ -1,0 +1,10 @@
+
+declare i8* @ScheatPointer_alloc(i64)
+
+declare void @ScheatPointer_copy(i8*)
+
+declare void @ScheatPointer_unref(i8*)
+
+declare void @ScheatPointer_release(i8*)
+
+; Destructer must be void (i8*)

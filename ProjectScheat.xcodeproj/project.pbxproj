@@ -82,6 +82,7 @@
 		8225412B24E175F700DBF05C /* ScheatRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 8225412A24E175F700DBF05C /* ScheatRun.h */; };
 		8225412D24E175F700DBF05C /* ScheatRunPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */; };
 		8225412F24E175F700DBF05C /* scheatRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412E24E175F700DBF05C /* scheatRun.cpp */; };
+		826720D824F7D56300C94D22 /* ScheatFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720D624F7D56300C94D22 /* ScheatFoundation.cpp */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
 		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
@@ -362,6 +363,11 @@
 		826720A524F64ADB00C94D22 /* ScheatNodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatNodes.h; sourceTree = "<group>"; };
 		826720A624F64B8200C94D22 /* ScheatContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatContext.h; sourceTree = "<group>"; };
 		826720A724F64C4300C94D22 /* BasicStructures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasicStructures.h; sourceTree = "<group>"; };
+		826720A824F7CA1200C94D22 /* ScheatEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatEngine.h; sourceTree = "<group>"; };
+		826720D024F7D4DA00C94D22 /* libFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		826720D524F7D52A00C94D22 /* ScheatCFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatCFoundation.h; sourceTree = "<group>"; };
+		826720D624F7D56300C94D22 /* ScheatFoundation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatFoundation.cpp; sourceTree = "<group>"; };
+		826720DA24F7D5CC00C94D22 /* STBFE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = STBFE.txt; sourceTree = "<group>"; };
 		828FFCB724D80E28007BEBFF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		829849D924D1B5A7004A7A64 /* libspica.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libspica.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpica.hpp; sourceTree = "<group>"; };
@@ -413,6 +419,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		8225412624E175F700DBF05C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		826720CE24F7D4DA00C94D22 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -626,10 +639,21 @@
 			isa = PBXGroup;
 			children = (
 				8225412A24E175F700DBF05C /* ScheatRun.h */,
+				826720A824F7CA1200C94D22 /* ScheatEngine.h */,
 				8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */,
 				8225412E24E175F700DBF05C /* scheatRun.cpp */,
 			);
 			path = ScheatRun;
+			sourceTree = "<group>";
+		};
+		826720D424F7D4F600C94D22 /* ScheatFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				826720D524F7D52A00C94D22 /* ScheatCFoundation.h */,
+				826720D624F7D56300C94D22 /* ScheatFoundation.cpp */,
+				826720DA24F7D5CC00C94D22 /* STBFE.txt */,
+			);
+			path = ScheatFoundation;
 			sourceTree = "<group>";
 		};
 		828FFCB624D80DFF007BEBFF /* scheat-commandlineTool */ = {
@@ -643,6 +667,7 @@
 		829849D024D1B5A7004A7A64 = {
 			isa = PBXGroup;
 			children = (
+				826720D424F7D4F600C94D22 /* ScheatFoundation */,
 				82AEB66B24DC3E0100889AC3 /* ScheatIR */,
 				828FFCB624D80DFF007BEBFF /* scheat-commandlineTool */,
 				829849DB24D1B5A7004A7A64 /* ProjectSpica */,
@@ -667,6 +692,7 @@
 				8225412824E175F700DBF05C /* libScheatRun.a */,
 				82D6F4D024F3EE240003D0EA /* libScheatARC.a */,
 				82D6F4DF24F3FC670003D0EA /* ARCTest */,
+				826720D024F7D4DA00C94D22 /* libFoundation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -823,6 +849,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		826720CC24F7D4DA00C94D22 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		829849D524D1B5A7004A7A64 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -877,6 +910,23 @@
 			name = ScheatRun;
 			productName = ScheatRun;
 			productReference = 8225412824E175F700DBF05C /* libScheatRun.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		826720CF24F7D4DA00C94D22 /* Foundation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 826720D124F7D4DA00C94D22 /* Build configuration list for PBXNativeTarget "Foundation" */;
+			buildPhases = (
+				826720CC24F7D4DA00C94D22 /* Headers */,
+				826720CD24F7D4DA00C94D22 /* Sources */,
+				826720CE24F7D4DA00C94D22 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Foundation;
+			productName = Foundation;
+			productReference = 826720D024F7D4DA00C94D22 /* libFoundation.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		829849D824D1B5A7004A7A64 /* ProjectScheat */ = {
@@ -1011,6 +1061,9 @@
 					8225412724E175F700DBF05C = {
 						CreatedOnToolsVersion = 12.0;
 					};
+					826720CF24F7D4DA00C94D22 = {
+						CreatedOnToolsVersion = 12.0;
+					};
 					829849D824D1B5A7004A7A64 = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -1053,6 +1106,7 @@
 				8225412724E175F700DBF05C /* ScheatRun */,
 				82D6F4CF24F3EE240003D0EA /* ScheatARC */,
 				82D6F4DE24F3FC670003D0EA /* ARCTest */,
+				826720CF24F7D4DA00C94D22 /* Foundation */,
 			);
 		};
 /* End PBXProject section */
@@ -1063,6 +1117,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8225412F24E175F700DBF05C /* scheatRun.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		826720CD24F7D4DA00C94D22 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				826720D824F7D56300C94D22 /* ScheatFoundation.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1234,6 +1296,55 @@
 					/usr/local/Cellar/llvm/10.0.0_3/include,
 					"\"$(SRCROOT)/scheat\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		826720D224F7D4DA00C94D22 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		826720D324F7D4DA00C94D22 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1749,6 +1860,15 @@
 			buildConfigurations = (
 				8225413024E175F700DBF05C /* Debug */,
 				8225413124E175F700DBF05C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		826720D124F7D4DA00C94D22 /* Build configuration list for PBXNativeTarget "Foundation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				826720D224F7D4DA00C94D22 /* Debug */,
+				826720D324F7D4DA00C94D22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
