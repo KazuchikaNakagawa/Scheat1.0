@@ -10,7 +10,7 @@
 #include <bitset>
 
 struct ReferenceData {
-    int count;
+    unsigned int count;
     void (*destructor)(void *);
     ReferenceData(void (*p)(void *) = nullptr){
         count = 1;
