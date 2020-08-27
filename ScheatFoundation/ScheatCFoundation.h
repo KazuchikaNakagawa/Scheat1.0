@@ -14,7 +14,7 @@
 // automatically releases.
 extern "C" void* ScheatPointer_alloc(uint64_t, void(*)(void*));
 
-extern "C" void ScheatPointer_copy(void *);
+extern "C" void* ScheatPointer_copy(void *);
 
 extern "C" void ScheatPointer_unref(void *);
 

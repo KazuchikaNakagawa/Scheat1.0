@@ -14,7 +14,6 @@
 			);
 			dependencies = (
 				82D6F4EC24F402260003D0EA /* PBXTargetDependency */,
-				82D6F4EA24F4020F0003D0EA /* PBXTargetDependency */,
 				8225413424E2356200DBF05C /* PBXTargetDependency */,
 				82AEB66A24DC3DE500889AC3 /* PBXTargetDependency */,
 				82AEB62124DC347100889AC3 /* PBXTargetDependency */,
@@ -83,6 +82,8 @@
 		8225412D24E175F700DBF05C /* ScheatRunPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */; };
 		8225412F24E175F700DBF05C /* scheatRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412E24E175F700DBF05C /* scheatRun.cpp */; };
 		826720D824F7D56300C94D22 /* ScheatFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720D624F7D56300C94D22 /* ScheatFoundation.cpp */; };
+		826720E224F7F4C900C94D22 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720E124F7F4C900C94D22 /* main.cpp */; };
+		826720E824F7F7AE00C94D22 /* libFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826720D024F7D4DA00C94D22 /* libFoundation.a */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
 		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
@@ -160,8 +161,6 @@
 		82D6F4D324F3EE240003D0EA /* ScheatARC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */; };
 		82D6F4D524F3EE240003D0EA /* ScheatARCPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */; };
 		82D6F4D724F3EE240003D0EA /* ScheatARC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */; };
-		82D6F4E224F3FC670003D0EA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82D6F4E124F3FC670003D0EA /* main.cpp */; };
-		82D6F4E824F3FC800003D0EA /* libScheatARC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4D024F3EE240003D0EA /* libScheatARC.a */; };
 		82D6F4F724F555F40003D0EA /* liblldMachO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4ED24F555F30003D0EA /* liblldMachO.a */; };
 		82D6F4F824F555F40003D0EA /* liblldMachO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4ED24F555F30003D0EA /* liblldMachO.a */; };
 		82D6F4F924F555F40003D0EA /* liblldCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4EE24F555F30003D0EA /* liblldCommon.a */; };
@@ -211,6 +210,13 @@
 			remoteGlobalIDString = 8225412724E175F700DBF05C;
 			remoteInfo = ScheatRun;
 		};
+		826720E624F7F6B000C94D22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 826720CF24F7D4DA00C94D22;
+			remoteInfo = Foundation;
+		};
 		828FFCBB24D841EF007BEBFF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
@@ -253,20 +259,6 @@
 			remoteGlobalIDString = 82AEB62824DC3DC400889AC3;
 			remoteInfo = scheatIRBuilder;
 		};
-		82D6F4E624F3FC790003D0EA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 82D6F4CF24F3EE240003D0EA;
-			remoteInfo = ScheatARC;
-		};
-		82D6F4E924F4020F0003D0EA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 82D6F4DE24F3FC670003D0EA;
-			remoteInfo = ARCTest;
-		};
 		82D6F4EB24F402260003D0EA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
@@ -277,6 +269,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		826720DD24F7F4C900C94D22 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		829849F824D2DFA4004A7A64 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -287,15 +288,6 @@
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		82A1A23724D80AFE009C2E5F /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		82D6F4DD24F3FC670003D0EA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -368,6 +360,8 @@
 		826720D524F7D52A00C94D22 /* ScheatCFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatCFoundation.h; sourceTree = "<group>"; };
 		826720D624F7D56300C94D22 /* ScheatFoundation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatFoundation.cpp; sourceTree = "<group>"; };
 		826720DA24F7D5CC00C94D22 /* STBFE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = STBFE.txt; sourceTree = "<group>"; };
+		826720DF24F7F4C900C94D22 /* ScheatARCTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ScheatARCTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		826720E124F7F4C900C94D22 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		828FFCB724D80E28007BEBFF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		829849D924D1B5A7004A7A64 /* libspica.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libspica.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpica.hpp; sourceTree = "<group>"; };
@@ -389,8 +383,6 @@
 		82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARC.hpp; sourceTree = "<group>"; };
 		82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARCPriv.hpp; sourceTree = "<group>"; };
 		82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatARC.cpp; sourceTree = "<group>"; };
-		82D6F4DF24F3FC670003D0EA /* ARCTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ARCTest; sourceTree = BUILT_PRODUCTS_DIR; };
-		82D6F4E124F3FC670003D0EA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		82D6F4ED24F555F30003D0EA /* liblldMachO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldMachO.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldMachO.a; sourceTree = "<group>"; };
 		82D6F4EE24F555F30003D0EA /* liblldCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldCommon.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldCommon.a; sourceTree = "<group>"; };
 		82D6F4EF24F555F30003D0EA /* liblldMinGW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldMinGW.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldMinGW.a; sourceTree = "<group>"; };
@@ -429,6 +421,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		826720DC24F7F4C900C94D22 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				826720E824F7F7AE00C94D22 /* libFoundation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,14 +624,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82D6F4DC24F3FC670003D0EA /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82D6F4E824F3FC800003D0EA /* libScheatARC.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -656,6 +648,14 @@
 			path = ScheatFoundation;
 			sourceTree = "<group>";
 		};
+		826720E024F7F4C900C94D22 /* ScheatARCTest */ = {
+			isa = PBXGroup;
+			children = (
+				826720E124F7F4C900C94D22 /* main.cpp */,
+			);
+			path = ScheatARCTest;
+			sourceTree = "<group>";
+		};
 		828FFCB624D80DFF007BEBFF /* scheat-commandlineTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -675,7 +675,7 @@
 				829849FB24D2DFA4004A7A64 /* TestScheat */,
 				8225412924E175F700DBF05C /* ScheatRun */,
 				82D6F4D124F3EE240003D0EA /* ScheatARC */,
-				82D6F4E024F3FC670003D0EA /* ARCTest */,
+				826720E024F7F4C900C94D22 /* ScheatARCTest */,
 				829849DA24D1B5A7004A7A64 /* Products */,
 				82984A0324D2E070004A7A64 /* Frameworks */,
 			);
@@ -691,8 +691,8 @@
 				82AEB66824DC3DC400889AC3 /* libscheatIRBuilder.a */,
 				8225412824E175F700DBF05C /* libScheatRun.a */,
 				82D6F4D024F3EE240003D0EA /* libScheatARC.a */,
-				82D6F4DF24F3FC670003D0EA /* ARCTest */,
 				826720D024F7D4DA00C94D22 /* libFoundation.a */,
+				826720DF24F7F4C900C94D22 /* ScheatARCTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -829,14 +829,6 @@
 			path = ScheatARC;
 			sourceTree = "<group>";
 		};
-		82D6F4E024F3FC670003D0EA /* ARCTest */ = {
-			isa = PBXGroup;
-			children = (
-				82D6F4E124F3FC670003D0EA /* main.cpp */,
-			);
-			path = ARCTest;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -928,6 +920,24 @@
 			productName = Foundation;
 			productReference = 826720D024F7D4DA00C94D22 /* libFoundation.a */;
 			productType = "com.apple.product-type.library.static";
+		};
+		826720DE24F7F4C900C94D22 /* ScheatARCTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 826720E324F7F4C900C94D22 /* Build configuration list for PBXNativeTarget "ScheatARCTest" */;
+			buildPhases = (
+				826720DB24F7F4C900C94D22 /* Sources */,
+				826720DC24F7F4C900C94D22 /* Frameworks */,
+				826720DD24F7F4C900C94D22 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				826720E724F7F6B000C94D22 /* PBXTargetDependency */,
+			);
+			name = ScheatARCTest;
+			productName = ScheatARCTest;
+			productReference = 826720DF24F7F4C900C94D22 /* ScheatARCTest */;
+			productType = "com.apple.product-type.tool";
 		};
 		829849D824D1B5A7004A7A64 /* ProjectScheat */ = {
 			isa = PBXNativeTarget;
@@ -1032,24 +1042,6 @@
 			productReference = 82D6F4D024F3EE240003D0EA /* libScheatARC.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		82D6F4DE24F3FC670003D0EA /* ARCTest */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 82D6F4E324F3FC670003D0EA /* Build configuration list for PBXNativeTarget "ARCTest" */;
-			buildPhases = (
-				82D6F4DB24F3FC670003D0EA /* Sources */,
-				82D6F4DC24F3FC670003D0EA /* Frameworks */,
-				82D6F4DD24F3FC670003D0EA /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				82D6F4E724F3FC790003D0EA /* PBXTargetDependency */,
-			);
-			name = ARCTest;
-			productName = ARCTest;
-			productReference = 82D6F4DF24F3FC670003D0EA /* ARCTest */;
-			productType = "com.apple.product-type.tool";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1062,6 +1054,9 @@
 						CreatedOnToolsVersion = 12.0;
 					};
 					826720CF24F7D4DA00C94D22 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					826720DE24F7F4C900C94D22 = {
 						CreatedOnToolsVersion = 12.0;
 					};
 					829849D824D1B5A7004A7A64 = {
@@ -1077,9 +1072,6 @@
 						CreatedOnToolsVersion = 12.0;
 					};
 					82D6F4CF24F3EE240003D0EA = {
-						CreatedOnToolsVersion = 12.0;
-					};
-					82D6F4DE24F3FC670003D0EA = {
 						CreatedOnToolsVersion = 12.0;
 					};
 				};
@@ -1105,8 +1097,8 @@
 				82AEB62824DC3DC400889AC3 /* scheatIRBuilder */,
 				8225412724E175F700DBF05C /* ScheatRun */,
 				82D6F4CF24F3EE240003D0EA /* ScheatARC */,
-				82D6F4DE24F3FC670003D0EA /* ARCTest */,
 				826720CF24F7D4DA00C94D22 /* Foundation */,
+				826720DE24F7F4C900C94D22 /* ScheatARCTest */,
 			);
 		};
 /* End PBXProject section */
@@ -1125,6 +1117,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				826720D824F7D56300C94D22 /* ScheatFoundation.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		826720DB24F7F4C900C94D22 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				826720E224F7F4C900C94D22 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1179,14 +1179,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82D6F4DB24F3FC670003D0EA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82D6F4E224F3FC670003D0EA /* main.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1194,6 +1186,11 @@
 			isa = PBXTargetDependency;
 			target = 8225412724E175F700DBF05C /* ScheatRun */;
 			targetProxy = 8225413324E2356200DBF05C /* PBXContainerItemProxy */;
+		};
+		826720E724F7F6B000C94D22 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 826720CF24F7D4DA00C94D22 /* Foundation */;
+			targetProxy = 826720E624F7F6B000C94D22 /* PBXContainerItemProxy */;
 		};
 		828FFCBC24D841EF007BEBFF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1224,16 +1221,6 @@
 			isa = PBXTargetDependency;
 			target = 82AEB62824DC3DC400889AC3 /* scheatIRBuilder */;
 			targetProxy = 82AEB66924DC3DE500889AC3 /* PBXContainerItemProxy */;
-		};
-		82D6F4E724F3FC790003D0EA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 82D6F4CF24F3EE240003D0EA /* ScheatARC */;
-			targetProxy = 82D6F4E624F3FC790003D0EA /* PBXContainerItemProxy */;
-		};
-		82D6F4EA24F4020F0003D0EA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 82D6F4DE24F3FC670003D0EA /* ARCTest */;
-			targetProxy = 82D6F4E924F4020F0003D0EA /* PBXContainerItemProxy */;
 		};
 		82D6F4EC24F402260003D0EA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1348,6 +1335,61 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		826720E424F7F4C900C94D22 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/include,
+					"\"$(SRCROOT)/ScheatFoundation\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		826720E524F7F4C900C94D22 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/include,
+					"\"$(SRCROOT)/ScheatFoundation\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -1797,61 +1839,6 @@
 			};
 			name = Release;
 		};
-		82D6F4E424F3FC670003D0EA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R28UD9U8M7;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.0_3/include,
-					"/Users/kaz04/XcodeProjects/Language-Scheat/ScheatARC",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		82D6F4E524F3FC670003D0EA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R28UD9U8M7;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.0_3/include,
-					"/Users/kaz04/XcodeProjects/Language-Scheat/ScheatARC",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1869,6 +1856,15 @@
 			buildConfigurations = (
 				826720D224F7D4DA00C94D22 /* Debug */,
 				826720D324F7D4DA00C94D22 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		826720E324F7F4C900C94D22 /* Build configuration list for PBXNativeTarget "ScheatARCTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				826720E424F7F4C900C94D22 /* Debug */,
+				826720E524F7F4C900C94D22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1941,15 +1937,6 @@
 			buildConfigurations = (
 				82D6F4D824F3EE240003D0EA /* Debug */,
 				82D6F4D924F3EE240003D0EA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		82D6F4E324F3FC670003D0EA /* Build configuration list for PBXNativeTarget "ARCTest" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				82D6F4E424F3FC670003D0EA /* Debug */,
-				82D6F4E524F3FC670003D0EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
