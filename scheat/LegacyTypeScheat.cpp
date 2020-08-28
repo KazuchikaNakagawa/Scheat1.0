@@ -247,7 +247,7 @@ public:
         }else if (t->kind == scheat::TokenKind::val_identifier){
             itok = t;
         }else{
-            scheat::FatalError(__FILE_NAME__,
+            scheato->FatalError(__FILE_NAME__,
                                __LINE__,
                                "in %d.%d this is not suitable for int type.",
                                t->location.line,

@@ -15,7 +15,7 @@ int main(int argc, const char *argv[]){
     
     if (argc == 1) {
         scheat::Scheat s;
-        printf("Scheat Compiler(C++ Edition)\n    Scheat's main compiler.\n");
+        printf("\033[1mScheat Compiler(C++ Edition)\033[m\n    Scheat's main compiler.\n");
         printf("    version 1.0.%d beta\n", SV_P);
         return 0;
     }else{

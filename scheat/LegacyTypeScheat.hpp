@@ -9,7 +9,8 @@
 #define LegacyTypeScheat_hpp
 
 #include <stdio.h>
-#include "scheat.h"
+#include "ScheatObjects.h"
+#include "Lexer.hpp"
 #include <fstream>
 
 namespace scheat{
