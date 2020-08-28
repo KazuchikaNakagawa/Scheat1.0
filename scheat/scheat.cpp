@@ -47,23 +47,7 @@ void IRBuilderReplica::check(){
     }
 }
 
-void Scheat::HelloWorld(const char * s)
-{
-    scheatPriv *theObj = new scheatPriv;
-    theObj->HelloWorldPriv(s);
-    delete theObj;
-};
-
-Scheat::Scheat(int version, int section, int part, const char *target, bool debugOpt){
-    this->version = version;
-    this->section = section;
-    this->part = part;
-    this->target = target;
-    this->debug = debugOpt;
-    DEBUGOPTION = debugOpt;
-}
-
-void Scheat::old_Debug(const char *msg, unsigned int line){
+void OldScheat::old_Debug(const char *msg, unsigned int line){
     if (!debug) {
         return;
     }
@@ -82,7 +66,7 @@ void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...)
     exit(0);
 }
 
-void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...)
+void OldScheat::Log(const char *fn, unsigned int line, const char *fmt, ...)
 {
     if (!debug) {
         return;
@@ -96,12 +80,12 @@ void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...)
     printf("\n");
 }
 
-void Scheat::old_FatalError(const char *msg, unsigned int line){
+void OldScheat::old_FatalError(const char *msg, unsigned int line){
     printf("FatalError %u : %s\n", line, msg);
     exit(0);
 }
 
-void Scheat_::Warning(const char *fn, unsigned int line, const char *format, ...){
+void Scheat::Warning(const char *fn, unsigned int line, const char *format, ...){
     if (developerMode) {
         printf("Warning(from %s, %u)\n source %s line%u.%u : ",
                fn,
@@ -123,7 +107,10 @@ void Scheat_::Warning(const char *fn, unsigned int line, const char *format, ...
     printf("\n");
 }
 
-void Scheat_::Log(const char *fn, unsigned int line, const char *fmt, ...){
+void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...){
+    if (!debug) {
+        return;
+    }
     if (developerMode) {
         printf("Log(from %s, %u)\n source %s line%u.%u : ",
                fn,
@@ -143,6 +130,34 @@ void Scheat_::Log(const char *fn, unsigned int line, const char *fmt, ...){
     ::vprintf(fmt, arg);
     va_end(arg);
     printf("\n");
+}
+
+Scheat::Scheat(){
+    debug = false;
+    developerMode = false;
+    targettingFile = "";
+    location = SourceLocation();
+}
+
+void Scheat::DevLog(const char *fn, unsigned int line, const char *fmt, ...){
+    if (developerMode) {
+        printf("Log(from %s, %u)\n source %s line%u.%u : ",
+               fn,
+               line,
+               targettingFile.c_str(),
+               location.line,
+               location.column);
+        va_list arg;
+        
+        va_start(arg, fmt);
+        ::vprintf(fmt, arg);
+        va_end(arg);
+        printf("\n");
+        
+    }else{
+        return;
+    }
+    
 }
 
 void scheatPriv::HelloWorldPriv(const char * s) 
@@ -170,7 +185,7 @@ public:
     
 };
 
-scheat::Scheat::Scheat(const char *format, const char *target, bool debugOpt){
+scheat::OldScheat::OldScheat(const char *format, const char *target, bool debugOpt){
     version = 0; section = 0; part = 0;
     if (sscanf(format,
                "%d.%d.%d",
@@ -183,7 +198,7 @@ scheat::Scheat::Scheat(const char *format, const char *target, bool debugOpt){
     }
 }
 
-void scheat::Scheat::printVersion(){
+void scheat::OldScheat::printVersion(){
     
     printf("%s\n", (std::to_string(version) + "." +
             std::to_string(section) + "." +

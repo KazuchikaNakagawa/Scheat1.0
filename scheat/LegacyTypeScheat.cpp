@@ -25,6 +25,8 @@ using namespace scheat::node;
 
 using std::move;
 
+static Scheat *scheato = nullptr;
+
 std::string Function::getName(){
     std::string base = return_type.mangledName() + "_";
     for (int i = 0; i < argTypes.size(); i++) {
@@ -195,7 +197,7 @@ Class::Class(TypeData *ty) : type(ty){
 static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs, scheat::Token *tok, node::NodeData *rhs){
     if (lhs == nullptr) {
         // in this case, (OP Term) = prefix operator.
-        scheat::FatalError(__FILE_NAME__, __LINE__, "Int(llvm i32) has no operator(%s)(Int)", tok->value.strValue.c_str());
+        scheato->FatalError(__FILE_NAME__, __LINE__, "Int(llvm i32) has no operator(%s)(Int)", tok->value.strValue.c_str());
     }
     if (rhs == nullptr) {
         // in this case, (Term OP) = postfix operator.
@@ -203,7 +205,7 @@ static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs,
             
         }
     }
-    scheat::FatalError(__FILE_NAME__, __LINE__, "Unknown Error code %u", __LINE__);
+    scheato->FatalError(__FILE_NAME__, __LINE__, "Unknown Error code %u", __LINE__);
     return nullptr;
 }
 
@@ -290,7 +292,7 @@ static node::NodeData *subFunc_OpInt(IRStream &f, node::NodeData *lhs, scheat::T
         << r1 << ", " << r2 << "\n";
         return new node::NodeData(r, "i32");
     }
-    scheat::FatalError(__FILE_NAME__,
+    scheato->FatalError(__FILE_NAME__,
                        __LINE__,
                        "in %d.%d Int(llvm i32) does not have %s operator.",
                        tok->location.line,
@@ -316,7 +318,7 @@ static node::NodeData *subFunc_OpInt_Primary(IRStream &f, node::NodeData *lhs, s
         << r1 << ", " << r2 << "\n";
         return new node::NodeData(r, "i32");
     }
-    scheat::FatalError(__FILE_NAME__,
+    scheato->FatalError(__FILE_NAME__,
                        __LINE__,
                        "in %d.%d Int(llvm i32) does not have %s operator.",
                        tok->location.line,
@@ -338,7 +340,7 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
     auto lhs = exprs->codegen(f);
     auto rhs = term->codegen(f);
     if (lhs == nullptr || rhs == nullptr) {
-        scheat::FatalError(__FILE_NAME__,
+        scheato->FatalError(__FILE_NAME__,
                            __LINE__,
                            "SystemError. error code: %u",
                            scheat::ScheatError::ERR_node_has_illegal_value);
@@ -447,7 +449,7 @@ node::NodeData *TermInt::codegen(IRStream &f){
     if (itok->kind == scheat::TokenKind::val_identifier) {
         Variable *v = local_context.top()->findVariable(itok->value.strValue);
         if (v == nullptr) {
-            scheat::FatalError(__FILE_NAME__,
+            scheato->FatalError(__FILE_NAME__,
                                __LINE__,
                                "in %d.%d %s is undefined.",
                                itok->location.line,
@@ -455,7 +457,7 @@ node::NodeData *TermInt::codegen(IRStream &f){
                                itok->value.strValue.c_str());
         }
         if (v->type.mangledName() != "i32") {
-            scheat::FatalError(__FILE_NAME__,
+            scheato->FatalError(__FILE_NAME__,
                                __LINE__,
                                "in %d.%d %s is not an integer value.",
                                itok->location.line,
@@ -472,7 +474,7 @@ node::NodeData *TermInt::codegen(IRStream &f){
 unique(TermInt) TermInt::init(scheat::Token *i){
     if (i->kind != scheat::TokenKind::val_num &&
         i->kind != scheat::TokenKind::val_identifier) {
-        scheat::FatalError(__FILE_NAME__,
+        scheato->FatalError(__FILE_NAME__,
                            __LINE__,
                            "in %d.%d illegal Node is shifted.",
                            i->location.line,
@@ -485,10 +487,10 @@ unique(TermInt) TermInt::init(scheat::Token *i){
 unique(IdentifierTerm) IdentifierTerm::create(std::string v, bool n){
     auto cond = local_context.top()->isExists(v);
     if (cond && !n) {
-        FatalError(__FILE_NAME__, __LINE__, "%s already exists.", v.c_str());
+        scheato->FatalError(__FILE_NAME__, __LINE__, "%s already exists.", v.c_str());
     }
     if (!cond && !n) {
-        FatalError(__FILE_NAME__, __LINE__, "%s does not exists.", v.c_str());
+        scheato->FatalError(__FILE_NAME__, __LINE__, "%s does not exists.", v.c_str());
     }
     auto o = std::make_unique<IdentifierTerm>(v);
     return o;
@@ -515,8 +517,9 @@ unique(Statement) parseStatement(){
     return nullptr;
 };
 
-void LegacyScheat::Parse(scheat::Token *tokens, std::ofstream &f){
+void LegacyScheat::Parse(Scheat *host, scheat::Token *tokens, std::ofstream &f){
     E9::InitializeContexts();
+    scheato = host;
     gltokens = tokens;
     unique(Statement) stmt = nullptr;
     while (stmt != nullptr) {

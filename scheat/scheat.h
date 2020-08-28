@@ -11,9 +11,10 @@
 #pragma GCC visibility push(default)
 // #include <string>
 #include "Lexer.hpp"
+#include "ScheatObjects.h"
 #include <string>
 
-#define SV_P 7
+#define SV_P 8
 
 namespace scheat{
 
@@ -26,7 +27,7 @@ enum class ScheatError : int {
 static bool DEBUGOPTION = false;
 
 /// Scheat needs this object to move.
-class Scheat
+class OldScheat
 {
     /// version.section.part
     /// 1.0.0
@@ -39,11 +40,11 @@ class Scheat
     const char *target = "UNKNOWN TARGET";
     
     bool debug = false;
-    Scheat(int version = 1, int section = 0, int part = SV_P, const char *target = "", bool debugOpt = false);
+    OldScheat(int version = 1, int section = 0, int part = SV_P, const char *target = "", bool debugOpt = false);
 public:
     
     // initialize with string that shows version.
-    Scheat(const char *format, const char *target = "", bool debugOpt = false);
+    OldScheat(const char *format, const char *target = "", bool debugOpt = false);
     __unavailable
     void HelloWorld(const char *);
     // this function was deprecated because new function with varg is there instead of this.
@@ -57,32 +58,15 @@ public:
     int getSection() const { return section; };
     int getPart() const { return part; };
     
-    static Scheat& shared(){
-        static Scheat _scheat(1,0,SV_P);
+    static OldScheat& shared(){
+        static OldScheat _scheat(1,0,SV_P);
         return _scheat;
     };
 };
 
-// Scheat System Key
-class Scheat_ {
-    bool debug;
-    bool developerMode;
-    std::string targettingFile;
-    SourceLocation location;
-public:
-    std::string outputFilePath;
-    std::string target;
-    std::string datalayout;
-    std::string header_search_path;
-    std::string library_search_path;
-    void debugSet(bool);
-    void FatalError(const char *, unsigned int, const char *, ...) ;
-    void Log(const char *,unsigned int, const char *, ...);
-    void Warning(const char *,unsigned int, const char *, ...);
-};
-
 class IRBuilder;
 
+__deprecated
 static void FatalError(const char *fn, unsigned int line, const char *format, ...){
     // for product version
     //printf("Error\n");
@@ -97,6 +81,7 @@ static void FatalError(const char *fn, unsigned int line, const char *format, ..
 
 }
 
+__deprecated
 static void Log(const char *fn, unsigned int line, const char *fmt, ...)
 {
     if (!DEBUGOPTION) {

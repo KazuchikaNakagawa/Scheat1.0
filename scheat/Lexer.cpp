@@ -472,7 +472,7 @@ void Lexer::input(int c, int next){
         }
         else if (isPossibleForPPPTok && next != '.'){
             // .. token
-            FatalError(__FILE_NAME__, __LINE__, "invalid input '..' . Did you mean '...'?");
+            host->FatalError(__FILE_NAME__, __LINE__, "invalid input '..' . Did you mean '...'?");
         }
         genTok();
         buf.push_back(c);

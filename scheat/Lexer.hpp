@@ -9,19 +9,8 @@
 #define Lexer_hpp
 
 #include <stdio.h>
+#include "ScheatObjects.h"
 #include <fstream>
-
-
-struct SourceLocation {
-    int line;
-    int column;
-    SourceLocation(){
-        line = 1;
-        column = 1;
-    }
-    ~SourceLocation() = default;
-};
-
 
 namespace scheat {
 class Scheat;
