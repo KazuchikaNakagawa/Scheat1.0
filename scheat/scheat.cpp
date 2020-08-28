@@ -101,6 +101,50 @@ void Scheat::old_FatalError(const char *msg, unsigned int line){
     exit(0);
 }
 
+void Scheat_::Warning(const char *fn, unsigned int line, const char *format, ...){
+    if (developerMode) {
+        printf("Warning(from %s, %u)\n source %s line%u.%u : ",
+               fn,
+               line,
+               targettingFile.c_str(),
+               location.line,
+               location.column);
+    }else{
+        printf("Warning\n source %s line%u.%u : ",
+               targettingFile.c_str(),
+               location.line,
+               location.column);
+    }
+    va_list arg;
+    
+    va_start(arg, format);
+    ::vprintf(format, arg);
+    va_end(arg);
+    printf("\n");
+}
+
+void Scheat_::Log(const char *fn, unsigned int line, const char *fmt, ...){
+    if (developerMode) {
+        printf("Log(from %s, %u)\n source %s line%u.%u : ",
+               fn,
+               line,
+               targettingFile.c_str(),
+               location.line,
+               location.column);
+    }else{
+        printf("Log\n source %s line%u.%u : ",
+               targettingFile.c_str(),
+               location.line,
+               location.column);
+    }
+    va_list arg;
+    
+    va_start(arg, fmt);
+    ::vprintf(fmt, arg);
+    va_end(arg);
+    printf("\n");
+}
+
 void scheatPriv::HelloWorldPriv(const char * s) 
 {
     std::cout << s << std::endl;

@@ -11,6 +11,7 @@
 #pragma GCC visibility push(default)
 // #include <string>
 #include "Lexer.hpp"
+#include <string>
 
 #define SV_P 7
 
@@ -38,11 +39,8 @@ class Scheat
     const char *target = "UNKNOWN TARGET";
     
     bool debug = false;
-    
-public:
-    
-    // initialize with three integers.
     Scheat(int version = 1, int section = 0, int part = SV_P, const char *target = "", bool debugOpt = false);
+public:
     
     // initialize with string that shows version.
     Scheat(const char *format, const char *target = "", bool debugOpt = false);
@@ -58,6 +56,29 @@ public:
     int getVersion() const { return version; };
     int getSection() const { return section; };
     int getPart() const { return part; };
+    
+    static Scheat& shared(){
+        static Scheat _scheat(1,0,SV_P);
+        return _scheat;
+    };
+};
+
+// Scheat System Key
+class Scheat_ {
+    bool debug;
+    bool developerMode;
+    std::string targettingFile;
+    SourceLocation location;
+public:
+    std::string outputFilePath;
+    std::string target;
+    std::string datalayout;
+    std::string header_search_path;
+    std::string library_search_path;
+    void debugSet(bool);
+    void FatalError(const char *, unsigned int, const char *, ...) ;
+    void Log(const char *,unsigned int, const char *, ...);
+    void Warning(const char *,unsigned int, const char *, ...);
 };
 
 class IRBuilder;
