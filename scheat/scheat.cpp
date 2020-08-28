@@ -56,7 +56,19 @@ void OldScheat::old_Debug(const char *msg, unsigned int line){
 
 void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...){
 
-    printf("Error\n source %s line%u : ", fn, line);
+    if (deepDebug) {
+        printf("Error(from %s, %u)\n source %s line%u.%u : ",
+               fn,
+               line,
+               targettingFile.c_str(),
+               location.line,
+               location.column);
+    }else{
+        printf("Error\n source %s line%u.%u : ",
+               targettingFile.c_str(),
+               location.line,
+               location.column);
+    }
     va_list arg;
     
     va_start(arg, fmt);
@@ -86,7 +98,7 @@ void OldScheat::old_FatalError(const char *msg, unsigned int line){
 }
 
 void Scheat::Warning(const char *fn, unsigned int line, const char *format, ...){
-    if (developerMode) {
+    if (deepDebug) {
         printf("Warning(from %s, %u)\n source %s line%u.%u : ",
                fn,
                line,
@@ -111,7 +123,7 @@ void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...){
     if (!debug) {
         return;
     }
-    if (developerMode) {
+    if (deepDebug) {
         printf("Log(from %s, %u)\n source %s line%u.%u : ",
                fn,
                line,
@@ -134,13 +146,13 @@ void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...){
 
 Scheat::Scheat(){
     debug = false;
-    developerMode = false;
+    deepDebug = false;
     targettingFile = "";
     location = SourceLocation();
 }
 
 void Scheat::DevLog(const char *fn, unsigned int line, const char *fmt, ...){
-    if (developerMode) {
+    if (deepDebug) {
         printf("Log(from %s, %u)\n source %s line%u.%u : ",
                fn,
                line,

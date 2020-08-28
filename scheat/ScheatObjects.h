@@ -19,12 +19,18 @@ struct SourceLocation {
     }
     ~SourceLocation() = default;
 };
+
+struct DebugOption {
+    bool enableDebug;
+    bool developerMode;
+};
+
 class Scheat {
     bool debug;
-    bool developerMode;
-    std::string targettingFile;
+    bool deepDebug;
     SourceLocation location;
 public:
+    std::string targettingFile;
     std::string outputFilePath;
     std::string target;
     std::string datalayout;
@@ -33,8 +39,8 @@ public:
     void debugSet(bool o) {
         debug = o;
     };
-    void developerModeSet(bool b){
-        developerMode = b;
+    void allowDeepDebug(bool b){
+        deepDebug = b;
     };
     void FatalError(const char *, unsigned int, const char *, ...) ;
     void Log(const char *,unsigned int, const char *, ...);

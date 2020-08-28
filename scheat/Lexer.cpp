@@ -295,7 +295,7 @@ void Lexer::clear(){
 }
 
 void Lexer::input(int c, int next){
-    host->Log(__FILE_NAME__,__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
+    host->DevLog(__FILE_NAME__,__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
     if (c == '\0' || c == EOF) {
         return;
     }
@@ -538,6 +538,7 @@ void Token::enumerate(){
 
 void Lexer::lex(std::string str){
     int length = str.length();
+    host->targettingFile = "User input";
     for (int i = 0; i < length; i++) {
         input(str[i], str[i + 1]);
         if (str[i+1] == '\0') {

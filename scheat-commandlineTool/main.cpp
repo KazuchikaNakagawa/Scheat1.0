@@ -74,7 +74,7 @@ int main(int argc, const char *argv[]){
             std::getline(std::cin, kv);
             lexer.lex(kv);
         }else if (argc == 3 && strcmp(argv[2], "-wdebug") == 0){
-            sch.debugSet(true);
+            sch.allowDeepDebug(true);
             std::string kv;
             std::cout << "> ";
             std::getline(std::cin, kv);
