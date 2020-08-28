@@ -33,7 +33,7 @@ Token *Token::first(){
     return cpy;
 }
 
-Lexer::Lexer(scheat::Scheat *host){
+Lexer::Lexer(scheat::Scheat *host) : location(host->location){
     buf = "";
     skipFlag = false;
     this->host = host;
@@ -44,7 +44,8 @@ Lexer::Lexer(scheat::Scheat *host){
 
 void Lexer::lex(std::ifstream &stream){
     if (!stream.is_open()) {
-        host->FatalError(__FILE_NAME__, __LINE__, "input file is not open --Lexer");
+        host->FatalError(__FILE_NAME__, __LINE__, "%s is not open",
+                         host->targettingFile.c_str());
     }
     int c;
     while (c = stream.get(), c != EOF) {
@@ -416,7 +417,7 @@ void Lexer::input(int c, int next){
             buf.push_back(c);
             return;
         }
-        host->FatalError(__FILE_NAME__,__LINE__, "in file %d.%d illegal character %c was input.", location.line, location.column, c);
+        host->FatalError(__FILE_NAME__,__LINE__, "illegal character %c was input.", c);
         return;
     }
     
@@ -538,7 +539,7 @@ void Token::enumerate(){
 
 void Lexer::lex(std::string str){
     int length = str.length();
-    host->targettingFile = "User input";
+    host->targettingFile = "User_input";
     for (int i = 0; i < length; i++) {
         input(str[i], str[i + 1]);
         if (str[i+1] == '\0') {

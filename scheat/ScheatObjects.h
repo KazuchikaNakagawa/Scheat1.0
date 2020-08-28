@@ -15,7 +15,7 @@ struct SourceLocation {
     int column;
     SourceLocation(){
         line = 1;
-        column = 1;
+        column = 0;
     }
     ~SourceLocation() = default;
 };
@@ -28,8 +28,8 @@ struct DebugOption {
 class Scheat {
     bool debug;
     bool deepDebug;
-    SourceLocation location;
 public:
+    SourceLocation location;
     std::string targettingFile;
     std::string outputFilePath;
     std::string target;

@@ -57,14 +57,14 @@ void OldScheat::old_Debug(const char *msg, unsigned int line){
 void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...){
 
     if (deepDebug) {
-        printf("Error(from %s, %u)\n source %s line%u.%u : ",
+        printf("\033[1;31mError\033[m(from %s, line%u)\n in file %s\n line%u.%u : ",
                fn,
                line,
                targettingFile.c_str(),
                location.line,
                location.column);
     }else{
-        printf("Error\n source %s line%u.%u : ",
+        printf("\033[1;31mError\033[m\n in file %s\n line%u.%u : ",
                targettingFile.c_str(),
                location.line,
                location.column);
@@ -83,7 +83,7 @@ void OldScheat::Log(const char *fn, unsigned int line, const char *fmt, ...)
     if (!debug) {
         return;
     }
-    printf("Debug\n source %s line%u : ", fn, line);
+    printf("\033[1mDebug\033[m\n in file %s\n line%u : ", fn, line);
     va_list arg;
     
     va_start(arg, fmt);
@@ -99,14 +99,14 @@ void OldScheat::old_FatalError(const char *msg, unsigned int line){
 
 void Scheat::Warning(const char *fn, unsigned int line, const char *format, ...){
     if (deepDebug) {
-        printf("Warning(from %s, %u)\n source %s line%u.%u : ",
+        printf("\033[1;43mWarning\033[m(from %s, line%u)\n in file %s\n line%u.%u : ",
                fn,
                line,
                targettingFile.c_str(),
                location.line,
                location.column);
     }else{
-        printf("Warning\n source %s line%u.%u : ",
+        printf("\033[1;43mWarning\033[m\n in file %s\n line%u.%u : ",
                targettingFile.c_str(),
                location.line,
                location.column);
@@ -124,14 +124,14 @@ void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...){
         return;
     }
     if (deepDebug) {
-        printf("Log(from %s, %u)\n source %s line%u.%u : ",
+        printf("\033[1mLog\033[m(from %s, line%u)\n in file %s\n line%u.%u : ",
                fn,
                line,
                targettingFile.c_str(),
                location.line,
                location.column);
     }else{
-        printf("Log\n source %s line%u.%u : ",
+        printf("\033[1mLog\033[m\n in file %s\n line%u.%u : ",
                targettingFile.c_str(),
                location.line,
                location.column);
@@ -153,7 +153,7 @@ Scheat::Scheat(){
 
 void Scheat::DevLog(const char *fn, unsigned int line, const char *fmt, ...){
     if (deepDebug) {
-        printf("Log(from %s, %u)\n source %s line%u.%u : ",
+        printf("\033[1mLog\033[m(from %s, line%u)\n in file %s\n line%u.%u : ",
                fn,
                line,
                targettingFile.c_str(),

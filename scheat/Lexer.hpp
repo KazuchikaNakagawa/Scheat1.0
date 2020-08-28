@@ -123,7 +123,7 @@ class Lexer {
     std::string buf;
     LexerState state;
     scheat::Scheat *host;
-    SourceLocation location;
+    SourceLocation &location;
     Token *tokens;
     void input(int c, int next);
     void genTok();
