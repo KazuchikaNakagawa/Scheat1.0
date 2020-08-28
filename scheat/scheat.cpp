@@ -55,7 +55,7 @@ void OldScheat::old_Debug(const char *msg, unsigned int line){
 }
 
 void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...){
-
+    hasError = true;
     if (deepDebug) {
         printf("\033[1;31mError\033[m(from %s, line%u)\n in file %s\n line%u.%u : ",
                fn,
@@ -147,6 +147,7 @@ void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...){
 Scheat::Scheat(){
     debug = false;
     deepDebug = false;
+    hasError = false;
     targettingFile = "";
     location = SourceLocation();
 }

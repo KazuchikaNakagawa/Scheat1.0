@@ -11,7 +11,6 @@
 #include "Lexer.hpp"
 #include "ScheatObjects.h"
 #include "LegacyTypeScheat.hpp"
-
 #pragma GCC visibility push(default)
 
 namespace scheat{

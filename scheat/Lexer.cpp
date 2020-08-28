@@ -51,6 +51,9 @@ void Lexer::lex(std::ifstream &stream){
     while (c = stream.get(), c != EOF) {
         input(c, stream.get());
         stream.unget();
+        if (host->hasProbrem()) {
+            break;
+        }
     }
 }
 
@@ -296,6 +299,9 @@ void Lexer::clear(){
 }
 
 void Lexer::input(int c, int next){
+    if (host->hasProbrem()) {
+        return;
+    }
     host->DevLog(__FILE_NAME__,__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
     if (c == '\0' || c == EOF) {
         return;
@@ -541,6 +547,9 @@ void Lexer::lex(std::string str){
     int length = str.length();
     host->targettingFile = "User_input";
     for (int i = 0; i < length; i++) {
+        if (host->hasProbrem()) {
+            return;
+        }
         input(str[i], str[i + 1]);
         if (str[i+1] == '\0') {
             input(' ', ' ');

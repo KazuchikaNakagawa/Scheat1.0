@@ -40,7 +40,9 @@ public:
 class Scheat {
     bool debug;
     bool deepDebug;
+    bool hasError;
 public:
+    bool hasProbrem() const { return hasError; };
     SourceLocation location;
     std::string targettingFile;
     std::string outputFilePath;
