@@ -50,4 +50,10 @@ extern "C" struct ScheatString{
 
 extern "C" bool ScheatString_isPtr(ScheatString *);
 
+extern "C" ScheatString ScheatString_assign(ScheatString *);
+
+extern "C" ScheatString ScheatString_copy(ScheatString *);
+
+extern "C" ScheatString ScheatString_add(ScheatString *, ScheatString *);
+
 #endif /* ScheatCFoundation_h */

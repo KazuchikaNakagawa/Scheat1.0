@@ -30,6 +30,7 @@ public:
     void *copy(void *);
     void unref(void *);
     void release(void *);
+    void subscribe(void *);
     
     static ScheatARC& shared(){
         static ScheatARC arc;
@@ -75,6 +76,14 @@ extern void ScheatARC::release(void *ptr){
     free(ptr);
 }
 
+void ScheatARC::subscribe(void *ptr){
+    if (rmaps.find(ptr) == rmaps.end()) {
+        rmaps[ptr] = ReferenceData();
+    }else{
+        rmaps[ptr].count++;
+    }
+}
+
 void* ScheatPointer_alloc(uint64_t size, void(*fp)(void*)){
     return ScheatARC::shared().create(size, fp);
 }
@@ -97,3 +106,33 @@ bool ScheatString_isPtr(ScheatString *v){
     return bs[0] == 0;
 };
 
+ScheatString ScheatString_assign(ScheatString *s){
+    ScheatARC::shared().copy(s->buf.char_ptr);
+    return *s;
+}
+
+ScheatString ScheatString_copy(ScheatString *ss){
+    ScheatString sk;
+    if (ScheatString_isPtr(ss)) {
+        sk.buf.char_ptr = (char *)ScheatARC::shared().copy((void *)(ss->buf.char_ptr));
+    }else{
+        sk.buf.char_ptr = strcpy(sk.buf.char_ptr, ss->buf.const_chars.const_char);
+        ScheatARC::shared().subscribe(sk.buf.char_ptr);
+    }
+    return sk;
+    
+}
+
+ScheatString ScheatString_add(ScheatString *lhs, ScheatString *rhs){
+    if (ScheatString_isPtr(lhs)) {
+        
+    }
+    if (ScheatString_isPtr(rhs)) {
+        auto k = lhs->buf.char_ptr;
+        lhs->buf.char_ptr = (char *)realloc(lhs->buf.char_ptr, sizeof(lhs->buf.char_ptr) + sizeof(rhs->buf.char_ptr));
+        
+        sprintf(lhs->buf.char_ptr, "%s%s", k, rhs->buf.char_ptr);
+        ScheatARC::shared().unref(k);
+    }
+    return ScheatString_copy(lhs);
+}
