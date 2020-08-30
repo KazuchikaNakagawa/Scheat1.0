@@ -20,40 +20,32 @@ extern "C" void ScheatPointer_unref(void *);
 
 extern "C" void ScheatPointer_release(void *);
 
-extern "C" void print_i32(int d){
-    printf("%d", d);
-};
+extern "C" void print_i32(int d);
 
-extern "C" void print_i8x(char *s){
-    printf("%s", s);
-};
+extern "C" void print_i8x(char *s);
 
-extern "C" void print_i1(bool b){
-    if (b) {
-        printf("true");
-    }else{
-        printf("false");
-    }
-}
+extern "C" void printn();
+
+extern "C" void print_i1(bool b);
 
 struct ScheatShortConstString {
     uint8_t flag;
     char const_char[7];
 };
 
-extern "C" struct ScheatString{
+extern "C" struct String{
     union{
         ScheatShortConstString const_chars;
         char *char_ptr;
     } buf;
 };
 
-extern "C" bool ScheatString_isPtr(ScheatString *);
+extern "C" bool ScheatString_isPtr(String *);
 
-extern "C" ScheatString ScheatString_assign(ScheatString *);
+extern "C" String ScheatString_assign(String *);
 
-extern "C" ScheatString ScheatString_copy(ScheatString *);
+extern "C" String ScheatString_copy(String *);
 
-extern "C" ScheatString ScheatString_add(ScheatString *, ScheatString *);
+extern "C" String ScheatString_add(String *, String *);
 
 #endif /* ScheatCFoundation_h */

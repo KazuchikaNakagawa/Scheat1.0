@@ -100,19 +100,24 @@ void ScheatPointer_release(void *ptr){
     ScheatARC::shared().release(ptr);
 }
 
-bool ScheatString_isPtr(ScheatString *v){
+bool ScheatString_isPtr(String *v){
     uint64_t t = uint64_t(v);
     std::bitset<64> bs(t);
     return bs[0] == 0;
 };
 
-ScheatString ScheatString_assign(ScheatString *s){
-    ScheatARC::shared().copy(s->buf.char_ptr);
+String ScheatString_assign(String *v, String *s){
+    if (ScheatString_isPtr(v)) {
+        ScheatARC::shared().unref(v->buf.char_ptr);
+    }
+    if (ScheatString_isPtr(s)) {
+        ScheatARC::shared().copy(s->buf.char_ptr);
+    }
     return *s;
 }
 
-ScheatString ScheatString_copy(ScheatString *ss){
-    ScheatString sk;
+String ScheatString_copy(String *ss){
+    String sk;
     if (ScheatString_isPtr(ss)) {
         sk.buf.char_ptr = (char *)ScheatARC::shared().copy((void *)(ss->buf.char_ptr));
     }else{
@@ -123,7 +128,7 @@ ScheatString ScheatString_copy(ScheatString *ss){
     
 }
 
-ScheatString ScheatString_add(ScheatString *lhs, ScheatString *rhs){
+String ScheatString_add(String *lhs, String *rhs){
     if (ScheatString_isPtr(lhs)) {
         
     }
@@ -135,4 +140,24 @@ ScheatString ScheatString_add(ScheatString *lhs, ScheatString *rhs){
         ScheatARC::shared().unref(k);
     }
     return ScheatString_copy(lhs);
+}
+
+void print_i32(int d){
+    printf("%d", d);
+};
+
+void print_i8x(char *s){
+    printf("%s", s);
+};
+
+void printn(){
+    printf("\n");
+}
+
+void print_i1(bool b){
+    if (b) {
+        printf("true");
+    }else{
+        printf("false");
+    }
 }
