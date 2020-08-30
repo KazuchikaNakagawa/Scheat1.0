@@ -20,6 +20,22 @@ extern "C" void ScheatPointer_unref(void *);
 
 extern "C" void ScheatPointer_release(void *);
 
+extern "C" void print_i32(int d){
+    printf("%d", d);
+};
+
+extern "C" void print_i8x(char *s){
+    printf("%s", s);
+};
+
+extern "C" void print_i1(bool b){
+    if (b) {
+        printf("true");
+    }else{
+        printf("false");
+    }
+}
+
 struct ScheatShortConstString {
     uint8_t flag;
     char const_char[7];

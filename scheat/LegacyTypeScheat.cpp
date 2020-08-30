@@ -503,10 +503,15 @@ unique(PrintStatement) PrintStatement::make(std::unique_ptr<Expr> expr){
 }
 
 void PrintStatement::dump(IRStream &f){
-    
+    scheato->Log(__FILE_NAME__, __LINE__, "jump print");
 }
 
 NodeData *PrintStatement::codegen(IRStream &f){
+    auto data = ex->codegen(f);
+    if (data->size == "i32") {
+        f << "call void @print_i32(i32 " << data->value << "\n";
+    }
+    f << "call void @printn()" << "\n";
     return nullptr;
 }
 
