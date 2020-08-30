@@ -452,7 +452,7 @@ void Lexer::input(int c, int next){
             state = doubleState;
             return;
         }
-        host->FatalError(__FILE_NAME__,__LINE__, "in file %d.%d illegal character %c was input.", location.line, location.column, c);
+        host->FatalError(__FILE_NAME__,__LINE__, "illegal character %c was input.", location.line, location.column, c);
         return;
     }
     
@@ -532,7 +532,8 @@ void Lexer::input(int c, int next){
         state = operatorState;
         return;
     }
-
+    
+    host->FatalError(__FILE_NAME__,__LINE__, "illegal character %c was input.", location.line, location.column, c);
 }
 
 void Token::enumerate(){

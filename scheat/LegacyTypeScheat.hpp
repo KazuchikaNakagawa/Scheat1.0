@@ -15,7 +15,7 @@
 
 namespace scheat{
 
-namespace LegacyScheat {
+namespace LegacyScheatParser {
 
 namespace E9 {
 

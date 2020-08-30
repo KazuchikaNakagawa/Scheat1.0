@@ -18,7 +18,7 @@
 
 #define unique(id) std::unique_ptr<id>
 
-using namespace scheat::LegacyScheat;
+using namespace scheat::LegacyScheatParser;
 using namespace scheat;
 using namespace scheat::basicStructs;
 using namespace scheat::node;
@@ -146,7 +146,7 @@ Context *Context::create(std::string name, Context *parents){
     return cnt;
 }
 
-void LegacyScheat::E9::InitializeContexts(){
+void LegacyScheatParser::E9::InitializeContexts(){
     global_context = new Context();
     global_context->name = "Global";
     local_context.push(global_context);
@@ -160,7 +160,7 @@ void LegacyScheat::E9::InitializeContexts(){
     global_context->addClass("String", String);
 }
 
-void LegacyScheat::E9::CreateMainContext(){
+void LegacyScheatParser::E9::CreateMainContext(){
     Function *mainf = new Function("i32", "main");
     mainf->mangledName = global_context->name + "_main";
     mainf->argTypes.push_back(TypeData("i32"));
@@ -496,6 +496,20 @@ unique(IdentifierTerm) IdentifierTerm::create(std::string v, bool n){
     return o;
 }
 
+unique(PrintStatement) PrintStatement::make(std::unique_ptr<Expr> expr){
+    auto ob = std::make_unique<PrintStatement>();
+    ob->ex = std::move(expr);
+    return ob;
+}
+
+void PrintStatement::dump(IRStream &f){
+    
+}
+
+NodeData *PrintStatement::codegen(IRStream &f){
+    return nullptr;
+}
+
 // ----------------------------------------------------------------------------------------------------------------------------
 
 
@@ -510,6 +524,15 @@ unique(Expr) parseExpr(){
     return nullptr;
 }
 
+unique(Statement) parsePrintStatement(){
+    getNextTok();
+    auto expr = parseExpr();
+    if (scheato->hasProbrem()) {
+        return nullptr;
+    }
+    return nullptr;
+}
+
 unique(Statement) parseStatement(){
     if (gltokens->kind == scheat::TokenKind::embbed_func_print) {
         
@@ -517,13 +540,13 @@ unique(Statement) parseStatement(){
     return nullptr;
 };
 
-void LegacyScheat::Parse(Scheat *host, scheat::Token *tokens, std::ofstream &f){
+void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens, std::ofstream &f){
     E9::InitializeContexts();
     scheato = host;
     gltokens = tokens;
     unique(Statement) stmt = nullptr;
-    while (stmt != nullptr) {
+    while (stmt = parseStatement(),stmt != nullptr) {
         stmt->codegen(local_context.top()->stream_body);
-        stmt = nullptr;
+        stmt = parseStatement();
     }
 }

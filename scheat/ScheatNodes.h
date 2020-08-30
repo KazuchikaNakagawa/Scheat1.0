@@ -106,6 +106,7 @@ class Statement : public Node {
     
 public:
     virtual void dump(IRStream &) {};
+    node::NodeData * codegen(IRStream &) override;
 };
 
 class PrimaryExpr : public ExprNode {
@@ -117,6 +118,14 @@ public:
     node::NodeData * codegen(IRStream &) override;
     static unique(PrimaryExpr) make(unique(Term));
     static unique(PrimaryExpr) make(unique(PrimaryExpr), scheat::Token *, unique(Term));
+};
+
+class PrintStatement : public Statement {
+    unique(Expr) ex;
+public:
+    node::NodeData * codegen(IRStream &) override;
+    void dump(IRStream &) override;
+    static unique(PrintStatement) make(unique(Expr));
 };
 
 
