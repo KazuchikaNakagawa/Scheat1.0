@@ -11,6 +11,7 @@
 namespace scheat {
 #define unique(id) std::unique_ptr<id>
 #include <string>
+#include "ScheatContext.h"
 namespace node{
 
 // NodeData
@@ -27,6 +28,8 @@ public:
 class Node {
     
 public:
+    SourceLocation location;
+    
     virtual node::NodeData* codegen(IRStream &) { return nullptr; };
     
     virtual ~Node() {};
@@ -37,21 +40,23 @@ class TermNode : public Node {
     
 public:
     node::NodeData * codegen(IRStream &) override{ return nullptr; };
-    virtual ~TermNode();
+    virtual ~TermNode(){};
 };
 
 class PrimaryExprNode : public Node {
     
 public:
     node::NodeData * codegen(IRStream &) override { return nullptr; };
-    virtual ~PrimaryExprNode();
+    virtual ~PrimaryExprNode(){};
+    PrimaryExprNode() {};
 };
 
 class ExprNode : public Node {
     
 public:
     node::NodeData * codegen(IRStream &) override { return nullptr; };
-    virtual ~ExprNode();
+    virtual ~ExprNode(){};
+    ExprNode() {};
 };
 
 class IdentifierTerm : public TermNode {
@@ -106,7 +111,9 @@ class Statement : public Node {
     
 public:
     virtual void dump(IRStream &) {};
-    node::NodeData * codegen(IRStream &) override;
+    node::NodeData * codegen(IRStream &) override{ return nullptr; };
+    virtual ~Statement() {};
+    Statement() {};
 };
 
 class PrimaryExpr : public ExprNode {
@@ -114,7 +121,8 @@ class PrimaryExpr : public ExprNode {
     scheat::Token *opTok;
     unique(Term) term;
 public:
-    __deprecated PrimaryExpr();
+    __deprecated PrimaryExpr() {};
+    
     node::NodeData * codegen(IRStream &) override;
     static unique(PrimaryExpr) make(unique(Term));
     static unique(PrimaryExpr) make(unique(PrimaryExpr), scheat::Token *, unique(Term));
@@ -123,6 +131,8 @@ public:
 class PrintStatement : public Statement {
     unique(Expr) ex;
 public:
+    ~PrintStatement(){};
+    __deprecated PrintStatement() {};
     node::NodeData * codegen(IRStream &) override;
     void dump(IRStream &) override;
     static unique(PrintStatement) make(unique(Expr));

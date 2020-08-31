@@ -48,6 +48,7 @@ class Scheat {
 public:
     bool hasProbrem() const { return hasError; };
     SourceLocation location;
+    std::string sourceFile = "";
     std::string targettingFile;
     std::string outputFilePath;
     std::string target;

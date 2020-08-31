@@ -151,6 +151,9 @@ void LegacyScheatParser::E9::InitializeContexts(){
     global_context->name = "Global";
     local_context.push(global_context);
     contextCenter.push_back(global_context);
+    global_context->stream_entry << "source_filename = \"" << scheato->sourceFile << "\"\n";
+    global_context->stream_entry << "target datalayout = \"" << scheato->datalayout << "\"\n";
+    global_context->stream_entry << "target triple = \"" << scheato->target << "\"\n";
     main_Context = nullptr;
     gltokens = nullptr;
     
@@ -170,6 +173,8 @@ void LegacyScheatParser::E9::CreateMainContext(){
     main_Context->addVariable("argc", argc);
     Variable *argv = new Variable("argv", TypeData("i8**"));
     main_Context->addVariable("argv", argv);
+    main_Context->stream_entry << "define i32 @main(i32 argc, i8** argv){\n";
+    main_Context->stream_tail << "ret i32 0\n}\n";
 }
 
 unique(Term) Term::create(std::unique_ptr<TermNode> term){
@@ -264,6 +269,7 @@ unique(PrimaryExpr) PrimaryExpr::make(unique(Term) t){
     ex->exprs = nullptr;
     ex->opTok = nullptr;
     ex->term = std::move(t);
+    ex->location = t->location;
     return ex;
 }
 
@@ -272,6 +278,7 @@ unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> e, scheat::To
     ex->exprs = std::move(e);
     ex->opTok = token;
     ex->term = std::move(t);
+    ex->location = token->location;
     return ex;
 }
 
@@ -397,7 +404,8 @@ public:
     __deprecated ExprInt(unique(PrimaryExprInt) term,
                          scheat::Token *opTok = nullptr,
                          unique(ExprInt) exprs = nullptr);
-    ~ExprInt();
+    ~ExprInt() {};
+    ExprInt() {};
 };
 
 ExprInt::ExprInt(unique(PrimaryExprInt) term,
@@ -443,6 +451,17 @@ node::NodeData *PrimaryExprInt::codegen(IRStream &f){
 }
 
 node::NodeData *TermInt::codegen(IRStream &f){
+    if (func != nullptr) {
+        auto data = func->codegen(f);
+        if (scheato->hasProbrem()) {
+            return nullptr;
+        }
+        if (data->size != "i32*") {
+            scheato->FatalError(__FILE_NAME__, __LINE__, "this is not a integer type.");
+        }
+        auto r = local_context.top()->getRegister();
+        f << r << " = load i32, i32* " << data->value << "\n";
+    }
     if (itok == nullptr) {
         return func->codegen(f);
     }
@@ -539,6 +558,9 @@ unique(Statement) parsePrintStatement(){
 }
 
 unique(Statement) parseStatement(){
+    if (gltokens == nullptr) {
+        return nullptr;
+    }
     if (gltokens->kind == scheat::TokenKind::embbed_func_print) {
         
     }
@@ -546,12 +568,15 @@ unique(Statement) parseStatement(){
 };
 
 void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens, std::ofstream &f){
-    E9::InitializeContexts();
     scheato = host;
+    E9::InitializeContexts();
     gltokens = tokens;
     unique(Statement) stmt = nullptr;
     while (stmt = parseStatement(),stmt != nullptr) {
         stmt->codegen(local_context.top()->stream_body);
         stmt = parseStatement();
+    }
+    for (auto i = contextCenter.begin(); i != contextCenter.end(); i = std::next(i)) {
+        (*i)->dump(f);
     }
 }

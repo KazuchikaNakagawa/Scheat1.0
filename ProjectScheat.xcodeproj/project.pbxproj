@@ -27,7 +27,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		8205E00724D316CB001C5130 /* libscheat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829849EB24D2DA20004A7A64 /* libscheat.a */; };
 		8205E12D24D3178C001C5130 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849FC24D2DFA4004A7A64 /* main.cpp */; };
 		8205E13324D319F5001C5130 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E12F24D319F5001C5130 /* libLLVMAggressiveInstCombine.a */; };
 		8205E13424D319F5001C5130 /* libLLVMAsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13024D319F5001C5130 /* libLLVMAsmPrinter.a */; };
@@ -85,6 +84,7 @@
 		826720E224F7F4C900C94D22 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720E124F7F4C900C94D22 /* main.cpp */; };
 		826720E824F7F7AE00C94D22 /* libFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826720D024F7D4DA00C94D22 /* libFoundation.a */; };
 		8283093824F93CDC006EFFEA /* CScheat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8283093524F93BEE006EFFEA /* CScheat.h */; };
+		8283093B24FBF990006EFFEA /* libscheat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829849EB24D2DA20004A7A64 /* libscheat.a */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
 		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
@@ -92,7 +92,6 @@
 		829849EE24D2DA20004A7A64 /* scheat.h in Headers */ = {isa = PBXBuildFile; fileRef = 829849ED24D2DA20004A7A64 /* scheat.h */; };
 		829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849EF24D2DA20004A7A64 /* scheatPriv.hpp */; };
 		829849F224D2DA20004A7A64 /* scheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849F124D2DA20004A7A64 /* scheat.cpp */; };
-		82984A0624D2E0B7004A7A64 /* Nodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82984A0524D2E0B7004A7A64 /* Nodes.cpp */; };
 		82A1A22924D80AFE009C2E5F /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976124D32C0100F13264 /* libz.1.2.5.tbd */; };
 		82A1A22A24D80AFE009C2E5F /* libz.1.2.11.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976224D32C0100F13264 /* libz.1.2.11.tbd */; };
 		82A1A22B24D80AFE009C2E5F /* libz.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976324D32C0100F13264 /* libz.1.tbd */; };
@@ -217,6 +216,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 826720CF24F7D4DA00C94D22;
 			remoteInfo = Foundation;
+		};
+		8283093924FBF94D006EFFEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 829849EA24D2DA20004A7A64;
+			remoteInfo = scheat;
 		};
 		828FFCBB24D841EF007BEBFF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -515,6 +521,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8283093B24FBF990006EFFEA /* libscheat.a in Frameworks */,
 				82E6976624D32C0200F13264 /* libz.1.2.5.tbd in Frameworks */,
 				82E6976724D32C0200F13264 /* libz.1.2.11.tbd in Frameworks */,
 				82E6976824D32C0200F13264 /* libz.1.tbd in Frameworks */,
@@ -528,7 +535,6 @@
 				82E6975624D32BB200F13264 /* libncurses.5.4.tbd in Frameworks */,
 				82E6975724D32BB200F13264 /* libncurses.5.tbd in Frameworks */,
 				82E6975824D32BB200F13264 /* libncurses.tbd in Frameworks */,
-				8205E00724D316CB001C5130 /* libscheat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -992,6 +998,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				8283093A24FBF94D006EFFEA /* PBXTargetDependency */,
 			);
 			name = TestScheat;
 			productName = TestScheat;
@@ -1151,7 +1158,6 @@
 				8225412224E01BD600DBF05C /* LegacyTypeScheat.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
 				829849F224D2DA20004A7A64 /* scheat.cpp in Sources */,
-				82984A0624D2E0B7004A7A64 /* Nodes.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1199,6 +1205,11 @@
 			isa = PBXTargetDependency;
 			target = 826720CF24F7D4DA00C94D22 /* Foundation */;
 			targetProxy = 826720E624F7F6B000C94D22 /* PBXContainerItemProxy */;
+		};
+		8283093A24FBF94D006EFFEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 829849EA24D2DA20004A7A64 /* scheat */;
+			targetProxy = 8283093924FBF94D006EFFEA /* PBXContainerItemProxy */;
 		};
 		828FFCBC24D841EF007BEBFF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1629,7 +1640,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/Cellar/llvm/10.0.0_3/include,
-					/Users/kaz04/ProjectSpica/scheat/,
+					"$(SRCROOT)/scheat",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/Cellar/llvm/10.0.0_3/lib,
@@ -1658,7 +1669,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/Cellar/llvm/10.0.0_3/include,
-					/Users/kaz04/ProjectSpica/scheat/,
+					"\"$(SRCROOT)/scheat\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/Cellar/llvm/10.0.0_3/lib,
@@ -1687,7 +1698,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/Cellar/llvm/10.0.0_3/include,
-					/Users/kaz04/ProjectSpica/scheat/,
+					"$(SRCROOT)/scheat/",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/Cellar/llvm/10.0.0_3/lib,
@@ -1716,7 +1727,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/Cellar/llvm/10.0.0_3/include,
-					/Users/kaz04/ProjectSpica/scheat/,
+					"\"$(SRCROOT)/scheat\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/Cellar/llvm/10.0.0_3/lib,

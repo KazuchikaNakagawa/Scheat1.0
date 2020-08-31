@@ -6,15 +6,16 @@
 //
 
 #include <iostream>
-#include "scheat.hpp"
+#include <fstream>
+#include <string>
+#include "scheat.h"
 
 
 int main(int argc, const char * argv[]) {
-    scheat::Scheat sch = scheat::Scheat();
-    sch.flagDebug();
-    sch.Log(__FILE_NAME__,__LINE__, "Hello");
-    scheat::Lexer lexer = scheat::Lexer(&sch);
-    lexer.lex("\tnani are (1,500!).");
-    lexer.getTokens()->enumerate();
+    scheat::Scheat *schprj = new scheat::Scheat();
+    schprj->sourceFile = "test.scheat";
+    
+    std::ofstream ofs("/Users/kaz04/ScheatDocument/test.scheat");
+    scheat::LegacyScheatParser::Parse(schprj, nullptr, ofs);
     return 0;
 }

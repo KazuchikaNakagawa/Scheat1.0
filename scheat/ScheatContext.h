@@ -16,7 +16,7 @@ using namespace basicStructs;
 class IRStream {
 public:
     std::vector<std::string> irs;
-    IRStream operator <<(std::string v){
+    IRStream& operator <<(std::string v){
         irs.push_back(v);
         return *this;
     };
