@@ -51,6 +51,7 @@ public:
     Context *base;
     Variable *findVariable(std::string);
     Class *findClass(std::string);
+    Function *findFunc(std::string);
     bool isExists(std::string);
     std::string getRegister();
     Context(){

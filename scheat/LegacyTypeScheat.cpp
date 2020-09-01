@@ -27,6 +27,10 @@ Class *Context::findClass(std::string key){
     return classes[key];
 }
 
+Function *Context::findFunc(std::string key){
+    return funcs[key];
+}
+
 using std::move;
 
 static Scheat *scheato = nullptr;
@@ -369,8 +373,20 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
             scheato->FatalError(__FILE_NAME__, __LINE__,
                                 "%s is undefined.", k.c_str());
         }
+        auto fu = ty->context->findFunc(opTok->encodeOperator());
+        if (fu == nullptr) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "%s has no operator %s",
+                                k.c_str(),
+                                opTok->value.strValue.c_str()
+                                );
+            
+        }
         auto r = local_context.top()->getRegister();
-        
+        f << r << " = call " << fu->lltype() << " "
+        << fu->getName() << "(" << lhs->size << "* " <<
+        lhs->value << ", " << rhs->size << "* " << rhs->value << ")\n";
+        return new NodeData(r, fu->return_type.ir_used);
     }
     return nullptr;
 }
