@@ -382,6 +382,7 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
                                 );
             
         }
+        
         auto r = local_context.top()->getRegister();
         f << r << " = call " << fu->lltype() << " "
         << fu->getName() << "(" << lhs->size << "* " <<
