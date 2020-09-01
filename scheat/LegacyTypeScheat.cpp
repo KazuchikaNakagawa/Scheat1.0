@@ -23,6 +23,10 @@ using namespace scheat;
 using namespace scheat::basicStructs;
 using namespace scheat::node;
 
+Class *Context::findClass(std::string key){
+    return classes[key];
+}
+
 using std::move;
 
 static Scheat *scheato = nullptr;
@@ -358,6 +362,14 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
         return subFunc_OpInt_Primary(f, lhs, opTok, rhs);
     }
     if (lhs->size[0] == '%') {
+        std::string k = lhs->size;
+        k.erase(k.begin());
+        auto ty = global_context->findClass(k);
+        if (ty == nullptr) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "%s is undefined.", k.c_str());
+        }
+        auto r = local_context.top()->getRegister();
         
     }
     return nullptr;

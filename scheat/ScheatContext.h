@@ -50,6 +50,7 @@ public:
     std::string name;
     Context *base;
     Variable *findVariable(std::string);
+    Class *findClass(std::string);
     bool isExists(std::string);
     std::string getRegister();
     Context(){

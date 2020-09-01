@@ -95,6 +95,7 @@ struct Token {
     void valDouble(std::string);
     static Token *add(Token *, Token *);
     void enumerate();
+    std::string encodeOperator();
     void out();
     Token(){
         next = nullptr;

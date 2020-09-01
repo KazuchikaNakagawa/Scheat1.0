@@ -9,6 +9,48 @@
 
 
 using namespace scheat;
+
+std::string Token::encodeOperator(){
+    if (kind != TokenKind::val_operator) {
+        return "__NON_OPERATOR_ENCODED__";
+    }
+    std::string result = "";
+    for (int i = 0; i < value.strValue.size(); i++) {
+        char c = value.strValue[i];
+        if (c == '%') {
+            result.append("per_");
+        }
+        if (c == '+') {
+            result.append("plus_");
+        }
+        if (c == '-') {
+            result.append("minus_");
+        }
+        if (c == '/') {
+            result.append("slash_");
+        }
+        if (c == '*') {
+            result.append("astrsk_");
+        }
+        if (c == '&') {
+            result.append("and_");
+        }
+        if (c == '!') {
+            result.append("not_");
+        }
+        if (c == '^') {
+            result.append("hat_");
+        }
+        if (c == '$') {
+            result.append("doll_");
+        }
+        if (c == '=') {
+            result.append("eq_");
+        }
+    }
+    return result;
+}
+
 Token *Token::last(){
     Token *cpy = this;
     if (cpy == nullptr) {
