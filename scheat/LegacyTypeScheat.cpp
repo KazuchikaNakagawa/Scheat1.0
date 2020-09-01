@@ -383,6 +383,20 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
             
         }
         
+        if (fu->argTypes[0].ir_used != lhs->size) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "%s needs %s for left side.",
+                                opTok->value.strValue.c_str(),
+                                fu->argTypes[0].name.c_str());
+        }
+        
+        if (fu->argTypes[0].ir_used != rhs->size) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "%s needs %s for reft side.",
+                                opTok->value.strValue.c_str(),
+                                fu->argTypes[1].name.c_str());
+        }
+        
         auto r = local_context.top()->getRegister();
         f << r << " = call " << fu->lltype() << " "
         << fu->getName() << "(" << lhs->size << "* " <<
