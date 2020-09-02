@@ -6,7 +6,7 @@
 //
 
 #include "scheat.h"
-
+#include "BasicStructures.h"
 
 using namespace scheat;
 
@@ -600,3 +600,6 @@ void Lexer::lex(std::string str){
     }
 }
 
+std::string basicStructs::Function::lloutName(IRStream &f){
+    return "";
+}

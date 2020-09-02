@@ -13,23 +13,6 @@
 namespace scheat{
 
 using namespace basicStructs;
-class IRStream {
-public:
-    std::vector<std::string> irs;
-    IRStream& operator <<(std::string v){
-        irs.push_back(v);
-        return *this;
-    };
-    IRStream& operator <<(const char v[]){
-        std::string vs(v);
-        irs.push_back(vs);
-        return *this;
-    }
-    void exportTo(std::ofstream &f);
-    IRStream(){
-        irs = {};
-    };
-};
 
 class Context {
     unsigned int rnum;

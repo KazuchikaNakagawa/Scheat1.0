@@ -83,6 +83,7 @@
 		826720D824F7D56300C94D22 /* ScheatFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720D624F7D56300C94D22 /* ScheatFoundation.cpp */; };
 		826720E224F7F4C900C94D22 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720E124F7F4C900C94D22 /* main.cpp */; };
 		826720E824F7F7AE00C94D22 /* libFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826720D024F7D4DA00C94D22 /* libFoundation.a */; };
+		82730C5524FFB88900C27D79 /* Tokens.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82730C5424FFB88900C27D79 /* Tokens.cpp */; };
 		8283093824F93CDC006EFFEA /* CScheat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8283093524F93BEE006EFFEA /* CScheat.h */; };
 		8283093B24FBF990006EFFEA /* libscheat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829849EB24D2DA20004A7A64 /* libscheat.a */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
@@ -370,6 +371,7 @@
 		826720DF24F7F4C900C94D22 /* ScheatARCTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ScheatARCTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		826720E124F7F4C900C94D22 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		826720E924F9042E00C94D22 /* ScheatObjects.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatObjects.h; sourceTree = "<group>"; };
+		82730C5424FFB88900C27D79 /* Tokens.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tokens.cpp; sourceTree = "<group>"; };
 		8283093524F93BEE006EFFEA /* CScheat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CScheat.h; sourceTree = "<group>"; };
 		8283093624F93CB2006EFFEA /* CScheat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CScheat.cpp; sourceTree = "<group>"; };
 		828FFCB724D80E28007BEBFF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -732,6 +734,7 @@
 				829849F124D2DA20004A7A64 /* scheat.cpp */,
 				82984A0524D2E0B7004A7A64 /* Nodes.cpp */,
 				82ECF52C24D3A72900EB8316 /* Lexer.cpp */,
+				82730C5424FFB88900C27D79 /* Tokens.cpp */,
 				8225412024E01BD600DBF05C /* LegacyTypeScheat.cpp */,
 				8283093624F93CB2006EFFEA /* CScheat.cpp */,
 			);
@@ -1158,6 +1161,7 @@
 				8225412224E01BD600DBF05C /* LegacyTypeScheat.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
 				829849F224D2DA20004A7A64 /* scheat.cpp in Sources */,
+				82730C5524FFB88900C27D79 /* Tokens.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

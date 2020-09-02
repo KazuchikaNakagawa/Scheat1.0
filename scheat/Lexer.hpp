@@ -108,6 +108,28 @@ struct Token {
     Token(const Token &) {};
 };
 
+class Tokens {
+    Token *tokens;
+    Token *seek_ptr;
+public:
+    Token *ptr() { return seek_ptr; };
+    void skip();
+    void back();
+    Tokens *operator += (Token *rhs){
+        rhs->prev = this->tokens->last();
+        this->tokens->last()->next = rhs;
+        tokens = tokens->next;
+        return this;
+    };
+    Token *operator[](unsigned int index){
+        Token *t = tokens->first();
+        for (int i = 0; i != index; i++) {
+            t = t->next;
+        }
+        return t;
+    };
+};
+
 enum LexerState {
     commentState,
     longCommentState,
