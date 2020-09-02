@@ -16,6 +16,24 @@ class Context;
 
 namespace basicStructs{
 
+class IRStream {
+public:
+    std::vector<std::string> irs;
+    IRStream& operator <<(std::string v){
+        irs.push_back(v);
+        return *this;
+    };
+    IRStream& operator <<(const char v[]){
+        std::string vs(v);
+        irs.push_back(vs);
+        return *this;
+    }
+    void exportTo(std::ofstream &f);
+    IRStream(){
+        irs = {};
+    };
+};
+
 class TypeData {
     
 public:
@@ -25,6 +43,10 @@ public:
     bool operator==(TypeData *rhs){
         return this->name == rhs->name
         && this->mangledName() == rhs->mangledName();
+    }
+    bool operator!=(TypeData *rhs){
+        return this->name != rhs->name
+        || this->mangledName() != rhs->mangledName();
     }
     std::string mangledName() const{ return ir_used; };
     TypeData(std::string nm){
@@ -64,6 +86,7 @@ public:
     TypeData return_type;
     std::vector<TypeData> argTypes;
     std::string lltype();
+    std::string lloutName(IRStream &);
     Context *context;
     Function(std::string ,std::string);
 };
@@ -92,6 +115,8 @@ class Class {
     std::map<std::string, Operator> operators;
     unsigned int propCount = 0;
 public:
+    std::vector<TypeData *> bitMap;
+    Class *parentClass;
     TypeData *type;
     Context *context;
     Class(TypeData *ty);

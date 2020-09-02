@@ -12,13 +12,15 @@
 
 
 int main(int argc, const char * argv[]) {
-    //scheat::Scheat *schprj = new scheat::Scheat();
-    //schprj->sourceFile = "test.scheat";
+    scheat::Scheat *schprj = new scheat::Scheat();
+    schprj->sourceFile = "test.scheat";
     
-    //std::ofstream ofs("/Users/kaz04/ScheatDocument/test.scheat");
-    //scheat::LegacyScheatParser::Parse(schprj, nullptr, ofs);
-    std::string k = "ABCDEFG";
-    k.erase(k.begin());
-    std::cout << k << std::endl;
+    std::ofstream ofs("/Users/kaz04/ScheatTest/test.scheat");
+    if (!ofs.is_open()) {
+        schprj->FatalError("", 0, "File not found");
+        return 0;
+    }
+    scheat::LegacyScheatParser::Parse(schprj, nullptr, ofs);
+    
     return 0;
 }

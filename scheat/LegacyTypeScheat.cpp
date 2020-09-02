@@ -90,6 +90,23 @@ static scheat::Token *gltokens;
 static std::map<int, std::vector<std::string>> objects;
 static std::string fname = "";
 
+static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
+    if (data->size.ir_used[0] == '%') {
+        auto a = global_context->findClass(data->size.name);
+        if (a == nullptr) {
+            scheato->FatalError(__FILE_NAME__, __LINE__, "Domestic Error. %s is undefined.", data->size.ir_used.c_str());
+        }
+        if (a->type->name == to->name) {
+            auto r = local_context.top()->getRegister();
+            f << r << " = bitcast " << data->size.ir_used << "* " << data->value << " to " << to->ir_used << "\n";
+        }
+    }
+    if (data->size.ir_used[0] == 'i') {
+        
+    }
+    return nullptr;
+};
+
 Function::Function(std::string type, std::string nm) : return_type(type){
     mangledName = "%" + local_context.top()->name + "_main";
     argTypes = {};
@@ -361,12 +378,12 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
                            scheat::ScheatError::ERR_node_has_illegal_value);
         return nullptr;
     }
-    if (lhs->size == "i32" &&
-        rhs->size == "i32") {
+    if (lhs->size.ir_used == "i32" &&
+        rhs->size.ir_used == "i32") {
         return subFunc_OpInt_Primary(f, lhs, opTok, rhs);
     }
-    if (lhs->size[0] == '%') {
-        std::string k = lhs->size;
+    if (lhs->size.ir_used[0] == '%') {
+        std::string k = lhs->size.ir_used;
         k.erase(k.begin());
         auto ty = global_context->findClass(k);
         if (ty == nullptr) {
@@ -383,14 +400,14 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
             
         }
         
-        if (fu->argTypes[0].ir_used != lhs->size) {
+        if (fu->argTypes[0].ir_used != lhs->size.ir_used) {
             scheato->FatalError(__FILE_NAME__, __LINE__,
                                 "%s needs %s for left side.",
                                 opTok->value.strValue.c_str(),
                                 fu->argTypes[0].name.c_str());
         }
         
-        if (fu->argTypes[0].ir_used != rhs->size) {
+        if (fu->argTypes[0].ir_used != rhs->size.ir_used) {
             scheato->FatalError(__FILE_NAME__, __LINE__,
                                 "%s needs %s for reft side.",
                                 opTok->value.strValue.c_str(),
@@ -399,8 +416,8 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
         
         auto r = local_context.top()->getRegister();
         f << r << " = call " << fu->lltype() << " "
-        << fu->getName() << "(" << lhs->size << "* " <<
-        lhs->value << ", " << rhs->size << "* " << rhs->value << ")\n";
+        << fu->getName() << "(" << lhs->size.ir_used << "* " <<
+        lhs->value << ", " << rhs->size.ir_used << "* " << rhs->value << ")\n";
         return new NodeData(r, fu->return_type.ir_used);
     }
     return nullptr;
@@ -499,7 +516,7 @@ node::NodeData *TermInt::codegen(IRStream &f){
         if (scheato->hasProbrem()) {
             return nullptr;
         }
-        if (data->size != "i32*") {
+        if (data->size.ir_used != "i32*") {
             scheato->FatalError(__FILE_NAME__, __LINE__, "this is not a integer type.");
         }
         auto r = local_context.top()->getRegister();
@@ -570,7 +587,7 @@ void PrintStatement::dump(IRStream &f){
 
 NodeData *PrintStatement::codegen(IRStream &f){
     auto data = ex->codegen(f);
-    if (data->size == "i32") {
+    if (data->size.ir_used == "i32") {
         f << "call void @print_i32(i32 " << data->value << "\n";
     }
     f << "call void @printn()" << "\n";
@@ -613,6 +630,7 @@ unique(Statement) parseStatement(){
 void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens, std::ofstream &f){
     scheato = host;
     E9::InitializeContexts();
+    E9::CreateMainContext();
     gltokens = tokens;
     unique(Statement) stmt = nullptr;
     while (stmt = parseStatement(),stmt != nullptr) {

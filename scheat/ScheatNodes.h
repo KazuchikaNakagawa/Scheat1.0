@@ -21,7 +21,7 @@ class NodeData {
     
 public:
     std::string value;
-    std::string size;
+    TypeData size;
     NodeData(std::string a, std::string b) : value(a), size(b) {};
 };
 
