@@ -600,6 +600,20 @@ void Lexer::lex(std::string str){
     }
 }
 
-std::string basicStructs::Function::lloutName(IRStream &f){
-    return "";
+std::string basicStructs::Function::codegen(IRStream &f){
+    f << "declare " << return_type.ir_used << " @" << name << "(";
+    int i = 0;
+    for (auto arg = argTypes.begin(); arg != argTypes.end(); std::next(arg)) {
+        f << (*arg).ir_used << " %" << std::to_string(i);
+        if (argTypes.size() != i+1) {
+            f << ", ";
+            
+        }else{
+            f << "){\n";
+            break;
+        }
+        i++;
+    }
+    
+    return getMangledName();
 }

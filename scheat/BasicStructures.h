@@ -166,7 +166,13 @@ public:
     std::string mangledName() const{ return ir_used; };
     TypeData(std::string nm){
         name = nm;
-        ir_used = "%" + nm;
+        
+        if (nm[0] != 'i' && !isnumber(nm[1])) {
+            ir_used = "%" + nm;
+        }else{
+            ir_used = nm;
+        }
+        
     }
 };
 
@@ -194,14 +200,15 @@ public:
 };
 
 class Function{
-    
-public:
     std::string mangledName;
-    std::string getName();
+public:
+    
+    std::string name;
+    std::string getMangledName();
     TypeData return_type;
     std::vector<TypeData> argTypes;
     std::string lltype();
-    std::string lloutName(IRStream &);
+    std::string codegen(IRStream &);
     Context *context;
     Function(std::string ,std::string);
 };

@@ -35,7 +35,7 @@ using std::move;
 
 static Scheat *scheato = nullptr;
 
-std::string Function::getName(){
+std::string Function::getMangledName(){
     std::string base = return_type.mangledName() + "_";
     for (int i = 0; i < argTypes.size(); i++) {
         base = base + argTypes[i].mangledName();
@@ -61,7 +61,7 @@ std::string basicStructs::Function::lltype(){
 }
 
 void Context::dump(std::ofstream &f){
-    
+    f << "; " << name << "\n";
     // typename std::map<std::string, Class *>::iterator
     auto iter = begin(classes);
     while (iter != classes.end()) {
@@ -108,7 +108,8 @@ static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
 };
 
 Function::Function(std::string type, std::string nm) : return_type(type){
-    mangledName = "%" + local_context.top()->name + "_main";
+    mangledName = "@" + local_context.top()->name + "_" + nm;
+    name = nm;
     argTypes = {};
     context = Context::create(nm, local_context.top());
 }
@@ -167,7 +168,6 @@ static void getNextTok(){
 
 Context *Context::create(std::string name, Context *parents){
     Context *cnt = new Context(name, parents);
-    contextCenter.push_back(cnt);
     return cnt;
 }
 
@@ -183,6 +183,7 @@ void LegacyScheatParser::E9::InitializeContexts(){
     gltokens = nullptr;
     
     auto Int = new Class(new TypeData("i32"));
+    Int->context->name = "Int";
     global_context->addClass("Int", Int);
     auto String = new Class(new TypeData("String"));
     global_context->addClass("String", String);
@@ -190,15 +191,20 @@ void LegacyScheatParser::E9::InitializeContexts(){
 
 void LegacyScheatParser::E9::CreateMainContext(){
     Function *mainf = new Function("i32", "main");
-    mainf->mangledName = global_context->name + "_main";
     mainf->argTypes.push_back(TypeData("i32"));
-    mainf->return_type = TypeData("i8**");
+    mainf->argTypes.push_back(TypeData("i8**"));
+    mainf->return_type = TypeData("i32");
     main_Context = mainf->context;
+    contextCenter.push_back(main_Context);
     Variable *argc = new Variable("argc", TypeData("i32"));
     main_Context->addVariable("argc", argc);
     Variable *argv = new Variable("argv", TypeData("i8**"));
     main_Context->addVariable("argv", argv);
-    main_Context->stream_entry << "define i32 @main(i32 argc, i8** argv){\n";
+    mainf->codegen(main_Context->stream_entry);
+    main_Context->stream_body << "%argc = alloca i32\n";
+    main_Context->stream_body << "%argv = alloca i8**\n";
+    main_Context->stream_body << "store i32 %0, i32* %argc\n";
+    main_Context->stream_body << "store i8** %1, i8*** %argv\n";
     main_Context->stream_tail << "ret i32 0\n}\n";
 }
 
@@ -416,7 +422,7 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
         
         auto r = local_context.top()->getRegister();
         f << r << " = call " << fu->lltype() << " "
-        << fu->getName() << "(" << lhs->size.ir_used << "* " <<
+        << fu->getMangledName() << "(" << lhs->size.ir_used << "* " <<
         lhs->value << ", " << rhs->size.ir_used << "* " << rhs->value << ")\n";
         return new NodeData(r, fu->return_type.ir_used);
     }
@@ -639,5 +645,6 @@ void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens, std::ofstrea
     }
     for (auto i = contextCenter.begin(); i != contextCenter.end(); i = std::next(i)) {
         (*i)->dump(f);
+        f << "\n";
     }
 }
