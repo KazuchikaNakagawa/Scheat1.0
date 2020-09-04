@@ -167,11 +167,21 @@ public:
     TypeData(std::string nm){
         name = nm;
         
-        if (nm[0] != 'i' && !isnumber(nm[1])) {
-            ir_used = "%" + nm;
-        }else{
-            ir_used = nm;
+        char *n_b = (char *)malloc(sizeof(nm) + 1);
+        int i = 0;
+        strcpy(n_b, nm.c_str());
+        if (nm == "double") {
+            ir_used = "double";
+            return;
         }
+        else if (sprintf(n_b, "i%d", i) == 1) {
+            ir_used = nm;
+            free(n_b);
+            return;
+        }else{
+            free(n_b);
+        }
+        ir_used = "%" + nm;
         
     }
 };

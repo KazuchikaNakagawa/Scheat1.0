@@ -80,6 +80,10 @@ void Context::dump(std::ofstream &f){
         pair.second->context->dump(f);
     }
     
+    for (auto p = funcs.begin(); p != funcs.end(); p = std::next(p)) {
+        (*p).second->context->dump(f);
+    }
+    
 }
 
 static std::vector<Context *> contextCenter = {};
