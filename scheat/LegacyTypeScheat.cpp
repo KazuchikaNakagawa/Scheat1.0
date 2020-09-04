@@ -61,7 +61,7 @@ std::string basicStructs::Function::lltype(){
 }
 
 void Context::dump(std::ofstream &f){
-    f << "; " << name << "\n";
+    
     // typename std::map<std::string, Class *>::iterator
     auto iter = begin(classes);
     while (iter != classes.end()) {
@@ -69,7 +69,7 @@ void Context::dump(std::ofstream &f){
         pair.second->context->dump(f);
         iter = std::next(iter);
     }
-    
+    f << "; " << name << "\n";
     stream_entry.exportTo(f);
     stream_body.exportTo(f);
     stream_tail.exportTo(f);
@@ -637,10 +637,19 @@ unique(Statement) parseStatement(){
     return nullptr;
 };
 
-void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens, std::ofstream &f){
+void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens){
     scheato = host;
+    std::ofstream f(host->outputFilePath + ".ll");
+    if (!f.is_open()) {
+        host->FatalError("", 0, "File not found");
+        return;
+    }
     E9::InitializeContexts();
-    E9::CreateMainContext();
+    size_t len1 = host->sourceFile.size();
+    size_t len2 = std::string(".scheat").size();
+    if (len1 >= len2 && host->sourceFile.compare(len1 - len2, len2, ".scheat") == 0){;
+        E9::CreateMainContext();
+    }
     gltokens = tokens;
     unique(Statement) stmt = nullptr;
     while (stmt = parseStatement(),stmt != nullptr) {

@@ -617,3 +617,20 @@ std::string basicStructs::Function::codegen(IRStream &f){
     
     return getMangledName();
 }
+
+Token *Lexer::lexString(Scheat *sch, std::string sstream){
+    Lexer lexer(sch);
+    lexer.lex(sstream);
+    return lexer.getTokens();
+}
+
+Token *Lexer::lex(Scheat *sch){
+    std::ifstream ifs(sch->sourceFile);
+    if (!ifs.is_open()) {
+        sch->Warning(__FILE_NAME__, __LINE__, "file %s does not exists. ", sch->sourceFile.c_str());
+        return nullptr;
+    }
+    Lexer lexer(sch);
+    lexer.lex(ifs);
+    return lexer.getTokens();
+}

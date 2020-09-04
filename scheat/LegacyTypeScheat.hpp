@@ -25,7 +25,7 @@ void CreateMainContext();
 
 }
 
-void Parse(Scheat *, scheat::Token *tokens, std::ofstream&);
+void Parse(Scheat *, scheat::Token *tokens);
 
 }
 

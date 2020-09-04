@@ -52,6 +52,10 @@ public:
     
     void lex(std::string);
     
+    static Token *lexString(Scheat *, std::string);
+    
+    static Token *lex(Scheat *);
+    
     // this function has fatal probrem
     // void addToken();
     void clear();
