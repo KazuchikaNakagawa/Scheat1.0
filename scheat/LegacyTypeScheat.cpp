@@ -182,7 +182,11 @@ void LegacyScheatParser::E9::InitializeContexts(){
     contextCenter.push_back(global_context);
     global_context->stream_entry << "source_filename = \"" << scheato->sourceFile << "\"\n";
     global_context->stream_entry << "target datalayout = \"" << scheato->datalayout << "\"\n";
-    global_context->stream_entry << "target triple = \"" << scheato->target << "\"\n";
+    global_context->stream_entry << "target triple = \"" << scheato->target << "\"\n\n";
+    global_context->stream_body << "declare void @printn()\n";
+    global_context->stream_body << "declare void @print_i32(i32)\n";
+    global_context->stream_body << "declare i8* @ScheatPointer_alloc(i64, void(i8*)*)\n";
+    //global_context->stream_body << "declare i8* ";
     main_Context = nullptr;
     gltokens = nullptr;
     
