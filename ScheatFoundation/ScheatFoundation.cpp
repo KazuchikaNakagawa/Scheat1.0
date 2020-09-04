@@ -30,7 +30,7 @@ public:
     void *copy(void *);
     void unref(void *);
     void release(void *);
-    void subscribe(void *);
+    void subscribe(void *, void(*)(void*));
     
     static ScheatARC& shared(){
         static ScheatARC arc;
@@ -76,9 +76,10 @@ extern void ScheatARC::release(void *ptr){
     free(ptr);
 }
 
-void ScheatARC::subscribe(void *ptr){
+void ScheatARC::subscribe(void *ptr, void(*fp)(void*) = nullptr){
     if (rmaps.find(ptr) == rmaps.end()) {
         rmaps[ptr] = ReferenceData();
+        rmaps[ptr].destructor = fp;
     }else{
         rmaps[ptr].count++;
     }
@@ -129,17 +130,29 @@ String ScheatString_copy(String *ss){
 }
 
 String ScheatString_add(String *lhs, String *rhs){
+    String str;
+    unsigned long ll = 0;
+    unsigned long rl = 0;
     if (ScheatString_isPtr(lhs)) {
-        
+        ll = strlen(lhs->buf.char_ptr);
+    }else{
+        ll = strlen(lhs->buf.const_chars.const_char);
     }
+    
     if (ScheatString_isPtr(rhs)) {
-        auto k = lhs->buf.char_ptr;
-        lhs->buf.char_ptr = (char *)realloc(lhs->buf.char_ptr, sizeof(lhs->buf.char_ptr) + sizeof(rhs->buf.char_ptr));
-        
-        sprintf(lhs->buf.char_ptr, "%s%s", k, rhs->buf.char_ptr);
-        ScheatARC::shared().unref(k);
+        rl = strlen(rhs->buf.char_ptr);
+    }else{
+        rl = strlen(rhs->buf.const_chars.const_char);
     }
-    return ScheatString_copy(lhs);
+    
+    if (ll + rl < 8) {
+        memset(str.buf.const_chars.const_char, 0, sizeof(str.buf.const_chars.const_char));
+    }else{
+        str.buf.char_ptr = (char *)ScheatARC::shared().create(8 * (ll + rl), nullptr);
+        
+    }
+    
+    return str;
 }
 
 void print_i32(int d){
