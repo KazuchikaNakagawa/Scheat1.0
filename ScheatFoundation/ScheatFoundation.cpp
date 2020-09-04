@@ -147,9 +147,22 @@ String ScheatString_add(String *lhs, String *rhs){
     
     if (ll + rl < 8) {
         memset(str.buf.const_chars.const_char, 0, sizeof(str.buf.const_chars.const_char));
+        str.buf.char_ptr = str.buf.const_chars.const_char;
     }else{
         str.buf.char_ptr = (char *)ScheatARC::shared().create(8 * (ll + rl), nullptr);
-        
+        memset(str.buf.char_ptr, 0, sizeof(8 * (ll + rl)));
+    }
+    
+    if (ScheatString_isPtr(lhs)) {
+        sprintf(str.buf.char_ptr, "%s", lhs->buf.char_ptr);
+    }else{
+        sprintf(str.buf.char_ptr, "%s", lhs->buf.const_chars.const_char);
+    }
+    
+    if (ScheatString_isPtr(rhs)) {
+        sprintf(str.buf.char_ptr, "%s%s", str.buf.char_ptr, rhs->buf.char_ptr);
+    }else{
+        sprintf(str.buf.char_ptr, "%s%s", str.buf.char_ptr, rhs->buf.const_chars.const_char);
     }
     
     return str;
