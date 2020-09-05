@@ -608,6 +608,19 @@ NodeData *PrintStatement::codegen(IRStream &f){
     return nullptr;
 }
 
+NodeData *Statements::codegen(IRStream &f){
+    stmts->codegen(f);
+    stmt->codegen(f);
+    return nullptr;
+}
+
+unique(Statements) make(unique(StatementNode) st, unique(Statements) sts = nullptr){
+    auto obj = std::make_unique<Statements>();
+    obj->stmt = move(st);
+    obj->stmts = move(sts);
+    return obj;
+}
+
 // ----------------------------------------------------------------------------------------------------------------------------
 
 
@@ -622,21 +635,21 @@ unique(Expr) parseExpr(){
     return nullptr;
 }
 
-unique(Statement) parsePrintStatement(){
+unique(StatementNode) parsePrintStatement(){
     getNextTok();
     auto expr = parseExpr();
     if (scheato->hasProbrem()) {
         return nullptr;
     }
-    return nullptr;
+    return PrintStatement::make(std::move(expr));
 }
 
-unique(Statement) parseStatement(){
+unique(StatementNode) parseStatement(){
     if (gltokens == nullptr) {
         return nullptr;
     }
     if (gltokens->kind == scheat::TokenKind::embbed_func_print) {
-        
+        return parsePrintStatement();
     }
     return nullptr;
 };
@@ -655,7 +668,7 @@ void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens){
         E9::CreateMainContext();
     }
     gltokens = tokens;
-    unique(Statement) stmt = nullptr;
+    unique(StatementNode) stmt = nullptr;
     while (stmt = parseStatement(),stmt != nullptr) {
         stmt->codegen(local_context.top()->stream_body);
         stmt = parseStatement();
