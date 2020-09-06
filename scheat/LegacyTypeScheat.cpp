@@ -614,7 +614,7 @@ NodeData *Statements::codegen(IRStream &f){
     return nullptr;
 }
 
-unique(Statements) make(unique(StatementNode) st, unique(Statements) sts = nullptr){
+unique(Statements) Statements::make(unique(StatementNode) st, unique(Statements) sts = nullptr){
     auto obj = std::make_unique<Statements>();
     obj->stmt = move(st);
     obj->stmts = move(sts);
@@ -658,6 +658,23 @@ unique(Statements) parseStatements(){
     if (gltokens == nullptr) {
         return nullptr;
     }
+    auto s = parseStatement();
+    if (scheato->hasProbrem() || s == nullptr) {
+        return nullptr;
+    }
+    if (gltokens == nullptr) {
+        scheato->FatalError(__FILE_NAME__, __LINE__, "illegal null token");
+        return nullptr;
+    }
+    if (gltokens->kind == scheat::TokenKind::tok_comma) {
+        auto ss = parseStatements();
+        auto v = Statements::make(move(s), move(ss));
+        return v;
+    }else if (gltokens->kind == scheat::TokenKind::tok_period){
+        getNextTok();
+        return Statements::make(move(s));
+    }
+    
     return nullptr;
 }
 

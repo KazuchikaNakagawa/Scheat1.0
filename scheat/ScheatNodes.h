@@ -121,7 +121,7 @@ public:
     unique(Statements) stmts;
     unique(StatementNode) stmt;
     node::NodeData * codegen(IRStream &) override;
-    unique(Statements) make(unique(StatementNode), unique(Statements));
+    static unique(Statements) make(unique(StatementNode), unique(Statements));
 };
 
 class PrimaryExpr : public ExprNode {
