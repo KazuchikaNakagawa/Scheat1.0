@@ -30,6 +30,7 @@ enum class TokenKind : int {
     tok_period,
     tok_comma,
     tok_range,
+    tok_if,
     tok_paren_l,
     tok_paren_r,
     tok_external,

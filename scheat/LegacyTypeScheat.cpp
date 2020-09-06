@@ -623,7 +623,20 @@ unique(Statements) Statements::make(unique(StatementNode) st, unique(Statements)
 
 // ----------------------------------------------------------------------------------------------------------------------------
 
-
+static Token * BackwardIFExists(){
+    auto tok = gltokens;
+    if (tok->kind == scheat::TokenKind::tok_if) {
+        scheato->DevLog(__FILE_NAME__, __LINE__, "if token was detected but it seemed not to  be backward if");
+        return nullptr;
+    }
+    while (tok->kind != scheat::TokenKind::tok_period) {
+        if (tok->kind == scheat::TokenKind::tok_if) {
+            return tok;
+        }
+        tok = tok->next;
+    }
+    return nullptr;
+}
 
 unique(Expr) parseExpr(){
     if (gltokens->kind == scheat::TokenKind::val_operator) {
@@ -674,7 +687,7 @@ unique(Statements) parseStatements(){
         getNextTok();
         return Statements::make(move(s));
     }
-    
+    scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d illegal end of the statement", gltokens->location.line, gltokens->location.column);
     return nullptr;
 }
 
