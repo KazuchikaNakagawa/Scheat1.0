@@ -654,6 +654,13 @@ unique(StatementNode) parseStatement(){
     return nullptr;
 };
 
+unique(Statements) parseStatements(){
+    if (gltokens == nullptr) {
+        return nullptr;
+    }
+    return nullptr;
+}
+
 void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens){
     scheato = host;
     std::ofstream f(host->outputFilePath + ".ll");
@@ -668,10 +675,10 @@ void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens){
         E9::CreateMainContext();
     }
     gltokens = tokens;
-    unique(StatementNode) stmt = nullptr;
-    while (stmt = parseStatement(),stmt != nullptr) {
+    unique(Statements) stmt = nullptr;
+    while (stmt = parseStatements(),stmt != nullptr) {
         stmt->codegen(local_context.top()->stream_body);
-        stmt = parseStatement();
+        stmt = parseStatements();
     }
     for (auto i = contextCenter.begin(); i != contextCenter.end(); i = std::next(i)) {
         (*i)->dump(f);
