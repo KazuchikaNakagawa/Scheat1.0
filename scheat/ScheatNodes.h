@@ -30,6 +30,8 @@ class Node {
 public:
     SourceLocation location;
     
+    std::string node_size;
+    
     virtual node::NodeData* codegen(IRStream &) { return nullptr; };
     
     virtual ~Node() {};
@@ -66,6 +68,7 @@ public:
     __deprecated_msg("this class is only available for unique_ptr")
     IdentifierTerm(std::string v) : value(v) {};
     static unique(IdentifierTerm) create(std::string, bool);
+    node::NodeData * codegen(IRStream &) override;
 };
 
 class IdentifierExpr : public ExprNode {
@@ -74,7 +77,7 @@ class IdentifierExpr : public ExprNode {
     scheat::Token * opTok;
     unique(IdentifierTerm) term;
 public:
-    
+    node::NodeData * codegen(IRStream &) override;
 };
 
 class IntTerm : public TermNode {

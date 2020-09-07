@@ -221,6 +221,7 @@ unique(Term) Term::create(std::unique_ptr<TermNode> term){
     t->opTok = nullptr;
     t->terms = nullptr;
     t->node = std::move(term);
+    t->node_size = term->node_size;
     return t;
 };
 
@@ -229,6 +230,7 @@ unique(Term) Term::create(std::unique_ptr<Term> term, scheat::Token *opT, std::u
     t->terms = move(term);
     t->opTok = opT;
     t->node = move(tn);
+    t->node_size = tn->node_size;
     return t;
 }
 
@@ -309,6 +311,7 @@ unique(PrimaryExpr) PrimaryExpr::make(unique(Term) t){
     ex->opTok = nullptr;
     ex->term = std::move(t);
     ex->location = t->location;
+    ex->node_size = t->node_size;
     return ex;
 }
 
@@ -592,11 +595,34 @@ unique(IdentifierTerm) IdentifierTerm::create(std::string v, bool n){
 unique(PrintStatement) PrintStatement::make(std::unique_ptr<Expr> expr){
     auto ob = std::make_unique<PrintStatement>();
     ob->ex = std::move(expr);
+    ob->node_size = "void";
     return ob;
 }
 
 void PrintStatement::dump(IRStream &f){
     scheato->Log(__FILE_NAME__, __LINE__, "jump print");
+}
+
+NodeData *IdentifierExpr::codegen(IRStream &f){
+    if (expr == nullptr) {
+        auto v = local_context.top()->findVariable(term->codegen(f)->value);
+        if (v == nullptr) {
+            // when the variable is undefined
+            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", term->location.line, term->location.column, term->codegen(f)->value.c_str());
+        }
+    }
+    auto d = expr->codegen(f);
+    if (d == nullptr || scheato->hasProbrem()) {
+        return nullptr;
+    }
+    if (opTok == nullptr) {
+        return d;
+    }
+    return nullptr;
+}
+
+NodeData *IdentifierTerm::codegen(IRStream &f){
+    return new NodeData(value, "UNDEFINED");
 }
 
 NodeData *PrintStatement::codegen(IRStream &f){
@@ -642,6 +668,11 @@ unique(Expr) parseExpr(){
     if (gltokens->kind == scheat::TokenKind::val_operator) {
         if (gltokens->value.strValue == "!") {
             // unique(BoolExpr) parseBoolExpr();
+            auto rhs = parseExpr();
+            if (scheato->hasProbrem()) {
+                return nullptr;
+            }
+            
         }
     }
     
