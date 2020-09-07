@@ -23,6 +23,7 @@ public:
     std::string value;
     TypeData size;
     NodeData(std::string a, std::string b) : value(a), size(b) {};
+    NodeData(std::string a, TypeData t) : value(a), size(t) {};
 };
 
 class Node {

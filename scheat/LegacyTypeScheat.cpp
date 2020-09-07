@@ -610,14 +610,27 @@ NodeData *IdentifierExpr::codegen(IRStream &f){
             // when the variable is undefined
             scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", term->location.line, term->location.column, term->codegen(f)->value.c_str());
         }
+        auto r = local_context.top()->getRegister();
+        f << r << " load " << v->type.ir_used << ", "
+        << v->type.ir_used << "* " << v->mangledName << "\n";
+        return new NodeData(r, v->type);
+    }
+    if (opTok == nullptr) {
+        return nullptr;
     }
     auto d = expr->codegen(f);
     if (d == nullptr || scheato->hasProbrem()) {
         return nullptr;
     }
-    if (opTok == nullptr) {
-        return d;
+    
+    if (opTok->kind == TokenKind::tok_period) {
+        auto pt = d->size.name;
+        auto ptclass = local_context.top()->findClass(pt);
+        if (ptclass == nullptr) {
+            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", expr->location.line, expr->location.column, pt.c_str());
+        }
     }
+    
     return nullptr;
 }
 
