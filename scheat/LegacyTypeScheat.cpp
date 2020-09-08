@@ -274,7 +274,7 @@ public:
 
 node::NodeData *TermIdentifier::codegen(IRStream &f){
     
-    return nullptr;
+    return new NodeData(idTok->value.strValue, "UNDEFINED");
 }
 
 class FunctionExpr : public ExprNode {
@@ -285,7 +285,7 @@ public:
 
 class TermInt : public TermNode {
     scheat::Token *itok;
-    unique(Expr) func;
+    
 public:
     __deprecated TermInt(scheat::Token *t) : TermNode() {
         if (t->kind == scheat::TokenKind::val_num) {
@@ -528,21 +528,10 @@ node::NodeData *PrimaryExprInt::codegen(IRStream &f){
 }
 
 node::NodeData *TermInt::codegen(IRStream &f){
-    if (func != nullptr) {
-        auto data = func->codegen(f);
-        if (scheato->hasProbrem()) {
-            return nullptr;
-        }
-        if (data->size.ir_used != "i32*") {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "this is not a integer type.");
-        }
-        auto r = local_context.top()->getRegister();
-        f << r << " = load i32, i32* " << data->value << "\n";
-    }
     if (itok == nullptr) {
-        return func->codegen(f);
+        scheato->DevLog(__FILE_NAME__, __LINE__, "itok was null");
     }
-    if (itok->kind == scheat::TokenKind::val_identifier) {
+    /*if (itok->kind == scheat::TokenKind::val_identifier) {
         Variable *v = local_context.top()->findVariable(itok->value.strValue);
         if (v == nullptr) {
             scheato->FatalError(__FILE_NAME__,
@@ -563,8 +552,8 @@ node::NodeData *TermInt::codegen(IRStream &f){
         std::string r = local_context.top()->getRegister();
         f << r << " = load " << v->type.name << ", " << v->type.name << "* " << v->mangledName << "\n";
         return new node::NodeData(r, "i32");
-    }
-    return new node::NodeData(std::to_string(itok->value.intValue), "i32");
+    }*/
+    return new node::NodeData(std::to_string(itok->value.intValue), TypeData("Int", "i32"));
 }
 
 unique(TermInt) TermInt::init(scheat::Token *i){

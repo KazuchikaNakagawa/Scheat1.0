@@ -186,6 +186,8 @@ public:
         ir_used = "%" + nm;
         
     }
+    
+    TypeData(std::string a, std::string b) : name(a), ir_used(b) {};
 };
 
 class Operator {
