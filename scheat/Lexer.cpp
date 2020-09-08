@@ -567,7 +567,8 @@ void Lexer::input(int c, int next){
         || c == '!'
         || c == '%'
         || c == '$'
-        || c == '@') {
+        || c == '@'
+        || c == ':') {
         if (state == initState) {
             state = operatorState;
             buf.push_back(c);
