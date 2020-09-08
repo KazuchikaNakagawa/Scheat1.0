@@ -75,6 +75,7 @@
 		8205E18A24D31CF4001C5130 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18924D31CF4001C5130 /* libedit.tbd */; };
 		8205E18C24D31D02001C5130 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18B24D31D02001C5130 /* libcurses.tbd */; };
 		8205E18E24D31D0D001C5130 /* libm.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18D24D31D0D001C5130 /* libm.tbd */; };
+		82097C8F25076A31002D048A /* CScheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8283093624F93CB2006EFFEA /* CScheat.cpp */; };
 		8225412224E01BD600DBF05C /* LegacyTypeScheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412024E01BD600DBF05C /* LegacyTypeScheat.cpp */; };
 		8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */; };
 		8225412B24E175F700DBF05C /* ScheatRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 8225412A24E175F700DBF05C /* ScheatRun.h */; };
@@ -1158,6 +1159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82097C8F25076A31002D048A /* CScheat.cpp in Sources */,
 				8225412224E01BD600DBF05C /* LegacyTypeScheat.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
 				829849F224D2DA20004A7A64 /* scheat.cpp in Sources */,
