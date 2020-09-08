@@ -6,7 +6,7 @@
 //
 
 #include "scheat.h"
-#include "BasicStructures.h"
+#include "ScheatBasicStructures.h"
 
 using namespace scheat;
 

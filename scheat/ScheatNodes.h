@@ -26,6 +26,8 @@ public:
     NodeData(std::string a, TypeData t) : value(a), size(t) {};
 };
 
+// base of node.
+// location may be undefined by accident
 class Node {
     
 public:
@@ -38,6 +40,7 @@ public:
     virtual ~Node() {};
 };
 
+// base of term
 class TermNode : public Node {
     
     

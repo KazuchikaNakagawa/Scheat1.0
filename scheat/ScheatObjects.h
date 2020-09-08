@@ -41,13 +41,19 @@ public:
     
 };
 
+/// represents a project file like CMakeLists.txt
 class Scheat {
     bool debug;
     bool deepDebug;
     bool hasError;
 public:
+    /// returns true if this fails to compile.
+    /// this is regarded as a flag.
     bool hasProbrem() const { return hasError; };
+    
+    /// location to be compiled
     SourceLocation location;
+    
     std::string sourceFile = "";
     std::string targettingFile;
     std::string outputFilePath;
@@ -74,6 +80,7 @@ enum class ScheatError : int {
     ERR_UNKNOWN = 0,
 };
 
+/// deprecated
 /// Scheat needs this object to move.
 class OldScheat
 {

@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 #include "ScheatObjects.h"
-#include "BasicStructures.h"
+#include "ScheatBasicStructures.h"
 #include <fstream>
 
 namespace scheat {

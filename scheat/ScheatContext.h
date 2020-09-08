@@ -7,7 +7,7 @@
 
 #ifndef ScheatContext_h
 #define ScheatContext_h
-#include "BasicStructures.h"
+#include "ScheatBasicStructures.h"
 #include <map>
 #include <vector>
 namespace scheat{
