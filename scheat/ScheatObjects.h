@@ -9,7 +9,7 @@
 #define ScheatObjects_h
 #include <string>
 #include <vector>
-#define SV_P 9
+#define SV_P 10
 namespace scheat {
 class Token;
 class Scheat;
