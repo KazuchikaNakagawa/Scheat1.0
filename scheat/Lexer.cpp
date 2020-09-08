@@ -238,6 +238,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "do" || buf == "does") {
+        tok->kind = TokenKind::tok_do;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "remember") {
         tok->kind = TokenKind::tok_external;
         tadd;
