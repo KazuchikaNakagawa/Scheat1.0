@@ -8,10 +8,12 @@
 #ifndef ScheatNodes_h
 #define ScheatNodes_h
 
-namespace scheat {
+
 #define unique(id) std::unique_ptr<id>
 #include <string>
 #include "ScheatContext.h"
+#include "ScheatObjects.h"
+namespace scheat {
 namespace node{
 
 // NodeData
@@ -78,7 +80,7 @@ public:
 class IdentifierExpr : public ExprNode {
     unique(IdentifierExpr) expr;
     // operator or . token
-    scheat::Token * opTok;
+    Token * opTok;
     unique(IdentifierTerm) term;
 public:
     node::NodeData * codegen(IRStream &) override;
@@ -92,12 +94,12 @@ public:
 
 class Term : public Node {
     unique(Term) terms;
-    scheat::Token *opTok;
+    Token *opTok;
     unique(TermNode) node;
 public:
     node::NodeData * codegen(IRStream &) override;
     static unique(Term) create(unique(TermNode));
-    static unique(Term) create(unique(Term), scheat::Token *, unique(TermNode));
+    static unique(Term) create(unique(Term), Token *, unique(TermNode));
 };
 
 class Expr : public Node {
@@ -107,10 +109,10 @@ public:
 };
 
 class PrototypeExpr : public ExprNode {
-    scheat::Token *identifier;
+    Token *identifier;
     TypeData *type;
 public:
-    __deprecated PrototypeExpr(scheat::Token *t, TypeData *ty) : identifier(t), type(ty), ExprNode() {};
+    __deprecated PrototypeExpr(Token *t, TypeData *ty) : identifier(t), type(ty), ExprNode() {};
     
 };
 
@@ -133,14 +135,14 @@ public:
 
 class PrimaryExpr : public ExprNode {
     unique(PrimaryExpr) exprs;
-    scheat::Token *opTok;
+    Token *opTok;
     unique(Term) term;
 public:
     __deprecated PrimaryExpr() {};
     
     node::NodeData * codegen(IRStream &) override;
     static unique(PrimaryExpr) make(unique(Term));
-    static unique(PrimaryExpr) make(unique(PrimaryExpr), scheat::Token *, unique(Term));
+    static unique(PrimaryExpr) make(unique(PrimaryExpr), Token *, unique(Term));
 };
 
 class PrintStatement : public StatementNode {

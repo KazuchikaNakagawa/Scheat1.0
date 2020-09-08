@@ -7,10 +7,22 @@
 
 #include <stdio.h>
 #include "CScheat.h"
+#include "scheat.h"
 
+using namespace scheat;
+using std::string;
 
 bool scheat_build(const char *outputPath, const char *option, const char *sourceFilePath, const char *headerSearchPath, const char *librarySearchPath){
     printf("this feture is not available yet.\n");
-    exit(0);
+    // exit(0);
+    Scheat *scheatprj = new Scheat();
+    scheatprj->sourceFile = std::string(sourceFilePath);
+    scheatprj->header_search_path = std::string(headerSearchPath);
+    scheatprj->library_search_path = string(librarySearchPath);
+    Lexer::lex(scheatprj);
+    if (scheatprj->hasProbrem()) {
+        return false;
+    }
+    
     return false;
 }

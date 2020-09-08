@@ -8,9 +8,10 @@
 #ifndef ScheatObjects_h
 #define ScheatObjects_h
 #include <string>
+#include <vector>
 #define SV_P 8
 namespace scheat {
-
+class Token;
 struct SourceLocation {
     int line;
     int column;
@@ -46,6 +47,8 @@ class Scheat {
     bool debug;
     bool deepDebug;
     bool hasError;
+    scheat::Token *tokens;
+    
 public:
     /// returns true if this fails to compile.
     /// this is regarded as a flag.
@@ -73,6 +76,8 @@ public:
     void Warning(const char *,unsigned int, const char *, ...);
     void DevLog(const char *,unsigned int, const char *, ...);
     Scheat();
+    
+    friend class Lexer;
 };
 
 enum class ScheatError : int {

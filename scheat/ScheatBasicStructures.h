@@ -10,6 +10,7 @@
 
 #include <map>
 #include <vector>
+#include "ScheatObjects.h"
 namespace scheat {
 
 class Context;
