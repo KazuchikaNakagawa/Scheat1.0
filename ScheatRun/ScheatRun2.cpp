@@ -1,9 +1,11 @@
 //
-//  ScheatRun.cpp
+//  ScheatRun2.cpp
 //  ScheatRun
 //
-//  Created by かずちか on 2020/08/10.
+//  Created by かずちか on 2020/09/08.
 //
+
+#include <stdio.h>
 
 #include <iostream>
 #include "ScheatRun.h"
@@ -31,8 +33,9 @@ void ScheatRun::HelloWorld(const char * s)
     delete theObj;
 };
 
-void ScheatRunPriv::HelloWorldPriv(const char * s) 
+void ScheatRunPriv::HelloWorldPriv(const char * s)
 {
     std::cout << s << std::endl;
 };
+
 

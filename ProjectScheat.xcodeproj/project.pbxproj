@@ -80,7 +80,6 @@
 		8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */; };
 		8225412B24E175F700DBF05C /* ScheatRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 8225412A24E175F700DBF05C /* ScheatRun.h */; };
 		8225412D24E175F700DBF05C /* ScheatRunPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */; };
-		8225412F24E175F700DBF05C /* scheatRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412E24E175F700DBF05C /* scheatRun.cpp */; };
 		826720D824F7D56300C94D22 /* ScheatFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720D624F7D56300C94D22 /* ScheatFoundation.cpp */; };
 		826720E224F7F4C900C94D22 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720E124F7F4C900C94D22 /* main.cpp */; };
 		826720E824F7F7AE00C94D22 /* libFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826720D024F7D4DA00C94D22 /* libFoundation.a */; };
@@ -160,6 +159,7 @@
 		82AEB66324DC3DC400889AC3 /* libLLVMBitWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13B24D31A40001C5130 /* libLLVMBitWriter.a */; };
 		82AEB66424DC3DC400889AC3 /* libLLVMBitReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13924D31A39001C5130 /* libLLVMBitReader.a */; };
 		82AEB66F24DC3EFD00889AC3 /* ScheatIR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82AEB66E24DC3EFD00889AC3 /* ScheatIR.cpp */; };
+		82B3FB082507729F007594A9 /* ScheatRun2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82B3FB072507729F007594A9 /* ScheatRun2.cpp */; };
 		82D6F4D324F3EE240003D0EA /* ScheatARC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */; };
 		82D6F4D524F3EE240003D0EA /* ScheatARCPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */; };
 		82D6F4D724F3EE240003D0EA /* ScheatARC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */; };
@@ -360,7 +360,6 @@
 		8225412824E175F700DBF05C /* libScheatRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatRun.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8225412A24E175F700DBF05C /* ScheatRun.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatRun.h; sourceTree = "<group>"; };
 		8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatRunPriv.hpp; sourceTree = "<group>"; };
-		8225412E24E175F700DBF05C /* scheatRun.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scheatRun.cpp; sourceTree = "<group>"; };
 		826720A524F64ADB00C94D22 /* ScheatNodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatNodes.h; sourceTree = "<group>"; };
 		826720A624F64B8200C94D22 /* ScheatContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatContext.h; sourceTree = "<group>"; };
 		826720A724F64C4300C94D22 /* ScheatBasicStructures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatBasicStructures.h; sourceTree = "<group>"; };
@@ -392,6 +391,7 @@
 		82AEB66C24DC3E2500889AC3 /* ScheatIR.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatIR.hpp; sourceTree = "<group>"; };
 		82AEB66D24DC3E3500889AC3 /* ScheatIR_Hidd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatIR_Hidd.hpp; sourceTree = "<group>"; };
 		82AEB66E24DC3EFD00889AC3 /* ScheatIR.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatIR.cpp; sourceTree = "<group>"; };
+		82B3FB072507729F007594A9 /* ScheatRun2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatRun2.cpp; sourceTree = "<group>"; };
 		82D6F4D024F3EE240003D0EA /* libScheatARC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatARC.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARC.hpp; sourceTree = "<group>"; };
 		82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARCPriv.hpp; sourceTree = "<group>"; };
@@ -646,7 +646,7 @@
 				8225412A24E175F700DBF05C /* ScheatRun.h */,
 				826720A824F7CA1200C94D22 /* ScheatEngine.h */,
 				8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */,
-				8225412E24E175F700DBF05C /* scheatRun.cpp */,
+				82B3FB072507729F007594A9 /* ScheatRun2.cpp */,
 			);
 			path = ScheatRun;
 			sourceTree = "<group>";
@@ -1127,7 +1127,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8225412F24E175F700DBF05C /* scheatRun.cpp in Sources */,
+				82B3FB082507729F007594A9 /* ScheatRun2.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
