@@ -56,7 +56,7 @@ int main(int argc, const char *argv[]){
         "   build Scheat source code into .o or .a file." << std::endl <<
         "   to build .a file(static library), give .scht file to 'main source'.\n" <<
         "-play:" << std::endl <<
-        "   execute Scheat as shell.\n" <<
+        "   execute Scheat like a shell.\n" <<
         "-lex:" << std::endl <<
         "   lex texts and show token kind.\n"
         "   option: -f enables you to lex file. Enter file path after -f option.";
