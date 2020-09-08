@@ -266,6 +266,11 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "SCHEAT") {
+        printf("Scheat is a new programming language.\n");
+        host->FatalError(__FILE_NAME__, __LINE__, "You cannot help learning Scheat.");
+    }
+    
     if (state == identifierState) {
         tok->value.strValue = buf;
         tok->kind = TokenKind::val_identifier;
@@ -546,18 +551,30 @@ void Lexer::input(int c, int next){
         genTok();
         buf.push_back(c);
         genTok();
+        return;
     }
     
     if (c == '(') {
         genTok();
         buf.push_back(c);
         genTok();
+        return;
     }
     
     if (c == ')') {
         genTok();
         buf.push_back(c);
         genTok();
+        return;
+    }
+    
+    if (true
+        && state == initState
+        && c == '-'
+        && isnumber(next)) {
+        state = numberState;
+        buf.push_back(c);
+        return;
     }
     
     if (false
