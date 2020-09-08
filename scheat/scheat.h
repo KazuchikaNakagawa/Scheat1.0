@@ -23,7 +23,7 @@ class Scheat;
 
 class IRBuilder;
 
-extern void LegacyScheatParser::Parse(Scheat *, scheat::Token *tokens);
+extern void LegacyScheatParser::LLParse(Scheat *);
 
 }
 

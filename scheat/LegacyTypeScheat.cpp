@@ -724,7 +724,7 @@ unique(Statements) parseStatements(){
     return nullptr;
 }
 
-void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens){
+void LegacyScheatParser::LLParse(Scheat *host){
     scheato = host;
     std::ofstream f(host->outputFilePath + ".ll");
     if (!f.is_open()) {
@@ -737,7 +737,7 @@ void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens){
     if (len1 >= len2 && host->sourceFile.compare(len1 - len2, len2, ".scheat") == 0){;
         E9::CreateMainContext();
     }
-    gltokens = tokens;
+    gltokens = host->tokens;
     unique(Statements) stmt = nullptr;
     while (stmt = parseStatements(),stmt != nullptr) {
         stmt->codegen(local_context.top()->stream_body);
@@ -747,4 +747,8 @@ void LegacyScheatParser::Parse(Scheat *host, scheat::Token *tokens){
         (*i)->dump(f);
         f << "\n";
     }
+}
+
+std::vector<std::unique_ptr<Statements>> Parse(Scheat *obj){
+    return {};
 }

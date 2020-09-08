@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "ScheatObjects.h"
 #include "Lexer.hpp"
+#include "ScheatNodes.h"
 #include <fstream>
 
 namespace scheat{
@@ -25,7 +26,9 @@ void CreateMainContext();
 
 }
 
-void Parse(Scheat *, scheat::Token *tokens);
+void LLParse(Scheat *);
+
+std::vector<std::unique_ptr<node::Statements>> Parse(Scheat *);
 
 }
 

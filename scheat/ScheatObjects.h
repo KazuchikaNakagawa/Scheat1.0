@@ -14,7 +14,7 @@ namespace scheat {
 class Token;
 class Scheat;
 namespace LegacyScheatParser {
-extern void Parse(Scheat *, scheat::Token *);
+extern void LLParse(Scheat *);
 }
 
 struct SourceLocation {
@@ -83,6 +83,7 @@ public:
     Scheat();
     
     friend class Lexer;
+    friend void LegacyScheatParser::LLParse(Scheat *);
 };
 
 enum class ScheatError : int {
