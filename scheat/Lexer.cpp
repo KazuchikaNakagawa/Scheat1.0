@@ -339,6 +339,9 @@ void Token::out(){
     if (kind == TokenKind::embbed_func_print) {
         printf("print token\n");
     }
+    if (kind == TokenKind::tok_do) {
+        printf("do|does token\n");
+    }
 }
 
 void Lexer::clear(){
@@ -533,6 +536,7 @@ void Lexer::input(int c, int next){
         genTok();
         buf.push_back(c);
         genTok();
+        return;
     }
     
     if (c == ',') {
