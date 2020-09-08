@@ -12,6 +12,11 @@
 #define SV_P 8
 namespace scheat {
 class Token;
+class Scheat;
+namespace LegacyScheatParser {
+extern void Parse(Scheat *, scheat::Token *);
+}
+
 struct SourceLocation {
     int line;
     int column;

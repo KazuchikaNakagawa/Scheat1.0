@@ -621,7 +621,8 @@ std::string basicStructs::Function::codegen(IRStream &f){
 Token *Lexer::lexString(Scheat *sch, std::string sstream){
     Lexer lexer(sch);
     lexer.lex(sstream);
-    return lexer.getTokens();
+    sch->tokens = lexer.tokens;
+    return lexer.tokens;
 }
 
 Token *Lexer::lex(Scheat *sch){
@@ -632,5 +633,6 @@ Token *Lexer::lex(Scheat *sch){
     }
     Lexer lexer(sch);
     lexer.lex(ifs);
+    sch->tokens = lexer.tokens;
     return lexer.getTokens();
 }
