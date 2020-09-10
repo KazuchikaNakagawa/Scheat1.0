@@ -12,7 +12,7 @@
 #include <vector>
 namespace scheat{
 
-using namespace basicStructs;
+using namespace basics;
 
 class Context {
     unsigned int rnum;

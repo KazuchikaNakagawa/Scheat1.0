@@ -20,7 +20,7 @@
 
 using namespace scheat::LegacyScheatParser;
 using namespace scheat;
-using namespace scheat::basicStructs;
+using namespace scheat::basics;
 using namespace scheat::node;
 
 Class *Context::findClass(std::string key){
@@ -47,7 +47,7 @@ std::string Function::getMangledName(){
     return mangledName + base;
 }
 
-std::string basicStructs::Function::lltype(){
+std::string basics::Function::lltype(){
     std::string base = return_type.mangledName() + "(";
     for (int i = 0; i < argTypes.size(); i++) {
         base = base + argTypes[i].mangledName();

@@ -137,7 +137,7 @@ public:
     };
 };
 
-namespace basicStructs{
+namespace basics{
 
 class IRStream {
 public:
