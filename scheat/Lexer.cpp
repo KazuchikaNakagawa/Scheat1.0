@@ -385,6 +385,15 @@ void Token::out(){
     if (kind == TokenKind::tok_import) {
         printf("import token\n");
     }
+    if (kind == TokenKind::tok_with) {
+        printf("with token\n");
+    }
+    if (kind == TokenKind::tok_of) {
+        printf("of token\n");
+    }
+    if (kind == TokenKind::tok_export) {
+        printf("export token\n");
+    }
 }
 
 void Lexer::clear(){
