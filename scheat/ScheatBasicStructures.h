@@ -28,6 +28,7 @@ enum class TokenKind : int {
     tok_this,
     tok_that,
     tok_is,
+    tok_of,
     tok_period,
     tok_comma,
     tok_range,
@@ -36,6 +37,10 @@ enum class TokenKind : int {
     tok_paren_l,
     tok_paren_r,
     tok_external,
+    tok_import,
+    tok_export,
+    tok_to,
+    tok_with,
     
     embbed_func_print,
     embbed_func_import,

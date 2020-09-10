@@ -266,6 +266,41 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "import") {
+        tok->kind = TokenKind::tok_import;
+        tadd;
+        clear();
+        return;
+    }
+    
+    if (buf == "export") {
+        tok->kind = TokenKind::tok_export;
+        tadd;
+        clear();
+        return;
+    }
+    
+    if (buf == "to") {
+        tok->kind = TokenKind::tok_to;
+        tadd;
+        clear();
+        return;
+    }
+    
+    if (buf == "of") {
+        tok->kind = TokenKind::tok_of;
+        tadd;
+        clear();
+        return;
+    }
+    
+    if (buf == "with") {
+        tok->kind = TokenKind::tok_with;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "SCHEAT") {
         printf("Scheat is a new programming language.\n");
         host->FatalError(__FILE_NAME__, __LINE__, "You cannot help learning Scheat.");
@@ -346,6 +381,9 @@ void Token::out(){
     }
     if (kind == TokenKind::tok_do) {
         printf("do|does token\n");
+    }
+    if (kind == TokenKind::tok_import) {
+        printf("import token\n");
     }
 }
 
