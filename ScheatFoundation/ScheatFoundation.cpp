@@ -107,14 +107,11 @@ bool ScheatString_isPtr(String *v){
     return bs[0] == 0;
 };
 
-String ScheatString_assign(String *v, String *s){
+String ScheatString_assign(String *v){
     if (ScheatString_isPtr(v)) {
-        ScheatARC::shared().unref(v->buf.char_ptr);
+        ScheatARC::shared().copy(v->buf.char_ptr);
     }
-    if (ScheatString_isPtr(s)) {
-        ScheatARC::shared().copy(s->buf.char_ptr);
-    }
-    return *s;
+    return *v;
 }
 
 String ScheatString_copy(String *ss){
@@ -149,8 +146,8 @@ String ScheatString_add(String *lhs, String *rhs){
         memset(str.buf.const_chars.const_char, 0, sizeof(str.buf.const_chars.const_char));
         str.buf.char_ptr = str.buf.const_chars.const_char;
     }else{
-        str.buf.char_ptr = (char *)ScheatARC::shared().create(8 * (ll + rl), nullptr);
-        memset(str.buf.char_ptr, 0, sizeof(8 * (ll + rl)));
+        str.buf.char_ptr = (char *)ScheatARC::shared().create(8 * (ll + rl + 1), nullptr);
+        memset(str.buf.char_ptr, 0, sizeof(8 * (ll + rl + 1)));
     }
     
     if (ScheatString_isPtr(lhs)) {
