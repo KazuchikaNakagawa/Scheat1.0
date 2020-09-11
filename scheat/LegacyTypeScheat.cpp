@@ -709,6 +709,10 @@ static Token * BackwardIFExists(){
     return nullptr;
 }
 
+unique(PrimaryExpr) parsePrimaryExpr(){
+    return nullptr;
+}
+
 unique(Expr) parseExpr(){
     if (gltokens->kind == scheat::TokenKind::val_operator) {
         // parse prefix operator
@@ -718,6 +722,7 @@ unique(Expr) parseExpr(){
             return nullptr;
         }
         if (rhs->node_size.ir_used == "i32") {
+            return Expr::make(nullptr, opTok, move(rhs));
         }
     }
     
