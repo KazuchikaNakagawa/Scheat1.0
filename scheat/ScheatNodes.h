@@ -35,7 +35,7 @@ class Node {
 public:
     SourceLocation location;
     
-    std::string node_size;
+    TypeData node_size;
     
     virtual node::NodeData* codegen(IRStream &) { return nullptr; };
     
@@ -87,9 +87,13 @@ public:
 };
 
 class IntTerm : public TermNode {
-    
+    Token *valToken;
+    unique(IdentifierExpr) ident;
 public:
-    
+    IntTerm() : TermNode() {};
+    static unique(IntTerm) make(Token *);
+    static unique(IntTerm) make(unique(IdentifierExpr));
+    node::NodeData * codegen(IRStream &) override;
 };
 
 class Term : public Node {
@@ -102,11 +106,28 @@ public:
     static unique(Term) create(unique(Term), Token *, unique(TermNode));
 };
 
-class Expr : public Node {
+class PrimaryExpr : public ExprNode {
+    unique(PrimaryExpr) exprs;
+    Token *opTok;
+    unique(Term) term;
+public:
+    __deprecated PrimaryExpr() {};
     
+    node::NodeData * codegen(IRStream &) override;
+    static unique(PrimaryExpr) make(unique(Term));
+    static unique(PrimaryExpr) make(unique(PrimaryExpr), Token *, unique(Term));
+};
+
+class Expr : public Node {
+    unique(PrimaryExpr) body;
+    unique(Expr) exprs;
+    Token *op;
 public:
     node::NodeData * codegen(IRStream &) override{ return nullptr; };
+    static unique(Expr) make(unique(PrimaryExpr) lhs, Token *opTok = nullptr,
+                             unique(Expr) rhs = nullptr);
 };
+
 
 class PrototypeExpr : public ExprNode {
     Token *identifier;
@@ -133,17 +154,7 @@ public:
     static unique(Statements) make(unique(StatementNode), unique(Statements));
 };
 
-class PrimaryExpr : public ExprNode {
-    unique(PrimaryExpr) exprs;
-    Token *opTok;
-    unique(Term) term;
-public:
-    __deprecated PrimaryExpr() {};
-    
-    node::NodeData * codegen(IRStream &) override;
-    static unique(PrimaryExpr) make(unique(Term));
-    static unique(PrimaryExpr) make(unique(PrimaryExpr), Token *, unique(Term));
-};
+
 
 class PrintStatement : public StatementNode {
     unique(Expr) ex;

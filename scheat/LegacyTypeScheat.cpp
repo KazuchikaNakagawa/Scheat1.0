@@ -527,6 +527,34 @@ node::NodeData *PrimaryExprInt::codegen(IRStream &f){
     return nullptr;
 }
 
+unique(IntTerm) IntTerm::make(Token *tok) {
+    auto i = std::make_unique<IntTerm>();
+    i->ident = nullptr;
+    i->valToken = tok;
+    return i;
+}
+
+unique(IntTerm) IntTerm::make(unique(IdentifierExpr) ie){
+    auto i = std::make_unique<IntTerm>();
+    i->ident = move(ie);
+    i->valToken = nullptr;
+    return i;
+}
+
+NodeData *IntTerm::codegen(IRStream &f){
+    if (ident != nullptr) {
+        auto k = ident->codegen(f);
+        if (k->size.ir_used != "i32") {
+            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is not an Int type.",ident->location.line, ident->location.column, k->value.c_str());
+        }
+    }else if (valToken != nullptr){
+        
+    }else{
+        scheato->DevLog(__FILE_NAME__, __LINE__, "??");
+    }
+    return nullptr;
+}
+
 node::NodeData *TermInt::codegen(IRStream &f){
     if (itok == nullptr) {
         scheato->DevLog(__FILE_NAME__, __LINE__, "itok was null");
@@ -584,7 +612,8 @@ unique(IdentifierTerm) IdentifierTerm::create(std::string v, bool n){
 unique(PrintStatement) PrintStatement::make(std::unique_ptr<Expr> expr){
     auto ob = std::make_unique<PrintStatement>();
     ob->ex = std::move(expr);
-    ob->node_size = "void";
+    ob->node_size.ir_used = "void";
+    ob->node_size.name = "Void";
     return ob;
 }
 
@@ -649,6 +678,20 @@ unique(Statements) Statements::make(unique(StatementNode) st, unique(Statements)
     return obj;
 }
 
+unique(Expr) Expr::make(std::unique_ptr<PrimaryExpr> lhs, Token *opTok, unique(Expr) rhs){
+    auto e = std::make_unique<Expr>();
+    e->body = move(lhs);
+    e->node_size = e->body->node_size;
+    if (opTok != nullptr) {
+        e->op = opTok;
+    }
+    if (rhs != nullptr) {
+        e->exprs = move(rhs);
+    }
+    
+    return e;
+}
+
 // ----------------------------------------------------------------------------------------------------------------------------
 
 static Token * BackwardIFExists(){
@@ -668,13 +711,13 @@ static Token * BackwardIFExists(){
 
 unique(Expr) parseExpr(){
     if (gltokens->kind == scheat::TokenKind::val_operator) {
-        if (gltokens->value.strValue == "!") {
-            // unique(BoolExpr) parseBoolExpr();
-            auto rhs = parseExpr();
-            if (scheato->hasProbrem()) {
-                return nullptr;
-            }
-            
+        // parse prefix operator
+        auto opTok = gltokens;
+        auto rhs = parseExpr();
+        if (scheato->hasProbrem()) {
+            return nullptr;
+        }
+        if (rhs->node_size.ir_used == "i32") {
         }
     }
     

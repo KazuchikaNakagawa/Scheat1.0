@@ -193,6 +193,8 @@ public:
         
     }
     
+    TypeData() {};
+    
     TypeData(std::string a, std::string b) : name(a), ir_used(b) {};
 };
 
