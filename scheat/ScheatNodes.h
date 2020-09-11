@@ -51,6 +51,7 @@ class TermNode : public Node {
 public:
     node::NodeData * codegen(IRStream &) override{ return nullptr; };
     virtual ~TermNode(){};
+    std::string userdump() override{ return "UNDEFINED"; };
 };
 
 class PrimaryExprNode : public Node {
@@ -67,6 +68,7 @@ public:
     node::NodeData * codegen(IRStream &) override { return nullptr; };
     virtual ~ExprNode(){};
     ExprNode() {};
+    std::string userdump() override { return "undefined"; };
 };
 
 class IdentifierTerm : public TermNode {
@@ -77,6 +79,9 @@ public:
     IdentifierTerm(std::string v) : value(v) {};
     static unique(IdentifierTerm) create(std::string, bool);
     node::NodeData * codegen(IRStream &) override;
+    std::string userdump() override{
+        return value;
+    }
 };
 
 class IdentifierExpr : public ExprNode {
@@ -86,6 +91,17 @@ class IdentifierExpr : public ExprNode {
     unique(IdentifierTerm) term;
 public:
     node::NodeData * codegen(IRStream &) override;
+    std::string userdump() override{
+        std::string buf = "";
+        if (expr != nullptr) {
+            buf = expr->userdump();
+        }
+        if (opTok != nullptr) {
+            buf = buf + opTok->value.strValue;
+        }
+        buf = buf + term->userdump();
+        return buf;
+    };
 };
 
 class IntTerm : public TermNode {
