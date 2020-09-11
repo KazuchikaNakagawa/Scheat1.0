@@ -39,6 +39,8 @@ public:
     
     virtual node::NodeData* codegen(IRStream &) { return nullptr; };
     
+    virtual std::string userdump() { return "UNDEFINED"; };
+    
     virtual ~Node() {};
 };
 

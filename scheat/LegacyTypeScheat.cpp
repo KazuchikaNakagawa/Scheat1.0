@@ -545,7 +545,7 @@ NodeData *IntTerm::codegen(IRStream &f){
     if (ident != nullptr) {
         auto k = ident->codegen(f);
         if (k->size.ir_used != "i32") {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is not an Int type.",ident->location.line, ident->location.column, k->value.c_str());
+            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is not an Int type.",ident->location.line, ident->location.column, ident->userdump().c_str());
         }
     }else if (valToken != nullptr){
         
