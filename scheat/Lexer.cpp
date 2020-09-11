@@ -303,7 +303,7 @@ void Lexer::genTok(){
     
     if (buf == "SCHEAT") {
         printf("Scheat is a new programming language.\n");
-        host->FatalError(__FILE_NAME__, __LINE__, "You cannot help learning Scheat.");
+        host->FatalError(__FILE_NAME__, __LINE__, "You cannot stop learning Scheat.");
     }
     
     if (state == identifierState) {

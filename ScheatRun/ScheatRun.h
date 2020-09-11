@@ -12,7 +12,7 @@
 /* The classes below are exported */
 #pragma GCC visibility push(default)
 
-#include "BasicStructures.h"
+#include "ScheatBasicStructures.h"
 
 namespace scheatRun{
 namespace instruction{
