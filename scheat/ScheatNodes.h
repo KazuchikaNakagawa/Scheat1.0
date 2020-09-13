@@ -169,7 +169,7 @@ public:
     p_unique(Statements) stmts;
     p_unique(StatementNode) stmt;
     node::NodeData * codegen(IRStream &) override;
-    static p_unique(Statements) make(p_unique(StatementNode), p_unique(Statements));
+    static p_unique(Statements) make(p_unique(StatementNode), p_unique(Statements) = nullptr);
 };
 
 

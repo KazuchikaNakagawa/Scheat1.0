@@ -8,20 +8,153 @@
 #include <stdio.h>
 #include "ScheatNodes.h"
 #include "ScheatBasicStructures.h"
+#include "ScheatParser.h"
+#include "LegacyTypeScheat.hpp"
 #include <fstream>
 #include <iostream>
 #include <vector>
 #include <map>
 #include <stack>
 
-namespace scheat {
+using namespace scheat::LegacyScheatParser;
+using namespace scheat;
+using namespace scheat::basics;
+using namespace scheat::node;
+using scheat::parser::contextCenter;
+using scheat::parser::global_context;
+using scheat::parser::main_Context;
+using scheat::parser::local_context;
+using scheat::parser::objects;
+using scheat::parser::fname;
+using scheat::parser::gltokens;
+using scheat::parser::scheato;
 
-using namespace std;
-namespace scheatParser {
-
-static vector<Context *> contextCenter = {};
-static stack<Context *> local_context;
-
+static void getNextTok(){
+    gltokens = gltokens->next;
 };
 
+static Token * BackwardIFExists(){
+    auto tok = gltokens;
+    if (tok->kind == scheat::TokenKind::tok_if) {
+        scheato->DevLog(__FILE_NAME__, __LINE__, "if token was detected but it seemed not to  be backward if");
+        return nullptr;
+    }
+    while (tok->kind != scheat::TokenKind::tok_period) {
+        if (tok->kind == scheat::TokenKind::tok_if) {
+            return tok;
+        }
+        tok = tok->next;
+    }
+    return nullptr;
+}
+
+p_unique(Term) parseTerm(){
+    return nullptr;
+}
+
+p_unique(PrimaryExpr) parsePrimaryExpr(){
+    if (gltokens->kind == scheat::TokenKind::val_operator) {
+        
+    }
+    return nullptr;
+}
+
+p_unique(Expr) parseExpr(){
+    if (gltokens->kind == scheat::TokenKind::val_operator) {
+        // parse prefix operator
+        auto opTok = gltokens;
+        auto rhs = parseExpr();
+        if (scheato->hasProbrem()) {
+            return nullptr;
+        }
+        if (rhs->node_size.ir_used != "i32") {
+            return Expr::make(nullptr, opTok, move(rhs));
+        }
+    }else{
+        auto expr = parsePrimaryExpr();
+        if (scheato->hasProbrem()) {
+            return nullptr;
+        }
+        if (gltokens->kind == scheat::TokenKind::val_operator) {
+            // TODO : needs to check the operator predence
+            auto Op = gltokens;
+            gltokens = gltokens->next;
+            auto prim = parsePrimaryExpr();
+            return Expr::make(move(expr), Op, Expr::make(move(prim)));
+        }
+    }
+    
+    return nullptr;
+}
+
+p_unique(StatementNode) parsePrintStatement(){
+    getNextTok();
+    auto expr = parseExpr();
+    if (scheato->hasProbrem()) {
+        return nullptr;
+    }
+    return PrintStatement::make(std::move(expr));
+}
+
+p_unique(StatementNode) parseStatement(){
+    if (gltokens == nullptr) {
+        return nullptr;
+    }
+    if (gltokens->kind == scheat::TokenKind::embbed_func_print) {
+        return parsePrintStatement();
+    }
+    return nullptr;
+};
+
+p_unique(Statements) parseStatements(){
+    if (gltokens == nullptr) {
+        return nullptr;
+    }
+    auto s = parseStatement();
+    if (scheato->hasProbrem() || s == nullptr) {
+        return nullptr;
+    }
+    if (gltokens == nullptr) {
+        scheato->FatalError(__FILE_NAME__, __LINE__, "illegal null token");
+        return nullptr;
+    }
+    if (gltokens->kind == scheat::TokenKind::tok_comma) {
+        auto ss = parseStatements();
+        auto v = Statements::make(move(s), move(ss));
+        return v;
+    }else if (gltokens->kind == scheat::TokenKind::tok_period){
+        getNextTok();
+        return Statements::make(move(s));
+    }
+    scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d illegal end of the statement", gltokens->location.line, gltokens->location.column);
+    return nullptr;
+}
+
+void LegacyScheatParser::LLParse(Scheat *host){
+    scheato = host;
+    std::ofstream f(host->outputFilePath + ".ll");
+    if (!f.is_open()) {
+        host->FatalError("", 0, "File not found");
+        return;
+    }
+    E9::InitializeContexts();
+    size_t len1 = host->sourceFile.size();
+    size_t len2 = std::string(".scheat").size();
+    if (len1 >= len2 && host->sourceFile.compare(len1 - len2, len2, ".scheat") == 0){;
+        E9::CreateMainContext();
+    }
+    gltokens = host->tokens;
+    p_unique(Statements) stmt = nullptr;
+    while (stmt = parseStatements(),stmt != nullptr) {
+        stmt->codegen(local_context.top()->stream_body);
+        stmt = parseStatements();
+    }
+    for (auto i = contextCenter.begin(); i != contextCenter.end(); i = std::next(i)) {
+        (*i)->dump(f);
+        f << "\n";
+    }
+}
+
+std::vector<std::unique_ptr<Statements>> Parse(Scheat *obj){
+    return {};
 }

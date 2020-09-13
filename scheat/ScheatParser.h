@@ -19,13 +19,14 @@ namespace scheat {
 
 namespace parser {
 
-static std::vector<Context *> contextCenter = {};
-static Context *global_context;
-static Context *main_Context;
-static std::stack<Context *> local_context;
-static std::map<int, std::vector<std::string>> objects;
-static std::string fname = "";
-
+extern std::vector<Context *> contextCenter;
+extern Context *global_context;
+extern Context *main_Context;
+extern std::stack<Context *> local_context;
+extern std::map<int, std::vector<std::string>> objects;
+extern std::string fname;
+extern scheat::Token *gltokens;
+extern Scheat *scheato;
 }
 
 }

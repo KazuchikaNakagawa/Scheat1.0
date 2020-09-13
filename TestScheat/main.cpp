@@ -16,7 +16,6 @@ int main(int argc, const char * argv[]) {
     schprj->sourceFile = "test.scheat";
     schprj->outputFilePath = "/Users/kaz04/ScheatTest/test";
     schprj->allowDeepDebug(true);
-    scheat::Token *toks = scheat::Lexer::lexString(schprj, "@3 is 45.");
-    toks->enumerate();
+    scheat::LegacyScheatParser::LLParse(schprj);
     return 0;
 }
