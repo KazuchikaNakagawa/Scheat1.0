@@ -23,68 +23,44 @@ using namespace scheat;
 using namespace scheat::basics;
 using namespace scheat::node;
 
-Class *Context::findClass(std::string key){
-    return classes[key];
-}
-
-Function *Context::findFunc(std::string key){
-    return funcs[key];
-}
+//Class *Context::findClass(std::string key){
+//    return classes[key];
+//}
+//
+//Function *Context::findFunc(std::string key){
+//    return funcs[key];
+//}
 
 using std::move;
 
 static Scheat *scheato = nullptr;
 
-std::string Function::getMangledName(){
-    std::string base = return_type.mangledName() + "_";
-    for (int i = 0; i < argTypes.size(); i++) {
-        base = base + argTypes[i].mangledName();
-        
-        if (i < argTypes.size()) {
-            base = base + "_";
-        }
-    }
-    return mangledName + base;
-}
 
-std::string basics::Function::lltype(){
-    std::string base = return_type.mangledName() + "(";
-    for (int i = 0; i < argTypes.size(); i++) {
-        base = base + argTypes[i].mangledName();
-        
-        if (i < argTypes.size()) {
-            base = base + ", ";
-        }
-    }
-    base = base + ")";
-    return base;
-}
-
-void Context::dump(std::ofstream &f){
-    
-    // typename std::map<std::string, Class *>::iterator
-    auto iter = begin(classes);
-    while (iter != classes.end()) {
-        auto pair = *iter;
-        pair.second->context->dump(f);
-        iter = std::next(iter);
-    }
-    f << "; " << name << "\n";
-    stream_entry.exportTo(f);
-    stream_body.exportTo(f);
-    stream_tail.exportTo(f);
-    
-    auto iter_f = begin(funcs);
-    while (iter_f != funcs.end()) {
-        auto pair = *iter_f;
-        pair.second->context->dump(f);
-    }
-    
-    for (auto p = funcs.begin(); p != funcs.end(); p = std::next(p)) {
-        (*p).second->context->dump(f);
-    }
-    
-}
+//void Context::dump(std::ofstream &f){
+//
+//    // typename std::map<std::string, Class *>::iterator
+//    auto iter = begin(classes);
+//    while (iter != classes.end()) {
+//        auto pair = *iter;
+//        pair.second->context->dump(f);
+//        iter = std::next(iter);
+//    }
+//    f << "; " << name << "\n";
+//    stream_entry.exportTo(f);
+//    stream_body.exportTo(f);
+//    stream_tail.exportTo(f);
+//
+//    auto iter_f = begin(funcs);
+//    while (iter_f != funcs.end()) {
+//        auto pair = *iter_f;
+//        pair.second->context->dump(f);
+//    }
+//
+//    for (auto p = funcs.begin(); p != funcs.end(); p = std::next(p)) {
+//        (*p).second->context->dump(f);
+//    }
+//
+//}
 
 static std::vector<Context *> contextCenter = {};
 static Context *global_context;
@@ -102,7 +78,7 @@ static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
         }
         if (a->type->name == to->name) {
             auto r = local_context.top()->getRegister();
-            f << r << " = bitcast " << data->size.ir_used << "* " << data->value << " to " << to->ir_used << "\n";
+            f << r << " = bitcast " << data->size.ir_used << "* " << data->value << " to " << to->ir_used << "*\n";
         }
     }
     if (data->size.ir_used[0] == 'i') {
@@ -116,12 +92,6 @@ Function::Function(std::string type, std::string nm) : return_type(type){
     name = nm;
     argTypes = {};
     context = Context::create(nm, local_context.top());
-}
-
-void IRStream::exportTo(std::ofstream &f){
-    for (int i = 0; i < irs.size(); i++) {
-        f << irs[i];
-    }
 }
 
 void Context::addFunction(std::string key, Function *value){
@@ -172,6 +142,9 @@ static void getNextTok(){
 
 Context *Context::create(std::string name, Context *parents){
     Context *cnt = new Context(name, parents);
+    if (parents == nullptr) {
+        contextCenter.push_back(cnt);
+    }
     return cnt;
 }
 
@@ -660,8 +633,9 @@ NodeData *PrintStatement::codegen(IRStream &f){
     auto data = ex->codegen(f);
     if (data->size.ir_used == "i32") {
         f << "call void @print_i32(i32 " << data->value << "\n";
+        f << "call void @printn()" << "\n";
     }
-    f << "call void @printn()" << "\n";
+    
     return nullptr;
 }
 
@@ -709,7 +683,14 @@ static Token * BackwardIFExists(){
     return nullptr;
 }
 
+unique(Term) parseTerm(){
+    return nullptr;
+}
+
 unique(PrimaryExpr) parsePrimaryExpr(){
+    if (gltokens->kind == scheat::TokenKind::val_operator) {
+        
+    }
     return nullptr;
 }
 
@@ -721,8 +702,20 @@ unique(Expr) parseExpr(){
         if (scheato->hasProbrem()) {
             return nullptr;
         }
-        if (rhs->node_size.ir_used == "i32") {
+        if (rhs->node_size.ir_used != "i32") {
             return Expr::make(nullptr, opTok, move(rhs));
+        }
+    }else{
+        auto expr = parsePrimaryExpr();
+        if (scheato->hasProbrem()) {
+            return nullptr;
+        }
+        if (gltokens->kind == scheat::TokenKind::val_operator) {
+            // TODO : needs to check the operator predence
+            auto Op = gltokens;
+            gltokens = gltokens->next;
+            auto prim = parsePrimaryExpr();
+            return Expr::make(move(expr), Op, Expr::make(move(prim)));
         }
     }
     

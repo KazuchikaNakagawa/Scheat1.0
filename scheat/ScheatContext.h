@@ -53,7 +53,7 @@ public:
     
     void dump(std::ofstream &);
     
-    static Context *create(std::string name, Context *parents);
+    static Context *create(std::string name, Context *parents = nullptr);
 };
 
 }
