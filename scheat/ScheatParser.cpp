@@ -12,5 +12,16 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <stack>
 
+namespace scheat {
 
+using namespace std;
+namespace scheatParser {
+
+static vector<Context *> contextCenter = {};
+static stack<Context *> local_context;
+
+};
+
+}

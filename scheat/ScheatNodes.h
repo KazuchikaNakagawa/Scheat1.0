@@ -9,7 +9,7 @@
 #define ScheatNodes_h
 
 
-#define unique(id) std::unique_ptr<id>
+#define p_unique(id) std::unique_ptr<id>
 #include <string>
 #include "ScheatContext.h"
 #include "ScheatObjects.h"
@@ -77,7 +77,7 @@ class IdentifierTerm : public TermNode {
 public:
     __deprecated_msg("this class is only available for unique_ptr")
     IdentifierTerm(std::string v) : value(v) {};
-    static unique(IdentifierTerm) create(std::string, bool);
+    static p_unique(IdentifierTerm) create(std::string, bool);
     node::NodeData * codegen(IRStream &) override;
     std::string userdump() override{
         return value;
@@ -85,10 +85,10 @@ public:
 };
 
 class IdentifierExpr : public ExprNode {
-    unique(IdentifierExpr) expr;
+    p_unique(IdentifierExpr) expr;
     // operator or . token
     Token * opTok;
-    unique(IdentifierTerm) term;
+    p_unique(IdentifierTerm) term;
 public:
     node::NodeData * codegen(IRStream &) override;
     std::string userdump() override{
@@ -106,44 +106,44 @@ public:
 
 class IntTerm : public TermNode {
     Token *valToken;
-    unique(IdentifierExpr) ident;
+    p_unique(IdentifierExpr) ident;
 public:
     IntTerm() : TermNode() {};
-    static unique(IntTerm) make(Token *);
-    static unique(IntTerm) make(unique(IdentifierExpr));
+    static p_unique(IntTerm) make(Token *);
+    static p_unique(IntTerm) make(p_unique(IdentifierExpr));
     node::NodeData * codegen(IRStream &) override;
 };
 
 class Term : public Node {
-    unique(Term) terms;
+    p_unique(Term) terms;
     Token *opTok;
-    unique(TermNode) node;
+    p_unique(TermNode) node;
 public:
     node::NodeData * codegen(IRStream &) override;
-    static unique(Term) create(unique(TermNode));
-    static unique(Term) create(unique(Term), Token *, unique(TermNode));
+    static p_unique(Term) create(p_unique(TermNode));
+    static p_unique(Term) create(p_unique(Term), Token *, p_unique(TermNode));
 };
 
 class PrimaryExpr : public ExprNode {
-    unique(PrimaryExpr) exprs;
+    p_unique(PrimaryExpr) exprs;
     Token *opTok;
-    unique(Term) term;
+    p_unique(Term) term;
 public:
     __deprecated PrimaryExpr() {};
     
     node::NodeData * codegen(IRStream &) override;
-    static unique(PrimaryExpr) make(unique(Term));
-    static unique(PrimaryExpr) make(unique(PrimaryExpr), Token *, unique(Term));
+    static p_unique(PrimaryExpr) make(p_unique(Term));
+    static p_unique(PrimaryExpr) make(p_unique(PrimaryExpr), Token *, p_unique(Term));
 };
 
 class Expr : public Node {
-    unique(PrimaryExpr) body;
-    unique(Expr) exprs;
+    p_unique(PrimaryExpr) body;
+    p_unique(Expr) exprs;
     Token *op;
 public:
     node::NodeData * codegen(IRStream &) override{ return nullptr; };
-    static unique(Expr) make(unique(PrimaryExpr) lhs, Token *opTok = nullptr,
-                             unique(Expr) rhs = nullptr);
+    static p_unique(Expr) make(p_unique(PrimaryExpr) lhs, Token *opTok = nullptr,
+                               p_unique(Expr) rhs = nullptr);
 };
 
 
@@ -166,22 +166,22 @@ public:
 
 class Statements : public Node {
 public:
-    unique(Statements) stmts;
-    unique(StatementNode) stmt;
+    p_unique(Statements) stmts;
+    p_unique(StatementNode) stmt;
     node::NodeData * codegen(IRStream &) override;
-    static unique(Statements) make(unique(StatementNode), unique(Statements));
+    static p_unique(Statements) make(p_unique(StatementNode), p_unique(Statements));
 };
 
 
 
 class PrintStatement : public StatementNode {
-    unique(Expr) ex;
+    p_unique(Expr) ex;
 public:
     ~PrintStatement(){};
     __deprecated PrintStatement() {};
     node::NodeData * codegen(IRStream &) override;
     void dump(IRStream &) override;
-    static unique(PrintStatement) make(unique(Expr));
+    static p_unique(PrintStatement) make(p_unique(Expr));
 };
 
 

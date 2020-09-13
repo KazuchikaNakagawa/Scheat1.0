@@ -11,17 +11,24 @@
 #include "Lexer.hpp"
 #include "ScheatContext.h"
 #include "ScheatNodes.h"
+#include "ScheatParser.h"
 #include <fstream>
 #include <iostream>
 #include <stdio.h>
 #include <map>
 
-#define unique(id) std::unique_ptr<id>
+#define p_unique(id) std::unique_ptr<id>
 
 using namespace scheat::LegacyScheatParser;
 using namespace scheat;
 using namespace scheat::basics;
 using namespace scheat::node;
+using scheat::parser::contextCenter;
+using scheat::parser::global_context;
+using scheat::parser::main_Context;
+using scheat::parser::local_context;
+using scheat::parser::objects;
+using scheat::parser::fname;
 
 //Class *Context::findClass(std::string key){
 //    return classes[key];
@@ -62,13 +69,7 @@ static Scheat *scheato = nullptr;
 //
 //}
 
-static std::vector<Context *> contextCenter = {};
-static Context *global_context;
-static Context *main_Context;
-static std::stack<Context *> local_context;
 static scheat::Token *gltokens;
-static std::map<int, std::vector<std::string>> objects;
-static std::string fname = "";
 
 static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
     if (data->size.ir_used[0] == '%') {
@@ -189,8 +190,8 @@ void LegacyScheatParser::E9::CreateMainContext(){
     main_Context->stream_tail << "ret i32 0\n}\n";
 }
 
-unique(Term) Term::create(std::unique_ptr<TermNode> term){
-    unique(Term) t = std::make_unique<Term>();
+p_unique(Term) Term::create(std::unique_ptr<TermNode> term){
+    p_unique(Term) t = std::make_unique<Term>();
     t->opTok = nullptr;
     t->terms = nullptr;
     t->node = std::move(term);
@@ -198,8 +199,8 @@ unique(Term) Term::create(std::unique_ptr<TermNode> term){
     return t;
 };
 
-unique(Term) Term::create(std::unique_ptr<Term> term, scheat::Token *opT, std::unique_ptr<TermNode> tn){
-    unique(Term) t = std::make_unique<Term>();
+p_unique(Term) Term::create(std::unique_ptr<Term> term, scheat::Token *opT, std::unique_ptr<TermNode> tn){
+    p_unique(Term) t = std::make_unique<Term>();
     t->terms = move(term);
     t->opTok = opT;
     t->node = move(tn);
@@ -251,7 +252,7 @@ node::NodeData *TermIdentifier::codegen(IRStream &f){
 }
 
 class FunctionExpr : public ExprNode {
-    std::vector<unique(PrototypeExpr)> args;
+    std::vector<p_unique(PrototypeExpr)> args;
 public:
     
 };
@@ -274,12 +275,12 @@ public:
         }
     };
     node::NodeData * codegen(IRStream &) override;
-    unique(TermInt) init(scheat::Token *i);
+    p_unique(TermInt) init(scheat::Token *i);
     ~TermInt() {};
 };
 
-unique(PrimaryExpr) PrimaryExpr::make(unique(Term) t){
-    unique(PrimaryExpr) ex = std::make_unique<PrimaryExpr>();
+p_unique(PrimaryExpr) PrimaryExpr::make(p_unique(Term) t){
+    p_unique(PrimaryExpr) ex = std::make_unique<PrimaryExpr>();
     ex->exprs = nullptr;
     ex->opTok = nullptr;
     ex->term = std::move(t);
@@ -288,8 +289,8 @@ unique(PrimaryExpr) PrimaryExpr::make(unique(Term) t){
     return ex;
 }
 
-unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> e, scheat::Token *token, std::unique_ptr<Term> t){
-    unique(PrimaryExpr) ex = std::make_unique<PrimaryExpr>();
+p_unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> e, scheat::Token *token, std::unique_ptr<Term> t){
+    p_unique(PrimaryExpr) ex = std::make_unique<PrimaryExpr>();
     ex->exprs = std::move(e);
     ex->opTok = token;
     ex->term = std::move(t);
@@ -414,53 +415,53 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
 }
 
 class PrimaryExprInt : public Expr {
-    unique(PrimaryExprInt) exprs;
+    p_unique(PrimaryExprInt) exprs;
     scheat::Token *opTok;
-    unique(TermInt) term;
+    p_unique(TermInt) term;
 public:
     node::NodeData * codegen(IRStream &) override;
-    __deprecated PrimaryExprInt(unique(TermInt) t,
+    __deprecated PrimaryExprInt(p_unique(TermInt) t,
                                 scheat::Token *tok,
-                                unique(PrimaryExprInt) e);
+                                p_unique(PrimaryExprInt) e);
     
-    static unique(PrimaryExprInt) init(unique(TermInt) t,
+    static p_unique(PrimaryExprInt) init(p_unique(TermInt) t,
                                        scheat::Token *tok,
-                                       unique(PrimaryExprInt) e);
+                                         p_unique(PrimaryExprInt) e);
     ~PrimaryExprInt() {};
 };
 
-PrimaryExprInt::PrimaryExprInt(unique(TermInt) t,
+PrimaryExprInt::PrimaryExprInt(p_unique(TermInt) t,
                                scheat::Token *tok,
-                               unique(PrimaryExprInt) e){
+                               p_unique(PrimaryExprInt) e){
     term = std::move(t);
     exprs = std::move(e);
     opTok = tok;
 }
 
-unique(PrimaryExprInt) PrimaryExprInt::init(unique(TermInt) t,
+p_unique(PrimaryExprInt) PrimaryExprInt::init(p_unique(TermInt) t,
                                             scheat::Token *tok,
-                                            unique(PrimaryExprInt) e){
+                                              p_unique(PrimaryExprInt) e){
     return std::make_unique<PrimaryExprInt>(std::move(t),
                                             tok,
                                             std::move(e));
 }
 
 class ExprInt : public ExprNode {
-    unique(ExprInt) exprs;
+    p_unique(ExprInt) exprs;
     scheat::Token *opToken;
-    unique(PrimaryExprInt) term;
+    p_unique(PrimaryExprInt) term;
 public:
     node::NodeData * codegen(IRStream &) override;
-    __deprecated ExprInt(unique(PrimaryExprInt) term,
+    __deprecated ExprInt(p_unique(PrimaryExprInt) term,
                          scheat::Token *opTok = nullptr,
-                         unique(ExprInt) exprs = nullptr);
+                         p_unique(ExprInt) exprs = nullptr);
     ~ExprInt() {};
     ExprInt() {};
 };
 
-ExprInt::ExprInt(unique(PrimaryExprInt) term,
+ExprInt::ExprInt(p_unique(PrimaryExprInt) term,
                  scheat::Token *opTok,
-                 unique(ExprInt) exprs){
+                 p_unique(ExprInt) exprs){
     this->term = std::move(term);
     this->opToken = opTok;
     this->exprs = std::move(exprs);
@@ -500,14 +501,14 @@ node::NodeData *PrimaryExprInt::codegen(IRStream &f){
     return nullptr;
 }
 
-unique(IntTerm) IntTerm::make(Token *tok) {
+p_unique(IntTerm) IntTerm::make(Token *tok) {
     auto i = std::make_unique<IntTerm>();
     i->ident = nullptr;
     i->valToken = tok;
     return i;
 }
 
-unique(IntTerm) IntTerm::make(unique(IdentifierExpr) ie){
+p_unique(IntTerm) IntTerm::make(p_unique(IdentifierExpr) ie){
     auto i = std::make_unique<IntTerm>();
     i->ident = move(ie);
     i->valToken = nullptr;
@@ -557,7 +558,7 @@ node::NodeData *TermInt::codegen(IRStream &f){
     return new node::NodeData(std::to_string(itok->value.intValue), TypeData("Int", "i32"));
 }
 
-unique(TermInt) TermInt::init(scheat::Token *i){
+p_unique(TermInt) TermInt::init(scheat::Token *i){
     if (i->kind != scheat::TokenKind::val_num &&
         i->kind != scheat::TokenKind::val_identifier) {
         scheato->FatalError(__FILE_NAME__,
@@ -570,7 +571,7 @@ unique(TermInt) TermInt::init(scheat::Token *i){
     return std::make_unique<TermInt>(i);
 }
 
-unique(IdentifierTerm) IdentifierTerm::create(std::string v, bool n){
+p_unique(IdentifierTerm) IdentifierTerm::create(std::string v, bool n){
     auto cond = local_context.top()->isExists(v);
     if (cond && !n) {
         scheato->FatalError(__FILE_NAME__, __LINE__, "%s already exists.", v.c_str());
@@ -582,7 +583,7 @@ unique(IdentifierTerm) IdentifierTerm::create(std::string v, bool n){
     return o;
 }
 
-unique(PrintStatement) PrintStatement::make(std::unique_ptr<Expr> expr){
+p_unique(PrintStatement) PrintStatement::make(std::unique_ptr<Expr> expr){
     auto ob = std::make_unique<PrintStatement>();
     ob->ex = std::move(expr);
     ob->node_size.ir_used = "void";
@@ -645,14 +646,14 @@ NodeData *Statements::codegen(IRStream &f){
     return nullptr;
 }
 
-unique(Statements) Statements::make(unique(StatementNode) st, unique(Statements) sts = nullptr){
+p_unique(Statements) Statements::make(p_unique(StatementNode) st, p_unique(Statements) sts = nullptr){
     auto obj = std::make_unique<Statements>();
     obj->stmt = move(st);
     obj->stmts = move(sts);
     return obj;
 }
 
-unique(Expr) Expr::make(std::unique_ptr<PrimaryExpr> lhs, Token *opTok, unique(Expr) rhs){
+p_unique(Expr) Expr::make(std::unique_ptr<PrimaryExpr> lhs, Token *opTok, p_unique(Expr) rhs){
     auto e = std::make_unique<Expr>();
     e->body = move(lhs);
     e->node_size = e->body->node_size;
@@ -683,18 +684,18 @@ static Token * BackwardIFExists(){
     return nullptr;
 }
 
-unique(Term) parseTerm(){
+p_unique(Term) parseTerm(){
     return nullptr;
 }
 
-unique(PrimaryExpr) parsePrimaryExpr(){
+p_unique(PrimaryExpr) parsePrimaryExpr(){
     if (gltokens->kind == scheat::TokenKind::val_operator) {
         
     }
     return nullptr;
 }
 
-unique(Expr) parseExpr(){
+p_unique(Expr) parseExpr(){
     if (gltokens->kind == scheat::TokenKind::val_operator) {
         // parse prefix operator
         auto opTok = gltokens;
@@ -722,7 +723,7 @@ unique(Expr) parseExpr(){
     return nullptr;
 }
 
-unique(StatementNode) parsePrintStatement(){
+p_unique(StatementNode) parsePrintStatement(){
     getNextTok();
     auto expr = parseExpr();
     if (scheato->hasProbrem()) {
@@ -731,7 +732,7 @@ unique(StatementNode) parsePrintStatement(){
     return PrintStatement::make(std::move(expr));
 }
 
-unique(StatementNode) parseStatement(){
+p_unique(StatementNode) parseStatement(){
     if (gltokens == nullptr) {
         return nullptr;
     }
@@ -741,7 +742,7 @@ unique(StatementNode) parseStatement(){
     return nullptr;
 };
 
-unique(Statements) parseStatements(){
+p_unique(Statements) parseStatements(){
     if (gltokens == nullptr) {
         return nullptr;
     }
@@ -779,7 +780,7 @@ void LegacyScheatParser::LLParse(Scheat *host){
         E9::CreateMainContext();
     }
     gltokens = host->tokens;
-    unique(Statements) stmt = nullptr;
+    p_unique(Statements) stmt = nullptr;
     while (stmt = parseStatements(),stmt != nullptr) {
         stmt->codegen(local_context.top()->stream_body);
         stmt = parseStatements();
