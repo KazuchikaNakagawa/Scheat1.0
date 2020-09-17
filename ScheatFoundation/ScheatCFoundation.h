@@ -48,4 +48,14 @@ extern "C" String ScheatString_copy(String *);
 
 extern "C" String ScheatString_add(String *, String *);
 
+extern "C" struct Array {
+    int count;
+    unsigned long long elemSize;
+    void *begPtr;
+};
+
+extern "C" void Array_append(Array *, void *);
+
+extern "C" void* Array_at(Array *, int);
+
 #endif /* ScheatCFoundation_h */

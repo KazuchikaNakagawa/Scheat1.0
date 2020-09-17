@@ -184,3 +184,17 @@ void print_i1(bool b){
         printf("false");
     }
 }
+
+void Array_append(Array *arr, void *ptr){
+    arr->begPtr = realloc(arr->begPtr, arr->count * arr->elemSize + arr->elemSize);
+    void *nptr = (void *)((unsigned long long)(arr->begPtr) + (arr->count * arr->elemSize));
+    memcpy(nptr, ptr, arr->elemSize);
+    arr->count++;
+}
+
+void *Array_at(Array *arr, int index){
+    if (arr->count < index) {
+        return NULL;
+    }
+    return (void *)((unsigned long long)(arr->begPtr) + (arr->count * arr->elemSize));
+}
