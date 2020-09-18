@@ -28,6 +28,7 @@ using scheat::parser::objects;
 using scheat::parser::fname;
 using scheat::parser::gltokens;
 using scheat::parser::scheato;
+using std::string;
 
 static void getNextTok(){
     gltokens = gltokens->next;
@@ -46,6 +47,44 @@ static Token * BackwardIFExists(){
         tok = tok->next;
     }
     return nullptr;
+}
+
+TypeData inferIDType(string id){
+    return TypeData("UNDEFINED", "NULLTYPE");
+}
+
+TypeData inferType(){
+    
+    auto ktok = gltokens;
+    
+    if (ktok->kind == scheat::TokenKind::val_operator) {
+        ktok = ktok->next;
+        return inferType();
+    }
+    
+    if (ktok->kind == scheat::TokenKind::val_num) {
+        return TypeData("Int", "i32");
+    }
+    
+    if (ktok->kind == scheat::TokenKind::val_str) {
+        return TypeData("String", "%String");
+    }
+    
+    if (ktok->kind == scheat::TokenKind::val_bool) {
+        return TypeData("Bool", "i1");
+    }
+    
+    if (ktok->kind == scheat::TokenKind::val_double) {
+        return TypeData("Double", "double");
+    }
+    
+    if (ktok->kind == scheat::TokenKind::val_identifier) {
+        
+    }
+    
+    gltokens->out();
+    scheato->FatalError(__FILE_NAME__, __LINE__, "<- failed to infer the type of token.");
+    return TypeData("NONEDATA", "NULLTYPE");
 }
 
 p_unique(Term) parseTerm(){
@@ -77,10 +116,15 @@ p_unique(Expr) parseExpr(){
         }
         if (gltokens->kind == scheat::TokenKind::val_operator) {
             // TODO : needs to check the operator predence
+            // expr : p_expr
+            //      | expr
+            //      | expr OP p_expr
             auto Op = gltokens;
             gltokens = gltokens->next;
             auto prim = parsePrimaryExpr();
             return Expr::make(move(expr), Op, Expr::make(move(prim)));
+        }else{
+            return Expr::make(move(expr));
         }
     }
     
