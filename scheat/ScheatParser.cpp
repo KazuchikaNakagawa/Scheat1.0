@@ -75,6 +75,29 @@ TypeData inferIDType(Token *&tok){
     return TypeData("UNDEFINED", "NULLTYPE");
 }
 
+TypeData inferTermType(Token* ktok){
+    if (ktok->kind == scheat::TokenKind::val_num) {
+        return TypeData("Int", "i32");
+    }
+    
+    if (ktok->kind == scheat::TokenKind::val_str) {
+        return TypeData("String", "%String");
+    }
+    
+    if (ktok->kind == scheat::TokenKind::val_bool) {
+        return TypeData("Bool", "i1");
+    }
+    
+    if (ktok->kind == scheat::TokenKind::val_double) {
+        return TypeData("Double", "double");
+    }
+    
+    if (ktok->kind == scheat::TokenKind::val_identifier) {
+        return inferIDType(ktok);
+    }
+    return TypeData("nil", "NULLTYPE");
+}
+
 TypeData inferType(){
     
     auto ktok = gltokens;
