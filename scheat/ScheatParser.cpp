@@ -49,7 +49,29 @@ static Token * BackwardIFExists(){
     return nullptr;
 }
 
-TypeData inferIDType(Token *tok){
+TypeData inferIDType(Token *&tok){
+    if (!local_context.top()->isExists(tok->value.strValue)) {
+        return TypeData("nil", "NULLTYPE");
+    }
+    auto v = local_context.top()->findVariable(tok->value.strValue);
+    if (v != nullptr) {
+        return v->type;
+    }
+    auto f = local_context.top()->findFunc(tok->value.strValue);
+    if (f != nullptr) {
+        if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
+            int i = 0;
+            while (tok->kind != scheat::TokenKind::tok_paren_r) {
+                tok = tok->next;
+                i++;
+                if (i > 300) {
+                    scheato->FatalError(__FILE_NAME__, __LINE__, ") token was not found in 300 token.");
+                }
+            }
+        }else{
+            return TypeData("Function", f->lltype());
+        }
+    }
     return TypeData("UNDEFINED", "NULLTYPE");
 }
 
