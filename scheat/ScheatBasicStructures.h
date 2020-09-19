@@ -115,6 +115,10 @@ struct Token {
     Token(const Token &) {};
 };
 
+void eatThis(Token *&tokref){
+    tokref = tokref->next;
+}
+
 class Tokens {
     Token *tokens;
     Token *seek_ptr;
@@ -256,9 +260,9 @@ public:
 
 class Class {
     std::map<std::string, unsigned int> properties;
-    std::map<std::string, Operator> operators;
     unsigned int propCount = 0;
 public:
+    std::map<std::string, Operator> operators;
     std::vector<TypeData *> bitMap;
     Class *parentClass;
     TypeData *type;

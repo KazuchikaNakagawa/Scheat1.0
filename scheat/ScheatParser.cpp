@@ -49,7 +49,7 @@ static Token * BackwardIFExists(){
     return nullptr;
 }
 
-TypeData inferIDType(string id){
+TypeData inferIDType(Token *tok){
     return TypeData("UNDEFINED", "NULLTYPE");
 }
 
@@ -59,7 +59,19 @@ TypeData inferType(){
     
     if (ktok->kind == scheat::TokenKind::val_operator) {
         ktok = ktok->next;
-        return inferType();
+        auto t = inferType();
+        auto cl = global_context->findClass(t.name);
+        if (cl == nullptr) {
+            return TypeData("nil", "NULLTYPE");
+        }
+        auto opiter = cl->operators.find(ktok->value.strValue);
+        if (opiter == cl->operators.end()) {
+            return TypeData("nil", "NULLTYPE");
+        }
+        
+        auto op = (*opiter).second;
+        
+        return op.return_type;
     }
     
     if (ktok->kind == scheat::TokenKind::val_num) {
@@ -79,12 +91,12 @@ TypeData inferType(){
     }
     
     if (ktok->kind == scheat::TokenKind::val_identifier) {
-        
+        return inferIDType(ktok);
     }
     
-    gltokens->out();
-    scheato->FatalError(__FILE_NAME__, __LINE__, "<- failed to infer the type of token.");
-    return TypeData("NONEDATA", "NULLTYPE");
+    //gltokens->out();
+    //scheato->FatalError(__FILE_NAME__, __LINE__, "<- failed to infer the type of token.");
+    return TypeData("nil", "NULLTYPE");
 }
 
 p_unique(Term) parseTerm(){
