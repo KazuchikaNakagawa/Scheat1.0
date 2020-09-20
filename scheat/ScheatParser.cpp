@@ -144,6 +144,7 @@ p_unique(Term) parseTerm(){
         if (scheato->hasProbrem()) {
             return nullptr;
         }
+        
         if (e == nullptr) {
             return nullptr;
         }

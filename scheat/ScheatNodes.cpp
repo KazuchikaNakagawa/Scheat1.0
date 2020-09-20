@@ -228,6 +228,9 @@ static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs,
 }
 
 node::NodeData *Term::codegen(IRStream &f){
+    if (exprNode != nullptr) {
+        return exprNode->codegen(f);
+    }
     if (terms == nullptr && opTok == nullptr) {
         return node->codegen(f);
     }
