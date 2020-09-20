@@ -114,14 +114,18 @@ public:
     node::NodeData * codegen(IRStream &) override;
 };
 
+class Expr;
+
 class Term : public Node {
     p_unique(Term) terms;
     Token *opTok;
     p_unique(TermNode) node;
+    p_unique(Expr) exprNode = nullptr;
 public:
     node::NodeData * codegen(IRStream &) override;
     static p_unique(Term) create(p_unique(TermNode));
     static p_unique(Term) create(p_unique(Term), Token *, p_unique(TermNode));
+    static p_unique(Term) create(p_unique(Expr));
 };
 
 class PrimaryExpr : public ExprNode {

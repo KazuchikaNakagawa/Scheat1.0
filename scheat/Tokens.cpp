@@ -17,6 +17,6 @@ void scheat::Tokens::back(){
     seek_ptr = seek_ptr->prev;
 }
 
-void eatThis(scheat::Token *&tokref){
+void scheat::eatThis(scheat::Token *&tokref){
     tokref = tokref->next;
 }

@@ -664,3 +664,11 @@ p_unique(Expr) Expr::make(std::unique_ptr<PrimaryExpr> lhs, Token *opTok, p_uniq
     
     return e;
 }
+
+p_unique(Term) Term::create(std::unique_ptr<Expr> parenExpr){
+    auto k = std::make_unique<Term>();
+    k->opTok = nullptr;
+    k->terms = nullptr;
+    k->exprNode = move(parenExpr);
+    return k;
+}

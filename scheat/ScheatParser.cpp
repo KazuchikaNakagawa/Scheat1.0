@@ -135,7 +135,25 @@ static TypeData inferType(){
     return TypeData("nil", "NULLTYPE");
 }
 
+extern p_unique(Expr) parseExpr();
+
 p_unique(Term) parseTerm(){
+    if (gltokens->kind == scheat::TokenKind::tok_paren_l) {
+        eatThis(gltokens);
+        auto e = parseExpr();
+        if (scheato->hasProbrem()) {
+            return nullptr;
+        }
+        if (e == nullptr) {
+            return nullptr;
+        }
+        
+        if (gltokens->kind != scheat::TokenKind::tok_paren_r) {
+            scheato->FatalError(__FILE_NAME__, __LINE__, "%d.%d here ) is needed.", gltokens->location.line, gltokens->location.column);
+        }
+        
+        return Term::create(move(e));
+    }
     return nullptr;
 }
 
@@ -165,8 +183,7 @@ p_unique(Expr) parseExpr(){
         if (gltokens->kind == scheat::TokenKind::val_operator) {
             // TODO : needs to check the operator predence
             // expr : p_expr
-            //      | expr
-            //      | expr OP expr
+            //      | p_expr OP expr
             auto Op = gltokens;
             gltokens = gltokens->next;
             auto prim = parseExpr();
