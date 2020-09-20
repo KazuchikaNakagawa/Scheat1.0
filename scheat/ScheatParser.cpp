@@ -98,6 +98,10 @@ static TypeData inferTermType(Token* ktok){
     return TypeData("nil", "NULLTYPE");
 }
 
+static TypeData inferPrimaryType(Token *&ktok){
+    return TypeData("nil", "NULLTYPE");
+}
+
 static TypeData inferType(){
     
     auto ktok = gltokens;
@@ -116,28 +120,15 @@ static TypeData inferType(){
         
         auto op = (*opiter).second;
         
+        if (op.precidence != scheat::basics::Operator::secondary) {
+            ktok = ktok->prev;
+            return inferPrimaryType(ktok);
+        }
+        
         return op.return_type;
     }
     
-    if (ktok->kind == scheat::TokenKind::val_num) {
-        return TypeData("Int", "i32");
-    }
-    
-    if (ktok->kind == scheat::TokenKind::val_str) {
-        return TypeData("String", "%String");
-    }
-    
-    if (ktok->kind == scheat::TokenKind::val_bool) {
-        return TypeData("Bool", "i1");
-    }
-    
-    if (ktok->kind == scheat::TokenKind::val_double) {
-        return TypeData("Double", "double");
-    }
-    
-    if (ktok->kind == scheat::TokenKind::val_identifier) {
-        return inferIDType(ktok);
-    }
+    return inferPrimaryType(ktok);
     
     //gltokens->out();
     //scheato->FatalError(__FILE_NAME__, __LINE__, "<- failed to infer the type of token.");
@@ -175,11 +166,11 @@ p_unique(Expr) parseExpr(){
             // TODO : needs to check the operator predence
             // expr : p_expr
             //      | expr
-            //      | expr OP p_expr
+            //      | expr OP expr
             auto Op = gltokens;
             gltokens = gltokens->next;
-            auto prim = parsePrimaryExpr();
-            return Expr::make(move(expr), Op, Expr::make(move(prim)));
+            auto prim = parseExpr();
+            return Expr::make(move(expr), Op, move(prim));
         }else{
             return Expr::make(move(expr));
         }
