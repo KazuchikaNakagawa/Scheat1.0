@@ -115,9 +115,7 @@ struct Token {
     Token(const Token &) {};
 };
 
-void eatThis(Token *&tokref){
-    tokref = tokref->next;
-}
+extern void eatThis(Token *&);
 
 class Tokens {
     Token *tokens;

@@ -49,7 +49,7 @@ static Token * BackwardIFExists(){
     return nullptr;
 }
 
-TypeData inferIDType(Token *&tok){
+static TypeData inferIDType(Token *&tok){
     if (!local_context.top()->isExists(tok->value.strValue)) {
         return TypeData("nil", "NULLTYPE");
     }
@@ -75,7 +75,7 @@ TypeData inferIDType(Token *&tok){
     return TypeData("UNDEFINED", "NULLTYPE");
 }
 
-TypeData inferTermType(Token* ktok){
+static TypeData inferTermType(Token* ktok){
     if (ktok->kind == scheat::TokenKind::val_num) {
         return TypeData("Int", "i32");
     }
@@ -98,7 +98,7 @@ TypeData inferTermType(Token* ktok){
     return TypeData("nil", "NULLTYPE");
 }
 
-TypeData inferType(){
+static TypeData inferType(){
     
     auto ktok = gltokens;
     
