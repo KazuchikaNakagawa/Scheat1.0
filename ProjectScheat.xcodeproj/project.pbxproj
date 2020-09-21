@@ -689,6 +689,7 @@
 		829849D024D1B5A7004A7A64 = {
 			isa = PBXGroup;
 			children = (
+				82984A0324D2E070004A7A64 /* Frameworks */,
 				826720D424F7D4F600C94D22 /* ScheatFoundation */,
 				82AEB66B24DC3E0100889AC3 /* ScheatIR */,
 				828FFCB624D80DFF007BEBFF /* scheat-commandlineTool */,
@@ -699,7 +700,6 @@
 				82D6F4D124F3EE240003D0EA /* ScheatARC */,
 				826720E024F7F4C900C94D22 /* ScheatARCTest */,
 				829849DA24D1B5A7004A7A64 /* Products */,
-				82984A0324D2E070004A7A64 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
