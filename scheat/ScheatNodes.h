@@ -138,6 +138,7 @@ public:
     node::NodeData * codegen(IRStream &) override;
     static p_unique(PrimaryExpr) make(p_unique(Term));
     static p_unique(PrimaryExpr) make(p_unique(PrimaryExpr), Token *, p_unique(Term));
+    static p_unique(PrimaryExpr) make(p_unique(PrimaryExpr), Token *);
 };
 
 class Expr : public Node {

@@ -235,9 +235,91 @@ p_unique(Term) parseTerm(Token*& gltokens){
 }
 
 p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
-    if (mTokens->kind == scheat::TokenKind::val_operator) {
+    // expr : primary_expr
+    //      | primary_expr OP expr
+    //      | Op expr
+    if (gltokens->kind == scheat::TokenKind::val_operator) {
+        //  | Op primary_expr
+        Token *opTok = gltokens;
+        Token *copy = gltokens;
+        eatThis(copy);
+        auto primary = parsePrimaryExpr(copy);
+        if (!primary) {
+            return nullptr;
+        }
+        auto opOwner = local_context.top()->findClass(primary->node_size.name);
+        if (!opOwner) {
+            scheato->DevLog(__FILE_NAME__, __LINE__, "????");
+        }
+        if (opOwner->operators.find(opTok->value.strValue) == opOwner->operators.end()) {
+            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
+                                opTok->location.column,
+                                opTok->location.line,
+                                opOwner->context->name.c_str(),
+                                opTok->value.strValue.c_str());
+        }
+        auto op = opOwner->operators[opTok->value.strValue];
+        if (op.precidence != op.secondary) {
+            goto symbol;
+        }
+        if (op.position != op.prefix) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "in %d.%d %s's operator %s is not a prefix operator.",
+                                opTok->location.line,
+                                opTok->location.column,
+                                primary->node_size.name.c_str(),
+                                opTok->value.strValue.c_str());
+            
+        }
+        
+        gltokens = copy;
+        return PrimaryExpr::make(move(primary), opTok);
+        
+    }else{
+    symbol:
+        auto pri = parseTerm(gltokens);
+        if (!pri) {
+            return nullptr;
+        }
+        if (gltokens->kind == scheat::TokenKind::val_operator) {
+            Token *opTok = gltokens;
+            Token *copy = gltokens;
+            eatThis(copy);
+            auto e = parsePrimaryExpr(copy);
+            if (!e) {
+                return nullptr;
+            }
+            auto opOwner = local_context.top()->findClass(e->node_size.name);
+            if (!opOwner) {
+                scheato->DevLog(__FILE_NAME__, __LINE__, "????");
+            }
+            if (opOwner->operators.find(opTok->value.strValue) == opOwner->operators.end()) {
+                scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
+                                    opTok->location.column,
+                                    opTok->location.line,
+                                    opOwner->context->name.c_str(),
+                                    opTok->value.strValue.c_str());
+            }
+            auto op = opOwner->operators[opTok->value.strValue];
+            if (op.precidence != op.secondary) {
+                goto symbol;
+            }
+            if (op.position != op.prefix) {
+                scheato->FatalError(__FILE_NAME__, __LINE__,
+                                    "in %d.%d %s's operator %s is not a prefix operator.",
+                                    opTok->location.line,
+                                    opTok->location.column,
+                                    e->node_size.name.c_str(),
+                                    opTok->value.strValue.c_str());
+                
+            }
+            
+            gltokens = copy;
+            return PrimaryExpr::make(move(e), opTok, move(pri));
+        }
         
     }
+    
     return nullptr;
 }
 

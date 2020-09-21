@@ -702,3 +702,11 @@ NodeData *Expr::codegen(IRStream &f){
     }
     return nullptr;
 }
+
+p_unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> expr, Token *opt){
+    auto u = std::make_unique<PrimaryExpr>();
+    u->exprs = move(expr);
+    u->opTok = opt;
+    u->term = nullptr;
+    return nullptr;
+}
