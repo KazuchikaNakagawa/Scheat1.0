@@ -145,9 +145,10 @@ class Expr : public Node {
     p_unique(Expr) exprs;
     Token *op;
 public:
-    node::NodeData * codegen(IRStream &) override{ return nullptr; };
+    node::NodeData * codegen(IRStream &) override;
     static p_unique(Expr) make(p_unique(PrimaryExpr) lhs, Token *opTok = nullptr,
                                p_unique(Expr) rhs = nullptr);
+    static p_unique(Expr) make(p_unique(Expr), Token *);
 };
 
 

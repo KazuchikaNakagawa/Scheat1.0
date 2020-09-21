@@ -245,6 +245,7 @@ p_unique(Expr) parseExpr(){
     if (gltokens->kind == scheat::TokenKind::val_operator) {
         // parse prefix operator
         auto opTok = gltokens;
+        eatThis(gltokens);
         auto rhs = parseExpr();
         if (scheato->hasProbrem()) {
             return nullptr;
@@ -252,6 +253,24 @@ p_unique(Expr) parseExpr(){
         if (rhs->node_size.ir_used != "i32") {
             return Expr::make(nullptr, opTok, move(rhs));
         }
+        auto ty = local_context.top()->findClass(rhs->node_size.name);
+        if (ty == nullptr) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "%d.%d %s is undefined.",
+                                gltokens->location.line,
+                                gltokens->location.column + 1,
+                                rhs->node_size.name.c_str());
+            return nullptr;
+        }
+        if (ty->operators.find(opTok->value.strValue) == ty->operators.end()) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "%s does not have operator %s",
+                                ty->context->name.c_str(),
+                                opTok->value.strValue.c_str());
+            return nullptr;
+        }
+        return nullptr;
+        
     }else{
         auto expr = parsePrimaryExpr();
         if (scheato->hasProbrem()) {

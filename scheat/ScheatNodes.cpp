@@ -18,6 +18,7 @@
 #include <map>
 
 #define p_unique(id) std::unique_ptr<id>
+#define make_p(id) std::make_unique<id>
 
 using namespace scheat::LegacyScheatParser;
 using namespace scheat;
@@ -252,7 +253,7 @@ node::NodeData *TermIdentifier::codegen(IRStream &f){
     return new NodeData(idTok->value.strValue, "UNDEFINED");
 }
 
-class FunctionExpr : public ExprNode {
+class FunctionDefExpr : public ExprNode {
     std::vector<p_unique(PrototypeExpr)> args;
 public:
     
@@ -668,10 +669,36 @@ p_unique(Expr) Expr::make(std::unique_ptr<PrimaryExpr> lhs, Token *opTok, p_uniq
     return e;
 }
 
+p_unique(Expr) Expr::make(std::unique_ptr<Expr> expr, Token *op){
+    auto e = std::make_unique<Expr>();
+    e->exprs = move(expr);
+    e->op = op;
+    return e;
+}
+
 p_unique(Term) Term::create(std::unique_ptr<Expr> parenExpr){
     auto k = std::make_unique<Term>();
     k->opTok = nullptr;
     k->terms = nullptr;
     k->exprNode = move(parenExpr);
     return k;
+}
+
+NodeData *Expr::codegen(IRStream &f){
+    if (exprs != nullptr && op != nullptr) {
+        auto r = local_context.top()->getRegister();
+        auto nd = exprs->codegen(f);
+        auto cl = local_context.top()->findClass(nd->size.name);
+        if (cl == nullptr) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "%s does not have operator %s",
+                                nd->size.name.c_str(),
+                                op->value.strValue.c_str());
+        }
+        auto Oper = cl->operators[op->value.strValue];
+        f << r << " = call " << Oper.return_type.ir_used << "*("
+        << nd->size.ir_used << "*) " << Oper.func_name << "("
+        << nd->size.ir_used << "* " << nd->value << ")\n";
+    }
+    return nullptr;
 }
