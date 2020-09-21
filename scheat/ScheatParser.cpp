@@ -71,9 +71,12 @@ static IDData inferID(Token *&tok){
         if (t == nullptr) {
             exit(0);
         }
-        if (t->properties.find(idd.valueName) != t->properties.end()) {
-            
+        // Error if the member function doesn't exists
+        if (t->properties.find(idd.valueName) == t->properties.end()) {
+            scheato->FatalError(__FILE_NAME__, __LINE__, "mendoi Error programmar became mendoi");
+            exit(0);
         }
+        
         return idd;
         
     }else if (tok->kind == scheat::TokenKind::val_identifier){
@@ -108,35 +111,17 @@ static IDData inferID(Token *&tok){
 }
 
 static TypeData inferIDType(Token *&tok){
-    if (tok->next->kind == scheat::TokenKind::tok_period) {
-        Token *idTok = tok;
-        eatThis(tok);
-        eatThis(tok);
-        
-    }
+//    if (tok->next->kind == scheat::TokenKind::tok_period) {
+//        Token *idTok = tok;
+//        eatThis(tok);
+//        eatThis(tok);
+//
+//    }
     if (!local_context.top()->isExists(tok->value.strValue)) {
         return TypeData("nil", "NULLTYPE");
     }
-    auto v = local_context.top()->findVariable(tok->value.strValue);
-    if (v != nullptr) {
-        return v->type;
-    }
-    auto f = local_context.top()->findFunc(tok->value.strValue);
-    if (f != nullptr) {
-        if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
-            int i = 0;
-            while (tok->kind != scheat::TokenKind::tok_paren_r) {
-                tok = tok->next;
-                i++;
-                if (i > 300) {
-                    scheato->FatalError(__FILE_NAME__, __LINE__, ") token was not found in 300 token.");
-                }
-            }
-        }else{
-            return TypeData("Function", f->lltype());
-        }
-    }
-    return TypeData("UNDEFINED", "NULLTYPE");
+    
+    return inferID(tok).type;
 }
 
 static TypeData inferTermType(Token*& ktok){
