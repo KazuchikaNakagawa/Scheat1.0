@@ -25,7 +25,7 @@ extern Context *main_Context;
 extern std::stack<Context *> local_context;
 extern std::map<int, std::vector<std::string>> objects;
 extern std::string fname;
-extern scheat::Token *gltokens;
+extern scheat::Token *mTokens;
 extern Scheat *scheato;
 
 }

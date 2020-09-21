@@ -30,7 +30,7 @@ using scheat::parser::main_Context;
 using scheat::parser::local_context;
 using scheat::parser::objects;
 using scheat::parser::fname;
-using scheat::parser::gltokens;
+using scheat::parser::mTokens;
 using scheat::parser::scheato;
 
 //Class *Context::findClass(std::string key){
@@ -137,7 +137,7 @@ Variable *Context::findVariable(std::string key){
 
 
 static void getNextTok(){
-    gltokens = gltokens->next;
+    mTokens = mTokens->next;
 };
 
 Context *Context::create(std::string name, Context *parents){
@@ -161,7 +161,7 @@ void LegacyScheatParser::E9::InitializeContexts(){
     global_context->stream_body << "declare i8* @ScheatPointer_alloc(i64, void(i8*)*)\n";
     //global_context->stream_body << "declare i8* ";
     main_Context = nullptr;
-    gltokens = nullptr;
+    mTokens = nullptr;
     
     auto Int = new Class(new TypeData("i32"));
     Int->context->name = "Int";

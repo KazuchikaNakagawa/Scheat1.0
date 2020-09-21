@@ -28,7 +28,7 @@ Context *main_Context = nullptr;
 std::stack<Context *> local_context = {};
 std::map<int, std::vector<std::string>> objects = {};
 std::string fname = "";
-Token *gltokens = nullptr;
+Token *mTokens = nullptr;
 Scheat *scheato = nullptr;
 
 }
