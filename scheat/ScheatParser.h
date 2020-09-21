@@ -27,6 +27,7 @@ extern std::map<int, std::vector<std::string>> objects;
 extern std::string fname;
 extern scheat::Token *gltokens;
 extern Scheat *scheato;
+
 }
 
 }

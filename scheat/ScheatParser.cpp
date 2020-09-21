@@ -49,7 +49,71 @@ static Token * BackwardIFExists(){
     return nullptr;
 }
 
+struct IDData {
+    std::string valueName;
+    TypeData type;
+    IDData(string s, TypeData t) : valueName(s), type(t) {};
+};
+
+static IDData inferID(Token *&tok){
+    if (tok->next->kind == scheat::TokenKind::tok_period) {
+        
+        Token *idt = tok;
+        eatThis(tok);
+        eatThis(tok);
+        auto idd = inferID(tok);
+        auto v = local_context.top()->findVariable(idt->value.strValue);
+        if (v == nullptr) {
+            scheato->FatalError(__FILE_NAME__, __LINE__, "mendoi Error programmar became mendoi");
+            exit(0);
+        }
+        auto t = local_context.top()->findClass(v->type.name);
+        if (t == nullptr) {
+            exit(0);
+        }
+        if (t->properties.find(idd.valueName) != t->properties.end()) {
+            
+        }
+        return idd;
+        
+    }else if (tok->kind == scheat::TokenKind::val_identifier){
+        if (!local_context.top()->isExists(tok->value.strValue)) {
+            return IDData("",TypeData("nil", "NULLTYPE"));
+        }
+        auto v = local_context.top()->findVariable(tok->value.strValue);
+        if (v != nullptr) {
+            return IDData(v->mangledName, v->type);
+        }
+        auto f = local_context.top()->findFunc(tok->value.strValue);
+        if (f != nullptr) {
+            if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
+                int i = 0;
+                while (tok->kind != scheat::TokenKind::tok_paren_r) {
+                    tok = tok->next;
+                    i++;
+                    if (i > 300) {
+                        scheato->FatalError(__FILE_NAME__, __LINE__, ") token was not found in 300 token.");
+                    }
+                }
+            }else{
+                return IDData(f->name, TypeData("Function", f->lltype()));
+            }
+        }
+    }else{
+        scheato->FatalError(__FILE_NAME__, __LINE__, "%d.%d unknown member function or variable named %s", tok->location.line,
+                            tok->location.column, tok->value.strValue.c_str());
+        return IDData("nil", TypeData("nil", "NULLTYPE"));
+    }
+    return IDData("nil", TypeData("nil", "NULLTYPE"));
+}
+
 static TypeData inferIDType(Token *&tok){
+    if (tok->next->kind == scheat::TokenKind::tok_period) {
+        Token *idTok = tok;
+        eatThis(tok);
+        eatThis(tok);
+        
+    }
     if (!local_context.top()->isExists(tok->value.strValue)) {
         return TypeData("nil", "NULLTYPE");
     }
@@ -75,31 +139,58 @@ static TypeData inferIDType(Token *&tok){
     return TypeData("UNDEFINED", "NULLTYPE");
 }
 
-static TypeData inferTermType(Token* ktok){
+static TypeData inferTermType(Token*& ktok){
     if (ktok->kind == scheat::TokenKind::val_num) {
+        eatThis(ktok);
         return TypeData("Int", "i32");
     }
     
     if (ktok->kind == scheat::TokenKind::val_str) {
+        eatThis(ktok);
         return TypeData("String", "%String");
     }
     
     if (ktok->kind == scheat::TokenKind::val_bool) {
+        eatThis(ktok);
         return TypeData("Bool", "i1");
     }
     
     if (ktok->kind == scheat::TokenKind::val_double) {
+        eatThis(ktok);
         return TypeData("Double", "double");
     }
     
     if (ktok->kind == scheat::TokenKind::val_identifier) {
+        eatThis(ktok);
         return inferIDType(ktok);
     }
     return TypeData("nil", "NULLTYPE");
 }
 
 static TypeData inferPrimaryType(Token *&ktok){
-    return TypeData("nil", "NULLTYPE");
+    
+    if (ktok->kind == scheat::TokenKind::val_operator) {
+        ktok = ktok->next;
+        auto t = inferTermType(ktok);
+        auto cl = global_context->findClass(t.name);
+        if (cl == nullptr) {
+            return TypeData("nil", "NULLTYPE");
+        }
+        auto opiter = cl->operators.find(ktok->value.strValue);
+        if (opiter == cl->operators.end()) {
+            return TypeData("nil", "NULLTYPE");
+        }
+        
+        auto op = (*opiter).second;
+        
+        if (op.precidence != scheat::basics::Operator::primary) {
+            ktok = ktok->prev;
+            return inferPrimaryType(ktok);
+        }
+        
+        return op.return_type;
+    }
+    return inferTermType(ktok);
 }
 
 static TypeData inferType(){
