@@ -384,6 +384,7 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
                                 "%s is undefined.", k.c_str());
         }
         auto fu = ty->context->findFunc(opTok->encodeOperator());
+        auto op = ty->operators[opTok->encodeOperator()];
         if (fu == nullptr) {
             scheato->FatalError(__FILE_NAME__, __LINE__,
                                 "%s has no operator %s",
@@ -408,9 +409,16 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
         }
         
         auto r = local_context.top()->getRegister();
-        f << r << " = call " << fu->lltype() << " "
-        << fu->getMangledName() << "(" << lhs->size.ir_used << "* " <<
-        lhs->value << ", " << rhs->size.ir_used << "* " << rhs->value << ")\n";
+        if (op.position == op.infix) {
+            f << r << " = call " << fu->lltype() << " "
+            << fu->getMangledName() << "(" << lhs->size.ir_used << "* " <<
+            lhs->value << ", " << rhs->size.ir_used << "* " << rhs->value << ")\n";
+        }
+        
+        if (op.position == op.prefix || op.position == op.postfix) {
+            f << r << " call " << fu->lltype() << " " << fu->getMangledName() << "(" << lhs->size.ir_used << "* " << lhs->value << ")\n";
+        }
+        
         return new NodeData(r, fu->return_type.ir_used);
     }
     return nullptr;
