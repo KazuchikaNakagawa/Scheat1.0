@@ -57,7 +57,7 @@ void OldScheat::old_Debug(const char *msg, unsigned int line){
 void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...){
     hasError = true;
     if (delegate != nullptr) {
-        delegate->fatalError(location, targettingFile, fmt);
+        delegate->fatalError(this,location, targettingFile, fmt);
         return;
     }
     if (deepDebug) {
@@ -131,7 +131,7 @@ void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...){
         return;
     }
     if (delegate != nullptr) {
-        delegate->log(location, targettingFile, fmt);
+        delegate->log(this, location, targettingFile, fmt);
         return;
     }
     if (deepDebug) {
