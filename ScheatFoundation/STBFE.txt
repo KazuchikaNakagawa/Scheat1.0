@@ -8,3 +8,13 @@ declare void @ScheatPointer_unref(i8*)
 declare void @ScheatPointer_release(i8*)
 
 ; Destructer must be void (i8*)
+
+declare void @print_i32(i32)
+
+declare void @print_i8x(i8*)
+
+declare void @printn()
+
+declare void @print_i1(i1)
+
+declare void @print_String(%String*)
