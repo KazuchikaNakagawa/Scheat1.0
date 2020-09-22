@@ -259,7 +259,7 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
                                 opTok->value.strValue.c_str());
         }
         auto op = opOwner->operators[opTok->value.strValue];
-        if (op.precidence != op.secondary) {
+        if (op.precidence != op.primary) {
             goto symbol;
         }
         if (op.position != op.prefix) {
@@ -301,12 +301,12 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
                                     opTok->value.strValue.c_str());
             }
             auto op = opOwner->operators[opTok->value.strValue];
-            if (op.precidence != op.secondary) {
+            if (op.precidence != op.primary) {
                 goto symbol;
             }
-            if (op.position != op.prefix) {
+            if (op.position != op.infix) {
                 scheato->FatalError(__FILE_NAME__, __LINE__,
-                                    "in %d.%d %s's operator %s is not a prefix operator.",
+                                    "in %d.%d %s's operator %s is not a infix operator.",
                                     opTok->location.line,
                                     opTok->location.column,
                                     e->node_size.name.c_str(),
@@ -351,9 +351,9 @@ p_unique(Expr) parseExpr(Token *&gltokens){
         if (op.precidence != op.secondary) {
             goto symbol;
         }
-        if (op.position != op.prefix) {
+        if (op.position != op.infix) {
             scheato->FatalError(__FILE_NAME__, __LINE__,
-                                "in %d.%d %s's operator %s is not a prefix operator.",
+                                "in %d.%d %s's operator %s is not a infix operator.",
                                 opTok->location.line,
                                 opTok->location.column,
                                 primary->node_size.name.c_str(),

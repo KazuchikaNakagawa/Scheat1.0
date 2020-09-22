@@ -696,7 +696,7 @@ NodeData *Expr::codegen(IRStream &f){
                                 op->value.strValue.c_str());
         }
         auto Oper = cl->operators[op->value.strValue];
-        f << r << " = call " << Oper.return_type.ir_used << "*("
+        f << r << " = call " << Oper.return_type.ir_used << "* ("
         << nd->size.ir_used << "*) " << Oper.func_name << "("
         << nd->size.ir_used << "* " << nd->value << ")\n";
     }

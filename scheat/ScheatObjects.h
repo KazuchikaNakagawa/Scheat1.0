@@ -69,7 +69,7 @@ public:
     std::string datalayout;
     std::string header_search_path;
     std::string library_search_path;
-    ScheatDelegate *delegate;
+    ScheatDelegate *delegate = nullptr;
     void debugSet(bool o) {
         debug = o;
     };
