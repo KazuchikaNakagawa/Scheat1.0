@@ -15,8 +15,8 @@ std::string Token::encodeOperator(){
         return "__NON_OPERATOR_ENCODED__";
     }
     std::string result = "";
-    for (int i = 0; i < value.strValue.size(); i++) {
-        char c = value.strValue[i];
+    for (auto iter = value.strValue.begin(); iter != value.strValue.end(); iter = std::next(iter)) {
+        char c = *iter;
         if (c == '%') {
             result.append("per_");
         }
@@ -46,6 +46,21 @@ std::string Token::encodeOperator(){
         }
         if (c == '=') {
             result.append("eq_");
+        }
+        if (c == '@') {
+            result.append("at_");
+        }
+        if (c == '<') {
+            result.append("less_");
+        }
+        if (c == '>') {
+            result.append("more_");
+        }
+        if (c == '|') {
+            result.append("bar_");
+        }
+        if (c == ':') {
+            result.append("coron_");
         }
     }
     return result;
@@ -342,6 +357,7 @@ void Token::out(){
     }
     if (kind == TokenKind::val_operator) {
         printf("operator token ->%s\n", value.strValue.c_str());
+        printf("encoded ->%s\n", this->encodeOperator().c_str());
         return;
     }
     if (kind == TokenKind::val_double) {
@@ -668,7 +684,10 @@ void Lexer::input(int c, int next){
         || c == '%'
         || c == '$'
         || c == '@'
-        || c == ':') {
+        || c == ':'
+        || c == '<'
+        || c == '>'
+        || c == '|') {
         if (state == initState) {
             state = operatorState;
             buf.push_back(c);
