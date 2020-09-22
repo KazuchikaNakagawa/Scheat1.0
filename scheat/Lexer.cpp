@@ -184,7 +184,12 @@ void Lexer::genTok(){
         return;
     }
     if (buf == ".") {
-        tok->kind = TokenKind::tok_period;
+        if (AccessTokFlag) {
+            tok->kind = TokenKind::tok_access;
+            AccessTokFlag = false;
+        }else{
+            tok->kind = TokenKind::tok_period;
+        }
         tokens = Token::add(tokens, tok);
         clear();
         return;
@@ -428,6 +433,9 @@ void Token::out(){
     if (kind == TokenKind::tok_brace_r) {
         printf("} token\n");
     }
+    if (kind == TokenKind::tok_access) {
+        printf(". access token\n");
+    }
 }
 
 void Lexer::clear(){
@@ -618,6 +626,9 @@ void Lexer::input(int c, int next){
         else if (isPossibleForPPPTok && next != '.'){
             // .. token
             host->FatalError(__FILE_NAME__, __LINE__, "invalid input '..' . Did you mean '...'?");
+        }
+        if (isalpha(next)) {
+            AccessTokFlag = true;
         }
         genTok();
         buf.push_back(c);

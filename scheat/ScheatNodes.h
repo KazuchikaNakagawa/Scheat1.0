@@ -102,6 +102,7 @@ public:
         buf = buf + term->userdump();
         return buf;
     };
+    static p_unique(IdentifierExpr) create(p_unique(IdentifierTerm) term, Token *opTok, p_unique(IdentifierExpr) expr);
 };
 
 class IntTerm : public TermNode {

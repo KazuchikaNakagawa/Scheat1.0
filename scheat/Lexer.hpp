@@ -40,6 +40,7 @@ class Lexer {
     int commentDepth;
     bool skipFlag;
     bool isPossibleForPPPTok = false;
+    bool AccessTokFlag = false;
 public:
     
     // initializer

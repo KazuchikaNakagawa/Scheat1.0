@@ -730,3 +730,11 @@ p_unique(Term) Term::create(std::unique_ptr<IdentifierExpr> id){
     t->opTok = nullptr;
     return t;
 }
+
+p_unique(IdentifierExpr) IdentifierExpr::create(std::unique_ptr<IdentifierTerm> term, Token *opTok, std::unique_ptr<IdentifierExpr> expr){
+    auto k = make_p(IdentifierExpr)();
+    k->expr = move(expr);
+    k->opTok = opTok;
+    k->term = move(term);
+    return k;
+}

@@ -213,9 +213,42 @@ static TypeData inferType(){
 
 extern p_unique(Expr) parseExpr(Token *&);
 
-p_unique(IdentifierExpr) parseIdentifierExpr(Token *&gltokens){
+p_unique(IdentifierTerm) parseIdentifierTerm(Token *&gltokens){
+    return nullptr;
+}
+
+p_unique(IdentifierExpr) parseIdentifierExpr_(Token *&gltokens){
+    // idexpr : idterm
+    //        | idexpr . idterm
+    auto t = parseIdentifierTerm(gltokens);
+    if (!t) {
+        return nullptr;
+    }
+    if (gltokens->kind == scheat::TokenKind::tok_period) {
+        auto tok = gltokens;
+        eatThis(gltokens);
+        auto tn = parseIdentifierExpr_(gltokens);
+        if (!tn) {
+            return nullptr;
+        }
+        return IdentifierExpr::create(move(t), tok, move(tn));
+    }else{
+        return IdentifierExpr::create(move(t), nullptr, nullptr);
+    }
     return nullptr;
 };
+
+p_unique(IdentifierExpr) parseIdentifierExpr(Token *&gltokens){
+    while (gltokens->next->kind != scheat::TokenKind::tok_access) {
+        gltokens = gltokens->next;
+        if (gltokens->next == nullptr) {
+            printf("this error shouldn't be happened. error:%d", __LINE__);
+            exit(0);
+        }
+    }
+    Token *copy = gltokens;
+    return parseIdentifierExpr_(copy);
+}
 
 p_unique(Term) parseTerm(Token*& gltokens){
     // term : int
