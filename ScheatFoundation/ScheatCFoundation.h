@@ -40,6 +40,8 @@ extern "C" struct String{
     } buf;
 };
 
+extern "C" void print_String(String *);
+
 extern "C" bool ScheatString_isPtr(String *);
 
 extern "C" String ScheatString_assign(String *);

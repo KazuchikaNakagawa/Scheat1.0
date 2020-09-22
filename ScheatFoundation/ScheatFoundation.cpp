@@ -185,6 +185,14 @@ void print_i1(bool b){
     }
 }
 
+void print_String(String *str){
+    if (ScheatString_isPtr(str)) {
+        printf("%s", str->buf.char_ptr);
+    }else{
+        printf("%s", str->buf.const_chars.const_char);
+    }
+}
+
 void Array_append(Array *arr, void *ptr){
     arr->begPtr = realloc(arr->begPtr, arr->count * arr->elemSize + arr->elemSize);
     void *nptr = (void *)((unsigned long long)(arr->begPtr) + (arr->count * arr->elemSize));
