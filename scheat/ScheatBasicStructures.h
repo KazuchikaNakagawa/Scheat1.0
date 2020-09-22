@@ -36,6 +36,8 @@ enum class TokenKind : int {
     tok_do,
     tok_paren_l,
     tok_paren_r,
+    tok_brace_l,
+    tok_brace_r,
     tok_external,
     tok_import,
     tok_export,

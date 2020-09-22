@@ -192,6 +192,18 @@ void Lexer::genTok(){
         clear();
         return;
     }
+    if (buf == "{") {
+        tok->kind = TokenKind::tok_brace_l;
+        tadd;
+        clear();
+        return;
+    }
+    if (buf == "}") {
+        tok->kind = TokenKind::tok_brace_r;
+        tadd;
+        clear();
+        return;
+    }
     if (state == numberState) {
         tok->valInt(buf);
         tokens = Token::add(tokens, tok);
@@ -393,6 +405,12 @@ void Token::out(){
     }
     if (kind == TokenKind::tok_export) {
         printf("export token\n");
+    }
+    if (kind == TokenKind::tok_brace_l) {
+        printf("{ token\n");
+    }
+    if (kind == TokenKind::tok_brace_r) {
+        printf("} token\n");
     }
 }
 
@@ -609,6 +627,20 @@ void Lexer::input(int c, int next){
     }
     
     if (c == ')') {
+        genTok();
+        buf.push_back(c);
+        genTok();
+        return;
+    }
+    
+    if (c == '{') {
+        genTok();
+        buf.push_back(c);
+        genTok();
+        return;
+    }
+    
+    if (c == '}') {
         genTok();
         buf.push_back(c);
         genTok();
