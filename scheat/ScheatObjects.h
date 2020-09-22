@@ -35,11 +35,11 @@ struct DebugOption {
 class ScheatDelegate {
 public:
     
-    virtual void fatalError(SourceLocation location, std::string filePath, std::string message, ...);
+    virtual void fatalError(Scheat *_scheat,SourceLocation location, std::string filePath, std::string message, ...);
     
-    virtual void warning(SourceLocation location, std::string filePath, std::string message, ...);
+    virtual void warning(Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
     
-    virtual void log(SourceLocation location, std::string filePath, std::string message, ...);
+    virtual void log(Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
     
     virtual std::string target_triple();
     
