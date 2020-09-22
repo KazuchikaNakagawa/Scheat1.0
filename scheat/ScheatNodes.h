@@ -120,12 +120,16 @@ class Term : public Node {
     p_unique(Term) terms;
     Token *opTok;
     p_unique(TermNode) node;
+    // ( expr )
     p_unique(Expr) exprNode = nullptr;
+    // identifier
+    p_unique(IdentifierExpr) ident = nullptr;
 public:
     node::NodeData * codegen(IRStream &) override;
     static p_unique(Term) create(p_unique(TermNode));
     static p_unique(Term) create(p_unique(Term), Token *, p_unique(TermNode));
     static p_unique(Term) create(p_unique(Expr));
+    static p_unique(Term) create(p_unique(IdentifierExpr));
 };
 
 class PrimaryExpr : public ExprNode {

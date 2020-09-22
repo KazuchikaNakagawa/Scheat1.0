@@ -213,8 +213,17 @@ static TypeData inferType(){
 
 extern p_unique(Expr) parseExpr(Token *&);
 
+p_unique(IdentifierExpr) parseIdentifierExpr(Token *&gltokens){
+    return nullptr;
+};
+
 p_unique(Term) parseTerm(Token*& gltokens){
-    if (mTokens->kind == scheat::TokenKind::tok_paren_l) {
+    // term : int
+    //      | str
+    //      | bool
+    //      | double
+    //      | identifier_expr
+    if (gltokens->kind == scheat::TokenKind::tok_paren_l) {
         eatThis(mTokens);
         auto e = parseExpr(gltokens);
         if (scheato->hasProbrem()) {
@@ -230,6 +239,9 @@ p_unique(Term) parseTerm(Token*& gltokens){
         }
         
         return Term::create(move(e));
+    }
+    if (gltokens->kind == scheat::TokenKind::val_identifier) {
+        return Term::create(parseIdentifierExpr(gltokens));
     }
     return nullptr;
 }

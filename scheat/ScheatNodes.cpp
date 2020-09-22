@@ -229,6 +229,9 @@ static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs,
 }
 
 node::NodeData *Term::codegen(IRStream &f){
+    if (ident != nullptr) {
+        return ident->codegen(f);
+    }
     if (exprNode != nullptr) {
         return exprNode->codegen(f);
     }
@@ -717,4 +720,13 @@ p_unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> expr, Token
     u->opTok = opt;
     u->term = nullptr;
     return nullptr;
+}
+
+p_unique(Term) Term::create(std::unique_ptr<IdentifierExpr> id){
+    auto t = make_p(Term)();
+    t->ident = move(id);
+    t->exprNode = nullptr;
+    t->node = nullptr;
+    t->opTok = nullptr;
+    return t;
 }
