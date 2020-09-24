@@ -72,9 +72,8 @@ public:
 };
 
 class IdentifierTerm : public TermNode {
-    std::string value;
-    
 public:
+    std::string value;
     __deprecated_msg("this class is only available for unique_ptr")
     IdentifierTerm(std::string v) : value(v) {};
     static p_unique(IdentifierTerm) create(std::string, bool);
@@ -84,11 +83,17 @@ public:
     }
 };
 
+class FunctionCallExpr : public ExprNode {
+    p_unique(IdentifierTerm) name;
+public:
+};
+
 class IdentifierExpr : public ExprNode {
     p_unique(IdentifierExpr) expr;
     // operator or . token
     Token * opTok;
     p_unique(IdentifierTerm) term;
+    p_unique(FunctionCallExpr) calle = nullptr;
 public:
     node::NodeData * codegen(IRStream &) override;
     std::string userdump() override{

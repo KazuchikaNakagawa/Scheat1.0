@@ -634,6 +634,22 @@ NodeData *IdentifierExpr::codegen(IRStream &f){
         if (ptclass == nullptr) {
             scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", expr->location.line, expr->location.column, pt.c_str());
         }
+        bool isVar = true;
+        if (ptclass->properties.find(term->codegen(f)->value) == ptclass->properties.end()) {
+            isVar = false;
+        }
+        if (!isVar && ptclass->context->findFunc(term->codegen(f)->value) == nullptr){
+            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s has no function or methods named %s",
+                                expr->location.line,
+                                expr->location.column,
+                                d->size.name.c_str(),
+                                term->value.c_str());
+        }
+        if (isVar){
+            int index = ptclass->properties[term->codegen(f)->value];
+        }else{
+            
+        }
     }
     
     return nullptr;
