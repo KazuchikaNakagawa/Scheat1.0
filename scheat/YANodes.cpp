@@ -82,4 +82,6 @@ Value *IntTerm::codegen(IRStream &f){
     return new Value(to_string(value), type);
 }
 
-
+Value *IdentifierTerm::codegen(IRStream &f){
+    return new Value(value, type);
+}

@@ -32,6 +32,7 @@ public:
     TypeData type;
     virtual Value *codegen(IRStream &) {return nullptr;};
     virtual string userdump() { return "UNDEFINED"; };
+    virtual ~Node() {};
 };
 
 //--------------------------------------------------------------//
@@ -41,17 +42,19 @@ class StatementNode : public Node{
 public:
     Value * codegen(IRStream &) override{ return nullptr; };
     string userdump() override{ return "UNDEFINED"; };
+    virtual ~StatementNode() {};
 };
 
 class TermNode : public Node {
 public:
     Value * codegen(IRStream &) override{return nullptr;};
     string userdump() override{return "UNDEFINED";};
+    virtual ~TermNode() {};
 };
 
 // -------------------------------------------------------------//
 // specific classes
-class IntTerm : public Node {
+class IntTerm : public TermNode {
 public:
     int value;
     IntTerm(Token *t) : value(t->value.intValue) { this->type = TypeData("Int", "i32");
@@ -61,7 +64,7 @@ public:
     string userdump() override{ return to_string(value); };
 };
 
-class StringTerm : public Node {
+class StringTerm : public TermNode {
 public:
     string value;
     StringTerm(Token *t) : value(t->value.strValue) { this->type = TypeData("the Character", "i8*");
@@ -71,7 +74,7 @@ public:
     string userdump() override{return value;};
 };
 
-class BoolTerm : public Node {
+class BoolTerm : public TermNode {
 public:
     bool value;
     BoolTerm(Token *t) : value(t->value.boolValue) {
@@ -87,7 +90,7 @@ public:
     };
 };
 
-class FloatTerm : public Node {
+class FloatTerm : public TermNode {
 public:
     double value;
     FloatTerm(Token *t) : value(t->value.doubleValue) {
@@ -96,6 +99,37 @@ public:
     Value * codegen(IRStream &) override;
     string userdump() override{
         return to_string(value);
+    };
+};
+
+class IdentifierTerm : public TermNode {
+public:
+    string value;
+    IdentifierTerm(Token *t, TypeData ty){
+        type = ty;
+        value = t->value.doubleValue;
+    }
+    Value * codegen(IRStream &) override;
+    string userdump() override{
+        return value;
+    };
+};
+
+// idexpr : idterm
+//        | idexpr . idterm
+class IdentifierExpr : public TermNode {
+public:
+    unique_ptr<IdentifierExpr> lhs;
+    Token *perTok;
+    unique_ptr<IdentifierTerm> rhs;
+    IdentifierExpr(unique_ptr<IdentifierTerm>);
+    IdentifierExpr(unique_ptr<IdentifierExpr>, Token *, unique_ptr<IdentifierTerm>);
+    Value * codegen(IRStream &) override;
+    string userdump() override{
+        if (lhs != nullptr && perTok != nullptr) {
+            return lhs->userdump() + perTok->value.strValue + rhs->userdump();
+        }
+        return rhs->userdump();
     };
 };
 
