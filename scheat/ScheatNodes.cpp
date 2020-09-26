@@ -24,14 +24,14 @@ using namespace scheat::LegacyScheatParser;
 using namespace scheat;
 using namespace scheat::basics;
 using namespace scheat::node;
-using scheat::parser::contextCenter;
-using scheat::parser::global_context;
-using scheat::parser::main_Context;
-using scheat::parser::local_context;
-using scheat::parser::objects;
-using scheat::parser::fname;
-using scheat::parser::mTokens;
-using scheat::parser::scheato;
+using scheat::statics::contextCenter;
+using scheat::statics::global_context;
+using scheat::statics::main_Context;
+using scheat::statics::local_context;
+using scheat::statics::objects;
+using scheat::statics::fname;
+using scheat::statics::mTokens;
+using scheat::statics::scheato;
 
 //Class *Context::findClass(std::string key){
 //    return classes[key];
@@ -253,7 +253,7 @@ public:
 
 node::NodeData *TermIdentifier::codegen(IRStream &f){
     
-    return new NodeData(idTok->value.strValue, "UNDEFINED");
+    return new NodeData(idTok->value.strValue, "VARIABLE");
 }
 
 class FunctionDefExpr : public ExprNode {
@@ -656,7 +656,12 @@ NodeData *IdentifierExpr::codegen(IRStream &f){
 }
 
 NodeData *IdentifierTerm::codegen(IRStream &f){
-    return new NodeData(value, "UNDEFINED");
+    if (!isFunction) {
+        return new NodeData(value, "VARIABLE");
+    }else{
+        return new NodeData(value, "FUNCTION");
+    }
+    
 }
 
 NodeData *PrintStatement::codegen(IRStream &f){

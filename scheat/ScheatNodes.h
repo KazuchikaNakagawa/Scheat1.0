@@ -71,9 +71,13 @@ public:
     std::string userdump() override { return "undefined"; };
 };
 
+class Expr;
+
 class IdentifierTerm : public TermNode {
 public:
     std::string value;
+    bool isFunction = false;
+    std::vector<p_unique(Expr)> args = {};
     __deprecated_msg("this class is only available for unique_ptr")
     IdentifierTerm(std::string v) : value(v) {};
     static p_unique(IdentifierTerm) create(std::string, bool);
@@ -119,8 +123,6 @@ public:
     static p_unique(IntTerm) make(p_unique(IdentifierExpr));
     node::NodeData * codegen(IRStream &) override;
 };
-
-class Expr;
 
 class Term : public Node {
     p_unique(Term) terms;

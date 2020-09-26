@@ -97,6 +97,10 @@
 		829849EE24D2DA20004A7A64 /* scheat.h in Headers */ = {isa = PBXBuildFile; fileRef = 829849ED24D2DA20004A7A64 /* scheat.h */; };
 		829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849EF24D2DA20004A7A64 /* scheatPriv.hpp */; };
 		829849F224D2DA20004A7A64 /* scheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849F124D2DA20004A7A64 /* scheat.cpp */; };
+		829CD923251F26B600139E5F /* YAScheatParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829CD921251F26B600139E5F /* YAScheatParser.cpp */; };
+		829CD924251F26B600139E5F /* YAScheatParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 829CD922251F26B600139E5F /* YAScheatParser.h */; };
+		829CD927251F28A900139E5F /* YANodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829CD925251F28A900139E5F /* YANodes.cpp */; };
+		829CD928251F28A900139E5F /* YANodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 829CD926251F28A900139E5F /* YANodes.h */; };
 		82A1A22924D80AFE009C2E5F /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976124D32C0100F13264 /* libz.1.2.5.tbd */; };
 		82A1A22A24D80AFE009C2E5F /* libz.1.2.11.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976224D32C0100F13264 /* libz.1.2.11.tbd */; };
 		82A1A22B24D80AFE009C2E5F /* libz.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976324D32C0100F13264 /* libz.1.tbd */; };
@@ -395,6 +399,10 @@
 		829849FA24D2DFA4004A7A64 /* TestScheat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestScheat; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849FC24D2DFA4004A7A64 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		82984A0524D2E0B7004A7A64 /* Nodes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Nodes.cpp; sourceTree = "<group>"; };
+		829CD921251F26B600139E5F /* YAScheatParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = YAScheatParser.cpp; sourceTree = "<group>"; };
+		829CD922251F26B600139E5F /* YAScheatParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YAScheatParser.h; sourceTree = "<group>"; };
+		829CD925251F28A900139E5F /* YANodes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = YANodes.cpp; sourceTree = "<group>"; };
+		829CD926251F28A900139E5F /* YANodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YANodes.h; sourceTree = "<group>"; };
 		82A1A23B24D80AFE009C2E5F /* scheat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = scheat; sourceTree = BUILT_PRODUCTS_DIR; };
 		82AEB66824DC3DC400889AC3 /* libscheatIRBuilder.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libscheatIRBuilder.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82AEB66C24DC3E2500889AC3 /* ScheatIR.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatIR.hpp; sourceTree = "<group>"; };
@@ -735,6 +743,8 @@
 				829849ED24D2DA20004A7A64 /* scheat.h */,
 				826720E924F9042E00C94D22 /* ScheatObjects.h */,
 				826720A724F64C4300C94D22 /* ScheatBasicStructures.h */,
+				829CD922251F26B600139E5F /* YAScheatParser.h */,
+				829CD926251F28A900139E5F /* YANodes.h */,
 				826720A624F64B8200C94D22 /* ScheatContext.h */,
 				826720A524F64ADB00C94D22 /* ScheatNodes.h */,
 				8283093524F93BEE006EFFEA /* CScheat.h */,
@@ -747,7 +757,9 @@
 				82984A0524D2E0B7004A7A64 /* Nodes.cpp */,
 				82730C5424FFB88900C27D79 /* Tokens.cpp */,
 				82ECF52C24D3A72900EB8316 /* Lexer.cpp */,
+				829CD925251F28A900139E5F /* YANodes.cpp */,
 				82806DCD250E09F30010F012 /* ScheatParser.cpp */,
+				829CD921251F26B600139E5F /* YAScheatParser.cpp */,
 				82806DCF250E0A6A0010F012 /* ScheatContext.cpp */,
 				8225412024E01BD600DBF05C /* ScheatNodes.cpp */,
 				82806DD1250E0BA70010F012 /* ScheatBasicStructures.cpp */,
@@ -897,6 +909,8 @@
 				8283093824F93CDC006EFFEA /* CScheat.h in Headers */,
 				829849EE24D2DA20004A7A64 /* scheat.h in Headers */,
 				829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */,
+				829CD928251F28A900139E5F /* YANodes.h in Headers */,
+				829CD924251F26B600139E5F /* YAScheatParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1177,9 +1191,11 @@
 				82097C8F25076A31002D048A /* CScheat.cpp in Sources */,
 				8225412224E01BD600DBF05C /* ScheatNodes.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
+				829CD923251F26B600139E5F /* YAScheatParser.cpp in Sources */,
 				82806DD5250E15DA0010F012 /* Statics.cpp in Sources */,
 				82806DCE250E09F30010F012 /* ScheatParser.cpp in Sources */,
 				829849F224D2DA20004A7A64 /* scheat.cpp in Sources */,
+				829CD927251F28A900139E5F /* YANodes.cpp in Sources */,
 				82806DD0250E0A6A0010F012 /* ScheatContext.cpp in Sources */,
 				82730C5524FFB88900C27D79 /* Tokens.cpp in Sources */,
 			);
@@ -1487,8 +1503,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/include;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/lib;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1552,8 +1568,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/include;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/lib;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

@@ -16,7 +16,7 @@
 
 namespace scheat {
 
-namespace parser {
+namespace statics {
 
 using namespace scheat;
 using namespace scheat::parser;

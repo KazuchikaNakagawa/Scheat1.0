@@ -17,7 +17,7 @@
 
 namespace scheat {
 
-namespace parser {
+namespace statics {
 
 extern std::vector<Context *> contextCenter;
 extern Context *global_context;

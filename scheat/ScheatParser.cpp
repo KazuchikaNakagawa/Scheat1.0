@@ -215,6 +215,13 @@ extern p_unique(Expr) parseExpr(Token *&);
 
 p_unique(IdentifierTerm) parseIdentifierTerm(Token *&gltokens){
     
+    // idterm : identifier
+    //        | identifier ( exprs )
+    if (gltokens->kind != scheat::TokenKind::val_identifier) {
+        scheato->DevLog(__FILE_NAME__, __LINE__, "illegal parsing function is called.");
+        return nullptr;
+    }
+    
     
     
     return nullptr;
