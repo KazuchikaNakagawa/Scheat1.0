@@ -81,6 +81,7 @@ public:
     bool value;
     BoolTerm(Token *t) : value(t->value.boolValue) {
         type = TypeData("Bool", "i1");
+        location = t->location;
     };
     Value * codegen(IRStream &) override;
     string userdump() override{
@@ -97,6 +98,7 @@ public:
     double value;
     FloatTerm(Token *t) : value(t->value.doubleValue) {
         type = TypeData("Float", "double");
+        location = t->location;
     };
     Value * codegen(IRStream &) override;
     string userdump() override{
@@ -107,11 +109,14 @@ public:
 class IdentifierTerm : public TermNode {
 public:
     string value;
-    vector<unique_ptr<Expr>> args;
+    vector<unique_ptr<Expr>> args = {};
     IdentifierTerm(Token *t, TypeData ty){
         type = ty;
-        value = t->value.doubleValue;
+        value = t->value.strValue;
+        location = t->location;
     }
+    IdentifierTerm(Token *t, int c, TypeData ty);
+    int countOfArgs = 0;
     bool isFunc = false;
     void addArg(unique_ptr<Expr>);
     Value * codegen(IRStream &) override;
@@ -122,11 +127,11 @@ public:
 //        | idexpr . idterm
 class IdentifierExpr : public TermNode {
 public:
-    unique_ptr<IdentifierExpr> lhs;
-    Token *perTok;
-    unique_ptr<IdentifierTerm> rhs;
-    IdentifierExpr(unique_ptr<IdentifierTerm>);
-    IdentifierExpr(unique_ptr<IdentifierExpr>, Token *, unique_ptr<IdentifierTerm>);
+    unique_ptr<IdentifierExpr> lhs = nullptr;
+    Token *perTok = nullptr;
+    unique_ptr<IdentifierTerm> rhs = nullptr;
+    IdentifierExpr(unique_ptr<IdentifierTerm>,TypeData);
+    IdentifierExpr(unique_ptr<IdentifierExpr>, Token *, unique_ptr<IdentifierTerm>,TypeData);
     Value * codegen(IRStream &) override;
     string userdump() override{
         if (lhs != nullptr && perTok != nullptr) {
@@ -152,7 +157,7 @@ public:
     __deprecated_msg("this class is for unique_ptr")
     Term() {};
     static unique_ptr<Term> init(unique_ptr<TermNode>);
-    static unique_ptr<Term> initAsOperatedExpr(unique_ptr<TermNode>,
+    static unique_ptr<Term> initAsInfixOperatorExpr(unique_ptr<TermNode>,
                                                Operator *,
                                                unique_ptr<Term>);
     static unique_ptr<Term> initAsPrefixOperatorExpr(Operator *,
