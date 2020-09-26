@@ -646,7 +646,8 @@ NodeData *IdentifierExpr::codegen(IRStream &f){
                                 term->value.c_str());
         }
         if (isVar){
-            int index = ptclass->properties[term->codegen(f)->value];
+            //int index = ptclass->properties[term->codegen(f)->value];
+            
         }else{
             
         }

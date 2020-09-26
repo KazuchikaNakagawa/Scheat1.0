@@ -83,5 +83,36 @@ Value *IntTerm::codegen(IRStream &f){
 }
 
 Value *IdentifierTerm::codegen(IRStream &f){
+    if (isFunc) {
+        string mangled = type.ir_used + "_";
+        string mtype = type.name + " (";
+        string mtype_ir = type.ir_used + " (";
+        mangled += value;
+        for (auto v = args.begin();
+             v != args.end();
+             mtype += ", ",
+             mtype_ir += ", ",
+             v = next(v)) {
+            
+            mangled += "_" + (*v)->type.ir_used;
+            mtype += (*v)->type.name;
+            mtype_ir += (*v)->type.ir_used;
+        }
+        mtype += ")";
+        mtype_ir += ")";
+        return new Value(mangled, TypeData(mtype, mtype_ir));
+    }
     return new Value(value, type);
+}
+
+void IdentifierTerm::addArg(unique_ptr<Expr> value){
+    args.push_back(move(value));
+}
+
+string IdentifierTerm::userdump(){
+    string ss = value;
+    for (auto v = args.begin(); v != args.end(); v = next(v)) {
+        ss = ss + (*v)->userdump();
+    }
+    return ss;
 }

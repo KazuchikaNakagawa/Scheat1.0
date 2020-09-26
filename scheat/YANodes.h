@@ -35,6 +35,8 @@ public:
     virtual ~Node() {};
 };
 
+class Expr;
+
 //--------------------------------------------------------------//
 
 // template class of Statements
@@ -105,14 +107,15 @@ public:
 class IdentifierTerm : public TermNode {
 public:
     string value;
+    vector<unique_ptr<Expr>> args;
     IdentifierTerm(Token *t, TypeData ty){
         type = ty;
         value = t->value.doubleValue;
     }
+    bool isFunc = false;
+    void addArg(unique_ptr<Expr>);
     Value * codegen(IRStream &) override;
-    string userdump() override{
-        return value;
-    };
+    string userdump() override;
 };
 
 // idexpr : idterm
@@ -192,7 +195,7 @@ public:
     Operator *op;
     unique_ptr<Expr> rhs;
     Value * codegen(IRStream &) override;
-    string userdump() override;
+    string userdump() override{return "UNDEFINED";};
     __deprecated_msg("this class is for unique_ptr")
     Expr() {};
     static unique_ptr<Expr> init(unique_ptr<PrimaryExpr>);
