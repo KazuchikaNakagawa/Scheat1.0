@@ -62,7 +62,7 @@ public:
 class StringTerm : public Node {
 public:
     string value;
-    StringTerm(Token *t) : value(t->value.strValue) { this->type = TypeData("String", "%String"); };
+    StringTerm(Token *t) : value(t->value.strValue) { this->type = TypeData("the Character", "i8*"); };
     Value * codegen(IRStream &) override;
     string userdump() override{return value;};
 };

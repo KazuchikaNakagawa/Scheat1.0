@@ -206,3 +206,9 @@ void *Array_at(Array *arr, int index){
     }
     return (void *)((unsigned long long)(arr->begPtr) + (arr->count * arr->elemSize));
 }
+
+String String_init(char *p){
+    String s = String();
+    s.buf.char_ptr = p;
+    return s;
+}

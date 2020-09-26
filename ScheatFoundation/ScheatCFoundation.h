@@ -42,6 +42,8 @@ extern "C" struct String{
 
 extern "C" void print_String(String *);
 
+extern "C" String String_init(char *);
+
 extern "C" bool ScheatString_isPtr(String *);
 
 extern "C" String ScheatString_assign(String *);

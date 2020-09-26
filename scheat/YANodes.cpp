@@ -20,3 +20,46 @@ using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
 
+static string strreplace(string base, string target, string into){
+    if (!target.empty()) {
+        std::string::size_type pos = 0;
+        while ((pos = base.find(target, pos)) != std::string::npos) {
+            base.replace(pos, target.length(), into);
+            pos += into.length();
+        }
+    }
+    return base;
+}
+
+Value *StringTerm::codegen(IRStream &f){
+    
+    string substr = value;
+    
+    strreplace(substr, "\\0", "\\00");
+    strreplace(substr, "\\n", "\\0A");
+    strreplace(substr, "\n", "\\0A");
+    strreplace(substr, "\t", "\\09");
+    strreplace(substr, "\\t", "\\09");
+    strreplace(substr, "\\\"", "\\22");
+    string r = "@";
+    if (global_context->strmap.find(substr) == global_context->strmap.end()) {
+        r = r + to_string(global_context->strmap.size());
+    }else{
+        r = r + to_string(global_context->strmap[substr]);
+    }
+    auto rn = r;
+    int strlength = substr.size() - 2;
+    auto sname =  rn + ".str";
+    global_context->stream_entry <<
+    sname << " = private unnamed_addr constant [" <<
+    to_string(strlength) << " x i8] c" << value << "\n";
+    string v = "getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i32 0, i32 0)";
+    return new Value(v, this->type);
+}
+
+unique_ptr<Term> Term::init(unique_ptr<TermNode> up){
+    auto u = make_unique<Term>();
+    u->lhs = move(up);
+    u->type = u->lhs->type;
+    return u;
+}

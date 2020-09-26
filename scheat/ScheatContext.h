@@ -27,6 +27,7 @@ class Context {
         this->name = name;
     }
 public:
+    map<string, int> strmap = {};
     IRStream stream_entry;
     IRStream stream_body;
     IRStream stream_tail;
