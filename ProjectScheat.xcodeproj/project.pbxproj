@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				820413DB251F7BE60073CB03 /* PBXTargetDependency */,
 				82D6F4EC24F402260003D0EA /* PBXTargetDependency */,
 				8225413424E2356200DBF05C /* PBXTargetDependency */,
 				82AEB66A24DC3DE500889AC3 /* PBXTargetDependency */,
@@ -27,6 +28,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		820413C8251F7BBC0073CB03 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 820413C7251F7BBC0073CB03 /* main.cpp */; };
+		820413D7251F7BD40073CB03 /* libFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826720D024F7D4DA00C94D22 /* libFoundation.a */; };
 		8205E12D24D3178C001C5130 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849FC24D2DFA4004A7A64 /* main.cpp */; };
 		8205E13324D319F5001C5130 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E12F24D319F5001C5130 /* libLLVMAggressiveInstCombine.a */; };
 		8205E13424D319F5001C5130 /* libLLVMAsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13024D319F5001C5130 /* libLLVMAsmPrinter.a */; };
@@ -213,6 +216,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		820413D8251F7BE00073CB03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 826720CF24F7D4DA00C94D22;
+			remoteInfo = Foundation;
+		};
+		820413DA251F7BE60073CB03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 820413C4251F7BBC0073CB03;
+			remoteInfo = FoundationTest;
+		};
 		8225413324E2356200DBF05C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
@@ -286,6 +303,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		820413C3251F7BBC0073CB03 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		826720DD24F7F4C900C94D22 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -316,6 +342,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		820413C5251F7BBC0073CB03 /* FoundationTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		820413C7251F7BBC0073CB03 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		8205E12F24D319F5001C5130 /* libLLVMAggressiveInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAggressiveInstCombine.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAggressiveInstCombine.a; sourceTree = "<group>"; };
 		8205E13024D319F5001C5130 /* libLLVMAsmPrinter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAsmPrinter.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAsmPrinter.a; sourceTree = "<group>"; };
 		8205E13124D319F5001C5130 /* libLLVMAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAsmParser.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAsmParser.a; sourceTree = "<group>"; };
@@ -440,6 +468,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		820413C2251F7BBC0073CB03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				820413D7251F7BD40073CB03 /* libFoundation.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8225412624E175F700DBF05C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -657,6 +693,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		820413C6251F7BBC0073CB03 /* FoundationTest */ = {
+			isa = PBXGroup;
+			children = (
+				820413C7251F7BBC0073CB03 /* main.cpp */,
+			);
+			path = FoundationTest;
+			sourceTree = "<group>";
+		};
 		8225412924E175F700DBF05C /* ScheatRun */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,6 +741,7 @@
 		829849D024D1B5A7004A7A64 = {
 			isa = PBXGroup;
 			children = (
+				820413C6251F7BBC0073CB03 /* FoundationTest */,
 				82984A0324D2E070004A7A64 /* Frameworks */,
 				826720D424F7D4F600C94D22 /* ScheatFoundation */,
 				82AEB66B24DC3E0100889AC3 /* ScheatIR */,
@@ -723,6 +768,7 @@
 				82D6F4D024F3EE240003D0EA /* libScheatARC.a */,
 				826720D024F7D4DA00C94D22 /* libFoundation.a */,
 				826720DF24F7F4C900C94D22 /* ScheatARCTest */,
+				820413C5251F7BBC0073CB03 /* FoundationTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -933,6 +979,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		820413C4251F7BBC0073CB03 /* FoundationTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 820413C9251F7BBC0073CB03 /* Build configuration list for PBXNativeTarget "FoundationTest" */;
+			buildPhases = (
+				820413C1251F7BBC0073CB03 /* Sources */,
+				820413C2251F7BBC0073CB03 /* Frameworks */,
+				820413C3251F7BBC0073CB03 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				820413D9251F7BE00073CB03 /* PBXTargetDependency */,
+			);
+			name = FoundationTest;
+			productName = FoundationTest;
+			productReference = 820413C5251F7BBC0073CB03 /* FoundationTest */;
+			productType = "com.apple.product-type.tool";
+		};
 		8225412724E175F700DBF05C /* ScheatRun */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8225413224E175F700DBF05C /* Build configuration list for PBXNativeTarget "ScheatRun" */;
@@ -1097,6 +1161,9 @@
 			attributes = {
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
+					820413C4251F7BBC0073CB03 = {
+						CreatedOnToolsVersion = 12.0.1;
+					};
 					8225412724E175F700DBF05C = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -1146,11 +1213,20 @@
 				82D6F4CF24F3EE240003D0EA /* ScheatARC */,
 				826720CF24F7D4DA00C94D22 /* Foundation */,
 				826720DE24F7F4C900C94D22 /* ScheatARCTest */,
+				820413C4251F7BBC0073CB03 /* FoundationTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		820413C1251F7BBC0073CB03 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				820413C8251F7BBC0073CB03 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8225412524E175F700DBF05C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1236,6 +1312,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		820413D9251F7BE00073CB03 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 826720CF24F7D4DA00C94D22 /* Foundation */;
+			targetProxy = 820413D8251F7BE00073CB03 /* PBXContainerItemProxy */;
+		};
+		820413DB251F7BE60073CB03 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 820413C4251F7BBC0073CB03 /* FoundationTest */;
+			targetProxy = 820413DA251F7BE60073CB03 /* PBXContainerItemProxy */;
+		};
 		8225413424E2356200DBF05C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8225412724E175F700DBF05C /* ScheatRun */;
@@ -1289,6 +1375,51 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		820413CA251F7BBC0073CB03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		820413CB251F7BBC0073CB03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8225413024E175F700DBF05C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1503,7 +1634,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.1_1/include,
+					"$(SRCROOT)/ScheatFoundation",
+				);
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1568,7 +1702,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.1_1/include,
+					"$(SRCROOT)/ScheatFoundation",
+				);
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1901,6 +2038,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		820413C9251F7BBC0073CB03 /* Build configuration list for PBXNativeTarget "FoundationTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				820413CA251F7BBC0073CB03 /* Debug */,
+				820413CB251F7BBC0073CB03 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8225413224E175F700DBF05C /* Build configuration list for PBXNativeTarget "ScheatRun" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

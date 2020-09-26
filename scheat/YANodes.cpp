@@ -120,6 +120,7 @@ Value *Term::codegen(IRStream &f){
             f << r << " call " << op->return_type.ir_used << "("
             << rhsv->type.ir_used << "*) " << op->func_name << "("
             << rhsv->type.ir_used << "* " << rhsv->value << ")\n";
+            return new Value(r, op->return_type);
         }else if (op->position == op->postfix){
             // postfix operator
             auto r = local_context.top()->getRegister();
@@ -130,6 +131,7 @@ Value *Term::codegen(IRStream &f){
             f << r << " = call " << op->return_type.ir_used << "("
             << lhsv->type.ir_used << ") " << op->func_name << "("
             << lhsv->type.ir_used << "* " << lhsv->value << ")\n";
+            return new Value(r, op->return_type);
         }else{
             scheato->DevLog(__FILE_NAME__, __LINE__, "?????");
             return nullptr;
