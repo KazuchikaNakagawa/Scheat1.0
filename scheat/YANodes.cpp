@@ -53,7 +53,7 @@ Value *StringTerm::codegen(IRStream &f){
     global_context->stream_entry <<
     sname << " = private unnamed_addr constant [" <<
     to_string(strlength) << " x i8] c" << value << "\n";
-    string v = "getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i32 0, i32 0)";
+    string v = "bitcast (i8* getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i32 0, i32 0) to %String*)";
     return new Value(v, this->type);
 }
 

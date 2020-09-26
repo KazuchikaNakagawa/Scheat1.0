@@ -73,7 +73,7 @@ public:
      by using bitcast, (i8* @.str to %String*) we can generate String
      object directly.
      @.str = unnamed_addr inbound [7 x i8] "Hello"
-     @s = bitcast i8* getelementptr ()() to %String*
+     @s = bitcast (i8* getelementptr ()() to %String*)
      */
     string value;
     StringTerm(Token *t) : value(t->value.strValue) { this->type = TypeData("the Character", "i8*");
