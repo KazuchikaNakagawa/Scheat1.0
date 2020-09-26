@@ -1683,7 +1683,7 @@
 					"$(SRCROOT)/scheat",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.0_3/lib,
+					/usr/local/Cellar/llvm/10.0.1_1/lib,
 					"$(SDKROOT)/usr/lib/system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1712,7 +1712,7 @@
 					"\"$(SRCROOT)/scheat\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.0_3/lib,
+					/usr/local/Cellar/llvm/10.0.1_1/lib,
 					"$(SDKROOT)/usr/lib/system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1741,7 +1741,7 @@
 					"$(SRCROOT)/scheat/",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.0_3/lib,
+					/usr/local/Cellar/llvm/10.0.1_1/lib,
 					"$(SDKROOT)/usr/lib/system",
 				);
 				PRODUCT_NAME = scheat;
@@ -1770,7 +1770,7 @@
 					"\"$(SRCROOT)/scheat\"",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.0_3/lib,
+					/usr/local/Cellar/llvm/10.0.1_1/lib,
 					"$(SDKROOT)/usr/lib/system",
 				);
 				PRODUCT_NAME = scheat;

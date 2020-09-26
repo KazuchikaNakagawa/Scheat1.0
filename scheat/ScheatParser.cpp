@@ -20,14 +20,14 @@ using namespace scheat::LegacyScheatParser;
 using namespace scheat;
 using namespace scheat::basics;
 using namespace scheat::node;
-using scheat::parser::contextCenter;
-using scheat::parser::global_context;
-using scheat::parser::main_Context;
-using scheat::parser::local_context;
-using scheat::parser::objects;
-using scheat::parser::fname;
-using scheat::parser::mTokens;
-using scheat::parser::scheato;
+using scheat::statics::contextCenter;
+using scheat::statics::global_context;
+using scheat::statics::main_Context;
+using scheat::statics::local_context;
+using scheat::statics::objects;
+using scheat::statics::fname;
+using scheat::statics::mTokens;
+using scheat::statics::scheato;
 using std::string;
 
 static void getNextTok(){

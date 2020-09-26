@@ -19,7 +19,7 @@ namespace scheat {
 namespace statics {
 
 using namespace scheat;
-using namespace scheat::parser;
+using namespace scheat::statics;
 using namespace scheat::basics;
 
 std::vector<Context *> contextCenter = {};

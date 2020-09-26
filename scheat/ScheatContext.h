@@ -10,8 +10,9 @@
 #include "ScheatBasicStructures.h"
 #include <map>
 #include <vector>
+#include <string>
 namespace scheat{
-
+using namespace std;
 using namespace basics;
 
 class Context {
