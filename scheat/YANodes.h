@@ -54,7 +54,9 @@ public:
 class IntTerm : public Node {
 public:
     int value;
-    IntTerm(Token *t) : value(t->value.intValue) { this->type = TypeData("Int", "i32"); };
+    IntTerm(Token *t) : value(t->value.intValue) { this->type = TypeData("Int", "i32");
+        location = t->location;
+    };
     Value * codegen(IRStream &) override;
     string userdump() override{ return to_string(value); };
 };
@@ -62,9 +64,39 @@ public:
 class StringTerm : public Node {
 public:
     string value;
-    StringTerm(Token *t) : value(t->value.strValue) { this->type = TypeData("the Character", "i8*"); };
+    StringTerm(Token *t) : value(t->value.strValue) { this->type = TypeData("the Character", "i8*");
+        location = t->location;
+    };
     Value * codegen(IRStream &) override;
     string userdump() override{return value;};
+};
+
+class BoolTerm : public Node {
+public:
+    bool value;
+    BoolTerm(Token *t) : value(t->value.boolValue) {
+        type = TypeData("Bool", "i1");
+    };
+    Value * codegen(IRStream &) override;
+    string userdump() override{
+        if (value) {
+            return "true";
+        }else{
+            return "false";
+        }
+    };
+};
+
+class FloatTerm : public Node {
+public:
+    double value;
+    FloatTerm(Token *t) : value(t->value.doubleValue) {
+        type = TypeData("Float", "double");
+    };
+    Value * codegen(IRStream &) override;
+    string userdump() override{
+        return to_string(value);
+    };
 };
 
 // -------------------------------------------------------------//

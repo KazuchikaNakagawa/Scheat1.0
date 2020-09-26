@@ -63,3 +63,23 @@ unique_ptr<Term> Term::init(unique_ptr<TermNode> up){
     u->type = u->lhs->type;
     return u;
 }
+
+Value *BoolTerm::codegen(IRStream &f){
+    if (value) {
+        return new Value(to_string(1),type);
+    }else{
+        return new Value(to_string(0),type);
+    }
+    return nullptr;
+}
+
+Value *FloatTerm::codegen(IRStream &f){
+    
+    return new Value(to_string(value), type);
+}
+
+Value *IntTerm::codegen(IRStream &f){
+    return new Value(to_string(value), type);
+}
+
+
