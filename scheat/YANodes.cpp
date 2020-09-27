@@ -20,6 +20,10 @@ using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
 
+static TypeData asPointer(TypeData ty){
+    return TypeData("the " + ty.name, ty.ir_used + "*");
+}
+
 static string strreplace(string base, string target, string into){
     if (!target.empty()) {
         std::string::size_type pos = 0;
@@ -105,6 +109,7 @@ Value *Term::codegen(IRStream &f){
             if (!lhsv || !rhsv) {
                 return nullptr;
             }
+            
             f << r << " = call " << op->return_type.ir_used << "("
             << lhsv->type.ir_used << "*, " << rhsv->type.ir_used << "*) " << op->func_name << "(" << lhsv->type.ir_used
             << "* " << lhsv->value << ", " << rhsv->type.ir_used
@@ -160,6 +165,11 @@ Value *IntTerm::codegen(IRStream &f){
 
 Value *IdentifierTerm::codegen(IRStream &f){
     if (isFunc) {
+        if (funcptr == nullptr) {
+            scheato->DevLog(__FILE_NAME__, __LINE__,
+                            "compiler error. illegal function was set.");
+            return nullptr;
+        }
         string mangled = "(";
         string mtype = type.name + " (";
         string mtype_ir = type.ir_used + " (";
@@ -181,7 +191,7 @@ Value *IdentifierTerm::codegen(IRStream &f){
         mangled += ")";
         return new Value(mangled, TypeData(mtype, mtype_ir));
     }
-    return new Value(value, type);
+    return new Value(value, asPointer(type));
 }
 
 void IdentifierTerm::addArg(unique_ptr<Expr> value){
@@ -227,53 +237,43 @@ IdentifierExpr::IdentifierExpr(unique_ptr<IdentifierExpr> expr, Token *tok, uniq
     location = lhs->location;
 }
 
-Value *IdentifierExpr::codegen(IRStream &f){
-    if (lhs == nullptr) {
-        auto v = rhs->codegen(f);
-        if (!v) {
-            return nullptr;
-        }
-        
-        if (rhs->isFunc) {
-            // function ( expr )
-            
-            if (rhs->funcptr->return_type == "Void") {
-                f << "call " << v->type.ir_used << " " << rhs->funcptr->getMangledName() << v->value << "\n";
-                return new Value("null", rhs->funcptr->return_type);
+Value * IdentifierTerm::codegenAsReference(IRStream &f){
+    if (isFunc) {
+        if ((*funcptr->return_type.ir_used.end()) == '*') {
+            if (funcptr == nullptr) {
+                scheato->DevLog(__FILE_NAME__, __LINE__,
+                                "compiler error. illegal function was set.");
+                return nullptr;
             }
+            string mangled = "(";
+            string mtype = type.name + " (";
+            string mtype_ir = type.ir_used + " (";
+            mangled += value;
+            for (auto v = args.begin();
+                 v != args.end();
+                 mtype += ", ",
+                 mtype_ir += ", ",
+                 mangled += ", ",
+                 v = next(v)) {
+                auto vv = (*v)->codegen(f);
+                mangled += (vv)->type.ir_used + "* ";
+                mangled += vv->value;
+                mtype += (*v)->type.name;
+                mtype_ir += (*v)->type.ir_used;
+            }
+            mtype += ")";
+            mtype_ir += ")";
+            mangled += ")";
+            return new Value(mangled, TypeData(mtype, mtype_ir));
         }
-        auto r = local_context.top()->getRegister();
-        // global variable
-        f << r << " = load " << v->type.ir_used << ", " <<
-        v->type.ir_used << "* " << v->value << "\n";
-        return new Value(r, v->type);
+        scheato->FatalError(__FILE_NAME__, __LINE__, "this function's result cannot be assigned.");
     }
-    auto lv = lhs->codegen(f);
-    if (!lv) {
-        return nullptr;
-    }
-    auto r = local_context.top()->getRegister();
-    if (rhs->isFunc) {
-        auto rv = rhs->codegen(f);
-        if (!rhs->funcptr) {
-            return nullptr;
-        }
-        if (rhs->funcptr->return_type == "Void") {
-            f << " call " << rv->type.ir_used << " " << rhs->funcptr->getMangledName() << rv->value << "\n";
-            return new Value(r, rhs->funcptr->return_type);
-        }
-        auto r = local_context.top()->getRegister();
-        f << r << " = call " << rv->type.ir_used << " " << rhs->funcptr->getMangledName() << rv->value << "\n";
-        return new Value(r, rhs->funcptr->return_type);
-    }else{
-        auto rv = rhs->codegen(f);
-        if (!rv) {
-            return nullptr;
-        }
-        f << r << " = getelementptr " << lv->type.ir_used << ", " <<
-        lv->type.ir_used << "* " << lv->value << ", i32 0, i32 " <<
-        to_string(rhs->index) << "\n";
-        return new Value(r, rv->type);
-    }
+    return new Value(value, asPointer(type));
+};
+
+Value *IdentifierExpr::codegen(IRStream &f){
+    // idexpr : idterm
+    //        | idexpr . idterm
+    //        | term OP expr
     return nullptr;
 }

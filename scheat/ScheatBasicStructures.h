@@ -221,12 +221,17 @@ public:
         term
     } precidence;
     
+    std::string value;
+    
     TypeData return_type;
     // if postfix operator, this will be nullptr
     TypeData *rhs_type;
     // if prefix operator, this will be nullptr
     TypeData *lhs_type;
     std::string func_name;
+    Operator(std::string func, string symbols) : func_name(func), value(symbols){
+        
+    }
 };
 
 class Function{

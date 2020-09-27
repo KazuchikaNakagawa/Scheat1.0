@@ -113,6 +113,8 @@ public:
     };
 };
 
+// idterm : identifier
+//        | identifier ( expr , expr, ... )
 class IdentifierTerm : public TermNode {
 public:
     string value;
@@ -132,6 +134,7 @@ public:
     Function *funcptr = nullptr;
     void addArg(unique_ptr<Expr>);
     Value * codegen(IRStream &) override;
+    Value * codegenAsReference(IRStream &);
     string userdump() override;
 };
 
@@ -142,8 +145,12 @@ public:
     unique_ptr<IdentifierExpr> lhs = nullptr;
     Token *perTok = nullptr;
     unique_ptr<IdentifierTerm> rhs = nullptr;
+    // ex) ID += EXPR
+    Operator *op = nullptr;
+    unique_ptr<Expr> assValue = nullptr;
     IdentifierExpr(unique_ptr<IdentifierTerm>,TypeData);
     IdentifierExpr(unique_ptr<IdentifierExpr>, Token *, unique_ptr<IdentifierTerm>,TypeData);
+    IdentifierExpr(unique_ptr<IdentifierTerm>, Operator *, unique_ptr<Expr>);
     Value * codegen(IRStream &) override;
     string userdump() override{
         if (lhs != nullptr && perTok != nullptr) {
