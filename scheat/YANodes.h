@@ -117,14 +117,19 @@ class IdentifierTerm : public TermNode {
 public:
     string value;
     vector<unique_ptr<Expr>> args = {};
-    IdentifierTerm(Token *t, TypeData ty){
+    IdentifierTerm(Token *t, TypeData ty, int ind = 0){
         type = ty;
         value = t->value.strValue;
         location = t->location;
+        index = ind;
     }
     IdentifierTerm(Token *t, int c, TypeData ty);
+    // when this means function, it is used for check
     int countOfArgs = 0;
     bool isFunc = false;
+    // property index. used when generating getelementptr
+    int index = 0;
+    Function *funcptr = nullptr;
     void addArg(unique_ptr<Expr>);
     Value * codegen(IRStream &) override;
     string userdump() override;

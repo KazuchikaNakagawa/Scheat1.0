@@ -160,7 +160,7 @@ Value *IntTerm::codegen(IRStream &f){
 
 Value *IdentifierTerm::codegen(IRStream &f){
     if (isFunc) {
-        string mangled = type.ir_used + "_";
+        string mangled = "(";
         string mtype = type.name + " (";
         string mtype_ir = type.ir_used + " (";
         mangled += value;
@@ -168,14 +168,17 @@ Value *IdentifierTerm::codegen(IRStream &f){
              v != args.end();
              mtype += ", ",
              mtype_ir += ", ",
+             mangled += ", ",
              v = next(v)) {
-            
-            mangled += "_" + (*v)->type.ir_used;
+            auto vv = (*v)->codegen(f);
+            mangled += (vv)->type.ir_used + "* ";
+            mangled += vv->value;
             mtype += (*v)->type.name;
             mtype_ir += (*v)->type.ir_used;
         }
         mtype += ")";
         mtype_ir += ")";
+        mangled += ")";
         return new Value(mangled, TypeData(mtype, mtype_ir));
     }
     return new Value(value, type);
@@ -222,4 +225,49 @@ IdentifierExpr::IdentifierExpr(unique_ptr<IdentifierExpr> expr, Token *tok, uniq
     perTok = tok;
     type = ty;
     location = lhs->location;
+}
+
+Value *IdentifierExpr::codegen(IRStream &f){
+    if (lhs == nullptr) {
+        auto v = rhs->codegen(f);
+        if (!v) {
+            return nullptr;
+        }
+        auto r = local_context.top()->getRegister();
+        if (rhs->isFunc) {
+            // function ( expr )
+        }
+        // global variable
+        f << r << " = load " << v->type.ir_used << ", " <<
+        v->type.ir_used << "* " << v->value << "\n";
+        return new Value(r, v->type);
+    }
+    auto lv = lhs->codegen(f);
+    if (!lv) {
+        return nullptr;
+    }
+    auto r = local_context.top()->getRegister();
+    if (rhs->isFunc) {
+        auto rv = rhs->codegen(f);
+        if (!rhs->funcptr) {
+            return nullptr;
+        }
+        if (rhs->funcptr->return_type == "Void") {
+            f << " call " << rv->type.ir_used << " " << rhs->funcptr->getMangledName() << rv->value << "\n";
+            return new Value(r, rhs->funcptr->return_type);
+        }
+        auto r = local_context.top()->getRegister();
+        f << r << " = call " << rv->type.ir_used << " " << rhs->funcptr->getMangledName() << rv->value << "\n";
+        return new Value(r, rhs->funcptr->return_type);
+    }else{
+        auto rv = rhs->codegen(f);
+        if (!rv) {
+            return nullptr;
+        }
+        f << r << " = getelementptr " << lv->type.ir_used << ", " <<
+        lv->type.ir_used << "* " << lv->value << ", i32 0, i32 " <<
+        to_string(rhs->index) << "\n";
+        return new Value(r, rv->type);
+    }
+    return nullptr;
 }
