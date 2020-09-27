@@ -233,10 +233,16 @@ Value *IdentifierExpr::codegen(IRStream &f){
         if (!v) {
             return nullptr;
         }
-        auto r = local_context.top()->getRegister();
+        
         if (rhs->isFunc) {
             // function ( expr )
+            
+            if (rhs->funcptr->return_type == "Void") {
+                f << "call " << v->type.ir_used << " " << rhs->funcptr->getMangledName() << v->value << "\n";
+                return new Value("null", rhs->funcptr->return_type);
+            }
         }
+        auto r = local_context.top()->getRegister();
         // global variable
         f << r << " = load " << v->type.ir_used << ", " <<
         v->type.ir_used << "* " << v->value << "\n";
