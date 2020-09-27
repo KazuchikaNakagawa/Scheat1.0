@@ -22,7 +22,7 @@ using namespace scheat::basics;
 using namespace scheat::node;
 
 std::string Function::getMangledName(){
-    std::string base = return_type.mangledName() + "_";
+    std::string base = "@" + return_type.mangledName() + "_";
     for (int i = 0; i < argTypes.size(); i++) {
         base = base + argTypes[i].mangledName();
         

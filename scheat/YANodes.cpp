@@ -189,9 +189,23 @@ Value *IdentifierTerm::codegen(IRStream &f){
         mtype += ")";
         mtype_ir += ")";
         mangled += ")";
-        return new Value(mangled, TypeData(mtype, mtype_ir));
+        
+        if (funcptr->return_type.name == "Void") {
+            f << "call " << mtype_ir
+            << " " << funcptr->getMangledName() << mangled << "\n";
+            return nullptr;
+        }else{
+            auto r = local_context.top()->getRegister();
+            f << r << " = call " << mtype_ir
+            << " " << funcptr->getMangledName() << mangled << "\n";
+            return new Value(r, funcptr->return_type);
+        }
+        //return new Value(mangled, TypeData(mtype, mtype_ir));
     }
-    return new Value(value, asPointer(type));
+    auto r = local_context.top()->getRegister();
+    f << r << " = load " << type.ir_used << ", " << type.ir_used
+    << "* " << value << "\n";
+    return new Value(r, type);
 }
 
 void IdentifierTerm::addArg(unique_ptr<Expr> value){
@@ -274,6 +288,17 @@ Value * IdentifierTerm::codegenAsReference(IRStream &f){
 Value *IdentifierExpr::codegen(IRStream &f){
     // idexpr : idterm
     //        | idexpr . idterm
-    //        | term OP expr
+    //        | term(reference) OP expr
+    
+    if (op == nullptr && perTok == nullptr) {
+        // idexpr : idterm
+        
+        return rhs->codegen(f);
+    }
+    
+    if (perTok == nullptr && op != nullptr) {
+        // idexpr : idexpr . idterm
+    }
+    
     return nullptr;
 }
