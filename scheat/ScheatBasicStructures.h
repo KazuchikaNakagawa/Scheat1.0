@@ -229,7 +229,10 @@ public:
     // if prefix operator, this will be nullptr
     TypeData *lhs_type;
     std::string func_name;
-    Operator(std::string func, string symbols) : func_name(func), value(symbols){
+    Operator(std::string func, std::string symbols) : func_name(func), value(symbols){
+        
+    }
+    Operator(){
         
     }
 };

@@ -134,7 +134,6 @@ public:
     Function *funcptr = nullptr;
     void addArg(unique_ptr<Expr>);
     Value * codegen(IRStream &) override;
-    Value * codegenAsReference(IRStream &);
     string userdump() override;
 };
 
@@ -145,13 +144,17 @@ public:
     unique_ptr<IdentifierExpr> lhs = nullptr;
     Token *perTok = nullptr;
     unique_ptr<IdentifierTerm> rhs = nullptr;
-    // ex) ID += EXPR
-    Operator *op = nullptr;
-    unique_ptr<Expr> assValue = nullptr;
     IdentifierExpr(unique_ptr<IdentifierTerm>,TypeData);
     IdentifierExpr(unique_ptr<IdentifierExpr>, Token *, unique_ptr<IdentifierTerm>,TypeData);
-    IdentifierExpr(unique_ptr<IdentifierTerm>, Operator *, unique_ptr<Expr>);
+    static unique_ptr<IdentifierExpr> init(unique_ptr<IdentifierTerm>,
+                                           TypeData);
+    static
+    unique_ptr<IdentifierExpr> initAsAccessExpr(
+                                                unique_ptr<IdentifierExpr>,
+                                                Token *,
+                                                unique_ptr<IdentifierTerm>);
     Value * codegen(IRStream &) override;
+    Value * codegenAsRef(IRStream &);
     string userdump() override{
         if (lhs != nullptr && perTok != nullptr) {
             return lhs->userdump() + perTok->value.strValue + rhs->userdump();
@@ -244,14 +247,42 @@ public:
 };
 
 // statements : statement
-//            | statement statements
+//            | statements statement
 class Statements : public Node {
 public:
-    unique_ptr<Statement> statement;
     unique_ptr<Statements> statements;
+    unique_ptr<Statement> statement;
     Value * codegen(IRStream &) override;
     string userdump() override;
+    Statements() {
+        statement = nullptr;
+        statements = nullptr;
+    };
     
+    Statements(unique_ptr<Statements> stmts, unique_ptr<Statement> stmt){
+        statements = move(stmts);
+        statement = move(stmt);
+    };
+};
+
+
+// ----------------------------------------------------------//
+
+// this ID is expr.
+// expr : expr of IDExpr
+// this statement is expected in global and local function
+class DeclareVariableStatement : public StatementNode {
+public:
+    string name;
+    
+    bool isPublic;
+    bool isConstant;
+    bool isNullable;
+    
+    unique_ptr<Expr> value;
+    static unique_ptr<DeclareVariableStatement>
+    init(Token *, unique_ptr<Expr>,bool pub = true, bool con = false, bool nul = false);
+    Value * codegen(IRStream &) override;
 };
 
 }

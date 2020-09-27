@@ -13,19 +13,22 @@
 #include <stack>
 #include <map>
 #include <string>
-#include "ScheatNodes.h"
 #include "YANodes.h"
+#include "ScheatParser.h"
 #include "ScheatContext.h"
 
 namespace scheat {
 using namespace std;
+using namespace yaNodes;
 namespace parser2 {
 
 // this parser was started to build another type of parser.
 // we solve type inferences, identifier existence, and so on when parsing.
-unique_ptr<node::Statements> parseStatements(Token *);
+unique_ptr<Statements> parse(Token *);
 
-unique_ptr<node::StatementNode> parseStatement(Token *&);
+unique_ptr<Statement> parseStatement(Token *&);
+
+unique_ptr<StatementNode> parseStatement_single(Token *&);
 
 void parseExpr(Token *&);
 
