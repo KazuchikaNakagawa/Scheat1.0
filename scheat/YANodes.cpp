@@ -289,3 +289,38 @@ DeclareVariableStatement::init(Token *idtok, unique_ptr<Expr> expr, bool pub, bo
     n->value = move(expr);
     return n;
 }
+
+Value *Statements::codegen(IRStream &f){
+    statements->codegen(f);
+    if (scheato->hasProbrem()) {
+        return nullptr;
+    }
+    statement->codegen(f);
+    return nullptr;
+}
+
+Value *DeclareVariableStatement::codegen(IRStream &f){
+    
+    if (scheato->hasProbrem()) {
+        return nullptr;
+    }
+    if (local_context.top()->name == "main") {
+        // global function
+        
+        if (value->type.name == "Int") {
+            f << "@" << name << " = global i32 0\n";
+            auto ff = global_context->findFunc(global_context->name + "_init");
+            if (!ff) {
+                scheato->DevLog(__FILE_NAME__, __LINE__, "_init function is not defined");
+                return nullptr;
+            }
+            auto v = value->codegen(ff->context->stream_body);
+            ff->context->stream_body << "store i32 " << v->value << ", i32* " << "@" << name << "\n";
+            return nullptr;
+        }else if (value->type.name == "String"){
+            
+        }
+        
+    }
+    return nullptr;
+}

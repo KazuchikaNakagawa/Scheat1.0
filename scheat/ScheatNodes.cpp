@@ -20,6 +20,7 @@
 #define p_unique(id) std::unique_ptr<id>
 #define make_p(id) std::make_unique<id>
 
+using namespace std;
 using namespace scheat::LegacyScheatParser;
 using namespace scheat;
 using namespace scheat::basics;
@@ -32,43 +33,6 @@ using scheat::statics::objects;
 using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
-
-//Class *Context::findClass(std::string key){
-//    return classes[key];
-//}
-//
-//Function *Context::findFunc(std::string key){
-//    return funcs[key];
-//}
-
-using std::move;
-
-
-//void Context::dump(std::ofstream &f){
-//
-//    // typename std::map<std::string, Class *>::iterator
-//    auto iter = begin(classes);
-//    while (iter != classes.end()) {
-//        auto pair = *iter;
-//        pair.second->context->dump(f);
-//        iter = std::next(iter);
-//    }
-//    f << "; " << name << "\n";
-//    stream_entry.exportTo(f);
-//    stream_body.exportTo(f);
-//    stream_tail.exportTo(f);
-//
-//    auto iter_f = begin(funcs);
-//    while (iter_f != funcs.end()) {
-//        auto pair = *iter_f;
-//        pair.second->context->dump(f);
-//    }
-//
-//    for (auto p = funcs.begin(); p != funcs.end(); p = std::next(p)) {
-//        (*p).second->context->dump(f);
-//    }
-//
-//}
 
 static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
     if (data->size.ir_used[0] == '%') {
@@ -156,9 +120,25 @@ void LegacyScheatParser::E9::InitializeContexts(){
     global_context->stream_entry << "source_filename = \"" << scheato->sourceFile << "\"\n";
     global_context->stream_entry << "target datalayout = \"" << scheato->datalayout << "\"\n";
     global_context->stream_entry << "target triple = \"" << scheato->target << "\"\n\n";
-    global_context->stream_body << "declare void @printn()\n";
+    global_context->stream_body << "%ScheatShortConstString = type{ i8, [7 x i8] }\n";
+    global_context->stream_body << "%Array = type{ i32, i64, i8* }\n";
+    global_context->stream_body << "%union_buf = type{ %ScheatShortConstString }\n";
+    global_context->stream_body << "declare void @print_return()\n";
     global_context->stream_body << "declare void @print_i32(i32)\n";
+    global_context->stream_body << "declare void @print_i8x(i8*)\n";
+    global_context->stream_body << "declare void @printn()\n";
+    global_context->stream_body << "declare void @print_i1(i1)\n";
     global_context->stream_body << "declare i8* @ScheatPointer_alloc(i64, void(i8*)*)\n";
+    global_context->stream_body << "declare void @ScheatPointer_copy(i8*)\n";
+    global_context->stream_body << "declare void @ScheatPointer_unref(i8*)\n";
+    global_context->stream_body << "declare void @ScheatPointer_release(i8*)\n";
+    global_context->stream_body << "declare void @print_String(%String*)\n";
+    global_context->stream_body << "declare %String @String_init(i8*)\n";
+    global_context->stream_body << "declare %String* @String_add(%String*, %String*)\n";
+    global_context->stream_body << "declare %String* @String_copy(%String*)\n";
+    global_context->stream_body << "declare void @Array_append(%Array*, i8*)\n";
+    global_context->stream_body << "declare void @Array_at(%Array*, i32)\n";
+    global_context->stream_body << "declare %Array @Array_init(i64)\n";
     //global_context->stream_body << "declare i8* ";
     main_Context = nullptr;
     mTokens = nullptr;
@@ -182,6 +162,7 @@ void LegacyScheatParser::E9::CreateMainContext(){
     Variable *argv = new Variable("argv", TypeData("i8**"));
     main_Context->addVariable("argv", argv);
     mainf->codegen(main_Context->stream_entry);
+    main_Context->stream_body << "entry:\n";
     main_Context->stream_body << "%argc = alloca i32\n";
     main_Context->stream_body << "%argv = alloca i8**\n";
     main_Context->stream_body << "store i32 %0, i32* %argc\n";

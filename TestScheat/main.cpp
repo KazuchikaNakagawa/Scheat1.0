@@ -16,6 +16,7 @@ int main(int argc, const char * argv[]) {
     schprj->sourceFile = "test.scheat";
     schprj->outputFilePath = "/Users/kaz04/ScheatTest/test";
     schprj->allowDeepDebug(true);
+    scheat::statics::scheato = schprj;
     scheat::LegacyScheatParser::LLParse(schprj);
     return 0;
 }

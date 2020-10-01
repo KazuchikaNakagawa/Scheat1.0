@@ -24,7 +24,7 @@ extern "C" void print_i32(int d);
 
 extern "C" void print_i8x(char *s);
 
-extern "C" void printn();
+extern "C" void print_return();
 
 extern "C" void print_i1(bool b);
 
@@ -56,6 +56,14 @@ extern "C" struct Array {
     int count;
     unsigned long long elemSize;
     void *begPtr;
+};
+
+extern "C" Array Array_init(uint64_t size){
+    Array arr;
+    arr.begPtr = nullptr;
+    arr.count = 0;
+    arr.elemSize = size;
+    return arr;
 };
 
 extern "C" void Array_append(Array *, void *);

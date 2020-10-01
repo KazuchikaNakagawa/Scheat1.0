@@ -173,7 +173,7 @@ void print_i8x(char *s){
     printf("%s", s);
 };
 
-void printn(){
+void print_return(){
     printf("\n");
 }
 

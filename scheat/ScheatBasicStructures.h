@@ -190,7 +190,7 @@ public:
             ir_used = "double";
             return;
         }
-        else if (sprintf(n_b, "i%d", i) == 1) {
+        else if (sscanf(n_b, "i%d", &i) == 1) {
             ir_used = nm;
             free(n_b);
             return;
