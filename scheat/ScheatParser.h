@@ -12,7 +12,7 @@
 #include <stack>
 #include <map>
 #include <string>
-#include "ScheatNodes.h"
+#include "ScheatBasicStructures.h"
 #include "ScheatContext.h"
 
 namespace scheat {

@@ -37,15 +37,17 @@ using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
 
-extern unique_ptr<Statements> parse(Token *tokens){
+extern void parser2::parse(Scheat *sch,Token *tokens){
+    scheato = sch;
+    sch->statements = new DataHolder();
     auto stmts = make_unique<Statements>();
     stmts->statements = nullptr;
     stmts->statement = parseStatement(tokens);
     if (scheato->hasProbrem()) {
-        return nullptr;
+        return;
     }
     if (!stmts->statement) {
-        return nullptr;
+        return;
     }
     
     
@@ -53,17 +55,18 @@ extern unique_ptr<Statements> parse(Token *tokens){
     
         auto s = parseStatement(tokens);
         if (!s && !scheato->hasProbrem()) {
-            return stmts;
+            return;
         }
         
         if (scheato->hasProbrem()) {
-            return nullptr;
+            return;
         }
         
         stmts = make_unique<Statements>(move(stmts), move(s));
         
     }
     
-    return stmts;
+    scheato->statements->statements = move(stmts);
+    return;
 };
 

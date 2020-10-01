@@ -250,13 +250,14 @@ Value *IdentifierExpr::codegenAsRef(IRStream &f){
         return rhs->codegen(f);
     }
     
-    if (perTok == nullptr) {
+    if (perTok != nullptr) {
         // idexpr : idexpr . idterm
         auto lhv = lhs->codegen(f);
         //auto rhv = rhs->codegen(f);
         auto r = local_context.top()->getRegister();
         f << r << " = getelementptr " << lhv->type.ir_used << ", " <<
         lhv->type.ir_used << "* " << lhv->value << ", i32 0, i32 " << to_string(rhs->index) << "\n";
+        return new Value(r, lhv->type);
         
     }
     

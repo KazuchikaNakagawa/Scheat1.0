@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				820414252523661B0073CB03 /* PBXTargetDependency */,
 				820413DB251F7BE60073CB03 /* PBXTargetDependency */,
 				82D6F4EC24F402260003D0EA /* PBXTargetDependency */,
 				8225413424E2356200DBF05C /* PBXTargetDependency */,
@@ -30,6 +31,8 @@
 /* Begin PBXBuildFile section */
 		820413C8251F7BBC0073CB03 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 820413C7251F7BBC0073CB03 /* main.cpp */; };
 		820413D7251F7BD40073CB03 /* libFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826720D024F7D4DA00C94D22 /* libFoundation.a */; };
+		8204140A252365EC0073CB03 /* ScheatHelp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82041408252365EC0073CB03 /* ScheatHelp.cpp */; };
+		8204140B252365EC0073CB03 /* ScheatHelp.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82041409252365EC0073CB03 /* ScheatHelp.hpp */; };
 		8205E12D24D3178C001C5130 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849FC24D2DFA4004A7A64 /* main.cpp */; };
 		8205E13324D319F5001C5130 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E12F24D319F5001C5130 /* libLLVMAggressiveInstCombine.a */; };
 		8205E13424D319F5001C5130 /* libLLVMAsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13024D319F5001C5130 /* libLLVMAsmPrinter.a */; };
@@ -230,6 +233,13 @@
 			remoteGlobalIDString = 820413C4251F7BBC0073CB03;
 			remoteInfo = FoundationTest;
 		};
+		820414242523661B0073CB03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 820413F52523659B0073CB03;
+			remoteInfo = ScheatHelp;
+		};
 		8225413324E2356200DBF05C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 829849D124D1B5A7004A7A64 /* Project object */;
@@ -344,6 +354,9 @@
 /* Begin PBXFileReference section */
 		820413C5251F7BBC0073CB03 /* FoundationTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		820413C7251F7BBC0073CB03 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		820413F62523659B0073CB03 /* libScheatHelp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatHelp.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82041408252365EC0073CB03 /* ScheatHelp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatHelp.cpp; sourceTree = "<group>"; };
+		82041409252365EC0073CB03 /* ScheatHelp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatHelp.hpp; sourceTree = "<group>"; };
 		8205E12F24D319F5001C5130 /* libLLVMAggressiveInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAggressiveInstCombine.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAggressiveInstCombine.a; sourceTree = "<group>"; };
 		8205E13024D319F5001C5130 /* libLLVMAsmPrinter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAsmPrinter.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAsmPrinter.a; sourceTree = "<group>"; };
 		8205E13124D319F5001C5130 /* libLLVMAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAsmParser.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAsmParser.a; sourceTree = "<group>"; };
@@ -473,6 +486,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				820413D7251F7BD40073CB03 /* libFoundation.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		820413F42523659B0073CB03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,6 +721,15 @@
 			path = FoundationTest;
 			sourceTree = "<group>";
 		};
+		82041407252365D10073CB03 /* ScheatHelp */ = {
+			isa = PBXGroup;
+			children = (
+				82041408252365EC0073CB03 /* ScheatHelp.cpp */,
+				82041409252365EC0073CB03 /* ScheatHelp.hpp */,
+			);
+			path = ScheatHelp;
+			sourceTree = "<group>";
+		};
 		8225412924E175F700DBF05C /* ScheatRun */ = {
 			isa = PBXGroup;
 			children = (
@@ -741,6 +770,7 @@
 		829849D024D1B5A7004A7A64 = {
 			isa = PBXGroup;
 			children = (
+				82041407252365D10073CB03 /* ScheatHelp */,
 				820413C6251F7BBC0073CB03 /* FoundationTest */,
 				82984A0324D2E070004A7A64 /* Frameworks */,
 				826720D424F7D4F600C94D22 /* ScheatFoundation */,
@@ -769,6 +799,7 @@
 				826720D024F7D4DA00C94D22 /* libFoundation.a */,
 				826720DF24F7F4C900C94D22 /* ScheatARCTest */,
 				820413C5251F7BBC0073CB03 /* FoundationTest */,
+				820413F62523659B0073CB03 /* libScheatHelp.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -921,6 +952,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		820413F22523659B0073CB03 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8204140B252365EC0073CB03 /* ScheatHelp.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8225412424E175F700DBF05C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -996,6 +1035,23 @@
 			productName = FoundationTest;
 			productReference = 820413C5251F7BBC0073CB03 /* FoundationTest */;
 			productType = "com.apple.product-type.tool";
+		};
+		820413F52523659B0073CB03 /* ScheatHelp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 820413F72523659B0073CB03 /* Build configuration list for PBXNativeTarget "ScheatHelp" */;
+			buildPhases = (
+				820413F22523659B0073CB03 /* Headers */,
+				820413F32523659B0073CB03 /* Sources */,
+				820413F42523659B0073CB03 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScheatHelp;
+			productName = ScheatHelp;
+			productReference = 820413F62523659B0073CB03 /* libScheatHelp.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 		8225412724E175F700DBF05C /* ScheatRun */ = {
 			isa = PBXNativeTarget;
@@ -1164,6 +1220,9 @@
 					820413C4251F7BBC0073CB03 = {
 						CreatedOnToolsVersion = 12.0.1;
 					};
+					820413F52523659B0073CB03 = {
+						CreatedOnToolsVersion = 12.0.1;
+					};
 					8225412724E175F700DBF05C = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -1214,6 +1273,7 @@
 				826720CF24F7D4DA00C94D22 /* Foundation */,
 				826720DE24F7F4C900C94D22 /* ScheatARCTest */,
 				820413C4251F7BBC0073CB03 /* FoundationTest */,
+				820413F52523659B0073CB03 /* ScheatHelp */,
 			);
 		};
 /* End PBXProject section */
@@ -1224,6 +1284,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				820413C8251F7BBC0073CB03 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		820413F32523659B0073CB03 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8204140A252365EC0073CB03 /* ScheatHelp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1322,6 +1390,11 @@
 			target = 820413C4251F7BBC0073CB03 /* FoundationTest */;
 			targetProxy = 820413DA251F7BE60073CB03 /* PBXContainerItemProxy */;
 		};
+		820414252523661B0073CB03 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 820413F52523659B0073CB03 /* ScheatHelp */;
+			targetProxy = 820414242523661B0073CB03 /* PBXContainerItemProxy */;
+		};
 		8225413424E2356200DBF05C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8225412724E175F700DBF05C /* ScheatRun */;
@@ -1417,6 +1490,53 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		820413F82523659B0073CB03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		820413F92523659B0073CB03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -2043,6 +2163,15 @@
 			buildConfigurations = (
 				820413CA251F7BBC0073CB03 /* Debug */,
 				820413CB251F7BBC0073CB03 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		820413F72523659B0073CB03 /* Build configuration list for PBXNativeTarget "ScheatHelp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				820413F82523659B0073CB03 /* Debug */,
+				820413F92523659B0073CB03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

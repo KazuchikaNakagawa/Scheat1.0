@@ -11,6 +11,7 @@
 #include "Lexer.hpp"
 #include "ScheatObjects.h"
 #include "LegacyTypeScheat.hpp"
+#include "YAScheatParser.h"
 #pragma GCC visibility push(default)
 
 namespace scheat{
@@ -24,6 +25,8 @@ class Scheat;
 class IRBuilder;
 
 extern void LegacyScheatParser::LLParse(Scheat *);
+
+extern void parser2::parse(Scheat *, Token *);
 
 }
 

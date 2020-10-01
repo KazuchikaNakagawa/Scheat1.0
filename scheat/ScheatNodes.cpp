@@ -189,7 +189,7 @@ void LegacyScheatParser::E9::CreateMainContext(){
     main_Context->stream_tail << "ret i32 0\n}\n";
 }
 
-p_unique(Term) Term::create(std::unique_ptr<TermNode> term){
+p_unique(node::Term) node::Term::create(std::unique_ptr<node::TermNode> term){
     p_unique(Term) t = std::make_unique<Term>();
     t->opTok = nullptr;
     t->terms = nullptr;
@@ -198,7 +198,7 @@ p_unique(Term) Term::create(std::unique_ptr<TermNode> term){
     return t;
 };
 
-p_unique(Term) Term::create(std::unique_ptr<Term> term, scheat::Token *opT, std::unique_ptr<TermNode> tn){
+p_unique(node::Term) node::Term::create(std::unique_ptr<Term> term, scheat::Token *opT, std::unique_ptr<TermNode> tn){
     p_unique(Term) t = std::make_unique<Term>();
     t->terms = move(term);
     t->opTok = opT;
@@ -228,7 +228,7 @@ static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs,
     return nullptr;
 }
 
-node::NodeData *Term::codegen(IRStream &f){
+node::NodeData *node::Term::codegen(IRStream &f){
     if (ident != nullptr) {
         return ident->codegen(f);
     }
@@ -244,7 +244,7 @@ node::NodeData *Term::codegen(IRStream &f){
     return nullptr;
 }
 
-class TermIdentifier : public Term {
+class TermIdentifier : public node::Term {
     scheat::Token *idTok;
 public:
     __deprecated TermIdentifier(scheat::Token *t) : idTok(t), Term() {};
@@ -262,7 +262,7 @@ public:
     
 };
 
-class TermInt : public TermNode {
+class TermInt : public node::TermNode {
     scheat::Token *itok;
     
 public:
@@ -284,7 +284,7 @@ public:
     ~TermInt() {};
 };
 
-p_unique(PrimaryExpr) PrimaryExpr::make(p_unique(Term) t){
+p_unique(node::PrimaryExpr) node::PrimaryExpr::make(p_unique(node::Term) t){
     p_unique(PrimaryExpr) ex = std::make_unique<PrimaryExpr>();
     ex->exprs = nullptr;
     ex->opTok = nullptr;
@@ -294,7 +294,7 @@ p_unique(PrimaryExpr) PrimaryExpr::make(p_unique(Term) t){
     return ex;
 }
 
-p_unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> e, scheat::Token *token, std::unique_ptr<Term> t){
+p_unique(node::PrimaryExpr) node::PrimaryExpr::make(std::unique_ptr<PrimaryExpr> e, scheat::Token *token, std::unique_ptr<Term> t){
     p_unique(PrimaryExpr) ex = std::make_unique<PrimaryExpr>();
     ex->exprs = std::move(e);
     ex->opTok = token;
@@ -355,7 +355,7 @@ static node::NodeData *subFunc_OpInt_Primary(IRStream &f, node::NodeData *lhs, s
     return nullptr;
 }
 
-node::NodeData *PrimaryExpr::codegen(IRStream &f){
+node::NodeData *node::PrimaryExpr::codegen(IRStream &f){
     if (exprs == nullptr) {
         return term->codegen(f);
     }
@@ -427,7 +427,7 @@ node::NodeData *PrimaryExpr::codegen(IRStream &f){
     return nullptr;
 }
 
-class PrimaryExprInt : public Expr {
+class PrimaryExprInt : public node::Expr {
     p_unique(PrimaryExprInt) exprs;
     scheat::Token *opTok;
     p_unique(TermInt) term;
@@ -514,21 +514,21 @@ node::NodeData *PrimaryExprInt::codegen(IRStream &f){
     return nullptr;
 }
 
-p_unique(IntTerm) IntTerm::make(Token *tok) {
+p_unique(node::IntTerm) node::IntTerm::make(Token *tok) {
     auto i = std::make_unique<IntTerm>();
     i->ident = nullptr;
     i->valToken = tok;
     return i;
 }
 
-p_unique(IntTerm) IntTerm::make(p_unique(IdentifierExpr) ie){
+p_unique(node::IntTerm) node::IntTerm::make(p_unique(IdentifierExpr) ie){
     auto i = std::make_unique<IntTerm>();
     i->ident = move(ie);
     i->valToken = nullptr;
     return i;
 }
 
-NodeData *IntTerm::codegen(IRStream &f){
+NodeData *node::IntTerm::codegen(IRStream &f){
     if (ident != nullptr) {
         auto k = ident->codegen(f);
         if (k->size.ir_used != "i32") {
@@ -584,7 +584,7 @@ p_unique(TermInt) TermInt::init(scheat::Token *i){
     return std::make_unique<TermInt>(i);
 }
 
-p_unique(IdentifierTerm) IdentifierTerm::create(std::string v, bool n){
+p_unique(node::IdentifierTerm) node::IdentifierTerm::create(std::string v, bool n){
     auto cond = local_context.top()->isExists(v);
     if (cond && !n) {
         scheato->FatalError(__FILE_NAME__, __LINE__, "%s already exists.", v.c_str());
@@ -608,7 +608,7 @@ void PrintStatement::dump(IRStream &f){
     scheato->Log(__FILE_NAME__, __LINE__, "jump print");
 }
 
-NodeData *IdentifierExpr::codegen(IRStream &f){
+NodeData *node::IdentifierExpr::codegen(IRStream &f){
     if (expr == nullptr) {
         auto v = local_context.top()->findVariable(term->codegen(f)->value);
         if (v == nullptr) {
@@ -656,7 +656,7 @@ NodeData *IdentifierExpr::codegen(IRStream &f){
     return nullptr;
 }
 
-NodeData *IdentifierTerm::codegen(IRStream &f){
+NodeData *node::IdentifierTerm::codegen(IRStream &f){
     if (!isFunction) {
         return new NodeData(value, "VARIABLE");
     }else{
@@ -675,20 +675,20 @@ NodeData *PrintStatement::codegen(IRStream &f){
     return nullptr;
 }
 
-NodeData *Statements::codegen(IRStream &f){
+NodeData *node::Statements::codegen(IRStream &f){
     stmts->codegen(f);
     stmt->codegen(f);
     return nullptr;
 }
 
-p_unique(Statements) Statements::make(p_unique(StatementNode) st, p_unique(Statements) sts){
+p_unique(node::Statements) node::Statements::make(p_unique(StatementNode) st, p_unique(Statements) sts){
     auto obj = std::make_unique<Statements>();
     obj->stmt = move(st);
     obj->stmts = move(sts);
     return obj;
 }
 
-p_unique(Expr) Expr::make(std::unique_ptr<PrimaryExpr> lhs, Token *opTok, p_unique(Expr) rhs){
+p_unique(node::Expr) node::Expr::make(std::unique_ptr<PrimaryExpr> lhs, Token *opTok, p_unique(Expr) rhs){
     auto e = std::make_unique<Expr>();
     e->body = move(lhs);
     e->node_size = e->body->node_size;
@@ -702,14 +702,14 @@ p_unique(Expr) Expr::make(std::unique_ptr<PrimaryExpr> lhs, Token *opTok, p_uniq
     return e;
 }
 
-p_unique(Expr) Expr::make(std::unique_ptr<Expr> expr, Token *op){
+p_unique(node::Expr) node::Expr::make(std::unique_ptr<Expr> expr, Token *op){
     auto e = std::make_unique<Expr>();
     e->exprs = move(expr);
     e->op = op;
     return e;
 }
 
-p_unique(Term) Term::create(std::unique_ptr<Expr> parenExpr){
+p_unique(node::Term) node::Term::create(std::unique_ptr<Expr> parenExpr){
     auto k = std::make_unique<Term>();
     k->opTok = nullptr;
     k->terms = nullptr;
@@ -717,7 +717,7 @@ p_unique(Term) Term::create(std::unique_ptr<Expr> parenExpr){
     return k;
 }
 
-NodeData *Expr::codegen(IRStream &f){
+NodeData *node::Expr::codegen(IRStream &f){
     if (exprs != nullptr && op != nullptr) {
         auto r = local_context.top()->getRegister();
         auto nd = exprs->codegen(f);
@@ -736,7 +736,7 @@ NodeData *Expr::codegen(IRStream &f){
     return nullptr;
 }
 
-p_unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> expr, Token *opt){
+p_unique(node::PrimaryExpr) node::PrimaryExpr::make(std::unique_ptr<PrimaryExpr> expr, Token *opt){
     auto u = std::make_unique<PrimaryExpr>();
     u->exprs = move(expr);
     u->opTok = opt;
@@ -744,7 +744,7 @@ p_unique(PrimaryExpr) PrimaryExpr::make(std::unique_ptr<PrimaryExpr> expr, Token
     return nullptr;
 }
 
-p_unique(Term) Term::create(std::unique_ptr<IdentifierExpr> id){
+p_unique(node::Term) node::Term::create(std::unique_ptr<IdentifierExpr> id){
     auto t = make_p(Term)();
     t->ident = move(id);
     t->exprNode = nullptr;
@@ -753,7 +753,7 @@ p_unique(Term) Term::create(std::unique_ptr<IdentifierExpr> id){
     return t;
 }
 
-p_unique(IdentifierExpr) IdentifierExpr::create(std::unique_ptr<IdentifierTerm> term, Token *opTok, std::unique_ptr<IdentifierExpr> expr){
+p_unique(node::IdentifierExpr) node::IdentifierExpr::create(std::unique_ptr<IdentifierTerm> term, Token *opTok, std::unique_ptr<IdentifierExpr> expr){
     auto k = make_p(IdentifierExpr)();
     k->expr = move(expr);
     k->opTok = opTok;

@@ -285,6 +285,12 @@ public:
     Value * codegen(IRStream &) override;
 };
 
+// ====================================
+class DataHolder {
+public:
+    unique_ptr<Statements> statements = nullptr;
+};
+
 }
 
 }

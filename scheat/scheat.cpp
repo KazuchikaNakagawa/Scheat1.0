@@ -103,6 +103,7 @@ void OldScheat::old_FatalError(const char *msg, unsigned int line){
 
 void Scheat::Warning(const char *fn, unsigned int line, const char *format, ...){
     if (delegate != nullptr) {
+        delegate->warning(this, location, sourceFile, format);
         return;
     }
     if (deepDebug) {

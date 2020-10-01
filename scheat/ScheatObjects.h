@@ -9,6 +9,7 @@
 #define ScheatObjects_h
 #include <string>
 #include <vector>
+
 #define SV_P 14
 namespace scheat {
 class Token;
@@ -16,6 +17,8 @@ class Scheat;
 namespace LegacyScheatParser {
 extern void LLParse(Scheat *);
 }
+
+using namespace std;
 
 struct SourceLocation {
     int line;
@@ -47,6 +50,14 @@ public:
     
 };
 
+namespace yaNodes{
+
+class DataHolder;
+
+};
+
+using namespace yaNodes;
+
 /// represents a project file like CMakeLists.txt
 class Scheat {
     bool debug;
@@ -70,6 +81,7 @@ public:
     std::string header_search_path;
     std::string library_search_path;
     ScheatDelegate *delegate = nullptr;
+    DataHolder *statements = nullptr;
     void debugSet(bool o) {
         debug = o;
     };
