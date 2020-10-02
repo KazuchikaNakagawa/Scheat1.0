@@ -12,7 +12,7 @@
 #include <string>
 #include "ScheatNodes.h"
 #include "ScheatContext.h"
-#include "ScheatParser.h"
+#include "ScheatParserStatics.h"
 
 namespace scheat {
 

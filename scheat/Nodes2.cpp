@@ -5,10 +5,10 @@
 //  Created by かずちか on 2020/09/26.
 //
 
-#include "YANodes.h"
-#include "ScheatParser.h"
+#include "Nodes2.h"
+#include "ScheatParserStatics.h"
 using namespace scheat;
-using namespace scheat::yaNodes;
+using namespace scheat::nodes2;
 using namespace std;
 using namespace basics;
 using scheat::statics::contextCenter;

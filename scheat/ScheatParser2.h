@@ -13,13 +13,13 @@
 #include <stack>
 #include <map>
 #include <string>
-#include "YANodes.h"
-#include "ScheatParser.h"
+#include "Nodes2.h"
+#include "ScheatParserStatics.h"
 #include "ScheatContext.h"
 
 namespace scheat {
 using namespace std;
-using namespace yaNodes;
+using namespace nodes2;
 namespace parser2 {
 
 // this parser was started to build another type of parser.

@@ -5,7 +5,7 @@
 //  Created by かずちか on 2020/09/26.
 //
 
-#include "YAScheatParser.h"
+#include "ScheatParser2.h"
 
 /*
  Parsing
@@ -26,7 +26,7 @@
 using namespace std;
 using namespace scheat;
 using namespace basics;
-using namespace yaNodes;
+using namespace nodes2;
 using namespace parser2;
 using scheat::statics::contextCenter;
 using scheat::statics::global_context;

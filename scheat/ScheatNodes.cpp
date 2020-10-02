@@ -11,7 +11,7 @@
 #include "Lexer.hpp"
 #include "ScheatContext.h"
 #include "ScheatNodes.h"
-#include "ScheatParser.h"
+#include "ScheatParserStatics.h"
 #include <fstream>
 #include <iostream>
 #include <stdio.h>
@@ -137,7 +137,7 @@ void LegacyScheatParser::E9::InitializeContexts(){
     global_context->stream_body << "declare %String* @String_add(%String*, %String*)\n";
     global_context->stream_body << "declare %String* @String_copy(%String*)\n";
     global_context->stream_body << "declare void @Array_append(%Array*, i8*)\n";
-    global_context->stream_body << "declare void @Array_at(%Array*, i32)\n";
+    global_context->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global_context->stream_body << "declare %Array @Array_init(i64)\n";
     //global_context->stream_body << "declare i8* ";
     main_Context = nullptr;

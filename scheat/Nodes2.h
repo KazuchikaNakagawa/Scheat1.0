@@ -17,7 +17,7 @@ namespace scheat {
 using namespace std;
 using namespace basics;
 
-namespace yaNodes {
+namespace nodes2 {
 
 class Value {
 public:

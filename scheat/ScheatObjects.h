@@ -50,13 +50,13 @@ public:
     
 };
 
-namespace yaNodes{
+namespace nodes2{
 
 class DataHolder;
 
 };
 
-using namespace yaNodes;
+using namespace nodes2;
 
 /// represents a project file like CMakeLists.txt
 class Scheat {
