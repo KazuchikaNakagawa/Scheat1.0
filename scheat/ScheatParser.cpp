@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "ScheatNodes.h"
 #include "ScheatBasicStructures.h"
-#include "ScheatParserStatics.h"
+#include "ScheatStatics.h"
 #include "LegacyTypeScheat.hpp"
 #include <fstream>
 #include <iostream>

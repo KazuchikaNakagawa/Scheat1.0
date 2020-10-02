@@ -9,6 +9,7 @@
 #include "ScheatBasicStructures.h"
 
 using namespace scheat;
+using namespace scheat::lexer;
 
 std::string Token::encodeOperator(){
     if (kind != TokenKind::val_operator) {
@@ -764,7 +765,7 @@ Token *Lexer::lexString(Scheat *sch, std::string sstream){
     return lexer.tokens;
 }
 
-Token *Lexer::lex(Scheat *sch){
+Token *Lexer::lexThis(Scheat *sch){
     std::ifstream ifs(sch->sourceFile);
     if (!ifs.is_open()) {
         sch->Warning(__FILE_NAME__, __LINE__, "file %s does not exists. ", sch->sourceFile.c_str());

@@ -9,11 +9,13 @@
 #define ScheatObjects_h
 #include <string>
 #include <vector>
+#include <type_traits>
 
 #define SV_P 14
 namespace scheat {
 class Token;
 class Scheat;
+class ScheatLexer;
 namespace LegacyScheatParser {
 extern void LLParse(Scheat *);
 }
@@ -63,7 +65,7 @@ class Scheat {
     bool debug;
     bool deepDebug;
     bool hasError;
-    scheat::Token *tokens;
+    
     
 public:
     /// returns true if this fails to compile.
@@ -72,7 +74,7 @@ public:
     
     /// location to be compiled
     SourceLocation location;
-    
+    scheat::Token *tokens;
     std::string sourceFile = "";
     std::string targettingFile;
     std::string outputFilePath;
@@ -87,6 +89,11 @@ public:
     };
     void allowDeepDebug(bool b){
         deepDebug = b;
+    };
+    template<class Lxr = ScheatLexer> void lex(){
+        if (is_base_of<Lxr, ScheatLexer>::value){
+            Lxr::lex(this);
+        }
     };
     void FatalError(const char *, unsigned int, const char *, ...) ;
     void Log(const char *,unsigned int, const char *, ...);

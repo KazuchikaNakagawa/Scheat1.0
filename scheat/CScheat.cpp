@@ -19,7 +19,7 @@ bool scheat_build(const char *outputPath, const char *option, const char *source
     scheatprj->sourceFile = std::string(sourceFilePath);
     scheatprj->header_search_path = std::string(headerSearchPath);
     scheatprj->library_search_path = string(librarySearchPath);
-    Lexer::lex(scheatprj);
+    lexer::Lexer::lexThis(scheatprj);
     if (scheatprj->hasProbrem()) {
         return false;
     }

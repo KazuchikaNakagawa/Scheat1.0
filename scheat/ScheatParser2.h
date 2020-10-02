@@ -14,7 +14,7 @@
 #include <map>
 #include <string>
 #include "Nodes2.h"
-#include "ScheatParserStatics.h"
+#include "ScheatStatics.h"
 #include "ScheatContext.h"
 
 namespace scheat {

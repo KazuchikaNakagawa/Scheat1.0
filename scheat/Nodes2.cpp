@@ -6,7 +6,7 @@
 //
 
 #include "Nodes2.h"
-#include "ScheatParserStatics.h"
+#include "ScheatStatics.h"
 using namespace scheat;
 using namespace scheat::nodes2;
 using namespace std;

@@ -11,12 +11,13 @@
 #include <stdio.h>
 #include "ScheatObjects.h"
 #include "ScheatBasicStructures.h"
+#include "Classes.h"
 #include <fstream>
 
 namespace scheat {
 class Scheat;
 
-
+namespace lexer {
 enum LexerState {
     commentState,
     longCommentState,
@@ -29,7 +30,7 @@ enum LexerState {
     ErrorState,
 };
 
-class Lexer {
+class Lexer : public ScheatLexer {
     std::string buf;
     LexerState state;
     scheat::Scheat *host;
@@ -55,8 +56,18 @@ public:
     
     static Token *lexString(Scheat *, std::string);
     
-    static Token *lex(Scheat *);
-    
+    static Token *lexThis(Scheat *);
+    void lex(Scheat *sch) override {
+        lexThis(sch);
+    };
+    Token * getNextTok() override{
+        tokens = tokens->next;
+        return tokens;
+    }
+    Token * eatThisTok() override{
+        tokens = tokens->next;
+        return tokens;
+    }
     // this function has fatal probrem
     // void addToken();
     void clear();
@@ -64,7 +75,7 @@ public:
     Token *getTokens() { return tokens; };
 };
 
-
+}
 }
 
 #endif /* Lexer_hpp */

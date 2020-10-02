@@ -11,7 +11,7 @@
 #include "Lexer.hpp"
 #include "ScheatContext.h"
 #include "ScheatNodes.h"
-#include "ScheatParserStatics.h"
+#include "ScheatStatics.h"
 #include <fstream>
 #include <iostream>
 #include <stdio.h>
@@ -34,51 +34,51 @@ using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
 
-static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
-    if (data->size.ir_used[0] == '%') {
-        auto a = global_context->findClass(data->size.name);
-        if (a == nullptr) {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "Domestic Error. %s is undefined.", data->size.ir_used.c_str());
-        }
-        if (a->type->name == to->name) {
-            auto r = local_context.top()->getRegister();
-            f << r << " = bitcast " << data->size.ir_used << "* " << data->value << " to " << to->ir_used << "*\n";
-        }
-    }
-    if (data->size.ir_used[0] == 'i') {
-        
-    }
-    return nullptr;
-};
+//static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
+//    if (data->size.ir_used[0] == '%') {
+//        auto a = global_context->findClass(data->size.name);
+//        if (a == nullptr) {
+//            scheato->FatalError(__FILE_NAME__, __LINE__, "Domestic Error. %s is undefined.", data->size.ir_used.c_str());
+//        }
+//        if (a->type->name == to->name) {
+//            auto r = local_context.top()->getRegister();
+//            f << r << " = bitcast " << data->size.ir_used << "* " << data->value << " to " << to->ir_used << "*\n";
+//        }
+//    }
+//    if (data->size.ir_used[0] == 'i') {
+//
+//    }
+//    return nullptr;
+//};
 
-Function::Function(std::string type, std::string nm) : return_type(type){
-    mangledName = "@" + local_context.top()->name + "_" + nm;
-    name = nm;
-    argTypes = {};
-    context = Context::create(nm, local_context.top());
-}
+//Function::Function(std::string type, std::string nm) : return_type(type){
+//    mangledName = "@" + local_context.top()->name + "_" + nm;
+//    name = nm;
+//    argTypes = {};
+//    context = Context::create(nm, local_context.top());
+//}
 
-void Context::addFunction(std::string key, Function *value){
-    funcs[key] = value;
-}
+//void Context::addFunction(std::string key, Function *value){
+//    funcs[key] = value;
+//}
 
-void Context::addClass(std::string key, Class *value){
-    classes[key] = value;
-}
+//void Context::addClass(std::string key, Class *value){
+//    classes[key] = value;
+//}
 
-void Context::addVariable(std::string key, Variable *value){
-    variables[key] = value;
-}
+//void Context::addVariable(std::string key, Variable *value){
+//    variables[key] = value;
+//}
 
-bool Context::isExists(std::string key){
-    if (variables[key] != nullptr) {
-        return true;
-    }
-    if (funcs[key] != nullptr) {
-        return true;
-    }
-    return false;
-}
+//bool Context::isExists(std::string key){
+//    if (variables[key] != nullptr) {
+//        return true;
+//    }
+//    if (funcs[key] != nullptr) {
+//        return true;
+//    }
+//    return false;
+//}
 
 std::string Context::getRegister(){
     std::string v = "%r" + std::to_string(rnum);

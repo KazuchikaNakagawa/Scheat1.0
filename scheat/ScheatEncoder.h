@@ -10,4 +10,18 @@
 
 #include <stdio.h>
 
+namespace scheat {
+
+namespace encoder {
+
+// Low Layer Scheat Compiler
+// Compile scheat to LLVM IR an to object file.
+class LLSCEncoder {
+    
+};
+
+};
+
+}
+
 #endif /* ScheatEncoder_hpp */
