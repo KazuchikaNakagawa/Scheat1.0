@@ -9,6 +9,7 @@
 #define ScheatEncoder_hpp
 
 #include <stdio.h>
+#include "Nodes2.h"
 
 namespace scheat {
 

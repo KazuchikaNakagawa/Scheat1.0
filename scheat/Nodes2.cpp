@@ -265,6 +265,15 @@ Value *IdentifierExpr::codegenAsRef(IRStream &f){
 }
 
 Value *IdentifierExpr::codegen(IRStream &f){
+    if (rhs->isFunc) {
+        auto r = local_context.top()->getRegister();
+        auto ter = Term::init(move(lhs));
+        auto pri = PrimaryExpr::init(move(ter));
+        auto e = Expr::init(move(pri));
+        rhs->args.insert(rhs->args.begin(), move(e));
+        auto v = rhs->codegen(f);
+        f << r << " = call " << v->type.ir_used << " " << rhs->funcptr->getMangledName() << "(" << v->value << ")\n";
+    }
     auto v = codegenAsRef(f);
     if (!v) {
         scheato->FatalError(__FILE_NAME__, __LINE__,

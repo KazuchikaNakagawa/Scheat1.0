@@ -27,7 +27,8 @@ public:
 
 class ScheatEncoder {
 public:
-    
+    virtual void encode(Scheat *);
+    virtual ~ScheatEncoder() {};
 };
 
 
