@@ -70,3 +70,29 @@ extern void parser2::parse(Scheat *sch,Token *tokens){
     return;
 };
 
+extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
+    auto sts = make_unique<Statement>();
+    sts -> statement = parseStatement_single(tokens);
+    if (!sts->statement) {
+        return nullptr;
+    }
+    unique_ptr<StatementNode> s = nullptr;
+    while (s = parseStatement_single(tokens) , s != nullptr) {
+        sts->statement = move(s);
+        if (tokens->kind == TokenKind::tok_period) {
+            sts->perTok = tokens;
+            eatThis(tokens);
+        }else if (tokens->kind == TokenKind::tok_comma){
+            sts->perTok = tokens;
+            eatThis(tokens);
+        }else{
+            return nullptr;
+        }
+        sts = make_unique<Statement>(move(sts));
+    }
+    return nullptr;
+}
+
+extern unique_ptr<StatementNode> parser2::parseStatement_single(Token *&tokens){
+    return nullptr;
+}

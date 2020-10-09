@@ -123,6 +123,7 @@ void LegacyScheatParser::E9::InitializeContexts(){
     global_context->stream_body << "%ScheatShortConstString = type{ i8, [7 x i8] }\n";
     global_context->stream_body << "%Array = type{ i32, i64, i8* }\n";
     global_context->stream_body << "%union_buf = type{ %ScheatShortConstString }\n";
+    global_context->stream_body << "%String = type{ %union_buf }\n";
     global_context->stream_body << "declare void @print_return()\n";
     global_context->stream_body << "declare void @print_i32(i32)\n";
     global_context->stream_body << "declare void @print_i8x(i8*)\n";

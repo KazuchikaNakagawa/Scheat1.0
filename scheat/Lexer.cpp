@@ -741,7 +741,7 @@ void Lexer::lex(std::string str){
 }
 
 std::string basics::Function::codegen(IRStream &f){
-    f << "declare " << return_type.ir_used << " @" << name << "(";
+    f << "define " << return_type.ir_used << " @" << name << "(";
     int i = 0;
     for (auto arg = argTypes.begin(); arg != argTypes.end(); arg = std::next(arg)) {
         f << (*arg).ir_used << " %" << std::to_string(i);
