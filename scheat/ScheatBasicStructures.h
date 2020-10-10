@@ -283,7 +283,7 @@ class Class {
     unsigned int propCount = 0;
 public:
     std::map<std::string, unsigned int> properties;
-    std::map<std::string, Operator> operators;
+    std::map<std::string, Operator*> operators;
     std::vector<TypeData *> bitMap;
     Class *parentClass;
     TypeData *type;

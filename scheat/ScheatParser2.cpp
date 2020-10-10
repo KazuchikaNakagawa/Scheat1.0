@@ -37,11 +37,34 @@ using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
 
+static bool isValue(Token *tok){
+    switch (tok->kind) {
+        case scheat::TokenKind::val_num:
+            return true;
+            break;
+        case scheat::TokenKind::val_operator:
+            return true;
+        case scheat::TokenKind::val_str:
+            return true;
+        case scheat::TokenKind::val_bool:
+            return true;
+        case scheat::TokenKind::val_double:
+            return true;
+        case scheat::TokenKind::val_identifier:
+            return true;
+        default:
+            break;
+    }
+    return false;
+}
+
 extern unique_ptr<Expr> parseExpr(Token *&tok){
+    parsePrefix:
+    // op primary
     if (tok->kind == scheat::TokenKind::val_operator) {
         Token *saved = tok;
         Token *saved2 = tok->next;
-        auto primary = parsePrimary(saved2);
+        auto primary = parser2::parseExpr(saved2);
         if (!primary) {
             return nullptr;
         }
@@ -59,16 +82,45 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
         auto opiter = type->operators.find(saved->value.strValue);
         
         if (opiter == type->operators.end()) {
+            // op (expr) -> (op expr)
             tok = saved;
-            auto prim =  parser2::parsePrimary(tok);
-            if (!prim) {
-                return nullptr;
-            }
-            return Expr::init(move(prim));
+            goto parseLhs;
         }
         
+        if ((*opiter).second->precidence != scheat::basics::Operator::secondary) {
+            // op (expr) -> (op expr)
+            tok = saved;
+            
+            goto parseLhs;
+        }
         
+        return Expr::initAsPrefixOperatorExpr((*opiter).second, move(primary));
     }
+    parseLhs:
+    auto prim =  parser2::parsePrimary(tok);
+    if (!prim) {
+        return nullptr;
+    }
+    auto type = global_context->findClass(prim->type.name);
+    if (!type) {
+        scheato->FatalError(__FILE_NAME__, __LINE__,
+                            "in %d.%d Unknown type %s",
+                            prim->location.line,
+                            prim->location.column,
+                            prim->type.name.c_str());
+    }
+    parseInfix:
+    if (tok->kind == scheat::TokenKind::val_operator) {
+        // check if infix or postfix
+        if (isValue(tok)) {
+            goto parsePostFix;
+        }
+    }else{
+        return Expr::init(move(prim));
+    }
+    parsePostFix:
+    
+    result:
     return nullptr;
 }
 
