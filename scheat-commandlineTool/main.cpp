@@ -66,19 +66,28 @@ int main(int argc, const char *argv[]){
     if (strcmp(argv[1], "-lex") == 0) {
         scheat::Scheat sch = scheat::Scheat();
         
-        scheat::Lexer lexer = scheat::Lexer(&sch);
+        scheat::lexer::Lexer lexer(&sch);
         if (argc == 2){
-            
-            std::string kv;
-            std::cout << "> ";
-            std::getline(std::cin, kv);
-            lexer.lex(kv);
+            while (true){
+                std::string kv;
+                lexer.clearTokens();
+                std::cout << "> ";
+                std::getline(std::cin, kv);
+                if (kv == "\\q") {
+                    
+                    break;
+                }
+                lexer.lex(kv);
+                
+                lexer.getTokens()->enumerate();
+            }
         }else if (argc == 3 && strcmp(argv[2], "-wdebug") == 0){
             sch.allowDeepDebug(true);
             std::string kv;
             std::cout << "> ";
             std::getline(std::cin, kv);
             lexer.lex(kv);
+            lexer.getTokens()->enumerate();
         }else if (argc == 3){
             std::cout << "this option was obsoluted..." << std::endl;
             return 0;
@@ -88,7 +97,7 @@ int main(int argc, const char *argv[]){
             lexer.lex(ifs);
         }*/
         
-        lexer.getTokens()->enumerate();
+        
         return 0;
     }
     printf("Illegal command options. To show helps, try scheat -help\n");

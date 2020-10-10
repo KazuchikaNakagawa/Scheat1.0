@@ -114,6 +114,14 @@ struct Token {
         value.intValue = 0;
         location = SourceLocation();
     }
+    void release(){
+        
+        if (prev != nullptr) {
+            prev->release();
+            prev = nullptr;
+        }
+        delete this;
+    }
     Token(Token &&) {};
     Token(const Token &) {};
 };

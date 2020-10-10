@@ -33,9 +33,9 @@ enum LexerState {
 class Lexer : public ScheatLexer {
     std::string buf;
     LexerState state;
-    scheat::Scheat *host;
+    scheat::Scheat *host = nullptr;
     SourceLocation &location;
-    Token *tokens;
+    Token *tokens = nullptr;
     void input(int c, int next);
     void genTok();
     int commentDepth;
@@ -71,6 +71,14 @@ public:
     // this function has fatal probrem
     // void addToken();
     void clear();
+    
+    void clearTokens() {
+        if (tokens == nullptr) {
+            return;
+        }
+        tokens->release();
+        tokens = nullptr;
+    }
     
     Token *getTokens() { return tokens; };
 };

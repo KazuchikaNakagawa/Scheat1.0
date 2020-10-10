@@ -244,6 +244,10 @@ public:
     unique_ptr<Statement> stmt;
     Value * codegen(IRStream &) override;
     string userdump() override;
+    Statement() {};
+    Statement(unique_ptr<Statement> stn){
+        stmt = move(stn);
+    }
 };
 
 // statements : statement

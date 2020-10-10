@@ -37,6 +37,41 @@ using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
 
+extern unique_ptr<Expr> parseExpr(Token *&tok){
+    if (tok->kind == scheat::TokenKind::val_operator) {
+        Token *saved = tok;
+        Token *saved2 = tok->next;
+        auto primary = parsePrimary(saved2);
+        if (!primary) {
+            return nullptr;
+        }
+        if (!scheato->hasProbrem()) {
+            tok = saved2;
+        }
+        auto type = global_context->findClass(primary->type.name);
+        if (type == nullptr) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "in %d.%d Unknown type %s",
+                                primary->location.line,
+                                primary->location.column,
+                                primary->type.name.c_str());
+        }
+        auto opiter = type->operators.find(saved->value.strValue);
+        
+        if (opiter == type->operators.end()) {
+            tok = saved;
+            auto prim =  parser2::parsePrimary(tok);
+            if (!prim) {
+                return nullptr;
+            }
+            return Expr::init(move(prim));
+        }
+        
+        
+    }
+    return nullptr;
+}
+
 extern void parser2::parse(Scheat *sch,Token *tokens){
     scheato = sch;
     sch->statements = new DataHolder();

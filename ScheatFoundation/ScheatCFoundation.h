@@ -58,13 +58,7 @@ extern "C" struct Array {
     void *begPtr;
 };
 
-extern "C" Array Array_init(uint64_t size){
-    Array arr;
-    arr.begPtr = nullptr;
-    arr.count = 0;
-    arr.elemSize = size;
-    return arr;
-};
+extern "C" Array Array_init(uint64_t size);
 
 extern "C" void Array_append(Array *, void *);
 

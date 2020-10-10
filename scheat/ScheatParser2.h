@@ -30,11 +30,11 @@ unique_ptr<Statement> parseStatement(Token *&);
 
 unique_ptr<StatementNode> parseStatement_single(Token *&);
 
-void parseExpr(Token *&);
+unique_ptr<Expr> parseExpr(Token *&);
 
-void parsePrimary(Token *&);
+unique_ptr<PrimaryExpr> parsePrimary(Token *&);
 
-void parseTerm(Token *&);
+unique_ptr<Term> parseTerm(Token *&);
 
 }
 

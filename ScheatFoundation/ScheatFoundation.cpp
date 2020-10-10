@@ -126,6 +126,14 @@ String ScheatString_copy(String *ss){
     
 }
 
+Array Array_init(uint64_t size){
+    Array arr;
+    arr.begPtr = nullptr;
+    arr.count = 0;
+    arr.elemSize = size;
+    return arr;
+}
+
 String ScheatString_add(String *lhs, String *rhs){
     String str;
     unsigned long ll = 0;
