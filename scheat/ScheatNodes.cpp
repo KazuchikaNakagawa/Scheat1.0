@@ -394,13 +394,13 @@ node::NodeData *node::PrimaryExpr::codegen(IRStream &f){
         }
         
         auto r = local_context.top()->getRegister();
-        if (op.position == op.infix) {
+        if (op->position == op->infix) {
             f << r << " = call " << fu->lltype() << " "
             << fu->getMangledName() << "(" << lhs->size.ir_used << "* " <<
             lhs->value << ", " << rhs->size.ir_used << "* " << rhs->value << ")\n";
         }
         
-        if (op.position == op.prefix || op.position == op.postfix) {
+        if (op->position == op->prefix || op->position == op->postfix) {
             f << r << " call " << fu->lltype() << " " << fu->getMangledName() << "(" << lhs->size.ir_used << "* " << lhs->value << ")\n";
         }
         
@@ -711,8 +711,8 @@ NodeData *node::Expr::codegen(IRStream &f){
                                 op->value.strValue.c_str());
         }
         auto Oper = cl->operators[op->value.strValue];
-        f << r << " = call " << Oper.return_type.ir_used << "* ("
-        << nd->size.ir_used << "*) " << Oper.func_name << "("
+        f << r << " = call " << Oper->return_type.ir_used << "* ("
+        << nd->size.ir_used << "*) " << Oper->func_name << "("
         << nd->size.ir_used << "* " << nd->value << ")\n";
     }
     return nullptr;

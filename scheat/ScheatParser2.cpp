@@ -109,8 +109,11 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
                             prim->location.column,
                             prim->type.name.c_str());
     }
+    Token *optok = nullptr;
     parseInfix:
     if (tok->kind == scheat::TokenKind::val_operator) {
+        optok = tok;
+        eatThis(tok);
         // check if infix or postfix
         if (isValue(tok)) {
             goto parsePostFix;
@@ -119,7 +122,34 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
         return Expr::init(move(prim));
     }
     parsePostFix:
-    
+    auto expr = parser2::parseExpr(tok);
+    auto typer = global_context->findClass(expr->type.name);
+    auto oper = type->operators[optok->value.strValue];
+    if (oper == nullptr) {
+        scheato->FatalError(__FILE_NAME__, __LINE__,
+                            "in %d.%d type %s has no operator %s",
+                            prim->location.line,
+                            prim->location.column,
+                            prim->type.name.c_str(),
+                            optok->value.strValue.c_str());
+        return nullptr;
+    }
+    if (oper->position != scheat::basics::Operator::infix) {
+        scheato->FatalError(__FILE_NAME__, __LINE__,
+                            "in %d.%d operator %s is not a infix operator",
+                            optok->location.line,
+                            optok->location.column,
+                            optok->value.strValue.c_str());
+    }
+    if (expr->type == oper->rhs_type) {
+        scheato->FatalError(__FILE_NAME__, __LINE__,
+                            "operator %s(the %s, %s) does not exists",
+                            optok->value.strValue.c_str(),
+                            prim->type.name.c_str(),
+                            typer->context->name.c_str());
+        return nullptr;
+    }
+    return Expr::initAsOperatedExpr(move(prim), oper, move(expr));
     result:
     return nullptr;
 }
