@@ -110,18 +110,35 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
                             prim->type.name.c_str());
     }
     Token *optok = nullptr;
-    parseInfix:
+    parsePostfix:
     if (tok->kind == scheat::TokenKind::val_operator) {
         optok = tok;
         eatThis(tok);
         // check if infix or postfix
         if (isValue(tok)) {
-            goto parsePostFix;
+            goto parseInfix;
+        }
+        auto oper = type->operators[optok->value.strValue];
+        if (oper == nullptr) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "in %d.%d type %s has no operator %s",
+                                prim->location.line,
+                                prim->location.column,
+                                prim->type.name.c_str(),
+                                optok->value.strValue.c_str());
+            return nullptr;
+        }
+        if (oper->position != scheat::basics::Operator::postfix) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "in %d.%d operator %s is not a infix operator",
+                                optok->location.line,
+                                optok->location.column,
+                                optok->value.strValue.c_str());
         }
     }else{
         return Expr::init(move(prim));
     }
-    parsePostFix:
+    parseInfix:
     auto expr = parser2::parseExpr(tok);
     auto typer = global_context->findClass(expr->type.name);
     auto oper = type->operators[optok->value.strValue];
