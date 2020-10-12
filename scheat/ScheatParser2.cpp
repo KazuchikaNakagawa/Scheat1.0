@@ -58,26 +58,39 @@ static bool isValue(Token *tok){
     return false;
 }
 
+extern unique_ptr<PrimaryExpr> parsePrimary(Token *&tok){
+    parsePrefix:
+    if (tok->kind == scheat::TokenKind::val_operator) {
+        Token *savedOP = tok;
+        auto saved = tok->next;
+        auto primary = parser2::parsePrimary(saved);
+        if (!primary) {
+            return nullptr;
+        }
+    }
+    return nullptr;
+}
+
 extern unique_ptr<Expr> parseExpr(Token *&tok){
     parsePrefix:
     // op primary
     if (tok->kind == scheat::TokenKind::val_operator) {
         Token *saved = tok;
         Token *saved2 = tok->next;
-        auto primary = parser2::parseExpr(saved2);
-        if (!primary) {
+        auto expr = parser2::parseExpr(saved2);
+        if (!expr) {
             return nullptr;
         }
         if (!scheato->hasProbrem()) {
             tok = saved2;
         }
-        auto type = global_context->findClass(primary->type.name);
+        auto type = global_context->findClass(expr->type.name);
         if (type == nullptr) {
             scheato->FatalError(__FILE_NAME__, __LINE__,
                                 "in %d.%d Unknown type %s",
-                                primary->location.line,
-                                primary->location.column,
-                                primary->type.name.c_str());
+                                expr->location.line,
+                                expr->location.column,
+                                expr->type.name.c_str());
         }
         auto opiter = type->operators.find(saved->value.strValue);
         
@@ -94,7 +107,7 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
             goto parseLhs;
         }
         
-        return Expr::initAsPrefixOperatorExpr((*opiter).second, move(primary));
+        return Expr::initAsPrefixOperatorExpr((*opiter).second, move(expr));
     }
     parseLhs:
     auto prim =  parser2::parsePrimary(tok);
