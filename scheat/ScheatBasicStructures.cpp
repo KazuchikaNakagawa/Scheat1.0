@@ -33,6 +33,14 @@ std::string Function::getMangledName(){
     return mangledName + base;
 }
 
+Operator *Class::findOperator(string key){
+    auto iter = operators.find(key);
+    if (iter == operators.end()) {
+        return nullptr;
+    }
+    return iter->second;
+}
+
 std::string basics::Function::lltype(){
     std::string base = return_type.mangledName() + "(";
     for (int i = 0; i < argTypes.size(); i++) {

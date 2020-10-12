@@ -60,6 +60,7 @@ static bool isValue(Token *tok){
 
 extern unique_ptr<PrimaryExpr> parsePrimary(Token *&tok){
     parsePrefix:
+    // primary : OP primary
     if (tok->kind == scheat::TokenKind::val_operator) {
         Token *savedOP = tok;
         auto saved = tok->next;
@@ -72,14 +73,42 @@ extern unique_ptr<PrimaryExpr> parsePrimary(Token *&tok){
         }
         auto type = global_context->findClass(primary->type.name);
         if (!type) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(primary->location,
+                                __FILE_NAME__, __LINE__,
                                 "in %d.%d Unknown type %s",
                                 primary->location.line,
                                 primary->location.column,
                                 primary->type.name.c_str());
             return nullptr;
         }
+        auto op = type->findOperator(savedOP->value.strValue);
+        if (!op) {
+            goto parseInfix;
+        }else{
+            tok = saved;
+        }
+        if (op->position != op->prefix) {
+            scheato->FatalError(savedOP->location,
+                                __FILE_NAME__, __LINE__,
+                                "operator %s is not prefix operator",
+                                savedOP->value.strValue.c_str());
+            return nullptr;
+        }
+        if (primary->type != op->lhs_type) {
+            scheato->FatalError(savedOP->location, __FILE_NAME__, __LINE__,
+                                "operator %s(%s) is undefined",
+                                savedOP->value.strValue.c_str(),
+                                op->lhs_type->name.c_str());
+            return nullptr;
+        }
+        
     }
+    parseInfix:
+    auto term = parseTerm(tok);
+    if (!term) {
+        return nullptr;
+    }
+    
     return nullptr;
 }
 
@@ -99,7 +128,8 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
         }
         auto type = global_context->findClass(expr->type.name);
         if (type == nullptr) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(expr->location,
+                                __FILE_NAME__, __LINE__,
                                 "in %d.%d Unknown type %s",
                                 expr->location.line,
                                 expr->location.column,
@@ -130,7 +160,8 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
     }
     auto type = global_context->findClass(prim->type.name);
     if (!type) {
-        scheato->FatalError(__FILE_NAME__, __LINE__,
+        scheato->FatalError(prim->location,
+                            __FILE_NAME__, __LINE__,
                             "in %d.%d Unknown type %s",
                             prim->location.line,
                             prim->location.column,
@@ -148,7 +179,8 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
         }
         auto oper = type->operators[optok->value.strValue];
         if (oper == nullptr) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(prim->location,
+                                __FILE_NAME__, __LINE__,
                                 "in %d.%d type %s has no operator %s",
                                 prim->location.line,
                                 prim->location.column,
@@ -157,7 +189,8 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
             return nullptr;
         }
         if (oper->position != scheat::basics::Operator::postfix) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(optok->location,
+                                __FILE_NAME__, __LINE__,
                                 "in %d.%d operator %s is not a infix operator",
                                 optok->location.line,
                                 optok->location.column,
@@ -171,7 +204,8 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
     auto typer = global_context->findClass(expr->type.name);
     auto oper = type->operators[optok->value.strValue];
     if (oper == nullptr) {
-        scheato->FatalError(__FILE_NAME__, __LINE__,
+        scheato->FatalError(prim->location,
+                            __FILE_NAME__, __LINE__,
                             "in %d.%d type %s has no operator %s",
                             prim->location.line,
                             prim->location.column,
@@ -180,14 +214,16 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
         return nullptr;
     }
     if (oper->position != scheat::basics::Operator::infix) {
-        scheato->FatalError(__FILE_NAME__, __LINE__,
+        scheato->FatalError(optok->location,
+                            __FILE_NAME__, __LINE__,
                             "in %d.%d operator %s is not a infix operator",
                             optok->location.line,
                             optok->location.column,
                             optok->value.strValue.c_str());
     }
     if (expr->type == oper->rhs_type) {
-        scheato->FatalError(__FILE_NAME__, __LINE__,
+        scheato->FatalError(optok->location,
+                            __FILE_NAME__, __LINE__,
                             "operator %s(the %s, %s) does not exists",
                             optok->value.strValue.c_str(),
                             prim->type.name.c_str(),

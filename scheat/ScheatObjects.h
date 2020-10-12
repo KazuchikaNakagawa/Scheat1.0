@@ -95,10 +95,10 @@ public:
             Lxr::lex(this);
         }
     };
-    void FatalError(const char *, unsigned int, const char *, ...) ;
-    void Log(const char *,unsigned int, const char *, ...);
-    void Warning(const char *,unsigned int, const char *, ...);
-    void DevLog(const char *,unsigned int, const char *, ...);
+    void FatalError(SourceLocation, const char *, unsigned int, const char *, ...) ;
+    void Log(SourceLocation, const char *,unsigned int, const char *, ...);
+    void Warning(SourceLocation, const char *,unsigned int, const char *, ...);
+    void DevLog(SourceLocation, const char *,unsigned int, const char *, ...);
     Scheat();
     
     friend class Lexer;

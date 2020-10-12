@@ -288,6 +288,7 @@ public:
     Class *parentClass;
     TypeData *type;
     Context *context;
+    Operator *findOperator(string);
     Class(TypeData *ty);
 };
 }

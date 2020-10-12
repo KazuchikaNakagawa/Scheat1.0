@@ -30,7 +30,7 @@ static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
     if (data->size.ir_used[0] == '%') {
         auto a = global_context->findClass(data->size.name);
         if (a == nullptr) {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "Domestic Error. %s is undefined.", data->size.ir_used.c_str());
+            scheato->FatalError(scheato->location, __FILE_NAME__, __LINE__, "Domestic Error. %s is undefined.", data->size.ir_used.c_str());
         }
         if (a->type->name == to->name) {
             auto r = local_context.top()->getRegister();

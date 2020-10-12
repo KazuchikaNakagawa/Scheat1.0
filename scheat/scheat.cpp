@@ -54,7 +54,7 @@ void OldScheat::old_Debug(const char *msg, unsigned int line){
     printf("line%u : %s\n", line, msg);
 }
 
-void Scheat::FatalError(const char *fn, unsigned int line, const char *fmt, ...){
+void Scheat::FatalError(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
     hasError = true;
     if (delegate != nullptr) {
         delegate->fatalError(this,location, targettingFile, fmt);
@@ -101,7 +101,7 @@ void OldScheat::old_FatalError(const char *msg, unsigned int line){
     exit(0);
 }
 
-void Scheat::Warning(const char *fn, unsigned int line, const char *format, ...){
+void Scheat::Warning(SourceLocation location, const char *fn, unsigned int line, const char *format, ...){
     if (delegate != nullptr) {
         delegate->warning(this, location, sourceFile, format);
         return;
@@ -127,7 +127,7 @@ void Scheat::Warning(const char *fn, unsigned int line, const char *format, ...)
     printf("\n");
 }
 
-void Scheat::Log(const char *fn, unsigned int line, const char *fmt, ...){
+void Scheat::Log(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
     if (!debug) {
         return;
     }
@@ -165,7 +165,7 @@ Scheat::Scheat(){
     delegate = nullptr;
 }
 
-void Scheat::DevLog(const char *fn, unsigned int line, const char *fmt, ...){
+void Scheat::DevLog(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
     if (deepDebug) {
         printf("\033[1mLog:\033[m(from %s, line%u)\n in file: %s\n line%u.%u : ",
                fn,

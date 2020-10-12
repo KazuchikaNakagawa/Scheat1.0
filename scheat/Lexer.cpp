@@ -102,7 +102,7 @@ Lexer::Lexer(scheat::Scheat *host) : location(host->location){
 
 void Lexer::lex(std::ifstream &stream){
     if (!stream.is_open()) {
-        host->FatalError(__FILE_NAME__, __LINE__, "%s is not open",
+        host->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "%s is not open",
                          host->targettingFile.c_str());
     }
     int c;
@@ -336,7 +336,7 @@ void Lexer::genTok(){
     
     if (buf == "SCHEAT") {
         printf("Scheat is a new programming language.\n");
-        host->FatalError(__FILE_NAME__, __LINE__, "You cannot stop learning Scheat.");
+        host->FatalError(location, __FILE_NAME__, __LINE__, "You cannot stop learning Scheat.");
     }
     
     if (state == identifierState) {
@@ -449,7 +449,7 @@ void Lexer::input(int c, int next){
     if (host->hasProbrem()) {
         return;
     }
-    host->DevLog(__FILE_NAME__,__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
+    host->DevLog(location, __FILE_NAME__,__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
     if (c == '\0' || c == EOF) {
         return;
     }
@@ -570,7 +570,7 @@ void Lexer::input(int c, int next){
             buf.push_back(c);
             return;
         }
-        host->FatalError(__FILE_NAME__,__LINE__, "illegal character %c was input.", c);
+        host->FatalError(location, __FILE_NAME__,__LINE__, "illegal character %c was input.", c);
         return;
     }
     
@@ -599,7 +599,7 @@ void Lexer::input(int c, int next){
             state = doubleState;
             return;
         }
-        host->FatalError(__FILE_NAME__,__LINE__, "illegal character %c was input.", location.line, location.column, c);
+        host->FatalError(location, __FILE_NAME__,__LINE__, "illegal character %c was input.", location.line, location.column, c);
         return;
     }
     
@@ -626,7 +626,7 @@ void Lexer::input(int c, int next){
         }
         else if (isPossibleForPPPTok && next != '.'){
             // .. token
-            host->FatalError(__FILE_NAME__, __LINE__, "invalid input '..' . Did you mean '...'?");
+            host->FatalError(location, __FILE_NAME__, __LINE__, "invalid input '..' . Did you mean '...'?");
         }
         if (isalpha(next)) {
             AccessTokFlag = true;
@@ -715,7 +715,7 @@ void Lexer::input(int c, int next){
         return;
     }
     
-    host->FatalError(__FILE_NAME__,__LINE__, "in %d.%d illegal character %c was input.", location.line, location.column, c);
+    host->FatalError(location, __FILE_NAME__,__LINE__, "in %d.%d illegal character %c was input.", location.line, location.column, c);
 }
 
 void Token::enumerate(){
@@ -768,7 +768,7 @@ Token *Lexer::lexString(Scheat *sch, std::string sstream){
 Token *Lexer::lexThis(Scheat *sch){
     std::ifstream ifs(sch->sourceFile);
     if (!ifs.is_open()) {
-        sch->Warning(__FILE_NAME__, __LINE__, "file %s does not exists. ", sch->sourceFile.c_str());
+        sch->Warning(SourceLocation(), __FILE_NAME__, __LINE__, "file %s does not exists. ", sch->sourceFile.c_str());
         return nullptr;
     }
     Lexer lexer(sch);

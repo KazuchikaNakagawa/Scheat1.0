@@ -37,7 +37,7 @@ static void getNextTok(){
 static Token * BackwardIFExists(){
     auto tok = mTokens;
     if (tok->kind == scheat::TokenKind::tok_if) {
-        scheato->DevLog(__FILE_NAME__, __LINE__, "if token was detected but it seemed not to  be backward if");
+        scheato->DevLog(tok->location,__FILE_NAME__, __LINE__, "if token was detected but it seemed not to  be backward if");
         return nullptr;
     }
     while (tok->kind != scheat::TokenKind::tok_period) {
@@ -64,7 +64,8 @@ static IDData inferID(Token *&tok){
         auto idd = inferID(tok);
         auto v = local_context.top()->findVariable(idt->value.strValue);
         if (v == nullptr) {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "mendoi Error programmar became mendoi");
+            scheato->FatalError(idt->location, __FILE_NAME__, __LINE__, "identifier %s is not defined",
+                                idt->value.strValue.c_str());
             exit(0);
         }
         auto t = local_context.top()->findClass(v->type.name);
@@ -73,7 +74,9 @@ static IDData inferID(Token *&tok){
         }
         // Error if the member function doesn't exists
         if (t->properties.find(idd.valueName) == t->properties.end()) {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "mendoi Error programmar became mendoi");
+            scheato->FatalError(idt->location,
+                                __FILE_NAME__, __LINE__, "type %s is undefined",
+                                idd.type.name.c_str());
             exit(0);
         }
         
@@ -95,7 +98,8 @@ static IDData inferID(Token *&tok){
                     tok = tok->next;
                     i++;
                     if (i > 300) {
-                        scheato->FatalError(__FILE_NAME__, __LINE__, ") token was not found in 300 token.");
+                        scheato->FatalError(tok->location,
+                                            __FILE_NAME__, __LINE__, ") token was not found in 300 token.");
                     }
                 }
             }else{
@@ -103,8 +107,7 @@ static IDData inferID(Token *&tok){
             }
         }
     }else{
-        scheato->FatalError(__FILE_NAME__, __LINE__, "%d.%d unknown member function or variable named %s", tok->location.line,
-                            tok->location.column, tok->value.strValue.c_str());
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "unknown member function or variable named %s", tok->value.strValue.c_str());
         return IDData("nil", TypeData("nil", "NULLTYPE"));
     }
     return IDData("nil", TypeData("nil", "NULLTYPE"));
@@ -218,7 +221,7 @@ p_unique(IdentifierTerm) parseIdentifierTerm(Token *&gltokens){
     // idterm : identifier
     //        | identifier ( exprs )
     if (gltokens->kind != scheat::TokenKind::val_identifier) {
-        scheato->DevLog(__FILE_NAME__, __LINE__, "illegal parsing function is called.");
+        scheato->DevLog(gltokens->location, __FILE_NAME__, __LINE__, "illegal parsing function is called.");
         return nullptr;
     }
     
@@ -271,7 +274,7 @@ p_unique(Term) parseTerm(Token*& gltokens){
         }
         
         if (mTokens->kind != scheat::TokenKind::tok_paren_r) {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "%d.%d here ) is needed.", mTokens->location.line, mTokens->location.column);
+            scheato->FatalError(mTokens->location, __FILE_NAME__, __LINE__, "here ) is needed.");
         }
         
         return Term::create(move(e));
@@ -297,10 +300,10 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
         }
         auto opOwner = local_context.top()->findClass(primary->node_size.name);
         if (!opOwner) {
-            scheato->DevLog(__FILE_NAME__, __LINE__, "????");
+            scheato->DevLog(opTok->location, __FILE_NAME__, __LINE__, "????");
         }
         if (opOwner->operators.find(opTok->value.strValue) == opOwner->operators.end()) {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
+            scheato->FatalError(opTok->location, __FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
                                 opTok->location.column,
                                 opTok->location.line,
                                 opOwner->context->name.c_str(),
@@ -311,7 +314,7 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
             goto symbol;
         }
         if (op->position != op->prefix) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(opTok->location, __FILE_NAME__, __LINE__,
                                 "in %d.%d %s's operator %s is not a prefix operator.",
                                 opTok->location.line,
                                 opTok->location.column,
@@ -339,10 +342,10 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
             }
             auto opOwner = local_context.top()->findClass(e->node_size.name);
             if (!opOwner) {
-                scheato->DevLog(__FILE_NAME__, __LINE__, "????");
+                scheato->DevLog(opTok->location, __FILE_NAME__, __LINE__, "????");
             }
             if (opOwner->operators.find(opTok->value.strValue) == opOwner->operators.end()) {
-                scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
+                scheato->FatalError(opTok->location, __FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
                                     opTok->location.column,
                                     opTok->location.line,
                                     opOwner->context->name.c_str(),
@@ -353,7 +356,7 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
                 goto symbol;
             }
             if (op->position != op->infix) {
-                scheato->FatalError(__FILE_NAME__, __LINE__,
+                scheato->FatalError(opTok->location, __FILE_NAME__, __LINE__,
                                     "in %d.%d %s's operator %s is not a infix operator.",
                                     opTok->location.line,
                                     opTok->location.column,
@@ -386,10 +389,10 @@ p_unique(Expr) parseExpr(Token *&gltokens){
         }
         auto opOwner = local_context.top()->findClass(primary->node_size.name);
         if (!opOwner) {
-            scheato->DevLog(__FILE_NAME__, __LINE__, "????");
+            scheato->DevLog(opTok->location, __FILE_NAME__, __LINE__, "????");
         }
         if (opOwner->operators.find(opTok->value.strValue) == opOwner->operators.end()) {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
+            scheato->FatalError(opTok->location, __FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
                                 opTok->location.column,
                                 opTok->location.line,
                                 opOwner->context->name.c_str(),
@@ -400,10 +403,8 @@ p_unique(Expr) parseExpr(Token *&gltokens){
             goto symbol;
         }
         if (op->position != op->infix) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
-                                "in %d.%d %s's operator %s is not a infix operator.",
-                                opTok->location.line,
-                                opTok->location.column,
+            scheato->FatalError(opTok->location, __FILE_NAME__, __LINE__,
+                                "%s's operator %s is not a infix operator.",
                                 primary->node_size.name.c_str(),
                                 opTok->value.strValue.c_str());
             
@@ -428,10 +429,10 @@ p_unique(Expr) parseExpr(Token *&gltokens){
             }
             auto opOwner = local_context.top()->findClass(e->node_size.name);
             if (!opOwner) {
-                scheato->DevLog(__FILE_NAME__, __LINE__, "????");
+                scheato->DevLog(opTok->location,__FILE_NAME__, __LINE__, "????");
             }
             if (opOwner->operators.find(opTok->value.strValue) == opOwner->operators.end()) {
-                scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
+                scheato->FatalError(opTok->location,__FILE_NAME__, __LINE__, "in %d.%d %s does not have operator %s",
                                     opTok->location.column,
                                     opTok->location.line,
                                     opOwner->context->name.c_str(),
@@ -442,7 +443,7 @@ p_unique(Expr) parseExpr(Token *&gltokens){
                 goto symbol;
             }
             if (op->position != op->prefix) {
-                scheato->FatalError(__FILE_NAME__, __LINE__,
+                scheato->FatalError(opTok->location,__FILE_NAME__, __LINE__,
                                     "in %d.%d %s's operator %s is not a prefix operator.",
                                     opTok->location.line,
                                     opTok->location.column,
@@ -488,7 +489,7 @@ p_unique(Statements) parseStatements(Token*& gltokens){
         return nullptr;
     }
     if (mTokens == nullptr) {
-        scheato->FatalError(__FILE_NAME__, __LINE__, "illegal null token");
+        scheato->FatalError(gltokens->location,__FILE_NAME__, __LINE__, "illegal null token");
         return nullptr;
     }
     if (mTokens->kind == scheat::TokenKind::tok_comma) {
@@ -499,7 +500,7 @@ p_unique(Statements) parseStatements(Token*& gltokens){
         getNextTok();
         return Statements::make(move(s));
     }
-    scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d illegal end of the statement", gltokens->location.line, gltokens->location.column);
+    scheato->FatalError(gltokens->location, __FILE_NAME__, __LINE__, "in %d.%d illegal end of the statement", gltokens->location.line, gltokens->location.column);
     return nullptr;
 }
 
@@ -507,7 +508,7 @@ void LegacyScheatParser::LLParse(Scheat *host){
     scheato = host;
     std::ofstream f(host->outputFilePath + ".ll");
     if (!f.is_open()) {
-        host->FatalError("", 0, "File not found");
+        host->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "File not found");
         return;
     }
     E9::InitializeContexts();
