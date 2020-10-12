@@ -67,13 +67,26 @@ extern unique_ptr<PrimaryExpr> parsePrimary(Token *&tok){
         if (!primary) {
             return nullptr;
         }
+        if (scheato->hasProbrem()) {
+            return nullptr;
+        }
+        auto type = global_context->findClass(primary->type.name);
+        if (!type) {
+            scheato->FatalError(__FILE_NAME__, __LINE__,
+                                "in %d.%d Unknown type %s",
+                                primary->location.line,
+                                primary->location.column,
+                                primary->type.name.c_str());
+            return nullptr;
+        }
     }
     return nullptr;
 }
 
 extern unique_ptr<Expr> parseExpr(Token *&tok){
+    unique_ptr<Expr> toreturn = nullptr;
     parsePrefix:
-    // op primary
+    // expr : op expr
     if (tok->kind == scheat::TokenKind::val_operator) {
         Token *saved = tok;
         Token *saved2 = tok->next;
@@ -91,11 +104,12 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
                                 expr->location.line,
                                 expr->location.column,
                                 expr->type.name.c_str());
+            return nullptr;
         }
         auto opiter = type->operators.find(saved->value.strValue);
         
         if (opiter == type->operators.end()) {
-            // op (expr) -> (op expr)
+            // expr : op (expr) -> expr : primary(op expr)
             tok = saved;
             goto parseLhs;
         }
@@ -125,6 +139,7 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
     Token *optok = nullptr;
     parsePostfix:
     if (tok->kind == scheat::TokenKind::val_operator) {
+        // expr : primary op
         optok = tok;
         eatThis(tok);
         // check if infix or postfix
@@ -180,8 +195,7 @@ extern unique_ptr<Expr> parseExpr(Token *&tok){
         return nullptr;
     }
     return Expr::initAsOperatedExpr(move(prim), oper, move(expr));
-    result:
-    return nullptr;
+
 }
 
 extern void parser2::parse(Scheat *sch,Token *tokens){
