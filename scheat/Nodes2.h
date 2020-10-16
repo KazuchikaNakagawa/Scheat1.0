@@ -189,15 +189,23 @@ public:
     
 };
 
+class PrimaryExprNode : public Node {
+public:
+    Value * codegen(IRStream &) override{ return nullptr; };
+    string userdump() override{ return "UNDEFINED"; };
+};
+
 // primary : term
 //         | term OP primary
 //         | OP primary
 //         | primary OP
 class PrimaryExpr : public Node {
 public:
+    bool syntaxedExpr = false;
     unique_ptr<Term> lhs;
     Operator *op;
     unique_ptr<PrimaryExpr> rhs;
+    unique_ptr<PrimaryExprNode> syntaxNode = nullptr;
     Value * codegen(IRStream &) override;
     string userdump() override;
     __deprecated_msg("this class is for unique_ptr")
@@ -210,11 +218,12 @@ public:
                                                      unique_ptr<PrimaryExpr>);
     static unique_ptr<PrimaryExpr> initAsPostfixOperatorExpr(unique_ptr<PrimaryExpr>,
                                                       Operator *);
+    static unique_ptr<PrimaryExpr> initAsSyntaxExpr(unique_ptr<PrimaryExprNode>);
 };
 
 class ExprNode : public Node {
 public:
-    Value * codegen(IRStream &) override;
+    Value * codegen(IRStream &) override{ return nullptr; };
     string userdump() override {return "UNDEFINED";};
     
 };
@@ -230,7 +239,7 @@ public:
     unique_ptr<PrimaryExpr> lhs;
     Operator *op;
     unique_ptr<Expr> rhs;
-    unique_ptr<ExprNode> syntax;
+    unique_ptr<ExprNode> syntax = nullptr;
     Value * codegen(IRStream &) override;
     string userdump() override{return "UNDEFINED";};
     __deprecated_msg("this class is for unique_ptr")

@@ -345,6 +345,23 @@ Value *IdentifierExpr::codegen(IRStream &f){
     return new Value(r, v->type);
 }
 
+unique_ptr<PrimaryExpr> PrimaryExpr::initAsSyntaxExpr(unique_ptr<PrimaryExprNode> syn){
+    auto k = make_unique<PrimaryExpr>();
+    k->syntaxedExpr = true;
+    k->syntaxNode = move(syn);
+    k->op = nullptr;
+    k->lhs = nullptr;
+    k->rhs = nullptr;
+    return k;
+}
+
+Value *PrimaryExpr::codegen(IRStream &f){
+    if (syntaxedExpr) {
+        return nullptr;
+    }
+    return nullptr;
+}
+
 unique_ptr<DeclareVariableStatement>
 DeclareVariableStatement::init(Token *idtok, unique_ptr<Expr> expr, bool pub, bool con, bool nul){
     auto n = make_unique<DeclareVariableStatement>();
