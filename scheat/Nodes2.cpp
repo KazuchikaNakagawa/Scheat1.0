@@ -39,12 +39,47 @@ Value *InfixOperatorPrimaryExpr::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);
     if (op->return_type.name == "Void") {
-        
+        f << "call void (" << op->lhs_type->ir_used << "*, " << op->rhs_type->ir_used << "*) " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << "\n";
+        delete l;
+        delete r;
+        return nullptr;
     }else{
-        auto r = local_context.top()->getRegister();
-        f << r << " = call " << op->return_type.ir_used << "(" << l->type.ir_used << "*, " << r->type.ir_used << ")" << op->func_name << "(" << l->asValue() << ", " << r->asValue << ")\n";
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = call " << op->return_type.ir_used << "(" << l->type.ir_used << "*, " << r->type.ir_used << ")" << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
+        delete l;
+        delete r;
+        return new Value(reg, op->return_type);
     }
     return nullptr;
+}
+
+unique_ptr<PrefixOperatorPrimaryExpr> PrefixOperatorPrimaryExpr::init(Operator *op, unique_ptr<PrimaryExpr> primary){
+    auto ptr = make_unique<PrefixOperatorPrimaryExpr>();
+    ptr->op = op;
+    ptr->rhs = move(primary);
+    return ptr;
+}
+
+Value *PrefixOperatorPrimaryExpr::codegen(IRStream &f){
+    auto r = rhs->codegen(f);
+    if (op->return_type.name == "Void") {
+        f << "call " << op->return_type.ir_used << "(" << r->type.ir_used << "*) " << op->func_name << "(" << r->asValue() << ")\n";
+        delete r;
+        return nullptr;
+    }else{
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = call " << op->return_type.ir_used << "";
+        delete r;
+        return new Value(reg, op->return_type);
+    }
+    return nullptr;
+}
+
+
+unique_ptr<PostfixOperatorPrimaryExpr> PostfixOperatorPrimaryExpr::init(unique_ptr<PrimaryExpr> primary, Operator *op){
+    auto ptr = make_unique<PostfixOperatorPrimaryExpr>();
+    ptr->lhs = move(primary);
+    return ptr;
 }
 
 unique_ptr<InfixOperatorPrimaryExpr> InfixOperatorPrimaryExpr::init(unique_ptr<Term> term, Operator *oper, unique_ptr<PrimaryExpr> primary){
@@ -56,7 +91,7 @@ unique_ptr<InfixOperatorPrimaryExpr> InfixOperatorPrimaryExpr::init(unique_ptr<T
 }
 
 Value *NewIdentifierExpr::codegen(IRStream &f){
-    
+    return nullptr;
 }
 
 Value *StringTerm::codegen(IRStream &f){

@@ -172,7 +172,7 @@ public:
     static unique_ptr<NewIdentifierExpr> init(unique_ptr<IdentifierTerm> ident){
         auto ptr = make_unique<NewIdentifierExpr>();
         ptr->rhs = move(ident);
-        
+        return ptr;
     };
 };
 
@@ -221,6 +221,28 @@ public:
     Value * codegen(IRStream &) override;
 };
 
+class PrefixOperatorPrimaryExpr : public PrimaryExpr {
+public:
+    Operator *op;
+    unique_ptr<PrimaryExpr> rhs;
+    __deprecated
+    PrefixOperatorPrimaryExpr() {};
+    static unique_ptr<PrefixOperatorPrimaryExpr> init(Operator *,
+                                                     unique_ptr<PrimaryExpr>);
+    Value * codegen(IRStream &) override;
+};
+
+class PostfixOperatorPrimaryExpr : public PrimaryExpr {
+public:
+    unique_ptr<PrimaryExpr> lhs;
+    Operator *op;
+    __deprecated
+    PostfixOperatorPrimaryExpr() {};
+    static unique_ptr<PostfixOperatorPrimaryExpr> init(unique_ptr<PrimaryExpr>,
+                                                     Operator *);
+    Value * codegen(IRStream &) override;
+};
+
 // primary : term
 //         | term OP primary
 //         | OP primary
@@ -228,10 +250,8 @@ public:
 class OperatedPrimaryExpr : public PrimaryExpr {
 public:
     bool syntaxedExpr = false;
-    unique_ptr<Term> lhs;
+    unique_ptr<PrimaryExpr> lhs;
     Operator *op;
-    unique_ptr<PrimaryExpr> rhs;
-    unique_ptr<PrimaryExpr> syntaxNode = nullptr;
     Value * codegen(IRStream &) override;
     string userdump() override;
     __deprecated_msg("this class is for unique_ptr")
