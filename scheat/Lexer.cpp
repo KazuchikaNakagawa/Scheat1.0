@@ -518,6 +518,10 @@ void Lexer::input(int c, int next){
             skipFlag = true;
             return;
         }
+        if (next == "\"") {
+            buf.push_back(c);
+            return;
+        }
         buf.push_back(next);
         skipFlag = true;
         return;

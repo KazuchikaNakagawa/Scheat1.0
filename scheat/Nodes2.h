@@ -24,6 +24,9 @@ public:
     TypeData type;
     string value;
     Value(string s, TypeData t) : value(s), type(t) {};
+    string asValue(){
+        return type.ir_used + "* " + value;
+    };
 };
 
 class Node {
@@ -76,7 +79,7 @@ public:
      @s = bitcast (i8* getelementptr ()() to %String*)
      */
     string value;
-    StringTerm(Token *t) : value(t->value.strValue) { this->type = TypeData("the Character", "i8*");
+    StringTerm(Token *t) : value(t->value.strValue) { this->type = TypeData("String", "%String");
         location = t->location;
     };
     Value * codegen(IRStream &) override;
@@ -163,6 +166,16 @@ public:
     };
 };
 
+class NewIdentifierExpr : public IdentifierExpr {
+public:
+    Value * codegen(IRStream &) override;
+    static unique_ptr<NewIdentifierExpr> init(unique_ptr<IdentifierTerm> ident){
+        auto ptr = make_unique<NewIdentifierExpr>();
+        ptr->rhs = move(ident);
+        
+    };
+};
+
 // -------------------------------------------------------------//
 
 // term : TermNode
@@ -189,36 +202,49 @@ public:
     
 };
 
-class PrimaryExprNode : public Node {
+class PrimaryExpr : public Node {
 public:
     Value * codegen(IRStream &) override{ return nullptr; };
     string userdump() override{ return "UNDEFINED"; };
+};
+
+class InfixOperatorPrimaryExpr : public PrimaryExpr {
+public:
+    unique_ptr<Term> lhs;
+    Operator *op;
+    unique_ptr<PrimaryExpr> rhs;
+    __deprecated
+    InfixOperatorPrimaryExpr() {};
+    static unique_ptr<InfixOperatorPrimaryExpr> init(unique_ptr<Term>,
+                                                     Operator *,
+                                                     unique_ptr<PrimaryExpr>);
+    Value * codegen(IRStream &) override;
 };
 
 // primary : term
 //         | term OP primary
 //         | OP primary
 //         | primary OP
-class PrimaryExpr : public Node {
+class OperatedPrimaryExpr : public PrimaryExpr {
 public:
     bool syntaxedExpr = false;
     unique_ptr<Term> lhs;
     Operator *op;
     unique_ptr<PrimaryExpr> rhs;
-    unique_ptr<PrimaryExprNode> syntaxNode = nullptr;
+    unique_ptr<PrimaryExpr> syntaxNode = nullptr;
     Value * codegen(IRStream &) override;
     string userdump() override;
     __deprecated_msg("this class is for unique_ptr")
-    PrimaryExpr() {};
-    static unique_ptr<PrimaryExpr> init(unique_ptr<Term>);
-    static unique_ptr<PrimaryExpr> initAsOperatedExpr(unique_ptr<Term>,
+    OperatedPrimaryExpr() {};
+    static unique_ptr<OperatedPrimaryExpr> init(unique_ptr<Term>);
+    static unique_ptr<OperatedPrimaryExpr> initAsOperatedExpr(unique_ptr<Term>,
                                                Operator *,
-                                               unique_ptr<PrimaryExpr>);
-    static unique_ptr<PrimaryExpr> initAsPrefixOperatorExpr(Operator *,
-                                                     unique_ptr<PrimaryExpr>);
-    static unique_ptr<PrimaryExpr> initAsPostfixOperatorExpr(unique_ptr<PrimaryExpr>,
+                                               unique_ptr<OperatedPrimaryExpr>);
+    static unique_ptr<OperatedPrimaryExpr> initAsPrefixOperatorExpr(Operator *,
+                                                     unique_ptr<OperatedPrimaryExpr>);
+    static unique_ptr<OperatedPrimaryExpr> initAsPostfixOperatorExpr(unique_ptr<OperatedPrimaryExpr>,
                                                       Operator *);
-    static unique_ptr<PrimaryExpr> initAsSyntaxExpr(unique_ptr<PrimaryExprNode>);
+    static unique_ptr<OperatedPrimaryExpr> initAsSyntaxExpr(unique_ptr<PrimaryExpr>);
 };
 
 class ExprNode : public Node {
@@ -236,7 +262,7 @@ public:
 class Expr : public Node {
 public:
     bool syntaxedExpr = false;
-    unique_ptr<PrimaryExpr> lhs;
+    unique_ptr<OperatedPrimaryExpr> lhs;
     Operator *op;
     unique_ptr<Expr> rhs;
     unique_ptr<ExprNode> syntax = nullptr;
@@ -244,8 +270,8 @@ public:
     string userdump() override{return "UNDEFINED";};
     __deprecated_msg("this class is for unique_ptr")
     Expr() {};
-    static unique_ptr<Expr> init(unique_ptr<PrimaryExpr>);
-    static unique_ptr<Expr> initAsOperatedExpr(unique_ptr<PrimaryExpr>,
+    static unique_ptr<Expr> init(unique_ptr<OperatedPrimaryExpr>);
+    static unique_ptr<Expr> initAsOperatedExpr(unique_ptr<OperatedPrimaryExpr>,
                                                       Operator *,
                                                       unique_ptr<Expr>);
     static unique_ptr<Expr> initAsPrefixOperatorExpr(Operator *,

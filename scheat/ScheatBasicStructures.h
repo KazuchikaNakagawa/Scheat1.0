@@ -254,6 +254,7 @@ public:
     TypeData return_type;
     std::vector<TypeData> argTypes;
     std::string lltype();
+    /// basically it won't be used
     std::string codegen(IRStream &);
     Context *context;
     Function(std::string ,std::string);

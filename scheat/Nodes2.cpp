@@ -35,6 +35,30 @@ static string strreplace(string base, string target, string into){
     return base;
 }
 
+Value *InfixOperatorPrimaryExpr::codegen(IRStream &f){
+    auto l = lhs->codegen(f);
+    auto r = rhs->codegen(f);
+    if (op->return_type.name == "Void") {
+        
+    }else{
+        auto r = local_context.top()->getRegister();
+        f << r << " = call " << op->return_type.ir_used << "(" << l->type.ir_used << "*, " << r->type.ir_used << ")" << op->func_name << "(" << l->asValue() << ", " << r->asValue << ")\n";
+    }
+    return nullptr;
+}
+
+unique_ptr<InfixOperatorPrimaryExpr> InfixOperatorPrimaryExpr::init(unique_ptr<Term> term, Operator *oper, unique_ptr<PrimaryExpr> primary){
+    auto ptr = make_unique<InfixOperatorPrimaryExpr>();
+    ptr->lhs = move(term);
+    ptr->rhs = move(primary);
+    ptr->op = oper;
+    return ptr;
+}
+
+Value *NewIdentifierExpr::codegen(IRStream &f){
+    
+}
+
 Value *StringTerm::codegen(IRStream &f){
     
     string substr = value;
@@ -325,7 +349,7 @@ Value *IdentifierExpr::codegen(IRStream &f){
     if (rhs->isFunc) {
         auto r = local_context.top()->getRegister();
         auto ter = Term::init(move(lhs));
-        auto pri = PrimaryExpr::init(move(ter));
+        auto pri = OperatedPrimaryExpr::init(move(ter));
         auto e = Expr::init(move(pri));
         rhs->args.insert(rhs->args.begin(), move(e));
         auto v = rhs->codegen(f);
@@ -345,8 +369,8 @@ Value *IdentifierExpr::codegen(IRStream &f){
     return new Value(r, v->type);
 }
 
-unique_ptr<PrimaryExpr> PrimaryExpr::initAsSyntaxExpr(unique_ptr<PrimaryExprNode> syn){
-    auto k = make_unique<PrimaryExpr>();
+unique_ptr<OperatedPrimaryExpr> OperatedPrimaryExpr::initAsSyntaxExpr(unique_ptr<PrimaryExpr> syn){
+    auto k = make_unique<OperatedPrimaryExpr>();
     k->syntaxedExpr = true;
     k->syntaxNode = move(syn);
     k->op = nullptr;
@@ -355,7 +379,7 @@ unique_ptr<PrimaryExpr> PrimaryExpr::initAsSyntaxExpr(unique_ptr<PrimaryExprNode
     return k;
 }
 
-Value *PrimaryExpr::codegen(IRStream &f){
+Value *OperatedPrimaryExpr::codegen(IRStream &f){
     if (syntaxedExpr) {
         return nullptr;
     }

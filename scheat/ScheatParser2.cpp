@@ -58,7 +58,54 @@ static bool isValue(Token *tok){
     return false;
 }
 
-extern unique_ptr<PrimaryExpr> parsePrimary(Token *&tok){
+static unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
+    
+    // identifierExpr : the ID
+    //                | this
+    //                | ID . ID
+    if (tok->kind == scheat::TokenKind::tok_this) {
+        
+    }
+    
+    auto base = tok;
+    Token *opTok = nullptr;
+    if (tok->next->kind == scheat::TokenKind::tok_access) {
+        
+    }else{
+        auto ptr = make_unique<IdentifierTerm>();
+    }
+    return nullptr;
+}
+
+static unique_ptr<TermNode> parseTermNodes(Token*& tok){
+    if (tok->kind == scheat::TokenKind::val_num) {
+        auto ptr = make_unique<IntTerm>(tok);
+        return ptr;
+    }
+    if (tok->kind == scheat::TokenKind::val_str) {
+        auto ptr = make_unique<StringTerm>(tok);
+        return ptr;
+    }
+    if (tok->kind == scheat::TokenKind::val_bool) {
+        auto ptr = make_unique<BoolTerm>(tok);
+        return ptr;
+    }
+    if (tok->kind == scheat::TokenKind::val_double) {
+        auto ptr = make_unique<FloatTerm>(tok);
+        return ptr;
+    }
+    if (tok->kind == scheat::TokenKind::val_identifier) {
+        
+    }
+    return nullptr;
+}
+
+extern unique_ptr<Term> parser2::parseTerm(Token *&tok){
+    
+    return nullptr;
+}
+
+extern unique_ptr<OperatedPrimaryExpr> parser2::parsePrimary(Token *&tok){
     parsePrefix:
     // primary : OP primary
     if (tok->kind == scheat::TokenKind::val_operator) {
@@ -112,7 +159,7 @@ extern unique_ptr<PrimaryExpr> parsePrimary(Token *&tok){
     return nullptr;
 }
 
-extern unique_ptr<Expr> parseExpr(Token *&tok){
+extern unique_ptr<Expr> parser2::parseExpr(Token *&tok){
     unique_ptr<Expr> toreturn = nullptr;
     parsePrefix:
     // expr : op expr
