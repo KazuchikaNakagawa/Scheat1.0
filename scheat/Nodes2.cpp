@@ -40,6 +40,25 @@ string InfixOperatorTerm::userdump(){
     return lhs->userdump() + op->value + rhs->userdump();
 }
 
+string PostfixOperatorTerm::userdump(){
+    return lhs->userdump() + op->value;
+}
+
+Value *PostfixOperatorTerm::codegen(IRStream &f){
+    auto l = lhs->codegen(f);
+    if (op->return_type.name == "Void") {
+        f << "call void(" << op->lhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ")\n";
+        delete l;
+        return nullptr;
+    }else{
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = call " << op->return_type.ir_used << "(" << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ")\n";
+        delete l;
+        return new Value(reg, op->return_type);
+    }
+    return nullptr;
+}
+
 Value * InfixOperatorTerm::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);

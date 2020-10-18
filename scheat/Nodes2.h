@@ -192,6 +192,17 @@ public:
     
 };
 
+class PostfixOperatorTerm : public Term {
+public:
+    unique_ptr<Term> lhs;
+    Operator *op;
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    PostfixOperatorTerm() {};
+    static unique_ptr<PostfixOperatorTerm> init(unique_ptr<Term>,
+                                                Operator *);
+};
+
 class PrefixOperatorTerm : public Term {
 public:
     Operator *op;
