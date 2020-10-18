@@ -131,6 +131,26 @@ public:
     };
 };
 
+class _IdentifierTerm : public Term {
+public:
+    Value * codegen(IRStream &) override { return nullptr; };
+    string userdump() override { return "UNDEFINED"; };
+};
+
+class VariableTerm : public _IdentifierTerm {
+public:
+    string value;
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    static unique_ptr<VariableTerm> init(Token *, TypeData);
+};
+
+class FunctionCallTerm : public _IdentifierTerm {
+public:
+    Function *func;
+    
+};
+
 // idterm : identifier
 //        | identifier ( expr , expr, ... )
 class IdentifierTerm : public Term {

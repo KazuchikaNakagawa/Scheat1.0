@@ -60,8 +60,30 @@ string PostfixOperatorExpr::userdump(){
     return lhs->userdump() + op->value;
 }
 
+string VariableTerm::userdump(){
+    return value;
+}
+
+unique_ptr<VariableTerm> VariableTerm::init(Token *id, TypeData type){
+    auto ptr = make_unique<VariableTerm>();
+    ptr->type = type;
+    ptr->value = id->value.strValue;
+    ptr->location = id->location;
+    return ptr;
+}
+
 Value *PostfixOperatorExpr::codegen(IRStream &f){
-    
+    auto l = lhs->codegen(f);
+    if (op->return_type.name == "Void") {
+        f << "call void(" << op->lhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ")\n";
+        delete l;
+        return nullptr;
+    }else{
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = call " << op->return_type.ir_used << "(" << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ")\n";
+        delete l;
+        return new Value(reg, op->return_type);
+    }
     return nullptr;
 }
 
@@ -148,6 +170,8 @@ Value *PrefixOperatorTerm::codegen(IRStream &f){
 
 unique_ptr<PrefixOperatorExpr> PrefixOperatorExpr::init(Operator *ope, unique_ptr<Expr> expr){
     auto ptr = make_unique<PrefixOperatorExpr>();
+    ptr->location = expr->location;
+    ptr->type = ope->return_type;
     ptr->op = ope;
     ptr->rhs = move(expr);
     return ptr;
@@ -155,6 +179,8 @@ unique_ptr<PrefixOperatorExpr> PrefixOperatorExpr::init(Operator *ope, unique_pt
 
 unique_ptr<PrefixOperatorTerm> PrefixOperatorTerm::init(Operator *oper, unique_ptr<Term> term){
     auto ptr = make_unique<PrefixOperatorTerm>();
+    ptr->location = term->location;
+    ptr->type = oper->return_type;
     ptr->rhs = move(term);
     ptr->op = oper;
     return ptr;
@@ -162,6 +188,8 @@ unique_ptr<PrefixOperatorTerm> PrefixOperatorTerm::init(Operator *oper, unique_p
 
 unique_ptr<InfixOperatorTerm> InfixOperatorTerm::init(unique_ptr<Term> term, Operator *op, unique_ptr<Term> termr){
     auto ptr = make_unique<InfixOperatorTerm>();
+    ptr->location = term->location;
+    ptr->type = op->return_type;
     ptr->lhs = move(term);
     ptr->rhs = move(termr);
     ptr->op = op;
@@ -188,6 +216,8 @@ Value *InfixOperatorPrimaryExpr::codegen(IRStream &f){
 
 unique_ptr<PrefixOperatorPrimaryExpr> PrefixOperatorPrimaryExpr::init(Operator *op, unique_ptr<PrimaryExpr> primary){
     auto ptr = make_unique<PrefixOperatorPrimaryExpr>();
+    ptr->location = primary->location;
+    ptr->type = op->return_type;
     ptr->op = op;
     ptr->rhs = move(primary);
     return ptr;
@@ -211,12 +241,16 @@ Value *PrefixOperatorPrimaryExpr::codegen(IRStream &f){
 
 unique_ptr<PostfixOperatorPrimaryExpr> PostfixOperatorPrimaryExpr::init(unique_ptr<PrimaryExpr> primary, Operator *op){
     auto ptr = make_unique<PostfixOperatorPrimaryExpr>();
+    ptr->type = op->return_type;
+    ptr->location = primary->location;
     ptr->lhs = move(primary);
     return ptr;
 }
 
 unique_ptr<InfixOperatorPrimaryExpr> InfixOperatorPrimaryExpr::init(unique_ptr<Term> term, Operator *oper, unique_ptr<PrimaryExpr> primary){
     auto ptr = make_unique<InfixOperatorPrimaryExpr>();
+    ptr->type = oper->return_type;
+    ptr->location = term->location;
     ptr->lhs = move(term);
     ptr->rhs = move(primary);
     ptr->op = oper;
