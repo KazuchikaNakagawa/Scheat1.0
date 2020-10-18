@@ -36,6 +36,10 @@ static string strreplace(string base, string target, string into){
     return base;
 }
 
+string InfixOperatorTerm::userdump(){
+    return lhs->userdump() + op->value + rhs->userdump();
+}
+
 Value * InfixOperatorTerm::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);
@@ -52,6 +56,13 @@ Value * InfixOperatorTerm::codegen(IRStream &f){
         return new Value(reg, op->return_type);
     }
     return nullptr;
+}
+
+unique_ptr<PrefixOperatorTerm> PrefixOperatorTerm::init(Operator *oper, unique_ptr<Term> term){
+    auto ptr = make_unique<PrefixOperatorTerm>();
+    ptr->rhs = move(term);
+    ptr->op = oper;
+    return ptr;
 }
 
 unique_ptr<InfixOperatorTerm> InfixOperatorTerm::init(unique_ptr<Term> term, Operator *op, unique_ptr<Term> termr){
