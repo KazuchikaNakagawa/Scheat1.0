@@ -36,17 +36,43 @@ static string strreplace(string base, string target, string into){
     return base;
 }
 
-Value *InfixOperatorPrimaryExpr::codegen(IRStream &f){
+Value * InfixOperatorTerm::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);
     if (op->return_type.name == "Void") {
-        f << "call void (" << op->lhs_type->ir_used << "*, " << op->rhs_type->ir_used << "*) " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << "\n";
+        f << "call void(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
         return nullptr;
     }else{
         auto reg = local_context.top()->getRegister();
-        f << reg << " = call " << op->return_type.ir_used << "(" << l->type.ir_used << "*, " << r->type.ir_used << ")" << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
+        f << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ")\n";
+        delete l;
+        delete r;
+        return new Value(reg, op->return_type);
+    }
+    return nullptr;
+}
+
+unique_ptr<InfixOperatorTerm> InfixOperatorTerm::init(unique_ptr<Term> term, Operator *op, unique_ptr<Term> termr){
+    auto ptr = make_unique<InfixOperatorTerm>();
+    ptr->lhs = move(term);
+    ptr->rhs = move(termr);
+    ptr->op = op;
+    return ptr;
+}
+
+Value *InfixOperatorPrimaryExpr::codegen(IRStream &f){
+    auto l = lhs->codegen(f);
+    auto r = rhs->codegen(f);
+    if (op->return_type.name == "Void") {
+        f << "call void (" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << "\n";
+        delete l;
+        delete r;
+        return nullptr;
+    }else{
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = call " << op->return_type.ir_used << "(" << l->type.ir_used << ", " << r->type.ir_used << ")" << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
         return new Value(reg, op->return_type);
@@ -64,7 +90,7 @@ unique_ptr<PrefixOperatorPrimaryExpr> PrefixOperatorPrimaryExpr::init(Operator *
 Value *PrefixOperatorPrimaryExpr::codegen(IRStream &f){
     auto r = rhs->codegen(f);
     if (op->return_type.name == "Void") {
-        f << "call " << op->return_type.ir_used << "(" << r->type.ir_used << "*) " << op->func_name << "(" << r->asValue() << ")\n";
+        f << "call " << op->return_type.ir_used << "(" << r->type.ir_used << ") " << op->func_name << "(" << r->asValue() << ")\n";
         delete r;
         return nullptr;
     }else{
@@ -121,8 +147,8 @@ Value *StringTerm::codegen(IRStream &f){
     return new Value(v, this->type);
 }
 
-unique_ptr<Term> Term::init(unique_ptr<TermNode> up){
-    auto u = make_unique<Term>();
+unique_ptr<DeprecatedTerm> DeprecatedTerm::init(unique_ptr<Term> up){
+    auto u = make_unique<DeprecatedTerm>();
     u->lhs = move(up);
     u->type = u->lhs->type;
     u->location = u->lhs->location;
@@ -130,8 +156,8 @@ unique_ptr<Term> Term::init(unique_ptr<TermNode> up){
     return u;
 }
 
-unique_ptr<Term> Term::initAsInfixOperatorExpr(unique_ptr<TermNode> lhs, Operator *oper, unique_ptr<Term> rhs){
-    auto u = make_unique<Term>();
+unique_ptr<DeprecatedTerm> DeprecatedTerm::initAsInfixOperatorExpr(unique_ptr<Term> lhs, Operator *oper, unique_ptr<DeprecatedTerm> rhs){
+    auto u = make_unique<DeprecatedTerm>();
     u->type = oper->return_type;
     u->location = lhs->location;
     u->lhs = move(lhs);
@@ -140,8 +166,8 @@ unique_ptr<Term> Term::initAsInfixOperatorExpr(unique_ptr<TermNode> lhs, Operato
     return u;
 }
 
-unique_ptr<Term> Term::initAsPrefixOperatorExpr(Operator *oper, unique_ptr<Term> expr){
-    auto u = make_unique<Term>();
+unique_ptr<DeprecatedTerm> DeprecatedTerm::initAsPrefixOperatorExpr(Operator *oper, unique_ptr<DeprecatedTerm> expr){
+    auto u = make_unique<DeprecatedTerm>();
     u->location = expr->location;
     u->op = oper;
     u->type = oper->return_type;
@@ -149,8 +175,8 @@ unique_ptr<Term> Term::initAsPrefixOperatorExpr(Operator *oper, unique_ptr<Term>
     return u;
 }
 
-unique_ptr<Term> Term::initAsPostfixOperatorExpr(unique_ptr<Term> expr, Operator *oper){
-    auto u = make_unique<Term>();
+unique_ptr<DeprecatedTerm> DeprecatedTerm::initAsPostfixOperatorExpr(unique_ptr<DeprecatedTerm> expr, Operator *oper){
+    auto u = make_unique<DeprecatedTerm>();
     u->location = expr->location;
     u->type = oper->return_type;
     u->op = oper;
@@ -181,9 +207,9 @@ Value *Expr::codegen(IRStream &f){
             }
             
             f << r << " = call " << op->return_type.ir_used << "("
-            << lhsv->type.ir_used << "*, " << rhsv->type.ir_used << "*) " << op->func_name << "(" << lhsv->type.ir_used
-            << "* " << lhsv->value << ", " << rhsv->type.ir_used
-            << "* " << rhsv->value << ")\n";
+            << lhsv->type.ir_used << ", " << rhsv->type.ir_used << ") " << op->func_name << "(" << lhsv->type.ir_used
+            << " " << lhsv->value << ", " << rhsv->type.ir_used
+            << " " << rhsv->value << ")\n";
             return new Value(r, op->return_type);
         }else if (op->position == op->prefix){
             // prefix operator
@@ -193,8 +219,8 @@ Value *Expr::codegen(IRStream &f){
                 return nullptr;
             }
             f << r << " call " << op->return_type.ir_used << "("
-            << rhsv->type.ir_used << "*) " << op->func_name << "("
-            << rhsv->type.ir_used << "* " << rhsv->value << ")\n";
+            << rhsv->type.ir_used << ") " << op->func_name << "("
+            << rhsv->type.ir_used << " " << rhsv->value << ")\n";
             return new Value(r, op->return_type);
         }else if (op->position == op->postfix){
             // postfix operator
@@ -205,7 +231,7 @@ Value *Expr::codegen(IRStream &f){
             }
             f << r << " = call " << op->return_type.ir_used << "("
             << lhsv->type.ir_used << ") " << op->func_name << "("
-            << lhsv->type.ir_used << "* " << lhsv->value << ")\n";
+            << lhsv->type.ir_used << " " << lhsv->value << ")\n";
             return new Value(r, op->return_type);
         }else{
             scheato->DevLog(location, __FILE_NAME__, __LINE__, "?????");
@@ -215,7 +241,7 @@ Value *Expr::codegen(IRStream &f){
     return lhs->codegen(f);
 }
 
-Value *Term::codegen(IRStream &f){
+Value *DeprecatedTerm::codegen(IRStream &f){
     if (op != nullptr) {
         // this means (X op X), (op X), (X op)
         if (op->position == op->infix) {
@@ -228,9 +254,9 @@ Value *Term::codegen(IRStream &f){
             }
             
             f << r << " = call " << op->return_type.ir_used << "("
-            << lhsv->type.ir_used << "*, " << rhsv->type.ir_used << "*) " << op->func_name << "(" << lhsv->type.ir_used
-            << "* " << lhsv->value << ", " << rhsv->type.ir_used
-            << "* " << rhsv->value << ")\n";
+            << lhsv->type.ir_used << ", " << rhsv->type.ir_used << ") " << op->func_name << "(" << lhsv->type.ir_used
+            << " " << lhsv->value << ", " << rhsv->type.ir_used
+            << " " << rhsv->value << ")\n";
             return new Value(r, op->return_type);
         }else if (op->position == op->prefix){
             // prefix operator
@@ -240,8 +266,8 @@ Value *Term::codegen(IRStream &f){
                 return nullptr;
             }
             f << r << " call " << op->return_type.ir_used << "("
-            << rhsv->type.ir_used << "*) " << op->func_name << "("
-            << rhsv->type.ir_used << "* " << rhsv->value << ")\n";
+            << rhsv->type.ir_used << ") " << op->func_name << "("
+            << rhsv->type.ir_used << " " << rhsv->value << ")\n";
             return new Value(r, op->return_type);
         }else if (op->position == op->postfix){
             // postfix operator
@@ -252,7 +278,7 @@ Value *Term::codegen(IRStream &f){
             }
             f << r << " = call " << op->return_type.ir_used << "("
             << lhsv->type.ir_used << ") " << op->func_name << "("
-            << lhsv->type.ir_used << "* " << lhsv->value << ")\n";
+            << lhsv->type.ir_used << " " << lhsv->value << ")\n";
             return new Value(r, op->return_type);
         }else{
             scheato->DevLog(location, __FILE_NAME__, __LINE__, "?????");
@@ -298,7 +324,7 @@ Value *IdentifierTerm::codegen(IRStream &f){
              mangled += ", ",
              v = next(v)) {
             auto vv = (*v)->codegen(f);
-            mangled += (vv)->type.ir_used + "* ";
+            mangled += (vv)->type.ir_used + " ";
             mangled += vv->value;
             mtype += (*v)->type.name;
             mtype_ir += (*v)->type.ir_used;
@@ -373,7 +399,7 @@ Value *IdentifierExpr::codegenAsRef(IRStream &f){
         //auto rhv = rhs->codegen(f);
         auto r = local_context.top()->getRegister();
         f << r << " = getelementptr " << lhv->type.ir_used << ", " <<
-        lhv->type.ir_used << "* " << lhv->value << ", i32 0, i32 " << to_string(rhs->index) << "\n";
+        lhv->type.ir_used << " " << lhv->value << ", i32 0, i32 " << to_string(rhs->index) << "\n";
         return new Value(r, lhv->type);
         
     }
@@ -384,7 +410,7 @@ Value *IdentifierExpr::codegenAsRef(IRStream &f){
 Value *IdentifierExpr::codegen(IRStream &f){
     if (rhs->isFunc) {
         auto r = local_context.top()->getRegister();
-        auto ter = Term::init(move(lhs));
+        auto ter = nullptr;
         auto pri = OperatedPrimaryExpr::init(move(ter));
         auto e = Expr::init(move(pri));
         rhs->args.insert(rhs->args.begin(), move(e));
@@ -401,7 +427,7 @@ Value *IdentifierExpr::codegen(IRStream &f){
     }
     auto r = local_context.top()->getRegister();
     f << r << " = load " << v->type.ir_used << ", " << v->type.ir_used
-    << "* " << v->value << "\n";
+    << " " << v->value << "\n";
     return new Value(r, v->type);
 }
 

@@ -50,16 +50,16 @@ public:
     virtual ~StatementNode() {};
 };
 
-class TermNode : public Node {
+class Term : public Node {
 public:
     Value * codegen(IRStream &) override{return nullptr;};
     string userdump() override{return "UNDEFINED";};
-    virtual ~TermNode() {};
+    virtual ~Term() {};
 };
 
 // -------------------------------------------------------------//
 // specific classes
-class IntTerm : public TermNode {
+class IntTerm : public Term {
 public:
     int value;
     IntTerm(Token *t) : value(t->value.intValue) { this->type = TypeData("Int", "i32");
@@ -69,7 +69,7 @@ public:
     string userdump() override{ return to_string(value); };
 };
 
-class StringTerm : public TermNode {
+class StringTerm : public Term {
 public:
     // to do
     /*
@@ -86,7 +86,7 @@ public:
     string userdump() override{return value;};
 };
 
-class BoolTerm : public TermNode {
+class BoolTerm : public Term {
 public:
     bool value;
     BoolTerm(Token *t) : value(t->value.boolValue) {
@@ -103,7 +103,7 @@ public:
     };
 };
 
-class FloatTerm : public TermNode {
+class FloatTerm : public Term {
 public:
     double value;
     FloatTerm(Token *t) : value(t->value.doubleValue) {
@@ -118,7 +118,7 @@ public:
 
 // idterm : identifier
 //        | identifier ( expr , expr, ... )
-class IdentifierTerm : public TermNode {
+class IdentifierTerm : public Term {
 public:
     string value;
     vector<unique_ptr<Expr>> args = {};
@@ -142,7 +142,7 @@ public:
 
 // idexpr : idterm
 //        | idexpr . idterm
-class IdentifierExpr : public TermNode {
+class IdentifierExpr : public Term {
 public:
     unique_ptr<IdentifierExpr> lhs = nullptr;
     Token *perTok = nullptr;
@@ -178,26 +178,40 @@ public:
 
 // -------------------------------------------------------------//
 
+class InfixOperatorTerm : public Term {
+public:
+    unique_ptr<Term> lhs;
+    Operator *op;
+    unique_ptr<Term> rhs;
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    InfixOperatorTerm(){};
+    static unique_ptr<InfixOperatorTerm> init(unique_ptr<Term>,
+                                              Operator *,
+                                              unique_ptr<Term>);
+    
+};
+
 // term : TermNode
 //      | TermNode OP term
 //      | OP term
 //      | term OP
-class Term : public Node{
+class __deprecated DeprecatedTerm : public Node{
 public:
-    unique_ptr<TermNode> lhs = nullptr;
+    unique_ptr<Term> lhs = nullptr;
     Operator *op = nullptr;
-    unique_ptr<Term> rhs = nullptr;
+    unique_ptr<DeprecatedTerm> rhs = nullptr;
     Value * codegen(IRStream &) override;
     string userdump() override;
     __deprecated_msg("this class is for unique_ptr")
-    Term() {};
-    static unique_ptr<Term> init(unique_ptr<TermNode>);
-    static unique_ptr<Term> initAsInfixOperatorExpr(unique_ptr<TermNode>,
+    DeprecatedTerm() {};
+    static unique_ptr<DeprecatedTerm> init(unique_ptr<Term>);
+    static unique_ptr<DeprecatedTerm> initAsInfixOperatorExpr(unique_ptr<Term>,
                                                Operator *,
-                                               unique_ptr<Term>);
-    static unique_ptr<Term> initAsPrefixOperatorExpr(Operator *,
-                                                     unique_ptr<Term>);
-    static unique_ptr<Term> initAsPostfixOperatorExpr(unique_ptr<Term>,
+                                               unique_ptr<DeprecatedTerm>);
+    static unique_ptr<DeprecatedTerm> initAsPrefixOperatorExpr(Operator *,
+                                                     unique_ptr<DeprecatedTerm>);
+    static unique_ptr<DeprecatedTerm> initAsPostfixOperatorExpr(unique_ptr<DeprecatedTerm>,
                                                       Operator *);
     
 };

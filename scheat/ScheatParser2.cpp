@@ -77,7 +77,7 @@ static unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
     return nullptr;
 }
 
-static unique_ptr<TermNode> parseTermNodes(Token*& tok){
+static unique_ptr<Term> parseTermNodes(Token*& tok){
     if (tok->kind == scheat::TokenKind::val_num) {
         auto ptr = make_unique<IntTerm>(tok);
         return ptr;
@@ -100,7 +100,7 @@ static unique_ptr<TermNode> parseTermNodes(Token*& tok){
     return nullptr;
 }
 
-extern unique_ptr<Term> parser2::parseTerm(Token *&tok){
+extern unique_ptr<DeprecatedTerm> parser2::parseTerm(Token *&tok){
     
     return nullptr;
 }

@@ -34,7 +34,7 @@ unique_ptr<Expr> parseExpr(Token *&);
 
 unique_ptr<OperatedPrimaryExpr> parsePrimary(Token *&);
 
-unique_ptr<Term> parseTerm(Token *&);
+unique_ptr<DeprecatedTerm> parseTerm(Token *&);
 
 }
 

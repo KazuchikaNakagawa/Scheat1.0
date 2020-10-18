@@ -448,7 +448,7 @@
 		829CD921251F26B600139E5F /* ScheatParser2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatParser2.cpp; sourceTree = "<group>"; };
 		829CD922251F26B600139E5F /* ScheatParser2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatParser2.h; sourceTree = "<group>"; };
 		829CD925251F28A900139E5F /* Nodes2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Nodes2.cpp; sourceTree = "<group>"; };
-		829CD926251F28A900139E5F /* Nodes2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nodes2.h; sourceTree = "<group>"; };
+		829CD926251F28A900139E5F /* Nodes2.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = Nodes2.h; sourceTree = "<group>"; };
 		82A1A23B24D80AFE009C2E5F /* scheat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = scheat; sourceTree = BUILT_PRODUCTS_DIR; };
 		82AEB66824DC3DC400889AC3 /* libscheatIRBuilder.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libscheatIRBuilder.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82AEB66C24DC3E2500889AC3 /* ScheatIR.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatIR.hpp; sourceTree = "<group>"; };
