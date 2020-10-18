@@ -192,6 +192,17 @@ public:
     
 };
 
+class PrefixOperatorTerm : public Term {
+public:
+    Operator *op;
+    unique_ptr<Term> rhs;
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    PrefixOperatorTerm() {};
+    static unique_ptr<PrefixOperatorTerm> init(Operator *,
+                                               unique_ptr<Term>);
+};
+
 // term : TermNode
 //      | TermNode OP term
 //      | OP term

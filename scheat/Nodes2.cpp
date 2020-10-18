@@ -58,6 +58,21 @@ Value * InfixOperatorTerm::codegen(IRStream &f){
     return nullptr;
 }
 
+Value *PrefixOperatorTerm::codegen(IRStream &f){
+    auto r = rhs->codegen(f);
+    if (op->return_type.name == "Void") {
+        f << "call void(" << op->rhs_type->ir_used << ") " << op->func_name << "(" << r->asValue() << ")\n";
+        delete r;
+        return nullptr;
+    }else{
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = call " << op->return_type.ir_used << "(" << op->rhs_type->ir_used << ") " << op->func_name << "(" << r->asValue() << ")\n";
+        delete r;
+        return new Value(reg, op->return_type);
+    }
+    return nullptr;
+}
+
 unique_ptr<PrefixOperatorTerm> PrefixOperatorTerm::init(Operator *oper, unique_ptr<Term> term){
     auto ptr = make_unique<PrefixOperatorTerm>();
     ptr->rhs = move(term);
