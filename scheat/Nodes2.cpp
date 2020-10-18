@@ -7,6 +7,7 @@
 
 #include "Nodes2.h"
 #include "ScheatStatics.h"
+//#include <dlfcn.h>
 using namespace scheat;
 using namespace scheat::nodes2;
 using namespace std;

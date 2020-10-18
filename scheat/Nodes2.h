@@ -250,13 +250,15 @@ public:
 class OperatedPrimaryExpr : public PrimaryExpr {
 public:
     bool syntaxedExpr = false;
-    unique_ptr<PrimaryExpr> lhs;
+    unique_ptr<Term> lhs;
     Operator *op;
+    unique_ptr<PrimaryExpr> rhs;
     Value * codegen(IRStream &) override;
+    unique_ptr<PrimaryExpr> syntaxNode = nullptr;
     string userdump() override;
     __deprecated_msg("this class is for unique_ptr")
     OperatedPrimaryExpr() {};
-    static unique_ptr<OperatedPrimaryExpr> init(unique_ptr<Term>);
+    static __deprecated unique_ptr<OperatedPrimaryExpr> init(unique_ptr<Term>);
     static unique_ptr<OperatedPrimaryExpr> initAsOperatedExpr(unique_ptr<Term>,
                                                Operator *,
                                                unique_ptr<OperatedPrimaryExpr>);
