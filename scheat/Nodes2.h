@@ -133,13 +133,14 @@ public:
 
 class _IdentifierTerm : public Term {
 public:
+    string value;
     Value * codegen(IRStream &) override { return nullptr; };
     string userdump() override { return "UNDEFINED"; };
 };
 
 class VariableTerm : public _IdentifierTerm {
 public:
-    string value;
+    //string value;
     Value * codegen(IRStream &) override;
     string userdump() override;
     static unique_ptr<VariableTerm> init(Token *, TypeData);
@@ -148,7 +149,10 @@ public:
 class FunctionCallTerm : public _IdentifierTerm {
 public:
     Function *func;
-    
+    vector<unique_ptr<Expr>> args;
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    static unique_ptr<FunctionCallTerm> init(Token *, Function *);
 };
 
 // idterm : identifier

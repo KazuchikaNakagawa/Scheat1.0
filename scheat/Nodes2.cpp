@@ -64,6 +64,18 @@ string VariableTerm::userdump(){
     return value;
 }
 
+string FunctionCallTerm::userdump(){
+    return func->getMangledName();
+}
+
+unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func){
+    auto ptr = make_unique<FunctionCallTerm>();
+    ptr->func = func;
+    ptr->value = token->value.strValue;
+    ptr->args = {};
+    return ptr;
+}
+
 unique_ptr<VariableTerm> VariableTerm::init(Token *id, TypeData type){
     auto ptr = make_unique<VariableTerm>();
     ptr->type = type;
