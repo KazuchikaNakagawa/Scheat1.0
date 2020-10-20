@@ -155,6 +155,18 @@ public:
     static unique_ptr<FunctionCallTerm> init(Token *, Function *);
 };
 
+class AccessIdentifierTerm : public _IdentifierTerm {
+public:
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    unique_ptr<Expr> lhs;
+    unique_ptr<_IdentifierTerm> rhs;
+    int index;
+    static unique_ptr<AccessIdentifierTerm> init(unique_ptr<Expr>,
+                                                 unique_ptr<_IdentifierTerm>,
+                                                 int);
+};
+
 // idterm : identifier
 //        | identifier ( expr , expr, ... )
 class IdentifierTerm : public Term {
@@ -177,6 +189,12 @@ public:
     void addArg(unique_ptr<Expr>);
     Value * codegen(IRStream &) override;
     string userdump() override;
+};
+
+class _IdentifierExpr : public Expr {
+public:
+    Value * codegen(IRStream &) override{ return nullptr; };
+    string userdump() override { return "UNDEFINED"; };
 };
 
 // idexpr : idterm
@@ -205,12 +223,14 @@ public:
     };
 };
 
-class NewIdentifierExpr : public IdentifierExpr {
+class NewIdentifierExpr : public _IdentifierExpr {
 public:
     Value * codegen(IRStream &) override;
-    static unique_ptr<NewIdentifierExpr> init(unique_ptr<IdentifierTerm> ident){
+    unique_ptr<_IdentifierTerm> id;
+    static unique_ptr<NewIdentifierExpr> init(unique_ptr<_IdentifierTerm> ident, TypeData type){
         auto ptr = make_unique<NewIdentifierExpr>();
-        ptr->rhs = move(ident);
+        ptr->id = move(ident);
+        ptr->type = type;
         return ptr;
     };
 };

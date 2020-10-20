@@ -73,6 +73,7 @@ unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func
     ptr->func = func;
     ptr->value = token->value.strValue;
     ptr->args = {};
+    ptr->value = "FUNCTION";
     return ptr;
 }
 
@@ -81,6 +82,16 @@ unique_ptr<VariableTerm> VariableTerm::init(Token *id, TypeData type){
     ptr->type = type;
     ptr->value = id->value.strValue;
     ptr->location = id->location;
+    return ptr;
+}
+
+unique_ptr<AccessIdentifierTerm> AccessIdentifierTerm::init(unique_ptr<Expr> expr, unique_ptr<_IdentifierTerm> id, int index){
+    auto ptr = make_unique<AccessIdentifierTerm>();
+    ptr->index = index;
+    ptr->lhs = move(expr);
+    ptr->type = id->type;
+    ptr->location = id->location;
+    ptr->rhs = move(id);
     return ptr;
 }
 
