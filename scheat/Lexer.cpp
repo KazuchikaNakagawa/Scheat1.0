@@ -518,7 +518,7 @@ void Lexer::input(int c, int next){
             skipFlag = true;
             return;
         }
-        if (next == "\"") {
+        if (next == '\"') {
             buf.push_back(c);
             return;
         }

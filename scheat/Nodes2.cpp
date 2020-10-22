@@ -72,9 +72,21 @@ unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func
     auto ptr = make_unique<FunctionCallTerm>();
     ptr->func = func;
     ptr->value = token->value.strValue;
-    ptr->args = {};
+    ptr->args.clear();
     ptr->value = "FUNCTION";
     return ptr;
+}
+
+Value* AccessIdentifierTerm::codegen(IRStream &f){
+    auto l = lhs->codegenAsRef(f);
+    auto r = rhs->codegen(f);
+    if (rhs->value == "FUNCTION") {
+        rhs->addArgument(true, move(lhs));
+        
+    }else{
+        
+    }
+    return nullptr;
 }
 
 unique_ptr<VariableTerm> VariableTerm::init(Token *id, TypeData type){

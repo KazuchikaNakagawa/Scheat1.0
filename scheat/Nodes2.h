@@ -34,6 +34,7 @@ public:
     SourceLocation location;
     TypeData type;
     virtual Value *codegen(IRStream &) {return nullptr;};
+    virtual Value *codegenAsRef(IRStream &f) {return codegen(f);};
     virtual string userdump() { return "UNDEFINED"; };
     virtual ~Node() {};
 };
@@ -136,6 +137,7 @@ public:
     string value;
     Value * codegen(IRStream &) override { return nullptr; };
     string userdump() override { return "UNDEFINED"; };
+    virtual void addArgument(bool,unique_ptr<Expr>) {};
 };
 
 class VariableTerm : public _IdentifierTerm {
@@ -152,6 +154,13 @@ public:
     vector<unique_ptr<Expr>> args;
     Value * codegen(IRStream &) override;
     string userdump() override;
+    void addArgument(bool insertToTop, unique_ptr<Expr> arg) override{
+        if (insertToTop) {
+            args.insert(args.begin(), arg);
+        }else{
+            args.push_back(arg);
+        }
+    };
     static unique_ptr<FunctionCallTerm> init(Token *, Function *);
 };
 
@@ -167,6 +176,8 @@ public:
                                                  int);
 };
 
+
+
 // idterm : identifier
 //        | identifier ( expr , expr, ... )
 class IdentifierTerm : public Term {
@@ -179,6 +190,7 @@ public:
         location = t->location;
         index = ind;
     }
+    IdentifierTerm() {};
     IdentifierTerm(Token *t, int c, TypeData ty);
     // when this means function, it is used for check
     int countOfArgs = 0;
@@ -197,6 +209,11 @@ public:
     string userdump() override { return "UNDEFINED"; };
 };
 
+class TheIdentifierTerm : public _IdentifierTerm {
+public:
+    unique_ptr<_IdentifierExpr> id;
+    // todo
+};
 // idexpr : idterm
 //        | idexpr . idterm
 class IdentifierExpr : public Term {
@@ -214,7 +231,7 @@ public:
                                                 Token *,
                                                 unique_ptr<IdentifierTerm>);
     Value * codegen(IRStream &) override;
-    Value * codegenAsRef(IRStream &);
+    Value * codegenAsRef(IRStream &) override;
     string userdump() override{
         if (lhs != nullptr && perTok != nullptr) {
             return lhs->userdump() + perTok->value.strValue + rhs->userdump();

@@ -198,7 +198,7 @@ extern unique_ptr<Expr> parser2::parseExpr(Token *&tok){
             goto parseLhs;
         }
         
-        return Expr::initAsPrefixOperatorExpr((*opiter).second, move(expr));
+        return nullptr;
     }
     parseLhs:
     auto prim =  parser2::parsePrimary(tok);
@@ -244,7 +244,7 @@ extern unique_ptr<Expr> parser2::parseExpr(Token *&tok){
                                 optok->value.strValue.c_str());
         }
     }else{
-        return Expr::init(move(prim));
+        return prim;
     }
     parseInfix:
     auto expr = parser2::parseExpr(tok);
@@ -277,7 +277,7 @@ extern unique_ptr<Expr> parser2::parseExpr(Token *&tok){
                             typer->context->name.c_str());
         return nullptr;
     }
-    return Expr::initAsOperatedExpr(move(prim), oper, move(expr));
+    return InfixOperatorExpr::init(move(prim), oper, move(expr));
 
 }
 

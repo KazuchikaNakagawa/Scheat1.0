@@ -198,7 +198,7 @@ Class::Class(TypeData *ty) : type(ty){
 static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs, scheat::Token *tok, node::NodeData *rhs){
     if (lhs == nullptr) {
         // in this case, (OP Term) = prefix operator.
-        scheato->FatalError(__FILE_NAME__, __LINE__, "Int(llvm i32) has no operator(%s)(Int)", tok->value.strValue.c_str());
+        scheato->FatalError(scheato->location, __FILE_NAME__, __LINE__, "Int(llvm i32) has no operator(%s)(Int)", tok->value.strValue.c_str());
     }
     if (rhs == nullptr) {
         // in this case, (Term OP) = postfix operator.
@@ -206,7 +206,7 @@ static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs,
             
         }
     }
-    scheato->FatalError(__FILE_NAME__, __LINE__, "Unknown Error code %u", __LINE__);
+    scheato->FatalError(scheato->location, __FILE_NAME__, __LINE__, "Unknown Error code %u", __LINE__);
     return nullptr;
 }
 
@@ -254,7 +254,7 @@ public:
         }else if (t->kind == scheat::TokenKind::val_identifier){
             itok = t;
         }else{
-            scheato->FatalError(__FILE_NAME__,
+            scheato->FatalError(location,__FILE_NAME__,
                                __LINE__,
                                "in %d.%d this is not suitable for int type.",
                                t->location.line,
@@ -302,7 +302,7 @@ static node::NodeData *subFunc_OpInt(IRStream &f, node::NodeData *lhs, scheat::T
         << r1 << ", " << r2 << "\n";
         return new node::NodeData(r, "i32");
     }
-    scheato->FatalError(__FILE_NAME__,
+    scheato->FatalError(scheato->location,__FILE_NAME__,
                        __LINE__,
                        "in %d.%d Int(llvm i32) does not have %s operator.",
                        tok->location.line,
@@ -328,7 +328,7 @@ static node::NodeData *subFunc_OpInt_Primary(IRStream &f, node::NodeData *lhs, s
         << r1 << ", " << r2 << "\n";
         return new node::NodeData(r, "i32");
     }
-    scheato->FatalError(__FILE_NAME__,
+    scheato->FatalError(scheato->location, __FILE_NAME__,
                        __LINE__,
                        "in %d.%d Int(llvm i32) does not have %s operator.",
                        tok->location.line,
@@ -350,7 +350,7 @@ node::NodeData *node::PrimaryExpr::codegen(IRStream &f){
     auto lhs = exprs->codegen(f);
     auto rhs = term->codegen(f);
     if (lhs == nullptr || rhs == nullptr) {
-        scheato->FatalError(__FILE_NAME__,
+        scheato->FatalError(location,__FILE_NAME__,
                            __LINE__,
                            "SystemError. error code: %u",
                            scheat::ScheatError::ERR_node_has_illegal_value);
@@ -365,13 +365,13 @@ node::NodeData *node::PrimaryExpr::codegen(IRStream &f){
         k.erase(k.begin());
         auto ty = global_context->findClass(k);
         if (ty == nullptr) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(location,__FILE_NAME__, __LINE__,
                                 "%s is undefined.", k.c_str());
         }
         auto fu = ty->context->findFunc(opTok->encodeOperator());
         auto op = ty->operators[opTok->encodeOperator()];
         if (fu == nullptr) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(location,__FILE_NAME__, __LINE__,
                                 "%s has no operator %s",
                                 k.c_str(),
                                 opTok->value.strValue.c_str()
@@ -380,14 +380,14 @@ node::NodeData *node::PrimaryExpr::codegen(IRStream &f){
         }
         
         if (fu->argTypes[0].ir_used != lhs->size.ir_used) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(location,__FILE_NAME__, __LINE__,
                                 "%s needs %s type argument for left side.",
                                 opTok->value.strValue.c_str(),
                                 fu->argTypes[0].name.c_str());
         }
         
         if (fu->argTypes[0].ir_used != rhs->size.ir_used) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(location,__FILE_NAME__, __LINE__,
                                 "%s needs %s type argument for left side.",
                                 opTok->value.strValue.c_str(),
                                 fu->argTypes[1].name.c_str());
@@ -514,19 +514,19 @@ NodeData *node::IntTerm::codegen(IRStream &f){
     if (ident != nullptr) {
         auto k = ident->codegen(f);
         if (k->size.ir_used != "i32") {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is not an Int type.",ident->location.line, ident->location.column, ident->userdump().c_str());
+            scheato->FatalError(location,__FILE_NAME__, __LINE__, "in %d.%d %s is not an Int type.",ident->location.line, ident->location.column, ident->userdump().c_str());
         }
     }else if (valToken != nullptr){
         
     }else{
-        scheato->DevLog(__FILE_NAME__, __LINE__, "??");
+        scheato->DevLog(location,__FILE_NAME__, __LINE__, "??");
     }
     return nullptr;
 }
 
 node::NodeData *TermInt::codegen(IRStream &f){
     if (itok == nullptr) {
-        scheato->DevLog(__FILE_NAME__, __LINE__, "itok was null");
+        scheato->DevLog(location,__FILE_NAME__, __LINE__, "itok was null");
     }
     /*if (itok->kind == scheat::TokenKind::val_identifier) {
         Variable *v = local_context.top()->findVariable(itok->value.strValue);
@@ -556,7 +556,7 @@ node::NodeData *TermInt::codegen(IRStream &f){
 p_unique(TermInt) TermInt::init(scheat::Token *i){
     if (i->kind != scheat::TokenKind::val_num &&
         i->kind != scheat::TokenKind::val_identifier) {
-        scheato->FatalError(__FILE_NAME__,
+        scheato->FatalError(location,__FILE_NAME__,
                            __LINE__,
                            "in %d.%d illegal Node is shifted.",
                            i->location.line,
@@ -569,10 +569,10 @@ p_unique(TermInt) TermInt::init(scheat::Token *i){
 p_unique(node::IdentifierTerm) node::IdentifierTerm::create(std::string v, bool n){
     auto cond = local_context.top()->isExists(v);
     if (cond && !n) {
-        scheato->FatalError(__FILE_NAME__, __LINE__, "%s already exists.", v.c_str());
+        scheato->FatalError(scheato->location,__FILE_NAME__, __LINE__, "%s already exists.", v.c_str());
     }
     if (!cond && !n) {
-        scheato->FatalError(__FILE_NAME__, __LINE__, "%s does not exists.", v.c_str());
+        scheato->FatalError(scheato->location,__FILE_NAME__, __LINE__, "%s does not exists.", v.c_str());
     }
     auto o = std::make_unique<IdentifierTerm>(v);
     return o;
@@ -587,7 +587,7 @@ p_unique(PrintStatement) PrintStatement::make(std::unique_ptr<Expr> expr){
 }
 
 void PrintStatement::dump(IRStream &f){
-    scheato->Log(__FILE_NAME__, __LINE__, "jump print");
+    scheato->Log(location,__FILE_NAME__, __LINE__, "jump print");
 }
 
 NodeData *node::IdentifierExpr::codegen(IRStream &f){
@@ -595,7 +595,7 @@ NodeData *node::IdentifierExpr::codegen(IRStream &f){
         auto v = local_context.top()->findVariable(term->codegen(f)->value);
         if (v == nullptr) {
             // when the variable is undefined
-            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", term->location.line, term->location.column, term->codegen(f)->value.c_str());
+            scheato->FatalError(location,__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", term->location.line, term->location.column, term->codegen(f)->value.c_str());
         }
         auto r = local_context.top()->getRegister();
         f << r << " load " << v->type.ir_used << ", "
@@ -614,14 +614,14 @@ NodeData *node::IdentifierExpr::codegen(IRStream &f){
         auto pt = d->size.name;
         auto ptclass = local_context.top()->findClass(pt);
         if (ptclass == nullptr) {
-            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", expr->location.line, expr->location.column, pt.c_str());
+            scheato->FatalError(location,__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", expr->location.line, expr->location.column, pt.c_str());
         }
         bool isVar = true;
         if (ptclass->properties.find(term->codegen(f)->value) == ptclass->properties.end()) {
             isVar = false;
         }
         if (!isVar && ptclass->context->findFunc(term->codegen(f)->value) == nullptr){
-            scheato->FatalError(__FILE_NAME__, __LINE__, "in %d.%d %s has no function or methods named %s",
+            scheato->FatalError(location,__FILE_NAME__, __LINE__, "in %d.%d %s has no function or methods named %s",
                                 expr->location.line,
                                 expr->location.column,
                                 d->size.name.c_str(),
@@ -705,7 +705,7 @@ NodeData *node::Expr::codegen(IRStream &f){
         auto nd = exprs->codegen(f);
         auto cl = local_context.top()->findClass(nd->size.name);
         if (cl == nullptr) {
-            scheato->FatalError(__FILE_NAME__, __LINE__,
+            scheato->FatalError(location,__FILE_NAME__, __LINE__,
                                 "%s does not have operator %s",
                                 nd->size.name.c_str(),
                                 op->value.strValue.c_str());
