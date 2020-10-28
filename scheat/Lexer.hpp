@@ -78,6 +78,9 @@ public:
         }
         tokens->release();
         tokens = nullptr;
+        state = initState;
+        buf = "";
+        commentDepth = 0;
     }
     
     Token *getTokens() { return tokens; };

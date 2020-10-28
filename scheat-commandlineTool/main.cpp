@@ -77,6 +77,7 @@ int main(int argc, const char *argv[]){
                     
                     break;
                 }
+                std::string buf = std::string(kv) + "\n";
                 lexer.lex(kv);
                 
                 lexer.getTokens()->enumerate();

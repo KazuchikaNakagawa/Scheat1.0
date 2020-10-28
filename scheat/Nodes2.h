@@ -49,6 +49,7 @@ public:
     Value * codegen(IRStream &) override{ return nullptr; };
     string userdump() override{ return "UNDEFINED"; };
     virtual ~StatementNode() {};
+    virtual void commitment() {};
 };
 
 class Expr : public Node {
@@ -151,14 +152,14 @@ public:
 class FunctionCallTerm : public _IdentifierTerm {
 public:
     Function *func;
-    vector<unique_ptr<Expr>> args;
+    vector<unique_ptr<Expr>> args {};
     Value * codegen(IRStream &) override;
     string userdump() override;
     void addArgument(bool insertToTop, unique_ptr<Expr> arg) override{
         if (insertToTop) {
-            args.insert(args.begin(), arg);
+            args.insert(args.begin(), move(arg));
         }else{
-            args.push_back(arg);
+            args.push_back(move(arg));
         }
     };
     static unique_ptr<FunctionCallTerm> init(Token *, Function *);
@@ -212,11 +213,11 @@ public:
 class TheIdentifierTerm : public _IdentifierTerm {
 public:
     unique_ptr<_IdentifierExpr> id;
-    // todo
+    // todo init, codegen, userdump...
 };
 // idexpr : idterm
 //        | idexpr . idterm
-class IdentifierExpr : public Term {
+class __deprecated IdentifierExpr : public Term {
 public:
     unique_ptr<IdentifierExpr> lhs = nullptr;
     Token *perTok = nullptr;
@@ -486,6 +487,14 @@ public:
     static unique_ptr<DeclareVariableStatement>
     init(Token *, unique_ptr<Expr>,bool pub = true, bool con = false, bool nul = false);
     Value * codegen(IRStream &) override;
+};
+
+class IfStatement : public StatementNode {
+public:
+    unique_ptr<Expr> condition;
+    unique_ptr<Statement> thenS;
+    unique_ptr<Statement> elseS;
+    // todo
 };
 
 // ====================================

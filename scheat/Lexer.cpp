@@ -174,6 +174,7 @@ void Lexer::genTok(){
     //printf("genTok with %s\n", buf.c_str());
     if (buf.empty()) {
         state = initState;
+        clear();
         return;
     }
     Token *tok = new Token();
@@ -443,6 +444,7 @@ void Lexer::clear(){
     state = initState;
     buf = "";
     isPossibleForPPPTok = false;
+    commentDepth = 0;
 }
 
 void Lexer::input(int c, int next){

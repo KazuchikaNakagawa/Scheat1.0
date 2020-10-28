@@ -220,3 +220,13 @@ String String_init(char *p){
     s.buf.char_ptr = p;
     return s;
 }
+
+void *Dictionary_search(Dictionary *dict, void* key){
+    for (int i = 0; i < dict->count; i++) {
+        void *val = (void*)((uint64_t)dict->begPtr + dict->keySize * i);
+        if (dict->compareFunc(val, key)) {
+            return val;
+        }
+    }
+    return nullptr;
+}

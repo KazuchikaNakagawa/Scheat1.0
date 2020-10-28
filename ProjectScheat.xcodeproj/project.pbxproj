@@ -406,6 +406,7 @@
 		8205E18924D31CF4001C5130 /* libedit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libedit.tbd; path = usr/lib/libedit.tbd; sourceTree = SDKROOT; };
 		8205E18B24D31D02001C5130 /* libcurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurses.tbd; path = usr/lib/libcurses.tbd; sourceTree = SDKROOT; };
 		8205E18D24D31D0D001C5130 /* libm.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libm.tbd; path = usr/lib/libm.tbd; sourceTree = SDKROOT; };
+		8214272625456D530084CBA4 /* ProjectPlebs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectPlebs.h; sourceTree = "<group>"; };
 		8225412024E01BD600DBF05C /* ScheatNodes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatNodes.cpp; sourceTree = "<group>"; };
 		8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LegacyTypeScheat.hpp; sourceTree = "<group>"; };
 		8225412824E175F700DBF05C /* libScheatRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatRun.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -849,6 +850,7 @@
 				8262652F25275F4700E71311 /* ScheatEncoder.cpp */,
 				82806DD1250E0BA70010F012 /* ScheatBasicStructures.cpp */,
 				8283093624F93CB2006EFFEA /* CScheat.cpp */,
+				8214272625456D530084CBA4 /* ProjectPlebs.h */,
 			);
 			path = scheat;
 			sourceTree = "<group>";
@@ -1224,7 +1226,7 @@
 		829849D124D1B5A7004A7A64 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					820413C4251F7BBC0073CB03 = {
 						CreatedOnToolsVersion = 12.0.1;
@@ -1468,6 +1470,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R28UD9U8M7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1493,6 +1496,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R28UD9U8M7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1668,6 +1672,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R28UD9U8M7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1698,6 +1703,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R28UD9U8M7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1772,7 +1778,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-fno-exceptions",
@@ -1881,7 +1887,6 @@
 		829849F324D2DA20004A7A64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = NO;
@@ -1908,7 +1913,6 @@
 		829849F424D2DA20004A7A64 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = NO;
@@ -1931,7 +1935,6 @@
 		829849FF24D2DFA4004A7A64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
@@ -1960,7 +1963,6 @@
 		82984A0024D2DFA4004A7A64 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
@@ -1989,7 +1991,6 @@
 		82A1A23924D80AFE009C2E5F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
@@ -2018,7 +2019,6 @@
 		82A1A23A24D80AFE009C2E5F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = NO;
@@ -2065,7 +2065,6 @@
 		82AEB66624DC3DC400889AC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = NO;
@@ -2092,7 +2091,6 @@
 		82AEB66724DC3DC400889AC3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = NO;
 				CLANG_WARN_BOOL_CONVERSION = NO;
 				CLANG_WARN_COMMA = NO;
