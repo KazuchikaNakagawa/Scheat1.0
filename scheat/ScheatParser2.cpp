@@ -58,6 +58,19 @@ static bool isValue(Token *tok){
     return false;
 }
 
+static Operator *findOperator(Token *tok, TypeData type){
+    auto cla = global_context->findClass(type.name);
+    if (!cla) {
+        return nullptr;
+    }
+    auto iter = cla->operators.find(tok->value.strValue);
+    if (iter == cla->operators.end()) {
+        return nullptr;
+    }
+    
+    return iter->second;
+}
+
 extern unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&);
 
 static unique_ptr<IdentifierTermTemplate> parseIdentifierTerm(Token *&tok){
@@ -157,6 +170,26 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
     //      | float
     //      | PrifixOperatedTerm
     //      | ...
+    if (tok->kind == TokenKind::val_operator) {
+        auto saved = tok;
+        eatThis(tok);
+        auto term = parseTerm(tok);
+        if (!term) {
+            return nullptr;
+        }
+        
+        auto op = findOperator(saved, term->type);
+        if (!op) {
+            scheato->FatalError(saved->location, __FILE_NAME__, __LINE__,
+                                "%s was not found in class %s",
+                                saved->value.strValue.c_str(),
+                                term->type.name.c_str());
+            return nullptr;
+        }
+        
+        auto operTerm = PrefixOperatorTerm::init(op, move(term));
+        return operTerm;
+    }
     
     unique_ptr<Term> ptr = nullptr;
     
@@ -187,7 +220,15 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
     }
     
     else{
-        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "");
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "Regular value was not found.");
+        return nullptr;
+    }
+    
+    if (tok->kind == TokenKind::val_operator) {
+        auto op = findOperator(tok, ptr->type);
+        if (!op) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "");
+        }
     }
     
     return nullptr;
