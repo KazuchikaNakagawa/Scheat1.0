@@ -43,7 +43,7 @@ static bool isValue(Token *tok){
             return true;
             break;
         case scheat::TokenKind::val_operator:
-            return true;
+            return false;
         case scheat::TokenKind::val_str:
             return true;
         case scheat::TokenKind::val_bool:
@@ -58,7 +58,7 @@ static bool isValue(Token *tok){
     return false;
 }
 
-static Operator *findOperator(Token *tok, TypeData type){
+static Operator *findOperator(Token *tok, TypeData type, int priority = 9, int position = 9){
     auto cla = global_context->findClass(type.name);
     if (!cla) {
         return nullptr;
@@ -66,6 +66,18 @@ static Operator *findOperator(Token *tok, TypeData type){
     auto iter = cla->operators.find(tok->value.strValue);
     if (iter == cla->operators.end()) {
         return nullptr;
+    }
+    
+    if (priority != 9) {
+        if (iter->second->precidence != priority) {
+            return nullptr;
+        }
+    }
+    
+    if (position != 9) {
+        if (iter->second->position != position) {
+            return nullptr;
+        }
     }
     
     return iter->second;
@@ -170,6 +182,9 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
     //      | float
     //      | PrifixOperatedTerm
     //      | ...
+    
+    // prefix
+    //-------------------------------------------------------------------------
     if (tok->kind == TokenKind::val_operator) {
         auto saved = tok;
         eatThis(tok);
@@ -178,7 +193,7 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
             return nullptr;
         }
         
-        auto op = findOperator(saved, term->type);
+        auto op = findOperator(saved, term->type, prefix, termly);
         if (!op) {
             scheato->FatalError(saved->location, __FILE_NAME__, __LINE__,
                                 "%s was not found in class %s",
@@ -224,17 +239,45 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
         return nullptr;
     }
     
+    // -------------------------------------------------------------------------
+    
+    // infix/postfix
+    
     if (tok->kind == TokenKind::val_operator) {
-        auto op = findOperator(tok, ptr->type);
-        if (!op) {
-            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "");
+        
+        if (isValue(tok)) {
+            goto ParseInfix;
         }
+        
+        auto op = findOperator(tok, ptr->type, postfix, termly);
+        if (!op) {
+//            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+//                                "%s was not found in class %s",
+//                                tok->value.strValue.c_str(),
+//                                ptr->type.name.c_str());
+            return ptr;
+        }
+        eatThis(tok);
+        auto operatedTerm = PostfixOperatorTerm::init(move(ptr), op);
+        return operatedTerm;
     }
     
+    ParseInfix:
+    auto op = findOperator(tok, ptr->type, infix, termly);
+    if (!op) {
+        return ptr;
+    }
+    eatThis(tok);
+    auto rhs = parsePrimary(tok);
+    if (!rhs) {
+        return nullptr;
+    }
     return nullptr;
 }
 
 extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
+    // primary : term
+    //         |
     return nullptr;
 }
 

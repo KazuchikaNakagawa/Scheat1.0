@@ -214,20 +214,24 @@ public:
     TypeData(std::string a, std::string ir) : name(a), ir_used(ir) {};
 };
 
+enum OperatorPosition {
+    prefix,
+    infix,
+    postfix
+};
+
+enum OperatorPresidence {
+    primary,
+    secondary,
+    termly
+};
+
 class Operator {
     
 public:
-    enum{
-        prefix,
-        infix,
-        postfix
-    } position;
+    OperatorPosition position;
     
-    enum{
-        primary,
-        secondary,
-        term
-    } precidence;
+    OperatorPresidence precidence;
     
     std::string value;
     
