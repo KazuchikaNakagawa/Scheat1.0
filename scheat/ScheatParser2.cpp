@@ -58,22 +58,69 @@ static bool isValue(Token *tok){
     return false;
 }
 
-static unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
+extern unique_ptr<_IdentifierExpr> parseIdentifierExpr(Token *&);
+
+static unique_ptr<_IdentifierTerm> parseIdentifierTerm(Token *&tok){
+    if (tok->kind == scheat::TokenKind::tok_this) {
+        auto idexpr = parseIdentifierExpr(tok);
+        if (!idexpr) {
+            return nullptr;
+        }
+        auto ptr = TheIdentifierTerm::init(move(idexpr));
+        return ptr;
+    }
+    return nullptr;
+}
+
+int hasProperty(TypeData type, string k){
+    Class *cl = global_context->findClass(type.name);
+    if (!cl) {
+        scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "-? type %s does not exist...", type.name.c_str());
+        return 0;
+    }
+    auto itervar = cl->properties.find(k);
+    if (itervar == cl->properties.end()) {
+        scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "-? property %s does not exist...", k.c_str());
+        return 0;
+    }
+    return 0;
+}
+
+unique_ptr<_IdentifierExpr> parseIdentifierExpr(Token *&tok){
     
     // identifierExpr : the ID
     //                | this
     //                | ID . ID
-    if (tok->kind == scheat::TokenKind::tok_this) {
-        
+
+    if (tok->kind == scheat::TokenKind::val_identifier) {
+        auto ptr = parseIdentifierTerm(tok);
+        if (!ptr) {
+            return nullptr;
+        }
+        if (tok->kind == scheat::TokenKind::tok_access) {
+            unique_ptr<_IdentifierExpr> expr = nullptr;
+            eatThis(tok);
+            auto child = parseIdentifierTerm(tok);
+            
+            
+            
+            if (!child) {
+                return nullptr;
+            }
+            expr = AccessIdentifierTerm::init(move(ptr), move(child), 0);
+            while (true) {
+                if (true) {
+                    
+                }
+            }
+            
+        }else{
+            return ptr;
+        }
     }
     
-    auto base = tok;
-    Token *opTok = nullptr;
-    if (tok->next->kind == scheat::TokenKind::tok_access) {
-        
-    }else{
-        auto ptr = make_unique<IdentifierTerm>();
-    }
+    
+    
     return nullptr;
 }
 
@@ -95,7 +142,7 @@ static unique_ptr<Term> parseTermNodes(Token*& tok){
         return ptr;
     }
     if (tok->kind == scheat::TokenKind::val_identifier) {
-        
+        auto ptr = parseIdentifierExpr(tok);
     }
     return nullptr;
 }

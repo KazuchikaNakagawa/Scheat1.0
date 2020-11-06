@@ -266,7 +266,7 @@ void Lexer::genTok(){
     }
     
     if (buf == "that" || buf == "the" || buf == "those") {
-        tok->kind = TokenKind::tok_that;
+        tok->kind = TokenKind::tok_the;
         tadd;
         clear();
         return;
@@ -391,7 +391,7 @@ void Token::out(){
         printf("is token\n");
         return;
     }
-    if (kind == TokenKind::tok_that) {
+    if (kind == TokenKind::tok_the) {
         printf("that token\n");
         return;
     }

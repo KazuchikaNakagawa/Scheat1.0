@@ -26,7 +26,7 @@ enum class TokenKind : int {
     val_operator,
     
     tok_this,
-    tok_that,
+    tok_the,
     tok_is,
     tok_of,
     tok_period,

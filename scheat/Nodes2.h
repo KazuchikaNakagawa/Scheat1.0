@@ -133,7 +133,13 @@ public:
     };
 };
 
-class _IdentifierTerm : public Term {
+class _IdentifierExpr : public Expr {
+public:
+    Value * codegen(IRStream &) override{ return nullptr; };
+    string userdump() override { return "UNDEFINED"; };
+};
+
+class _IdentifierTerm : public _IdentifierExpr {
 public:
     string value;
     Value * codegen(IRStream &) override { return nullptr; };
@@ -177,11 +183,9 @@ public:
                                                  int);
 };
 
-
-
 // idterm : identifier
 //        | identifier ( expr , expr, ... )
-class IdentifierTerm : public Term {
+class IdentifierTerm : public _IdentifierTerm {
 public:
     string value;
     vector<unique_ptr<Expr>> args = {};
@@ -204,16 +208,14 @@ public:
     string userdump() override;
 };
 
-class _IdentifierExpr : public Expr {
-public:
-    Value * codegen(IRStream &) override{ return nullptr; };
-    string userdump() override { return "UNDEFINED"; };
-};
-
 class TheIdentifierTerm : public _IdentifierTerm {
 public:
     unique_ptr<_IdentifierExpr> id;
-    // todo init, codegen, userdump...
+    static unique_ptr<TheIdentifierTerm> init(unique_ptr<_IdentifierExpr>);
+    Value * codegen(IRStream &) override;
+    string userdump() override{
+        return id->userdump() + ".pointer";
+    };
 };
 // idexpr : idterm
 //        | idexpr . idterm

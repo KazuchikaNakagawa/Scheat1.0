@@ -84,9 +84,24 @@ Value* AccessIdentifierTerm::codegen(IRStream &f){
         rhs->addArgument(true, move(lhs));
         
     }else{
-        
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = getelementptr " << l->type.ir_used << ", " << l->asValue() << ", i32 0, i32 "
+        << to_string(index) << "\n";
+        return new Value(reg, r->type);
     }
     return nullptr;
+}
+
+unique_ptr<TheIdentifierTerm> TheIdentifierTerm::init(unique_ptr<_IdentifierExpr> expr){
+    auto ptr = make_unique<TheIdentifierTerm>();
+    ptr->location = expr->location;
+    ptr->type = TypeData(expr->type.name + "*", expr->type.name + "*");
+    ptr->id = move(expr);
+    return ptr;
+}
+
+Value *TheIdentifierTerm::codegen(IRStream &f){
+    return id->codegenAsRef(f);
 }
 
 unique_ptr<VariableTerm> VariableTerm::init(Token *id, TypeData type){
