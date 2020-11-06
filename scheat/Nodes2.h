@@ -133,13 +133,13 @@ public:
     };
 };
 
-class _IdentifierExpr : public Expr {
+class IdentifierExprTemplate : public Term {
 public:
     Value * codegen(IRStream &) override{ return nullptr; };
     string userdump() override { return "UNDEFINED"; };
 };
 
-class _IdentifierTerm : public _IdentifierExpr {
+class IdentifierTermTemplate : public IdentifierExprTemplate {
 public:
     string value;
     Value * codegen(IRStream &) override { return nullptr; };
@@ -147,7 +147,7 @@ public:
     virtual void addArgument(bool,unique_ptr<Expr>) {};
 };
 
-class VariableTerm : public _IdentifierTerm {
+class VariableTerm : public IdentifierTermTemplate {
 public:
     //string value;
     Value * codegen(IRStream &) override;
@@ -155,7 +155,7 @@ public:
     static unique_ptr<VariableTerm> init(Token *, TypeData);
 };
 
-class FunctionCallTerm : public _IdentifierTerm {
+class FunctionCallTerm : public IdentifierTermTemplate {
 public:
     Function *func;
     vector<unique_ptr<Expr>> args {};
@@ -171,21 +171,21 @@ public:
     static unique_ptr<FunctionCallTerm> init(Token *, Function *);
 };
 
-class AccessIdentifierTerm : public _IdentifierTerm {
+class AccessIdentifierTerm : public IdentifierTermTemplate {
 public:
     Value * codegen(IRStream &) override;
     string userdump() override;
     unique_ptr<Expr> lhs;
-    unique_ptr<_IdentifierTerm> rhs;
+    unique_ptr<IdentifierTermTemplate> rhs;
     int index;
     static unique_ptr<AccessIdentifierTerm> init(unique_ptr<Expr>,
-                                                 unique_ptr<_IdentifierTerm>,
+                                                 unique_ptr<IdentifierTermTemplate>,
                                                  int);
 };
 
 // idterm : identifier
 //        | identifier ( expr , expr, ... )
-class IdentifierTerm : public _IdentifierTerm {
+class IdentifierTerm : public IdentifierTermTemplate {
 public:
     string value;
     vector<unique_ptr<Expr>> args = {};
@@ -208,46 +208,21 @@ public:
     string userdump() override;
 };
 
-class TheIdentifierTerm : public _IdentifierTerm {
+class TheIdentifierTerm : public IdentifierTermTemplate {
 public:
-    unique_ptr<_IdentifierExpr> id;
-    static unique_ptr<TheIdentifierTerm> init(unique_ptr<_IdentifierExpr>);
+    unique_ptr<IdentifierExprTemplate> id;
+    static unique_ptr<TheIdentifierTerm> init(unique_ptr<IdentifierExprTemplate>);
     Value * codegen(IRStream &) override;
     string userdump() override{
         return id->userdump() + ".pointer";
     };
 };
-// idexpr : idterm
-//        | idexpr . idterm
-class __deprecated IdentifierExpr : public Term {
-public:
-    unique_ptr<IdentifierExpr> lhs = nullptr;
-    Token *perTok = nullptr;
-    unique_ptr<IdentifierTerm> rhs = nullptr;
-    IdentifierExpr(unique_ptr<IdentifierTerm>,TypeData);
-    IdentifierExpr(unique_ptr<IdentifierExpr>, Token *, unique_ptr<IdentifierTerm>,TypeData);
-    static unique_ptr<IdentifierExpr> init(unique_ptr<IdentifierTerm>,
-                                           TypeData);
-    static
-    unique_ptr<IdentifierExpr> initAsAccessExpr(
-                                                unique_ptr<IdentifierExpr>,
-                                                Token *,
-                                                unique_ptr<IdentifierTerm>);
-    Value * codegen(IRStream &) override;
-    Value * codegenAsRef(IRStream &) override;
-    string userdump() override{
-        if (lhs != nullptr && perTok != nullptr) {
-            return lhs->userdump() + perTok->value.strValue + rhs->userdump();
-        }
-        return rhs->userdump();
-    };
-};
 
-class NewIdentifierExpr : public _IdentifierExpr {
+class NewIdentifierExpr : public IdentifierExprTemplate {
 public:
     Value * codegen(IRStream &) override;
-    unique_ptr<_IdentifierTerm> id;
-    static unique_ptr<NewIdentifierExpr> init(unique_ptr<_IdentifierTerm> ident, TypeData type){
+    unique_ptr<IdentifierTermTemplate> id;
+    static unique_ptr<NewIdentifierExpr> init(unique_ptr<IdentifierTermTemplate> ident, TypeData type){
         auto ptr = make_unique<NewIdentifierExpr>();
         ptr->id = move(ident);
         ptr->type = type;
@@ -291,30 +266,6 @@ public:
     PrefixOperatorTerm() {};
     static unique_ptr<PrefixOperatorTerm> init(Operator *,
                                                unique_ptr<Term>);
-};
-
-// term : TermNode
-//      | TermNode OP term
-//      | OP term
-//      | term OP
-class __deprecated DeprecatedTerm : public Node{
-public:
-    unique_ptr<Term> lhs = nullptr;
-    Operator *op = nullptr;
-    unique_ptr<DeprecatedTerm> rhs = nullptr;
-    Value * codegen(IRStream &) override;
-    string userdump() override;
-    __deprecated_msg("this class is for unique_ptr")
-    DeprecatedTerm() {};
-    static unique_ptr<DeprecatedTerm> init(unique_ptr<Term>);
-    static unique_ptr<DeprecatedTerm> initAsInfixOperatorExpr(unique_ptr<Term>,
-                                               Operator *,
-                                               unique_ptr<DeprecatedTerm>);
-    static unique_ptr<DeprecatedTerm> initAsPrefixOperatorExpr(Operator *,
-                                                     unique_ptr<DeprecatedTerm>);
-    static unique_ptr<DeprecatedTerm> initAsPostfixOperatorExpr(unique_ptr<DeprecatedTerm>,
-                                                      Operator *);
-    
 };
 
 class InfixOperatorPrimaryExpr : public PrimaryExpr {

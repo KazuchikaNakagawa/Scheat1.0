@@ -32,9 +32,9 @@ unique_ptr<StatementNode> parseStatement_single(Token *&);
 
 unique_ptr<Expr> parseExpr(Token *&);
 
-unique_ptr<OperatedPrimaryExpr> parsePrimary(Token *&);
+unique_ptr<PrimaryExpr> parsePrimary(Token *&);
 
-unique_ptr<DeprecatedTerm> parseTerm(Token *&);
+unique_ptr<Term> parseTerm(Token *&);
 
 }
 

@@ -58,9 +58,9 @@ static bool isValue(Token *tok){
     return false;
 }
 
-extern unique_ptr<_IdentifierExpr> parseIdentifierExpr(Token *&);
+extern unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&);
 
-static unique_ptr<_IdentifierTerm> parseIdentifierTerm(Token *&tok){
+static unique_ptr<IdentifierTermTemplate> parseIdentifierTerm(Token *&tok){
     if (tok->kind == scheat::TokenKind::tok_this) {
         auto idexpr = parseIdentifierExpr(tok);
         if (!idexpr) {
@@ -82,11 +82,13 @@ int hasProperty(TypeData type, string k){
     if (itervar == cl->properties.end()) {
         scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "-? property %s does not exist...", k.c_str());
         return 0;
+    }else{
+        return itervar->second;
     }
     return 0;
 }
 
-unique_ptr<_IdentifierExpr> parseIdentifierExpr(Token *&tok){
+unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&tok){
     
     // identifierExpr : the ID
     //                | this
@@ -98,7 +100,7 @@ unique_ptr<_IdentifierExpr> parseIdentifierExpr(Token *&tok){
             return nullptr;
         }
         if (tok->kind == scheat::TokenKind::tok_access) {
-            unique_ptr<_IdentifierExpr> expr = nullptr;
+            unique_ptr<IdentifierExprTemplate> expr = nullptr;
             eatThis(tok);
             auto child = parseIdentifierTerm(tok);
             
@@ -147,185 +149,57 @@ static unique_ptr<Term> parseTermNodes(Token*& tok){
     return nullptr;
 }
 
-extern unique_ptr<DeprecatedTerm> parser2::parseTerm(Token *&tok){
+extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
+    // term : identifierExpr
+    //      | int
+    //      | string
+    //      | bool
+    //      | float
+    //      | PrifixOperatedTerm
+    //      | ...
     
-    return nullptr;
-}
-
-extern unique_ptr<OperatedPrimaryExpr> parser2::parsePrimary(Token *&tok){
-    parsePrefix:
-    // primary : OP primary
-    if (tok->kind == scheat::TokenKind::val_operator) {
-        Token *savedOP = tok;
-        auto saved = tok->next;
-        auto primary = parser2::parsePrimary(saved);
-        if (!primary) {
-            return nullptr;
-        }
-        if (scheato->hasProbrem()) {
-            return nullptr;
-        }
-        auto type = global_context->findClass(primary->type.name);
-        if (!type) {
-            scheato->FatalError(primary->location,
-                                __FILE_NAME__, __LINE__,
-                                "in %d.%d Unknown type %s",
-                                primary->location.line,
-                                primary->location.column,
-                                primary->type.name.c_str());
-            return nullptr;
-        }
-        auto op = type->findOperator(savedOP->value.strValue);
-        if (!op) {
-            goto parseInfix;
-        }else{
-            tok = saved;
-        }
-        if (op->position != op->prefix) {
-            scheato->FatalError(savedOP->location,
-                                __FILE_NAME__, __LINE__,
-                                "operator %s is not prefix operator",
-                                savedOP->value.strValue.c_str());
-            return nullptr;
-        }
-        if (primary->type != op->lhs_type) {
-            scheato->FatalError(savedOP->location, __FILE_NAME__, __LINE__,
-                                "operator %s(%s) is undefined",
-                                savedOP->value.strValue.c_str(),
-                                op->lhs_type->name.c_str());
-            return nullptr;
-        }
-        
-    }
-    parseInfix:
-    auto term = parseTerm(tok);
-    if (!term) {
-        return nullptr;
-    }
+    unique_ptr<Term> ptr = nullptr;
     
-    return nullptr;
-}
-
-extern unique_ptr<Expr> parser2::parseExpr(Token *&tok){
-    unique_ptr<Expr> toreturn = nullptr;
-    parsePrefix:
-    // expr : op expr
-    if (tok->kind == scheat::TokenKind::val_operator) {
-        Token *saved = tok;
-        Token *saved2 = tok->next;
-        auto expr = parser2::parseExpr(saved2);
-        if (!expr) {
-            return nullptr;
-        }
-        if (!scheato->hasProbrem()) {
-            tok = saved2;
-        }
-        auto type = global_context->findClass(expr->type.name);
-        if (type == nullptr) {
-            scheato->FatalError(expr->location,
-                                __FILE_NAME__, __LINE__,
-                                "in %d.%d Unknown type %s",
-                                expr->location.line,
-                                expr->location.column,
-                                expr->type.name.c_str());
-            return nullptr;
-        }
-        auto opiter = type->operators.find(saved->value.strValue);
-        
-        if (opiter == type->operators.end()) {
-            // expr : op (expr) -> expr : primary(op expr)
-            tok = saved;
-            goto parseLhs;
-        }
-        
-        if ((*opiter).second->precidence != scheat::basics::Operator::secondary) {
-            // op (expr) -> (op expr)
-            tok = saved;
-            
-            goto parseLhs;
-        }
-        
-        return nullptr;
-    }
-    parseLhs:
-    auto prim =  parser2::parsePrimary(tok);
-    if (!prim) {
-        return nullptr;
-    }
-    auto type = global_context->findClass(prim->type.name);
-    if (!type) {
-        scheato->FatalError(prim->location,
-                            __FILE_NAME__, __LINE__,
-                            "in %d.%d Unknown type %s",
-                            prim->location.line,
-                            prim->location.column,
-                            prim->type.name.c_str());
-    }
-    Token *optok = nullptr;
-    parsePostfix:
-    if (tok->kind == scheat::TokenKind::val_operator) {
-        // expr : primary op
-        optok = tok;
+    // immediates
+    if (tok->kind == TokenKind::val_num) {
+        ptr = make_unique<IntTerm>(tok);
         eatThis(tok);
-        // check if infix or postfix
-        if (isValue(tok)) {
-            goto parseInfix;
-        }
-        auto oper = type->operators[optok->value.strValue];
-        if (oper == nullptr) {
-            scheato->FatalError(prim->location,
-                                __FILE_NAME__, __LINE__,
-                                "in %d.%d type %s has no operator %s",
-                                prim->location.line,
-                                prim->location.column,
-                                prim->type.name.c_str(),
-                                optok->value.strValue.c_str());
-            return nullptr;
-        }
-        if (oper->position != scheat::basics::Operator::postfix) {
-            scheato->FatalError(optok->location,
-                                __FILE_NAME__, __LINE__,
-                                "in %d.%d operator %s is not a infix operator",
-                                optok->location.line,
-                                optok->location.column,
-                                optok->value.strValue.c_str());
-        }
-    }else{
-        return prim;
     }
-    parseInfix:
-    auto expr = parser2::parseExpr(tok);
-    auto typer = global_context->findClass(expr->type.name);
-    auto oper = type->operators[optok->value.strValue];
-    if (oper == nullptr) {
-        scheato->FatalError(prim->location,
-                            __FILE_NAME__, __LINE__,
-                            "in %d.%d type %s has no operator %s",
-                            prim->location.line,
-                            prim->location.column,
-                            prim->type.name.c_str(),
-                            optok->value.strValue.c_str());
-        return nullptr;
+    
+    else if (tok->kind == TokenKind::val_str) {
+        ptr = make_unique<StringTerm>(tok);
+        eatThis(tok);
     }
-    if (oper->position != scheat::basics::Operator::infix) {
-        scheato->FatalError(optok->location,
-                            __FILE_NAME__, __LINE__,
-                            "in %d.%d operator %s is not a infix operator",
-                            optok->location.line,
-                            optok->location.column,
-                            optok->value.strValue.c_str());
+    
+    else if (tok->kind == TokenKind::val_bool) {
+        ptr = make_unique<BoolTerm>(tok);
+        eatThis(tok);
     }
-    if (expr->type == oper->rhs_type) {
-        scheato->FatalError(optok->location,
-                            __FILE_NAME__, __LINE__,
-                            "operator %s(the %s, %s) does not exists",
-                            optok->value.strValue.c_str(),
-                            prim->type.name.c_str(),
-                            typer->context->name.c_str());
-        return nullptr;
+    
+    else if (tok->kind == TokenKind::val_double) {
+        ptr = make_unique<FloatTerm>(tok);
+        eatThis(tok);
     }
-    return InfixOperatorExpr::init(move(prim), oper, move(expr));
+    
+    else if (tok->kind == TokenKind::val_identifier) {
+        ptr = parseIdentifierExpr(tok);
+        eatThis(tok);
+    }
+    
+    else{
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "");
+    }
+    
+    return nullptr;
+}
 
+extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
+    return nullptr;
+}
+
+extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
+    
+    return nullptr;
 }
 
 extern void parser2::parse(Scheat *sch,Token *tokens){
