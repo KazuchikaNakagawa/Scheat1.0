@@ -245,7 +245,7 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
     
     if (tok->kind == TokenKind::val_operator) {
         
-        if (isValue(tok)) {
+        if (isValue(tok->next)) {
             goto ParseInfix;
         }
         
@@ -277,11 +277,87 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
 
 extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
     // primary : term
-    //         |
-    return nullptr;
+    //         | term op primary
+    //         | op primary
+    unique_ptr<Term> ptr = nullptr;
+    if (tok->kind == TokenKind::val_operator) {
+        auto saved = tok;
+        eatThis(tok);
+        auto term = parsePrimary(tok);
+        auto op = findOperator(tok, term->type, prefix, primary);
+        if (!op) {
+            tok = saved;
+            goto infix_postfix;
+        }
+        auto ptr = PrefixOperatorPrimaryExpr::init(op, move(term));
+    }
+    
+    infix_postfix:
+    ptr = parseTerm(tok);
+    
+    if (!ptr) {
+        return nullptr;
+    }
+    
+    if (tok->kind == TokenKind::val_operator) {
+        if (isValue(tok->next)) {
+            // infix
+            auto saved = tok;
+            eatThis(tok);
+            auto primary = parsePrimary(tok);
+            if (!primary) {
+                return nullptr;
+            }
+            auto op = findOperator(saved, ptr->type);
+            if (!op) {
+                tok = saved;
+                return ptr;
+            }
+            
+            auto ret = InfixOperatorPrimaryExpr::init(move(ptr), op, move(primary));
+            return ret;
+            
+        }else{
+            // postfix
+            auto op = findOperator(tok, ptr->type);
+            if (!op) {
+                return ptr;
+            }
+            eatThis(tok);
+            auto ret = PostfixOperatorPrimaryExpr::init(move(ptr), op);
+            return ret;
+        }
+        
+    }
+    
+    
+    return ptr;
 }
 
 extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
+    // 1. op expr
+    unique_ptr<PrimaryExpr> ptr = nullptr;
+    
+    if (tok->kind == TokenKind::val_operator) {
+        auto saved = tok;
+        eatThis(tok);
+        auto rhs = parseExpr(tok);
+        if (!rhs) {
+            return nullptr;
+        }
+        auto op = findOperator(saved, rhs->type);
+        if (!op) {
+            // (!primary)
+            tok = saved;
+            goto infix_postfix;
+        }
+        
+        auto ret = PrefixOperatorExpr::init(op, move(rhs));
+        
+    }
+    
+    infix_postfix:
+    
     
     return nullptr;
 }
