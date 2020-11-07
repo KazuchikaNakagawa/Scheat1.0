@@ -58,7 +58,7 @@ static bool isValue(Token *tok){
     return false;
 }
 
-static Operator *findOperator(Token *tok, TypeData type, int priority = 9, int position = 9){
+static Operator *findOperator(Token *tok, TypeData type, OperatorPosition position, OperatorPresidence priority){
     auto cla = global_context->findClass(type.name);
     if (!cla) {
         return nullptr;
@@ -68,17 +68,16 @@ static Operator *findOperator(Token *tok, TypeData type, int priority = 9, int p
         return nullptr;
     }
     
-    if (priority != 9) {
-        if (iter->second->precidence != priority) {
-            return nullptr;
-        }
+    
+    if (iter->second->precidence != priority) {
+        return nullptr;
     }
     
-    if (position != 9) {
-        if (iter->second->position != position) {
-            return nullptr;
-        }
+    
+    if (iter->second->position != position) {
+        return nullptr;
     }
+    
     
     return iter->second;
 }
@@ -243,6 +242,10 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
     
     // infix/postfix
     
+    if (tok == nullptr) {
+        return ptr;
+    }
+    
     if (tok->kind == TokenKind::val_operator) {
         
         if (isValue(tok->next)) {
@@ -297,6 +300,10 @@ extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
     
     if (!ptr) {
         return nullptr;
+    }
+    
+    if (!tok) {
+        return ptr;
     }
     
     if (tok->kind == TokenKind::val_operator) {
@@ -361,6 +368,10 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
     
     if (!prim) {
         return nullptr;
+    }
+    
+    if (!tok) {
+        return prim;
     }
     
     if (tok->kind == TokenKind::val_operator) {

@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include "Lexer.hpp"
-
+#include "ScheatStatics.h"
 
 void scheat::Tokens::skip(){
     seek_ptr = seek_ptr->next;
@@ -19,4 +19,8 @@ void scheat::Tokens::back(){
 
 void scheat::eatThis(scheat::Token *&tokref){
     tokref = tokref->next;
+    if (tokref == nullptr) {
+        statics::scheato->Log(statics::scheato->location, __FILE_NAME__, __LINE__, "Lex ended");
+        
+    }
 }

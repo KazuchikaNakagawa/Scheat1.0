@@ -19,10 +19,14 @@ int main(int argc, const char * argv[]) {
     scheat::statics::scheato = schprj;
     //scheat::LegacyScheatParser::LLParse(schprj);
     scheat::lexer::Lexer lxr(schprj);
-    scheat::LegacyScheatParser::E9::InitializeContexts();
-    lxr.lex("1 + 2");
+    scheat::InitializeAll();
+    scheat::InitializeFoundationClass();
+    lxr.lex("1 * 2 - 78");
     auto tokens = lxr.getTokens();
     auto ptr = scheat::parser2::parseExpr(tokens);
-    ptr->userdump();
+    scheat::IRStream f;
+    ptr->codegen(f);
+    f.printout();
     return 0;
 }
+

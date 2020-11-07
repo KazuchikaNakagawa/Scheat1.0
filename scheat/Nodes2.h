@@ -25,7 +25,7 @@ public:
     string value;
     Value(string s, TypeData t) : value(s), type(t) {};
     string asValue(){
-        return type.ir_used + "* " + value;
+        return type.ir_used + " " + value;
     };
 };
 
@@ -291,6 +291,9 @@ public:
                                                      Operator *,
                                                      unique_ptr<PrimaryExpr>);
     Value * codegen(IRStream &) override;
+    string userdump() override{
+        return lhs->userdump() + op->value + rhs->userdump();
+    }
 };
 
 class PrefixOperatorPrimaryExpr : public PrimaryExpr {

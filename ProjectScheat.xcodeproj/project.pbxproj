@@ -218,6 +218,7 @@
 		82E6976A24D32C0200F13264 /* libz.1.2.8.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976524D32C0200F13264 /* libz.1.2.8.tbd */; };
 		82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82ECF52C24D3A72900EB8316 /* Lexer.cpp */; };
 		82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82ECF52D24D3A72900EB8316 /* Lexer.hpp */; };
+		82FF1F3F255631A90047DEF4 /* Initializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1F3E255631A90047DEF4 /* Initializer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -484,6 +485,8 @@
 		82E6976524D32C0200F13264 /* libz.1.2.8.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.8.tbd; path = usr/lib/libz.1.2.8.tbd; sourceTree = SDKROOT; };
 		82ECF52C24D3A72900EB8316 /* Lexer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lexer.cpp; sourceTree = "<group>"; };
 		82ECF52D24D3A72900EB8316 /* Lexer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lexer.hpp; sourceTree = "<group>"; };
+		82FF1F3D2556317E0047DEF4 /* Initializers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Initializers.h; sourceTree = "<group>"; };
+		82FF1F3E255631A90047DEF4 /* Initializer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Initializer.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -828,6 +831,7 @@
 				826720A724F64C4300C94D22 /* ScheatBasicStructures.h */,
 				829CD922251F26B600139E5F /* ScheatParser2.h */,
 				826265942527652900E71311 /* Classes.h */,
+				82FF1F3D2556317E0047DEF4 /* Initializers.h */,
 				829CD926251F28A900139E5F /* Nodes2.h */,
 				826720A624F64B8200C94D22 /* ScheatContext.h */,
 				8262653025275F4700E71311 /* ScheatEncoder.h */,
@@ -851,6 +855,7 @@
 				82806DD1250E0BA70010F012 /* ScheatBasicStructures.cpp */,
 				8283093624F93CB2006EFFEA /* CScheat.cpp */,
 				8214272625456D530084CBA4 /* ProjectPlebs.h */,
+				82FF1F3E255631A90047DEF4 /* Initializer.cpp */,
 			);
 			path = scheat;
 			sourceTree = "<group>";
@@ -1347,6 +1352,7 @@
 				8225412224E01BD600DBF05C /* ScheatNodes.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
 				829CD923251F26B600139E5F /* ScheatParser2.cpp in Sources */,
+				82FF1F3F255631A90047DEF4 /* Initializer.cpp in Sources */,
 				82806DD5250E15DA0010F012 /* Statics.cpp in Sources */,
 				8262653125275F4700E71311 /* ScheatEncoder.cpp in Sources */,
 				82806DCE250E09F30010F012 /* ScheatParser.cpp in Sources */,

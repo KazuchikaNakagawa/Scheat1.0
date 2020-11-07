@@ -162,7 +162,7 @@ Value *InfixOperatorExpr::codegen(IRStream &f){
         return nullptr;
     }else{
         auto reg = local_context.top()->getRegister();
-        f << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << "\n";
+        f << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
         return new Value(reg, op->return_type);
@@ -256,7 +256,7 @@ Value *InfixOperatorPrimaryExpr::codegen(IRStream &f){
         return nullptr;
     }else{
         auto reg = local_context.top()->getRegister();
-        f << reg << " = call " << op->return_type.ir_used << "(" << l->type.ir_used << ", " << r->type.ir_used << ")" << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
+        f << reg << " = call " << op->return_type.ir_used << "(" << l->type.ir_used << ", " << r->type.ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
         return new Value(reg, op->return_type);
