@@ -171,7 +171,7 @@ static TypeData inferPrimaryType(Token *&ktok){
         
         auto op = (*opiter).second;
         
-        if (op->precidence != scheat::basics::Operator::primary) {
+        if (op->precidence != primary) {
             ktok = ktok->prev;
             return inferPrimaryType(ktok);
         }
@@ -199,7 +199,7 @@ static TypeData inferType(){
         
         auto op = (*opiter).second;
         
-        if (op->precidence != scheat::basics::Operator::secondary) {
+        if (op->precidence != secondary) {
             ktok = ktok->prev;
             return inferPrimaryType(ktok);
         }
@@ -310,10 +310,10 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
                                 opTok->value.strValue.c_str());
         }
         auto op = opOwner->operators[opTok->value.strValue];
-        if (op->precidence != op->primary) {
+        if (op->precidence != OperatorPresidence::primary) {
             goto symbol;
         }
-        if (op->position != op->prefix) {
+        if (op->position != prefix) {
             scheato->FatalError(opTok->location, __FILE_NAME__, __LINE__,
                                 "in %d.%d %s's operator %s is not a prefix operator.",
                                 opTok->location.line,
@@ -352,10 +352,10 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
                                     opTok->value.strValue.c_str());
             }
             auto op = opOwner->operators[opTok->value.strValue];
-            if (op->precidence != op->primary) {
+            if (op->precidence != OperatorPresidence::primary) {
                 goto symbol;
             }
-            if (op->position != op->infix) {
+            if (op->position != infix) {
                 scheato->FatalError(opTok->location, __FILE_NAME__, __LINE__,
                                     "in %d.%d %s's operator %s is not a infix operator.",
                                     opTok->location.line,
@@ -399,10 +399,10 @@ p_unique(Expr) parseExpr(Token *&gltokens){
                                 opTok->value.strValue.c_str());
         }
         auto op = opOwner->operators[opTok->value.strValue];
-        if (op->precidence != op->secondary) {
+        if (op->precidence != OperatorPresidence::secondary) {
             goto symbol;
         }
-        if (op->position != op->infix) {
+        if (op->position != infix) {
             scheato->FatalError(opTok->location, __FILE_NAME__, __LINE__,
                                 "%s's operator %s is not a infix operator.",
                                 primary->node_size.name.c_str(),
@@ -439,10 +439,10 @@ p_unique(Expr) parseExpr(Token *&gltokens){
                                     opTok->value.strValue.c_str());
             }
             auto op = opOwner->operators[opTok->value.strValue];
-            if (op->precidence != op->secondary) {
+            if (op->precidence != secondary) {
                 goto symbol;
             }
-            if (op->position != op->prefix) {
+            if (op->position != prefix) {
                 scheato->FatalError(opTok->location,__FILE_NAME__, __LINE__,
                                     "in %d.%d %s's operator %s is not a prefix operator.",
                                     opTok->location.line,

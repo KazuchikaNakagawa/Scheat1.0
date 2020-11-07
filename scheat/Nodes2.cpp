@@ -474,23 +474,6 @@ IdentifierTerm::IdentifierTerm(Token *t, int c, TypeData ty){
     location = t->location;
 }
 
-unique_ptr<OperatedPrimaryExpr> OperatedPrimaryExpr::initAsSyntaxExpr(unique_ptr<PrimaryExpr> syn){
-    auto k = make_unique<OperatedPrimaryExpr>();
-    k->syntaxedExpr = true;
-    k->syntaxNode = move(syn);
-    k->op = nullptr;
-    k->lhs = nullptr;
-    k->rhs = nullptr;
-    return k;
-}
-
-Value *OperatedPrimaryExpr::codegen(IRStream &f){
-    if (syntaxedExpr) {
-        return nullptr;
-    }
-    return nullptr;
-}
-
 unique_ptr<DeclareVariableStatement>
 DeclareVariableStatement::init(Token *idtok, unique_ptr<Expr> expr, bool pub, bool con, bool nul){
     auto n = make_unique<DeclareVariableStatement>();

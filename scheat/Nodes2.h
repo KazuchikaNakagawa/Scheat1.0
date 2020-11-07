@@ -150,8 +150,11 @@ public:
 class VariableTerm : public IdentifierTermTemplate {
 public:
     //string value;
-    Value * codegen(IRStream &) override;
+    Value * codegen(IRStream &) override{
+        return nullptr;
+    };
     string userdump() override;
+    void addArgument(bool, unique_ptr<Expr>) override{};
     static unique_ptr<VariableTerm> init(Token *, TypeData);
 };
 
@@ -159,7 +162,7 @@ class FunctionCallTerm : public IdentifierTermTemplate {
 public:
     Function *func;
     vector<unique_ptr<Expr>> args {};
-    Value * codegen(IRStream &) override;
+    Value * codegen(IRStream &) override{return nullptr;};
     string userdump() override;
     void addArgument(bool insertToTop, unique_ptr<Expr> arg) override{
         if (insertToTop) {
@@ -174,13 +177,15 @@ public:
 class AccessIdentifierTerm : public IdentifierTermTemplate {
 public:
     Value * codegen(IRStream &) override;
-    string userdump() override;
+    string userdump() override{ return "UNDEFINED"; };
     unique_ptr<Expr> lhs;
     unique_ptr<IdentifierTermTemplate> rhs;
     int index;
     static unique_ptr<AccessIdentifierTerm> init(unique_ptr<Expr>,
                                                  unique_ptr<IdentifierTermTemplate>,
                                                  int);
+    void addArgument(bool, unique_ptr<Expr>) override{};
+    ~AccessIdentifierTerm() {};
 };
 
 // idterm : identifier
@@ -253,8 +258,15 @@ public:
     Value * codegen(IRStream &) override;
     string userdump() override;
     PostfixOperatorTerm() {};
-    static unique_ptr<PostfixOperatorTerm> init(unique_ptr<Term>,
-                                                Operator *);
+    static unique_ptr<PostfixOperatorTerm> init(unique_ptr<Term> t,
+                                                Operator *op){
+        auto ptr = make_unique<PostfixOperatorTerm>();
+        ptr->type = op->return_type;
+        ptr->location = t->location;
+        ptr->lhs = move(t);
+        ptr->op = op;
+        return ptr;
+    };
 };
 
 class PrefixOperatorTerm : public Term {
@@ -290,6 +302,7 @@ public:
     static unique_ptr<PrefixOperatorPrimaryExpr> init(Operator *,
                                                      unique_ptr<PrimaryExpr>);
     Value * codegen(IRStream &) override;
+    string userdump() override{ return op->value + rhs->userdump(); };
 };
 
 class PostfixOperatorPrimaryExpr : public PrimaryExpr {
@@ -300,34 +313,35 @@ public:
     PostfixOperatorPrimaryExpr() {};
     static unique_ptr<PostfixOperatorPrimaryExpr> init(unique_ptr<PrimaryExpr>,
                                                      Operator *);
-    Value * codegen(IRStream &) override;
+    Value * codegen(IRStream &) override{ return nullptr; };
+    string userdump() override{ return lhs->userdump() + op->value; };
 };
 
 // primary : term
 //         | term OP primary
 //         | OP primary
 //         | primary OP
-class OperatedPrimaryExpr : public PrimaryExpr {
-public:
-    bool syntaxedExpr = false;
-    unique_ptr<Term> lhs;
-    Operator *op;
-    unique_ptr<PrimaryExpr> rhs;
-    Value * codegen(IRStream &) override;
-    unique_ptr<PrimaryExpr> syntaxNode = nullptr;
-    string userdump() override;
-    __deprecated_msg("this class is for unique_ptr")
-    OperatedPrimaryExpr() {};
-    static __deprecated unique_ptr<OperatedPrimaryExpr> init(unique_ptr<Term>);
-    static unique_ptr<OperatedPrimaryExpr> initAsOperatedExpr(unique_ptr<Term>,
-                                               Operator *,
-                                               unique_ptr<OperatedPrimaryExpr>);
-    static unique_ptr<OperatedPrimaryExpr> initAsPrefixOperatorExpr(Operator *,
-                                                     unique_ptr<OperatedPrimaryExpr>);
-    static unique_ptr<OperatedPrimaryExpr> initAsPostfixOperatorExpr(unique_ptr<OperatedPrimaryExpr>,
-                                                      Operator *);
-    static unique_ptr<OperatedPrimaryExpr> initAsSyntaxExpr(unique_ptr<PrimaryExpr>);
-};
+//class OperatedPrimaryExpr : public PrimaryExpr {
+//public:
+//    bool syntaxedExpr = false;
+//    unique_ptr<Term> lhs;
+//    Operator *op;
+//    unique_ptr<PrimaryExpr> rhs;
+//    Value * codegen(IRStream &) override;
+//    unique_ptr<PrimaryExpr> syntaxNode = nullptr;
+//    string userdump() override;
+//    __deprecated_msg("this class is for unique_ptr")
+//    OperatedPrimaryExpr() {};
+//    static __deprecated unique_ptr<OperatedPrimaryExpr> init(unique_ptr<Term>);
+//    static unique_ptr<OperatedPrimaryExpr> initAsOperatedExpr(unique_ptr<Term>,
+//                                               Operator *,
+//                                               unique_ptr<OperatedPrimaryExpr>);
+//    static unique_ptr<OperatedPrimaryExpr> initAsPrefixOperatorExpr(Operator *,
+//                                                     unique_ptr<OperatedPrimaryExpr>);
+//    static unique_ptr<OperatedPrimaryExpr> initAsPostfixOperatorExpr(unique_ptr<OperatedPrimaryExpr>,
+//                                                      Operator *);
+//    static unique_ptr<OperatedPrimaryExpr> initAsSyntaxExpr(unique_ptr<PrimaryExpr>);
+//};
 
 class InfixOperatorExpr : public Expr {
 public:
@@ -336,9 +350,17 @@ public:
     unique_ptr<Expr> rhs;
     Value * codegen(IRStream &) override;
     string userdump() override;
-    static unique_ptr<InfixOperatorExpr> init(unique_ptr<PrimaryExpr>,
-                                              Operator *,
-                                              unique_ptr<Expr>);
+    static unique_ptr<InfixOperatorExpr> init(unique_ptr<PrimaryExpr> p,
+                                              Operator *op,
+                                              unique_ptr<Expr> e){
+        auto ptr = make_unique<InfixOperatorExpr>();
+        ptr->location = p->location;
+        ptr->op = op;
+        ptr->lhs = move(p);
+        ptr->rhs = move(e);
+        ptr->type = op->return_type;
+        return ptr;
+    };
 };
 
 class PrefixOperatorExpr : public Expr {
@@ -357,8 +379,15 @@ public:
     Operator *op;
     Value * codegen(IRStream &) override;
     string userdump() override;
-    static unique_ptr<PostfixOperatorExpr> init(unique_ptr<Expr>,
-                                                Operator *);
+    static unique_ptr<PostfixOperatorExpr> init(unique_ptr<Expr> e,
+                                                Operator *op){
+        auto ptr = make_unique<PostfixOperatorExpr>();
+        ptr->type = op->return_type;
+        ptr->location = e->location;
+        ptr->lhs = move(e);
+        ptr->op = op;
+        return ptr;
+    };
 };
 
 // expr : primary
@@ -366,27 +395,27 @@ public:
 //      | OP expr
 //      | expr OP
 //      | expr_syntax
-class OperatedExpr : public Node {
-public:
-    bool syntaxedExpr = false;
-    unique_ptr<PrimaryExpr> lhs;
-    Operator *op;
-    unique_ptr<Expr> rhs;
-    unique_ptr<Expr> syntax = nullptr;
-    Value * codegen(IRStream &) override;
-    string userdump() override{return "UNDEFINED";};
-    __deprecated_msg("this class is for unique_ptr")
-    OperatedExpr() {};
-    static unique_ptr<OperatedExpr> init(unique_ptr<PrimaryExpr>);
-    static unique_ptr<OperatedExpr> initAsOperatedExpr(unique_ptr<PrimaryExpr>,
-                                                      Operator *,
-                                                      unique_ptr<Expr>);
-    static unique_ptr<OperatedExpr> initAsPrefixOperatorExpr(Operator *,
-                                                            unique_ptr<Expr>);
-    static unique_ptr<OperatedExpr> initAsPostfixOperatorExpr(unique_ptr<Expr>,
-                                                      Operator *);
-    static unique_ptr<OperatedExpr> initAsSyntaxedExpr(unique_ptr<Expr>);
-};
+//class OperatedExpr : public Node {
+//public:
+//    bool syntaxedExpr = false;
+//    unique_ptr<PrimaryExpr> lhs;
+//    Operator *op;
+//    unique_ptr<Expr> rhs;
+//    unique_ptr<Expr> syntax = nullptr;
+//    Value * codegen(IRStream &) override;
+//    string userdump() override{return "UNDEFINED";};
+//    __deprecated_msg("this class is for unique_ptr")
+//    OperatedExpr() {};
+//    static unique_ptr<OperatedExpr> init(unique_ptr<PrimaryExpr>);
+//    static unique_ptr<OperatedExpr> initAsOperatedExpr(unique_ptr<PrimaryExpr>,
+//                                                      Operator *,
+//                                                      unique_ptr<Expr>);
+//    static unique_ptr<OperatedExpr> initAsPrefixOperatorExpr(Operator *,
+//                                                            unique_ptr<Expr>);
+//    static unique_ptr<OperatedExpr> initAsPostfixOperatorExpr(unique_ptr<Expr>,
+//                                                      Operator *);
+//    static unique_ptr<OperatedExpr> initAsSyntaxedExpr(unique_ptr<Expr>);
+//};
 
 // statement : StatementNode .
 //           | StatementNode , statement
@@ -395,8 +424,8 @@ public:
     unique_ptr<StatementNode> statement;
     Token *perTok;
     unique_ptr<Statement> stmt;
-    Value * codegen(IRStream &) override;
-    string userdump() override;
+    Value * codegen(IRStream &) override { return nullptr; };
+    string userdump() override{ return "UNDEFINED"; };
     Statement() {};
     Statement(unique_ptr<Statement> stn){
         stmt = move(stn);
@@ -410,7 +439,7 @@ public:
     unique_ptr<Statements> statements;
     unique_ptr<Statement> statement;
     Value * codegen(IRStream &) override;
-    string userdump() override;
+    string userdump() override{ return "UNDEFINED"; };
     Statements() {
         statement = nullptr;
         statements = nullptr;

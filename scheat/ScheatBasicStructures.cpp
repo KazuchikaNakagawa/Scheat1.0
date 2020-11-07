@@ -59,3 +59,9 @@ void IRStream::exportTo(std::ofstream &f){
         f << irs[i];
     }
 }
+
+void IRStream::printout(){
+    for (int i = 0; i < irs.size(); i++) {
+        std::cout << irs[i];
+    }
+}

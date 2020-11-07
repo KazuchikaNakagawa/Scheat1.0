@@ -83,7 +83,7 @@ public:
         commentDepth = 0;
     }
     
-    Token *getTokens() { return tokens; };
+    Token *getTokens() { return tokens->first(); };
 };
 
 }

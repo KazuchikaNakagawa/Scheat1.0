@@ -304,22 +304,22 @@ extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
             // infix
             auto saved = tok;
             eatThis(tok);
-            auto primary = parsePrimary(tok);
-            if (!primary) {
+            auto primaryptr = parsePrimary(tok);
+            if (!primaryptr) {
                 return nullptr;
             }
-            auto op = findOperator(saved, ptr->type);
+            auto op = findOperator(saved, ptr->type, infix, primary);
             if (!op) {
                 tok = saved;
                 return ptr;
             }
             
-            auto ret = InfixOperatorPrimaryExpr::init(move(ptr), op, move(primary));
+            auto ret = InfixOperatorPrimaryExpr::init(move(ptr), op, move(primaryptr));
             return ret;
             
         }else{
             // postfix
-            auto op = findOperator(tok, ptr->type);
+            auto op = findOperator(tok, ptr->type, postfix, primary);
             if (!op) {
                 return ptr;
             }
@@ -345,7 +345,7 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
         if (!rhs) {
             return nullptr;
         }
-        auto op = findOperator(saved, rhs->type);
+        auto op = findOperator(saved, rhs->type, prefix, secondary);
         if (!op) {
             // (!primary)
             tok = saved;
@@ -353,11 +353,51 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
         }
         
         auto ret = PrefixOperatorExpr::init(op, move(rhs));
-        
+        return ret;
     }
     
     infix_postfix:
+    auto prim = parsePrimary(tok);
     
+    if (!prim) {
+        return nullptr;
+    }
+    
+    if (tok->kind == TokenKind::val_operator) {
+        
+        if (isValue(tok->next)) {
+            auto saved = tok;
+            eatThis(tok);
+            auto expr = parseExpr(tok);
+            if (!expr) {
+                return nullptr;
+            }
+            auto op = findOperator(saved, expr->type, infix, secondary);
+            if (!op) {
+                scheato->FatalError(saved->location, __FILE_NAME__, __LINE__,
+                                    "%s was not found in class %s",
+                                    saved->value.strValue.c_str(),
+                                    expr->type.name.c_str());
+                return nullptr;
+            }
+            auto ret = InfixOperatorExpr::init(move(prim), op, move(expr));
+            return ret;
+        }else{
+            auto saved = tok;
+            auto op = findOperator(saved, prim->type, postfix, secondary);
+            if (!op) {
+                scheato->FatalError(saved->location, __FILE_NAME__, __LINE__,
+                                    "%s was not found in class %s",
+                                    saved->value.strValue.c_str(),
+                                    prim->type.name.c_str());
+                return nullptr;
+            }
+            auto ret = PostfixOperatorExpr::init(move(prim), op);
+        }
+        
+    }else{
+        return prim;
+    }
     
     return nullptr;
 }

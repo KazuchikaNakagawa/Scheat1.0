@@ -165,6 +165,7 @@ public:
         return *this;
     }
     void exportTo(std::ofstream &f);
+    void printout();
     IRStream(){
         irs = {};
     };

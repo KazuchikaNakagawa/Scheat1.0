@@ -394,13 +394,13 @@ node::NodeData *node::PrimaryExpr::codegen(IRStream &f){
         }
         
         auto r = local_context.top()->getRegister();
-        if (op->position == op->infix) {
+        if (op->position == OperatorPosition::infix) {
             f << r << " = call " << fu->lltype() << " "
             << fu->getMangledName() << "(" << lhs->size.ir_used << "* " <<
             lhs->value << ", " << rhs->size.ir_used << "* " << rhs->value << ")\n";
         }
         
-        if (op->position == op->prefix || op->position == op->postfix) {
+        if (op->position == OperatorPosition::prefix || op->position == OperatorPosition::postfix) {
             f << r << " call " << fu->lltype() << " " << fu->getMangledName() << "(" << lhs->size.ir_used << "* " << lhs->value << ")\n";
         }
         
