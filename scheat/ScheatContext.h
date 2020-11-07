@@ -17,6 +17,7 @@ using namespace basics;
 
 class Context {
     unsigned int rnum;
+    unsigned int ifnum = 0;
     std::map<std::string, Variable *> variables;
     std::map<std::string, Function *> funcs;
     std::map<std::string , Class *> classes;
@@ -45,6 +46,11 @@ public:
         rnum = 0;
         base = nullptr;
         name = "";
+    }
+    
+    pair<string, string> getIfLabel(){
+        ifnum++;
+        return make_pair("if" + to_string(ifnum), "else" + to_string(ifnum));
     }
     
     void addFunction(std::string, Function *);

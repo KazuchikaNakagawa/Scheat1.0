@@ -316,7 +316,7 @@ public:
     PostfixOperatorPrimaryExpr() {};
     static unique_ptr<PostfixOperatorPrimaryExpr> init(unique_ptr<PrimaryExpr>,
                                                      Operator *);
-    Value * codegen(IRStream &) override{ return nullptr; };
+    Value * codegen(IRStream &) override;
     string userdump() override{ return lhs->userdump() + op->value; };
 };
 
@@ -480,6 +480,11 @@ public:
     unique_ptr<Statement> thenS;
     unique_ptr<Statement> elseS;
     // todo
+    string userdump() override{
+        return "if (" + condition->userdump() + "){\n" + thenS->userdump() + "\n}else{\n" + elseS->userdump() + "\n}";
+    }
+    
+    Value * codegen(IRStream &) override;
 };
 
 // ====================================

@@ -152,6 +152,35 @@ Value *PrefixOperatorExpr::codegen(IRStream &f){
     return nullptr;
 }
 
+Value *PostfixOperatorPrimaryExpr::codegen(IRStream &f){
+    auto lv = lhs->codegen(f);
+    if (op->return_type.name == "Void") {
+        f << "call void(" << op->lhs_type->ir_used << ") " << op->func_name << "(" << lv->asValue() << ")\n";
+        delete lv;
+        return nullptr;
+    }else{
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ") " << op->func_name << "(" << lv->asValue() << ")\n";
+        delete lv;
+        return new Value(reg, op->return_type);
+    }
+    return nullptr;
+}
+
+Value *IfStatement::codegen(IRStream &f){
+    auto condv = condition->codegen(f);
+    auto labels = local_context.top()->getIfLabel();
+    f << "br " << condv->asValue() << ", label %" << labels.first << ", label %" << labels.second << "\n";
+    f << labels.first << ":\n";
+    thenS->codegen(f);
+    f << "br label %" << labels.first + "_end\n";
+    f << labels.second << ":\n";
+    elseS->codegen(f);
+    f << labels.second << labels.first + "_end\n";
+    f << labels.first + "_end:\n";
+    return nullptr;
+}
+
 Value *InfixOperatorExpr::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);

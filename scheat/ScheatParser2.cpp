@@ -37,6 +37,8 @@ using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
 
+unique_ptr<StatementNode> parseStatement_single(Token *&);
+
 static bool isValue(Token *tok){
     switch (tok->kind) {
         case scheat::TokenKind::val_num:
@@ -115,9 +117,24 @@ int hasProperty(TypeData type, string k){
 unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&tok){
     
     // identifierExpr : the ID
-    //                | this
+    //                | this ID
     //                | ID . ID
-
+    if (tok->kind == scheat::TokenKind::tok_the) {
+        eatThis(tok);
+        auto ptr = parseIdentifierExpr(tok);
+        auto ret = TheIdentifierTerm::init(move(ptr));
+        return ret;
+    }
+    
+    if (tok->kind == scheat::TokenKind::tok_this) {
+        // auto ptr = parseNewIdentifierExpr(tok);
+        // if (!ptr) {
+        //     return nullptr;
+        // }
+        // return NewIdentifierExpr::init(move(ptr), ptr->type);
+        
+    }
+    
     if (tok->kind == scheat::TokenKind::val_identifier) {
         auto ptr = parseIdentifierTerm(tok);
         if (!ptr) {
@@ -228,7 +245,7 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
         eatThis(tok);
     }
     
-    else if (tok->kind == TokenKind::val_identifier) {
+    else if (tok->kind == TokenKind::val_identifier || tok->kind == TokenKind::tok_the) {
         ptr = parseIdentifierExpr(tok);
         eatThis(tok);
     }
@@ -341,7 +358,7 @@ extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
     return ptr;
 }
 
-extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
+static unique_ptr<Expr> parseOperatedExpr(Token *&tok){
     // 1. op expr
     unique_ptr<PrimaryExpr> ptr = nullptr;
     
@@ -363,7 +380,7 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
         return ret;
     }
     
-    infix_postfix:
+infix_postfix:
     auto prim = parsePrimary(tok);
     
     if (!prim) {
@@ -410,6 +427,12 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
         return prim;
     }
     
+    return nullptr;
+}
+
+extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
+    // expr : operatedExpr t_of id
+    auto ptr = parseOperatedExpr(tok);
     return nullptr;
 }
 
@@ -469,6 +492,11 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
     return nullptr;
 }
 
-extern unique_ptr<StatementNode> parser2::parseStatement_single(Token *&tokens){
+extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
+    // statement : this id is expr.
+    if (tokens->kind == TokenKind::tok_this) {
+        // return parseDeclareVariableStatement(tokens);
+    }
+    
     return nullptr;
 }

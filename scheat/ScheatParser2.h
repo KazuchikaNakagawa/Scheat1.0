@@ -28,7 +28,7 @@ void parse(Scheat *,Token *);
 
 unique_ptr<Statement> parseStatement(Token *&);
 
-unique_ptr<StatementNode> parseStatement_single(Token *&);
+//unique_ptr<StatementNode> parseStatement_single(Token *&);
 
 unique_ptr<Expr> parseExpr(Token *&);
 
