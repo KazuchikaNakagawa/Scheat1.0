@@ -167,34 +167,6 @@ unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&tok){
     return nullptr;
 }
 
-Value *FunctionCallTerm::codegen(IRStream &f){
-    if (func->return_type.name == "Void") {
-        vector<Value *> arges_val = {};
-        for (int i = 0; i < args.size(); i++) {
-            arges_val.push_back(args[i]->codegen(f));
-        }
-        f << "call " << func->lltype() << " " << func->getMangledName() << "(";
-        for (auto ptr : arges_val) {
-            f << ptr->asValue();
-        }
-        f << ")\n";
-        return nullptr;
-    }else{
-        vector<Value *> arges_val = {};
-        for (int i = 0; i < args.size(); i++) {
-            arges_val.push_back(args[i]->codegen(f));
-        }
-        auto reg = local_context.top()->getRegister();
-        f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
-        for (auto ptr : arges_val) {
-            f << ptr->asValue();
-        }
-        f << ")\n";
-        return new Value(reg, func->return_type);
-    }
-    return nullptr;
-}
-
 static unique_ptr<Term> parseTermNodes(Token*& tok){
     if (tok->kind == scheat::TokenKind::val_num) {
         auto ptr = make_unique<IntTerm>(tok);
@@ -335,6 +307,69 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
         return nullptr;
     }
     return nullptr;
+}
+
+static unique_ptr<PrimaryExpr> parseOperatedPrimaryExpr(Token *&tok){
+    // primary : term
+    //         | term op primary
+    //         | op primary
+    unique_ptr<Term> ptr = nullptr;
+    if (tok->kind == TokenKind::val_operator) {
+        auto saved = tok;
+        eatThis(tok);
+        auto term = parsePrimary(tok);
+        auto op = findOperator(tok, term->type, prefix, primary);
+        if (!op) {
+            tok = saved;
+            goto infix_postfix;
+        }
+        auto ptr = PrefixOperatorPrimaryExpr::init(op, move(term));
+    }
+    
+infix_postfix:
+    ptr = parseTerm(tok);
+    
+    if (!ptr) {
+        return nullptr;
+    }
+    
+    if (!tok) {
+        return ptr;
+    }
+    
+    if (tok->kind == TokenKind::val_operator) {
+        if (isValue(tok->next)) {
+            // infix
+            auto saved = tok;
+            eatThis(tok);
+            auto primaryptr = parsePrimary(tok);
+            if (!primaryptr) {
+                return nullptr;
+            }
+            auto op = findOperator(saved, ptr->type, infix, primary);
+            if (!op) {
+                tok = saved;
+                return ptr;
+            }
+            
+            auto ret = InfixOperatorPrimaryExpr::init(move(ptr), op, move(primaryptr));
+            return ret;
+            
+        }else{
+            // postfix
+            auto op = findOperator(tok, ptr->type, postfix, primary);
+            if (!op) {
+                return ptr;
+            }
+            eatThis(tok);
+            auto ret = PostfixOperatorPrimaryExpr::init(move(ptr), op);
+            return ret;
+        }
+        
+    }
+    
+    
+    return ptr;
 }
 
 extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
@@ -545,6 +580,11 @@ static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
         auto ptr = parseExpr(tok);
         
     }
+    return nullptr;
+}
+
+static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
+    auto name = parseExpr(tok);
     return nullptr;
 }
 

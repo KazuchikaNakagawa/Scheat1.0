@@ -167,6 +167,34 @@ Value *PostfixOperatorPrimaryExpr::codegen(IRStream &f){
     return nullptr;
 }
 
+Value *FunctionCallTerm::codegen(IRStream &f){
+    if (func->return_type.name == "Void") {
+        vector<Value *> arges_val = {};
+        for (int i = 0; i < args.size(); i++) {
+            arges_val.push_back(args[i]->codegen(f));
+        }
+        f << "call " << func->lltype() << " " << func->getMangledName() << "(";
+        for (auto ptr : arges_val) {
+            f << ptr->asValue();
+        }
+        f << ")\n";
+        return nullptr;
+    }else{
+        vector<Value *> arges_val = {};
+        for (int i = 0; i < args.size(); i++) {
+            arges_val.push_back(args[i]->codegen(f));
+        }
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
+        for (auto ptr : arges_val) {
+            f << ptr->asValue();
+        }
+        f << ")\n";
+        return new Value(reg, func->return_type);
+    }
+    return nullptr;
+}
+
 Value *IfStatement::codegen(IRStream &f){
     auto condv = condition->codegen(f);
     auto labels = local_context.top()->getIfLabel();
