@@ -167,6 +167,34 @@ unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&tok){
     return nullptr;
 }
 
+Value *FunctionCallTerm::codegen(IRStream &f){
+    if (func->return_type.name == "Void") {
+        vector<Value *> arges_val = {};
+        for (int i = 0; i < args.size(); i++) {
+            arges_val.push_back(args[i]->codegen(f));
+        }
+        f << "call " << func->lltype() << " " << func->getMangledName() << "(";
+        for (auto ptr : arges_val) {
+            f << ptr->asValue();
+        }
+        f << ")\n";
+        return nullptr;
+    }else{
+        vector<Value *> arges_val = {};
+        for (int i = 0; i < args.size(); i++) {
+            arges_val.push_back(args[i]->codegen(f));
+        }
+        auto reg = local_context.top()->getRegister();
+        f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
+        for (auto ptr : arges_val) {
+            f << ptr->asValue();
+        }
+        f << ")\n";
+        return new Value(reg, func->return_type);
+    }
+    return nullptr;
+}
+
 static unique_ptr<Term> parseTermNodes(Token*& tok){
     if (tok->kind == scheat::TokenKind::val_num) {
         auto ptr = make_unique<IntTerm>(tok);
@@ -220,6 +248,20 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
         
         auto operTerm = PrefixOperatorTerm::init(op, move(term));
         return operTerm;
+    }
+    
+    if (tok->kind == TokenKind::tok_paren_l) {
+        eatThis(tok);
+        auto expr = parseExpr(tok);
+        if (!expr) {
+            return nullptr;
+        }
+        if (tok->kind != TokenKind::tok_paren_r) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "There must be ) after value.");
+            return nullptr;
+        }
+        eatThis(tok);
+        return ParenthesesExpr::init(move(expr));
     }
     
     unique_ptr<Term> ptr = nullptr;
@@ -433,6 +475,10 @@ infix_postfix:
 extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
     // expr : operatedExpr t_of id
     auto ptr = parseOperatedExpr(tok);
+    if (!ptr) {
+        return nullptr;
+    }
+    
     return nullptr;
 }
 
@@ -485,9 +531,19 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
             sts->perTok = tokens;
             eatThis(tokens);
         }else{
+            scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__, "the end of sentence must be period or comma in Scheat.");
             return nullptr;
         }
         sts = make_unique<Statement>(move(sts));
+    }
+    return nullptr;
+}
+
+static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
+    if (tok->value.strValue == "print") {
+        eatThis(tok);
+        auto ptr = parseExpr(tok);
+        
     }
     return nullptr;
 }
@@ -497,6 +553,8 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     if (tokens->kind == TokenKind::tok_this) {
         // return parseDeclareVariableStatement(tokens);
     }
-    
+    if (tokens->kind == scheat::TokenKind::val_identifier) {
+        // return parseFunctionCallStatement(tokens);
+    }
     return nullptr;
 }

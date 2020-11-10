@@ -162,7 +162,7 @@ class FunctionCallTerm : public IdentifierTermTemplate {
 public:
     Function *func;
     vector<unique_ptr<Expr>> args {};
-    Value * codegen(IRStream &) override{return nullptr;};
+    Value * codegen(IRStream &) override;
     string userdump() override;
     void addArgument(bool insertToTop, unique_ptr<Expr> arg) override{
         if (insertToTop) {
@@ -236,6 +236,23 @@ public:
 };
 
 // -------------------------------------------------------------//
+
+class ParenthesesExpr : public Term {
+public:
+    unique_ptr<Expr> expr;
+    Value * codegen(IRStream &f) override{
+        return expr->codegen(f);
+    };
+    string userdump() override{
+        return expr->userdump();
+    };
+    static unique_ptr<ParenthesesExpr> init(unique_ptr<Expr> node){
+        auto ptr = make_unique<ParenthesesExpr>();
+        ptr->type = node->type;
+        ptr->expr = move(node);
+        return ptr;
+    }
+};
 
 class InfixOperatorTerm : public Term {
 public:
