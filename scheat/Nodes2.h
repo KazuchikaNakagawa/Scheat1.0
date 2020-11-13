@@ -147,14 +147,37 @@ public:
     virtual void addArgument(bool,unique_ptr<Expr>) {};
 };
 
+class GlobalExpr;
+class IdentifierExpr : public Term {
+public:
+    Value * codegen(IRStream &) override{ return nullptr; };
+    string userdump() override{ return "UNDEFINED"; };
+};
 
-class GlobalExpr : public IdentifierExprTemplate {
+class IdentifierTerm;
+
+class AccessIdentifierExpr : public IdentifierExpr {
+public:
+    unique_ptr<IdentifierExpr> parent;
+    unique_ptr<IdentifierTerm> child;
+    
+};
+
+class GlobalExpr : public IdentifierExpr {
 public:
     unique_ptr<IdentifierTermTemplate> ptr;
     Value * codegen(IRStream &) override{ return nullptr; };
     string userdump() override{ return "UNDEFINED"; };
-    
+    static unique_ptr<GlobalExpr> init(unique_ptr<IdentifierTermTemplate> ptr){
+        auto p = make_unique<GlobalExpr>();
+        p->location = ptr->location;
+        p->type = ptr->type;
+        p->ptr = move(ptr);
+        return p;
+    }
 };
+
+
 
 class VariableAttributeExpr {
 public:
