@@ -40,6 +40,9 @@ using scheat::statics::scheato;
 unique_ptr<StatementNode> parseStatement_single(Token *&);
 
 static bool isValue(Token *tok){
+    if (tok == nullptr) {
+        return false;
+    }
     switch (tok->kind) {
         case scheat::TokenKind::val_num:
             return true;
@@ -53,6 +56,8 @@ static bool isValue(Token *tok){
         case scheat::TokenKind::val_double:
             return true;
         case scheat::TokenKind::val_identifier:
+            return true;
+        case scheat::TokenKind::tok_paren_l:
             return true;
         default:
             break;
@@ -94,6 +99,23 @@ static unique_ptr<IdentifierTermTemplate> parseIdentifierTerm(Token *&tok){
         }
         auto ptr = TheIdentifierTerm::init(move(idexpr));
         return ptr;
+    }
+    else if (tok->kind == scheat::TokenKind::val_identifier){
+        auto idtok = tok;
+        eatThis(tok);
+        if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
+            eatThis(tok);
+        }else if (tok->next->kind == scheat::TokenKind::tok_with){
+            eatThis(tok);
+            if (tok->kind != scheat::TokenKind::tok_paren_l) {
+                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "( is needed after with keyword.");
+                return nullptr;
+            }
+            eatThis(tok);
+            
+        }else{
+            
+        }
     }
     return nullptr;
 }
@@ -376,63 +398,7 @@ extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
     // primary : term
     //         | term op primary
     //         | op primary
-    unique_ptr<Term> ptr = nullptr;
-    if (tok->kind == TokenKind::val_operator) {
-        auto saved = tok;
-        eatThis(tok);
-        auto term = parsePrimary(tok);
-        auto op = findOperator(tok, term->type, prefix, primary);
-        if (!op) {
-            tok = saved;
-            goto infix_postfix;
-        }
-        auto ptr = PrefixOperatorPrimaryExpr::init(op, move(term));
-    }
-    
-    infix_postfix:
-    ptr = parseTerm(tok);
-    
-    if (!ptr) {
-        return nullptr;
-    }
-    
-    if (!tok) {
-        return ptr;
-    }
-    
-    if (tok->kind == TokenKind::val_operator) {
-        if (isValue(tok->next)) {
-            // infix
-            auto saved = tok;
-            eatThis(tok);
-            auto primaryptr = parsePrimary(tok);
-            if (!primaryptr) {
-                return nullptr;
-            }
-            auto op = findOperator(saved, ptr->type, infix, primary);
-            if (!op) {
-                tok = saved;
-                return ptr;
-            }
-            
-            auto ret = InfixOperatorPrimaryExpr::init(move(ptr), op, move(primaryptr));
-            return ret;
-            
-        }else{
-            // postfix
-            auto op = findOperator(tok, ptr->type, postfix, primary);
-            if (!op) {
-                return ptr;
-            }
-            eatThis(tok);
-            auto ret = PostfixOperatorPrimaryExpr::init(move(ptr), op);
-            return ret;
-        }
-        
-    }
-    
-    
-    return ptr;
+    return parseOperatedPrimaryExpr(tok);
 }
 
 static unique_ptr<Expr> parseOperatedExpr(Token *&tok){
@@ -514,7 +480,7 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
         return nullptr;
     }
     
-    return nullptr;
+    return ptr;
 }
 
 extern void parser2::parse(Scheat *sch,Token *tokens){
@@ -549,6 +515,19 @@ extern void parser2::parse(Scheat *sch,Token *tokens){
     scheato->statements->statements = move(stmts);
     return;
 };
+
+static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
+    unique_ptr<IdentifierTermTemplate> id = nullptr;// make_unique<NewIdentifierExpr>();
+    while (tok != nullptr) {
+        if (tok->kind == scheat::TokenKind::val_identifier) {
+            id = UnknownIdentifierTerm::init(tok);
+            eatThis(tok);
+            break;
+        }
+        eatThis(tok);
+    }
+    return NewIdentifierExpr::init(move(id), TypeData("nil", "i8*"));
+}
 
 extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
     auto sts = make_unique<Statement>();

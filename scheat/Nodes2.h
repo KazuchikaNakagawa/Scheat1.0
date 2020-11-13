@@ -213,6 +213,24 @@ public:
     string userdump() override;
 };
 
+class UnknownIdentifierTerm : public IdentifierTermTemplate {
+public:
+    static unique_ptr<UnknownIdentifierTerm> init(Token *tok){
+        auto ptr = make_unique<UnknownIdentifierTerm>();
+        ptr->value = tok->value.strValue;
+        ptr->type = TypeData("COMPILED-NEW-ID", "i8*");
+        return ptr;
+    }
+    Value * codegen(IRStream &) override{
+        return new Value(value, type);
+    }
+    
+    string userdump() override{
+        return "Variable(" + value + ")";
+    }
+    
+};
+
 class TheIdentifierTerm : public IdentifierTermTemplate {
 public:
     unique_ptr<IdentifierExprTemplate> id;

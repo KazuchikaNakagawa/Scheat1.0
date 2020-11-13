@@ -178,6 +178,7 @@ void Lexer::genTok(){
         return;
     }
     Token *tok = new Token();
+    tok->location = location;
     if (buf == "...") {
         tok->kind = TokenKind::val_operator;
         tok->value.strValue = buf;
@@ -351,6 +352,7 @@ void Lexer::genTok(){
 #undef tadd
 
 void Token::out(){
+    printf("line: %d, column: %d    ", location.line, location.column);
     if (kind == TokenKind::tok_range) {
         printf("... token\n");
     }
