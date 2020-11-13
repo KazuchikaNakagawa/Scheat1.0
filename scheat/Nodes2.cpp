@@ -460,6 +460,29 @@ Value *BoolTerm::codegen(IRStream &f){
     return nullptr;
 }
 
+Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
+    return nullptr;
+}
+
+Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
+    return nullptr;
+}
+
+unique_ptr<VariableAttributeExpr> VariableAttributeExpr::init(Variable *varptr, SourceLocation location){
+    auto ptr = make_unique<VariableAttributeExpr>();
+    ptr->varptr = varptr;
+    ptr->location = location;
+    ptr->type = varptr->type;
+    return ptr;
+}
+
+unique_ptr<FunctionAttributeExpr> FunctionAttributeExpr::init(Function *func, SourceLocation location){
+    auto ptr = make_unique<FunctionAttributeExpr>();
+    ptr->location = location;
+    ptr->func = func;
+    ptr->type = func->return_type;
+    return ptr;
+}
 Value *FloatTerm::codegen(IRStream &f){
     
     return new Value(to_string(value), type);
@@ -467,68 +490,6 @@ Value *FloatTerm::codegen(IRStream &f){
 
 Value *IntTerm::codegen(IRStream &f){
     return new Value(to_string(value), type);
-}
-
-Value *IdentifierTerm::codegen(IRStream &f){
-    if (isFunc) {
-        if (funcptr == nullptr) {
-            scheato->DevLog(location, __FILE_NAME__, __LINE__,
-                            "compiler error. illegal function was set.");
-            return nullptr;
-        }
-        string mangled = "";
-        string mtype = type.name + " (";
-        string mtype_ir = type.ir_used + " (";
-        mangled += value;
-        for (auto v = args.begin();
-             v != args.end();
-             mtype += ", ",
-             mtype_ir += ", ",
-             mangled += ", ",
-             v = next(v)) {
-            auto vv = (*v)->codegen(f);
-            mangled += (vv)->type.ir_used + " ";
-            mangled += vv->value;
-            mtype += (*v)->type.name;
-            mtype_ir += (*v)->type.ir_used;
-        }
-        mtype += ")";
-        mtype_ir += ")";
-        
-        return new Value(mangled, TypeData(mtype, mtype_ir));
-    }
-    
-    return new Value(value, type);
-}
-
-void IdentifierTerm::addArg(unique_ptr<Expr> value){
-    args.push_back(move(value));
-    if (args.size() > countOfArgs) {
-        scheato->FatalError(location, __FILE_NAME__, __LINE__, "in %d.%d function %s was defined as the function which has %d arguments, but given %d arguments.",
-                            location.line,
-                            location.column,
-                            this->value.c_str(),
-                            countOfArgs,
-                            args.size());
-    }
-}
-
-string IdentifierTerm::userdump(){
-    string ss = value;
-    if (isFunc) {
-        ss = "function(" + value + ")";
-    }
-    for (auto v = args.begin(); v != args.end(); v = next(v)) {
-        ss = ss + (*v)->userdump();
-    }
-    return ss;
-}
-
-IdentifierTerm::IdentifierTerm(Token *t, int c, TypeData ty){
-    type = ty;
-    value = t->value.strValue;
-    countOfArgs = c;
-    location = t->location;
 }
 
 unique_ptr<DeclareVariableStatement>

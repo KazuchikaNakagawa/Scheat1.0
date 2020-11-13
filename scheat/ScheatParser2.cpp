@@ -105,6 +105,13 @@ static unique_ptr<IdentifierTermTemplate> parseIdentifierTerm(Token *&tok){
         eatThis(tok);
         if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
             eatThis(tok);
+            while (tok->kind == scheat::TokenKind::tok_paren_r) {
+                auto ptr = parseExpr(tok);
+                if (!ptr) {
+                    return nullptr;
+                }
+                
+            }
         }else if (tok->next->kind == scheat::TokenKind::tok_with){
             eatThis(tok);
             if (tok->kind != scheat::TokenKind::tok_paren_l) {

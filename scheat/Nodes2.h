@@ -147,6 +147,51 @@ public:
     virtual void addArgument(bool,unique_ptr<Expr>) {};
 };
 
+
+class GlobalExpr : public IdentifierExprTemplate {
+public:
+    unique_ptr<IdentifierTermTemplate> ptr;
+    Value * codegen(IRStream &) override{ return nullptr; };
+    string userdump() override{ return "UNDEFINED"; };
+    
+};
+
+class VariableAttributeExpr {
+public:
+    SourceLocation location;
+    TypeData type;
+    Variable *varptr;
+    string userdump(){return varptr->mangledName;};
+    Value * codegenWithParent(Value *, IRStream &);
+    static unique_ptr<VariableAttributeExpr>
+    init(Variable *, SourceLocation location);
+};
+
+class FunctionAttributeExpr {
+public:
+    SourceLocation location;
+    TypeData type;
+    Function *func;
+    vector<Value *> values = {};
+    string userdump() {return func->name;};
+    Value * codegenWithParent(Value *, IRStream &);
+    static unique_ptr<FunctionAttributeExpr>
+    init(Function *, SourceLocation);
+};
+
+class IdentifierTerm : public IdentifierExprTemplate {
+public:
+    unique_ptr<VariableAttributeExpr> varptr = nullptr;
+    unique_ptr<FunctionAttributeExpr> funcptr = nullptr;
+    string userdump() override{
+        if (varptr == nullptr) {
+            return funcptr->userdump();
+        }else{
+            return varptr->userdump();
+        }
+    }
+};
+
 class VariableTerm : public IdentifierTermTemplate {
 public:
     //string value;
@@ -186,31 +231,6 @@ public:
                                                  int);
     void addArgument(bool, unique_ptr<Expr>) override{};
     ~AccessIdentifierTerm() {};
-};
-
-// idterm : identifier
-//        | identifier ( expr , expr, ... )
-class IdentifierTerm : public IdentifierTermTemplate {
-public:
-    string value;
-    vector<unique_ptr<Expr>> args = {};
-    IdentifierTerm(Token *t, TypeData ty, int ind = 0){
-        type = ty;
-        value = t->value.strValue;
-        location = t->location;
-        index = ind;
-    }
-    IdentifierTerm() {};
-    IdentifierTerm(Token *t, int c, TypeData ty);
-    // when this means function, it is used for check
-    int countOfArgs = 0;
-    bool isFunc = false;
-    // property index. used when generating getelementptr
-    int index = 0;
-    Function *funcptr = nullptr;
-    void addArg(unique_ptr<Expr>);
-    Value * codegen(IRStream &) override;
-    string userdump() override;
 };
 
 class UnknownIdentifierTerm : public IdentifierTermTemplate {
