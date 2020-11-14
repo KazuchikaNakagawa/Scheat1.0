@@ -269,6 +269,7 @@ class Variable {
     
 public:
     std::string mangledName;
+    int index = 0;
     // do NOT think about pointer. it shows what value it has.
     TypeData type;
     Variable(std::string s, TypeData t) : mangledName(s), type(t) {

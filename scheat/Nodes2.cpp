@@ -461,10 +461,29 @@ Value *BoolTerm::codegen(IRStream &f){
 }
 
 Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
-    return nullptr;
+    string reg = local_context.top()->getRegister();
+    f << reg << " = getelementptr " << parent->type.ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varptr->index) << "\n";
+    return new Value(reg, varptr->type);
 }
 
 Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
+    values.insert(values.begin(), parent);
+    if (func->return_type == "Void") {
+        f << "call " << func->lltype() << " " << func->getMangledName() << "(";
+        for (auto vptr : values) {
+            f << vptr->asValue();
+        }
+        f << ")\n";
+        return nullptr;
+    }else{
+        string reg = local_context.top()->getRegister();
+        f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
+        for (auto vptr : values) {
+            f << vptr->asValue();
+        }
+        f << ")\n";
+        return new Value(reg, func->return_type);
+    }
     return nullptr;
 }
 
