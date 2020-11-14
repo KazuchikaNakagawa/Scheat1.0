@@ -169,16 +169,21 @@ public:
     string userdump() override;
 };
 
-class GlobalExpr : public IdentifierExpr {
+class TopIdentifierExpr : public Term {
 public:
-    unique_ptr<IdentifierTerm> ptr;
-    Value * codegen(IRStream &) override;
-    string userdump() override{ return "UNDEFINED"; };
-    static unique_ptr<GlobalExpr> init(unique_ptr<IdentifierTerm> ptr);
-    Value * codegenAsRef(IRStream &) override;
+    Value * codegen(IRStream &) override { return nullptr; };
+    string userdump() override{ return ""; };
+    
 };
 
-
+class GlobalExpr : public IdentifierExpr {
+public:
+    unique_ptr<TopIdentifierExpr> ptr;
+    Value * codegen(IRStream &) override;
+    string userdump() override{ return "UNDEFINED"; };
+    static unique_ptr<GlobalExpr> init(unique_ptr<TopIdentifierExpr> ptr);
+    Value * codegenAsRef(IRStream &) override;
+};
 
 class VariableAttributeExpr {
 public:
@@ -203,14 +208,7 @@ public:
     init(Function *, SourceLocation);
 };
 
-class TopIdentifierExpr : public Term {
-public:
-    Value * codegen(IRStream &) override { return nullptr; };
-    string userdump() override{ return ""; };
-    
-};
-
-class IdentifierTerm : public Term {
+class IdentifierTerm : public IdentifierExpr {
 public:
     unique_ptr<VariableAttributeExpr> varptr = nullptr;
     unique_ptr<FunctionAttributeExpr> funcptr = nullptr;
@@ -241,24 +239,25 @@ public:
     }
 };
 
-class VariableTerm : public IdentifierTermTemplate {
+class VariableTerm : public TopIdentifierExpr {
 public:
-    //string value;
+    string value;
     Value * codegen(IRStream &) override{
         return nullptr;
     };
     string userdump() override;
-    void addArgument(bool, unique_ptr<Expr>) override{};
+    //void addArgument(bool, unique_ptr<Expr>) override{};
     static unique_ptr<VariableTerm> init(Token *, TypeData);
 };
 
-class FunctionCallTerm : public IdentifierTermTemplate {
+class FunctionCallTerm : public TopIdentifierExpr {
 public:
     Function *func;
+    string value;
     vector<unique_ptr<Expr>> args {};
     Value * codegen(IRStream &) override;
     string userdump() override;
-    void addArgument(bool insertToTop, unique_ptr<Expr> arg) override{
+    void addArgument(bool insertToTop, unique_ptr<Expr> arg) {
         if (insertToTop) {
             args.insert(args.begin(), move(arg));
         }else{

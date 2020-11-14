@@ -92,6 +92,7 @@ static Operator *findOperator(Token *tok, TypeData type, OperatorPosition positi
 //extern unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&);
 
 static unique_ptr<IdentifierTerm> parseIdentifierTerm(Token *&tok){
+    
 //    if (tok->kind == scheat::TokenKind::tok_this) {
 //        auto idexpr = parseIdentifierExpr(tok);
 //        if (!idexpr) {
@@ -145,55 +146,21 @@ int hasProperty(TypeData type, string k){
 
 unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
 //
-//    // identifierExpr : the ID
-//    //                | this ID
-//    //                | ID . ID
-//    if (tok->kind == scheat::TokenKind::tok_the) {
-//        eatThis(tok);
-//        auto ptr = parseIdentifierExpr(tok);
-//        auto ret = TheIdentifierTerm::init(move(ptr));
-//        return ret;
-//    }
+    // identifierExpr : the ID
+    //                | this ID
+    //                | ID . ID
+    if (tok->kind == scheat::TokenKind::tok_the) {
+        eatThis(tok);
+        auto ptr = parseIdentifierExpr(tok);
+        //auto ret = TheIdentifierTerm::init(move(ptr));
+        return ptr;
+    }
 //
-//    if (tok->kind == scheat::TokenKind::tok_this) {
-//        // auto ptr = parseNewIdentifierExpr(tok);
-//        // if (!ptr) {
-//        //     return nullptr;
-//        // }
-//        // return NewIdentifierExpr::init(move(ptr), ptr->type);
-//
-//    }
-//
-//    if (tok->kind == scheat::TokenKind::val_identifier) {
-//        auto ptr = parseIdentifierTerm(tok);
-//        if (!ptr) {
-//            return nullptr;
-//        }
-//        if (tok->kind == scheat::TokenKind::tok_access) {
-//            unique_ptr<IdentifierExprTemplate> expr = nullptr;
-//            eatThis(tok);
-//            auto child = parseIdentifierTerm(tok);
-//
-//
-//
-//            if (!child) {
-//                return nullptr;
-//            }
-//            expr = AccessIdentifierTerm::init(move(ptr), move(child), 0);
-//            while (true) {
-//                if (true) {
-//
-//                }
-//            }
-//
-//        }else{
-//            return ptr;
-//        }
-//    }
+
 //
 //
     
-    return nullptr;
+    return parseIdentifierTerm(tok);
 }
 
 static unique_ptr<Term> parseTermNodes(Token*& tok){

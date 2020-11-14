@@ -89,7 +89,7 @@ Value *GlobalExpr::codegen(IRStream &f){
     return new Value(reg, v->type);
 }
 
-unique_ptr<GlobalExpr> GlobalExpr::init(unique_ptr<IdentifierTerm> ptr){
+unique_ptr<GlobalExpr> GlobalExpr::init(unique_ptr<TopIdentifierExpr> ptr){
     auto p = make_unique<GlobalExpr>();
     p->location = ptr->location;
     p->type = ptr->type;
