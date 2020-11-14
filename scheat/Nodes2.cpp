@@ -77,50 +77,70 @@ unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func
     return ptr;
 }
 
-Value* AccessIdentifierTerm::codegen(IRStream &f){
-    auto l = lhs->codegenAsRef(f);
-    auto r = rhs->codegen(f);
-    if (rhs->value == "FUNCTION") {
-        rhs->addArgument(true, move(lhs));
-        
-    }else{
-        auto reg = local_context.top()->getRegister();
-        f << reg << " = getelementptr " << l->type.ir_used << ", " << l->asValue() << ", i32 0, i32 "
-        << to_string(index) << "\n";
-        return new Value(reg, r->type);
-    }
-    return nullptr;
+Value *GlobalExpr::codegenAsRef(IRStream &f){
+    auto v = ptr->codegen(f);
+    return v;
 }
 
-unique_ptr<TheIdentifierTerm> TheIdentifierTerm::init(unique_ptr<IdentifierExprTemplate> expr){
-    auto ptr = make_unique<TheIdentifierTerm>();
-    ptr->location = expr->location;
-    ptr->type = TypeData(expr->type.name + "*", expr->type.name + "*");
-    ptr->id = move(expr);
-    return ptr;
+Value *GlobalExpr::codegen(IRStream &f){
+    auto v = codegenAsRef(f);
+    string reg = local_context.top()->getRegister();
+    f << reg << " = load " << v->type.ir_used << ", " << v->asValue() << "\n";
+    return new Value(reg, v->type);
 }
 
-Value *TheIdentifierTerm::codegen(IRStream &f){
-    return id->codegenAsRef(f);
+unique_ptr<GlobalExpr> GlobalExpr::init(unique_ptr<IdentifierTerm> ptr){
+    auto p = make_unique<GlobalExpr>();
+    p->location = ptr->location;
+    p->type = ptr->type;
+    p->ptr = move(ptr);
+    return p;
 }
 
-unique_ptr<VariableTerm> VariableTerm::init(Token *id, TypeData type){
-    auto ptr = make_unique<VariableTerm>();
-    ptr->type = type;
-    ptr->value = id->value.strValue;
-    ptr->location = id->location;
-    return ptr;
-}
+//Value* AccessIdentifierTerm::codegen(IRStream &f){
+//    auto l = lhs->codegenAsRef(f);
+//    auto r = rhs->codegen(f);
+//    if (rhs->value == "FUNCTION") {
+//        rhs->addArgument(true, move(lhs));
+//
+//    }else{
+//        auto reg = local_context.top()->getRegister();
+//        f << reg << " = getelementptr " << l->type.ir_used << ", " << l->asValue() << ", i32 0, i32 "
+//        << to_string(index) << "\n";
+//        return new Value(reg, r->type);
+//    }
+//    return nullptr;
+//}
 
-unique_ptr<AccessIdentifierTerm> AccessIdentifierTerm::init(unique_ptr<Expr> expr, unique_ptr<IdentifierTermTemplate> id, int index){
-    auto ptr = make_unique<AccessIdentifierTerm>();
-    ptr->index = index;
-    ptr->lhs = move(expr);
-    ptr->type = id->type;
-    ptr->location = id->location;
-    ptr->rhs = move(id);
-    return ptr;
-}
+//unique_ptr<TheIdentifierTerm> TheIdentifierTerm::init(unique_ptr<IdentifierExprTemplate> expr){
+//    auto ptr = make_unique<TheIdentifierTerm>();
+//    ptr->location = expr->location;
+//    ptr->type = TypeData(expr->type.name + "*", expr->type.name + "*");
+//    ptr->id = move(expr);
+//    return ptr;
+//}
+//
+//Value *TheIdentifierTerm::codegen(IRStream &f){
+//    return id->codegenAsRef(f);
+//}
+//
+//unique_ptr<VariableTerm> VariableTerm::init(Token *id, TypeData type){
+//    auto ptr = make_unique<VariableTerm>();
+//    ptr->type = type;
+//    ptr->value = id->value.strValue;
+//    ptr->location = id->location;
+//    return ptr;
+//}
+//
+//unique_ptr<AccessIdentifierTerm> AccessIdentifierTerm::init(unique_ptr<Expr> expr, unique_ptr<IdentifierTermTemplate> id, int index){
+//    auto ptr = make_unique<AccessIdentifierTerm>();
+//    ptr->index = index;
+//    ptr->lhs = move(expr);
+//    ptr->type = id->type;
+//    ptr->location = id->location;
+//    ptr->rhs = move(id);
+//    return ptr;
+//}
 
 Value *PostfixOperatorExpr::codegen(IRStream &f){
     auto l = lhs->codegen(f);
@@ -364,9 +384,9 @@ unique_ptr<InfixOperatorPrimaryExpr> InfixOperatorPrimaryExpr::init(unique_ptr<T
     return ptr;
 }
 
-Value *NewIdentifierExpr::codegen(IRStream &f){
-    return nullptr;
-}
+//Value *NewIdentifierExpr::codegen(IRStream &f){
+//    return nullptr;
+//}
 
 Value *StringTerm::codegen(IRStream &f){
     
@@ -484,6 +504,56 @@ Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
         f << ")\n";
         return new Value(reg, func->return_type);
     }
+    return nullptr;
+}
+
+Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
+    auto v = parent->codegen(f);
+    if (child != nullptr) {
+        return child->codegenWith(v, f);
+    }
+    return v;
+}
+
+Value *AccessIdentifierExpr::codegen(IRStream &f){
+    string reg = local_context.top()->getRegister();
+    auto v = codegenAsRef(f);
+    f << reg << " = load " << v->type.ir_used << ", " << v->asValue() << "\n";
+    return new Value(reg, v->type);
+}
+
+string AccessIdentifierExpr::userdump(){
+    if (child == nullptr) {
+        return parent->userdump();
+    }else{
+        return parent->userdump() + child->userdump();
+    }
+    return "";
+}
+
+unique_ptr<AccessIdentifierExpr>
+AccessIdentifierExpr::init(unique_ptr<IdentifierExpr> p, unique_ptr<IdentifierTerm> c){
+    auto ptr = make_unique<AccessIdentifierExpr>();
+    ptr->type = c->type;
+    ptr->location = c->location;
+    ptr->parent = move(p);
+    ptr->child = move(c);
+    
+    return ptr;
+};
+
+Value *IdentifierTerm::codegenWith(Value *parent,IRStream &f){
+    if (funcptr == nullptr) {
+        return funcptr->codegenWithParent(parent, f);
+    }else{
+        return varptr->codegenWithParent(parent, f);
+    }
+    return nullptr;
+}
+
+Value *IdentifierTerm::codegen(IRStream &f){
+    scheato->DevLog(location, __FILE_NAME__, __LINE__, "this function must not be called.");
+    exit(0);
     return nullptr;
 }
 

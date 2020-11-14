@@ -89,41 +89,41 @@ static Operator *findOperator(Token *tok, TypeData type, OperatorPosition positi
     return iter->second;
 }
 
-extern unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&);
+//extern unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&);
 
-static unique_ptr<IdentifierTermTemplate> parseIdentifierTerm(Token *&tok){
-    if (tok->kind == scheat::TokenKind::tok_this) {
-        auto idexpr = parseIdentifierExpr(tok);
-        if (!idexpr) {
-            return nullptr;
-        }
-        auto ptr = TheIdentifierTerm::init(move(idexpr));
-        return ptr;
-    }
-    else if (tok->kind == scheat::TokenKind::val_identifier){
-        auto idtok = tok;
-        eatThis(tok);
-        if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
-            eatThis(tok);
-            while (tok->kind == scheat::TokenKind::tok_paren_r) {
-                auto ptr = parseExpr(tok);
-                if (!ptr) {
-                    return nullptr;
-                }
-                
-            }
-        }else if (tok->next->kind == scheat::TokenKind::tok_with){
-            eatThis(tok);
-            if (tok->kind != scheat::TokenKind::tok_paren_l) {
-                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "( is needed after with keyword.");
-                return nullptr;
-            }
-            eatThis(tok);
-            
-        }else{
-            
-        }
-    }
+static unique_ptr<IdentifierTerm> parseIdentifierTerm(Token *&tok){
+//    if (tok->kind == scheat::TokenKind::tok_this) {
+//        auto idexpr = parseIdentifierExpr(tok);
+//        if (!idexpr) {
+//            return nullptr;
+//        }
+//        auto ptr = TheIdentifierTerm::init(move(idexpr));
+//        return ptr;
+//    }
+//    else if (tok->kind == scheat::TokenKind::val_identifier){
+//        auto idtok = tok;
+//        eatThis(tok);
+//        if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
+//            eatThis(tok);
+//            while (tok->kind == scheat::TokenKind::tok_paren_r) {
+//                auto ptr = parseExpr(tok);
+//                if (!ptr) {
+//                    return nullptr;
+//                }
+//
+//            }
+//        }else if (tok->next->kind == scheat::TokenKind::tok_with){
+//            eatThis(tok);
+//            if (tok->kind != scheat::TokenKind::tok_paren_l) {
+//                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "( is needed after with keyword.");
+//                return nullptr;
+//            }
+//            eatThis(tok);
+//
+//        }else{
+//
+//        }
+//    }
     return nullptr;
 }
 
@@ -143,55 +143,55 @@ int hasProperty(TypeData type, string k){
     return 0;
 }
 
-unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&tok){
-    
-    // identifierExpr : the ID
-    //                | this ID
-    //                | ID . ID
-    if (tok->kind == scheat::TokenKind::tok_the) {
-        eatThis(tok);
-        auto ptr = parseIdentifierExpr(tok);
-        auto ret = TheIdentifierTerm::init(move(ptr));
-        return ret;
-    }
-    
-    if (tok->kind == scheat::TokenKind::tok_this) {
-        // auto ptr = parseNewIdentifierExpr(tok);
-        // if (!ptr) {
-        //     return nullptr;
-        // }
-        // return NewIdentifierExpr::init(move(ptr), ptr->type);
-        
-    }
-    
-    if (tok->kind == scheat::TokenKind::val_identifier) {
-        auto ptr = parseIdentifierTerm(tok);
-        if (!ptr) {
-            return nullptr;
-        }
-        if (tok->kind == scheat::TokenKind::tok_access) {
-            unique_ptr<IdentifierExprTemplate> expr = nullptr;
-            eatThis(tok);
-            auto child = parseIdentifierTerm(tok);
-            
-            
-            
-            if (!child) {
-                return nullptr;
-            }
-            expr = AccessIdentifierTerm::init(move(ptr), move(child), 0);
-            while (true) {
-                if (true) {
-                    
-                }
-            }
-            
-        }else{
-            return ptr;
-        }
-    }
-    
-    
+unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
+//
+//    // identifierExpr : the ID
+//    //                | this ID
+//    //                | ID . ID
+//    if (tok->kind == scheat::TokenKind::tok_the) {
+//        eatThis(tok);
+//        auto ptr = parseIdentifierExpr(tok);
+//        auto ret = TheIdentifierTerm::init(move(ptr));
+//        return ret;
+//    }
+//
+//    if (tok->kind == scheat::TokenKind::tok_this) {
+//        // auto ptr = parseNewIdentifierExpr(tok);
+//        // if (!ptr) {
+//        //     return nullptr;
+//        // }
+//        // return NewIdentifierExpr::init(move(ptr), ptr->type);
+//
+//    }
+//
+//    if (tok->kind == scheat::TokenKind::val_identifier) {
+//        auto ptr = parseIdentifierTerm(tok);
+//        if (!ptr) {
+//            return nullptr;
+//        }
+//        if (tok->kind == scheat::TokenKind::tok_access) {
+//            unique_ptr<IdentifierExprTemplate> expr = nullptr;
+//            eatThis(tok);
+//            auto child = parseIdentifierTerm(tok);
+//
+//
+//
+//            if (!child) {
+//                return nullptr;
+//            }
+//            expr = AccessIdentifierTerm::init(move(ptr), move(child), 0);
+//            while (true) {
+//                if (true) {
+//
+//                }
+//            }
+//
+//        }else{
+//            return ptr;
+//        }
+//    }
+//
+//
     
     return nullptr;
 }
@@ -523,17 +523,18 @@ extern void parser2::parse(Scheat *sch,Token *tokens){
     return;
 };
 
-static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
-    unique_ptr<IdentifierTermTemplate> id = nullptr;// make_unique<NewIdentifierExpr>();
-    while (tok != nullptr) {
-        if (tok->kind == scheat::TokenKind::val_identifier) {
-            id = UnknownIdentifierTerm::init(tok);
-            eatThis(tok);
-            break;
-        }
-        eatThis(tok);
-    }
-    return NewIdentifierExpr::init(move(id), TypeData("nil", "i8*"));
+static unique_ptr<IdentifierExpr> parseNewIdentifierExpr(Token *& tok){
+//    unique_ptr<IdentifierTermTemplate> id = nullptr;// make_unique<NewIdentifierExpr>();
+//    while (tok != nullptr) {
+//        if (tok->kind == scheat::TokenKind::val_identifier) {
+//            id = UnknownIdentifierTerm::init(tok);
+//            eatThis(tok);
+//            break;
+//        }
+//        eatThis(tok);
+//    }
+//    return NewIdentifierExpr::init(move(id), TypeData("nil", "i8*"));
+    return nullptr;
 }
 
 extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
