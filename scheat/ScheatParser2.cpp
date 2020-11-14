@@ -144,6 +144,50 @@ int hasProperty(TypeData type, string k){
     return 0;
 }
 
+static unique_ptr<TopIdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
+    if (tok->kind != scheat::TokenKind::val_identifier) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "?????");
+    }
+    auto idtok = tok;
+    eatThis(tok);
+    if (tok->kind == scheat::TokenKind::tok_with) {
+        eatThis(tok);
+    }
+    if (tok->kind == scheat::TokenKind::tok_paren_l) {
+        eatThis(tok);
+        auto func = global_context->findFunc(idtok->value.strValue);
+        auto funcnode = FunctionCallTerm::init(idtok, func);
+        if (!func) {
+            scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s is undefined. Make sure if it is function.", idtok->value.strValue.c_str());
+            return nullptr;
+        }
+        while (tok->kind != scheat::TokenKind::tok_paren_r) {
+            auto ptr = parseExpr(tok);
+            if (!ptr) {
+                return nullptr;
+            }
+            funcnode->args.push_back(move(ptr));
+            if (tok->kind == scheat::TokenKind::tok_comma) {
+                eatThis(tok);
+            }else{
+                break;
+            }
+        }
+        eatThis(tok);
+        return funcnode;
+    }else{
+        auto var = global_context->findVariable(idtok->value.strValue);
+        if (!var) {
+            scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s is undefined.",
+                                idtok->value.strValue.c_str());
+            return nullptr;
+        }
+        auto varnode = VariableTerm::init(idtok, var->type);
+        return varnode;
+    }
+    return nullptr;
+}
+
 unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
 //
     // identifierExpr : the ID
@@ -156,9 +200,14 @@ unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
         return ptr;
     }
 //
-
-//
-//
+    auto ptr = parseIdentifierTerm(tok);
+    if (!ptr) {
+        return nullptr;
+    }
+    
+    if (tok->kind == scheat::TokenKind::val_identifier) {
+        
+    }
     
     return parseIdentifierTerm(tok);
 }
