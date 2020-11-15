@@ -482,8 +482,8 @@ Value *BoolTerm::codegen(IRStream &f){
 
 Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
     string reg = local_context.top()->getRegister();
-    f << reg << " = getelementptr " << parent->type.ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varptr->index) << "\n";
-    return new Value(reg, varptr->type);
+    f << reg << " = getelementptr " << parent->type.ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varindex->index) << "\n";
+    return new Value(reg, varindex->type);
 }
 
 Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
@@ -557,9 +557,9 @@ Value *IdentifierTerm::codegen(IRStream &f){
     return nullptr;
 }
 
-unique_ptr<VariableAttributeExpr> VariableAttributeExpr::init(Variable *varptr, SourceLocation location){
+unique_ptr<VariableAttributeExpr> VariableAttributeExpr::init(unsigned int varptr, SourceLocation location){
     auto ptr = make_unique<VariableAttributeExpr>();
-    ptr->varptr = varptr;
+    ptr->varindex = varptr;
     ptr->location = location;
     ptr->type = varptr->type;
     return ptr;

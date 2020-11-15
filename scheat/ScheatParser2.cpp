@@ -91,40 +91,46 @@ static Operator *findOperator(Token *tok, TypeData type, OperatorPosition positi
 
 //extern unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&);
 
-static unique_ptr<IdentifierTerm> parseIdentifierTerm(Token *&tok){
+static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token *&tok){
     
-//    if (tok->kind == scheat::TokenKind::tok_this) {
-//        auto idexpr = parseIdentifierExpr(tok);
-//        if (!idexpr) {
-//            return nullptr;
-//        }
-//        auto ptr = TheIdentifierTerm::init(move(idexpr));
-//        return ptr;
-//    }
-//    else if (tok->kind == scheat::TokenKind::val_identifier){
-//        auto idtok = tok;
-//        eatThis(tok);
-//        if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
-//            eatThis(tok);
-//            while (tok->kind == scheat::TokenKind::tok_paren_r) {
-//                auto ptr = parseExpr(tok);
-//                if (!ptr) {
-//                    return nullptr;
-//                }
-//
-//            }
-//        }else if (tok->next->kind == scheat::TokenKind::tok_with){
-//            eatThis(tok);
-//            if (tok->kind != scheat::TokenKind::tok_paren_l) {
-//                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "( is needed after with keyword.");
-//                return nullptr;
-//            }
-//            eatThis(tok);
-//
-//        }else{
-//
-//        }
-//    }
+    if (tok->kind == scheat::TokenKind::val_identifier){
+        auto idtok = tok;
+        eatThis(tok);
+        if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
+            eatThis(tok);
+            while (tok->kind == scheat::TokenKind::tok_paren_r) {
+                auto ptr = parseExpr(tok);
+                if (!ptr) {
+                    return nullptr;
+                }
+
+            }
+        }else if (tok->next->kind == scheat::TokenKind::tok_with){
+            eatThis(tok);
+            if (tok->kind != scheat::TokenKind::tok_paren_l) {
+                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "( is needed after with keyword.");
+                return nullptr;
+            }
+            eatThis(tok);
+
+        }else{
+            auto classptr = global_context->findClass(parentType.name);
+            if (!classptr) {
+                scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__,
+                                    "type %s is undefined. you may forget to import external files.",
+                                    parentType.name.c_str());
+                return nullptr;
+            }
+            auto varptr = classptr->properties.find(idtok->value.strValue);
+            if (varptr == classptr->properties.end()) {
+                scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s has no property named %s",
+                                    parentType.name.c_str(),
+                                    idtok->value.strValue.c_str());
+                return nullptr;
+            }
+            auto ptr = VariableTerm::init(idtok, parentType);
+        }
+    }
     return nullptr;
 }
 
@@ -206,7 +212,7 @@ unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
     }
     while (true){
         if (tok->kind == scheat::TokenKind::val_identifier) {
-            auto ch = parseIdentifierTerm(tok);
+            auto ch = parseIdentifierTerm(ptr->type, tok);
             if (!ch) {
                 return nullptr;
             }

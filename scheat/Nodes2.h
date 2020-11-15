@@ -189,11 +189,11 @@ class VariableAttributeExpr {
 public:
     SourceLocation location;
     TypeData type;
-    Variable *varptr;
-    string userdump(){return varptr->mangledName;};
+    unsigned int varindex;
+    string userdump(){return "."+to_string(varindex);};
     Value * codegenWithParent(Value *, IRStream &);
     static unique_ptr<VariableAttributeExpr>
-    init(Variable *, SourceLocation location);
+    init(unsigned int, SourceLocation location);
 };
 
 class FunctionAttributeExpr {
