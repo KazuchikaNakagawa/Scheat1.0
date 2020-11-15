@@ -141,7 +141,7 @@ public:
 class IdentifierExpr : public Term {
 public:
     Value * codegen(IRStream &) override{ return nullptr; };
-    virtual Value * codegenAsRef() { return nullptr; };
+    virtual Value * codegenAsRef(IRStream &) override{ return nullptr; };
     string userdump() override{ return "UNDEFINED"; };
 };
 
@@ -224,6 +224,12 @@ public:
 
 class NewIdentifierExpr : public IdentifierExpr {
 public:
+    string value;
+    // if this is not restricted, this become nullptr.
+    // it must not be null till code-generating.
+    TypeData *type;
+    Value * codegenAsRef(IRStream &) override;
+    Value * codegen(IRStream &f) override{ return codegenAsRef(f);};
     
 };
 

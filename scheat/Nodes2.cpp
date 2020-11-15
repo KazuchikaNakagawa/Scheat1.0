@@ -520,6 +520,28 @@ Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
     return v;
 }
 
+Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
+    string reg;
+    
+    if (type == nullptr) {
+        scheato->FatalError(location, __FILE_NAME__, __LINE__, "type is not clear.");
+        return nullptr;
+    }
+    
+    if (local_context.top()->name == "main") {
+        reg = "@" + value;
+        global_context->stream_entry << reg << " = global " << type->ir_used << " zeroinitializer\n";
+    }else if (local_context.top()->name == "Global"){
+        reg = "@" + value;
+        global_context->stream_entry << reg << " = global " << type->ir_used << " zeroinitializer\n";
+    }else{
+        reg = "%" + value;
+        f << reg << " = alloca " << type->ir_used << "\n";
+    }
+    
+    return new Value(reg, *type);
+}
+
 Value *AccessIdentifierExpr::codegen(IRStream &f){
     string reg = local_context.top()->getRegister();
     auto v = codegenAsRef(f);
