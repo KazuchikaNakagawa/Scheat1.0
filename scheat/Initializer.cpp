@@ -16,6 +16,7 @@ using scheat::statics::objects;
 using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
+using scheat::statics::initStream;
 
 void scheat::InitializeAll(){
     InitializeGlobals();
@@ -50,6 +51,11 @@ void scheat::InitializeGlobals(){
     global_context->stream_body << "declare void @Array_append(%Array*, i8*)\n";
     global_context->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global_context->stream_body << "declare %Array @Array_init(i64)\n";
+    Function *initf = new Function("void", "main");
+    initf->context->stream_entry << "declare void @init(){\n";
+    initf->context->stream_tail << "ret void\n}\n";
+    contextCenter.push_back(initf->context);
+    initStream = initf->context->stream_body;
     //global_context->stream_body << "declare i8* ";
     main_Context = nullptr;
     mTokens = nullptr;

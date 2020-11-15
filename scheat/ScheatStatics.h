@@ -27,7 +27,7 @@ extern std::map<int, std::vector<std::string>> objects;
 extern std::string fname;
 extern scheat::Token *mTokens;
 extern Scheat *scheato;
-
+extern IRStream initStream;
 }
 
 }

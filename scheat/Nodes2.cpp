@@ -20,6 +20,7 @@ using scheat::statics::objects;
 using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
+using scheat::statics::initStream;
 
 static TypeData asPointer(TypeData ty){
     return TypeData("the " + ty.name, ty.ir_used + "*");
@@ -520,6 +521,26 @@ Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
     return v;
 }
 
+unique_ptr<NewIdentifierExpr> NewIdentifierExpr::init(SourceLocation loc, string val, TypeData *type = nullptr){
+    auto ptr = make_unique<NewIdentifierExpr>();
+    ptr->type = type;
+    ptr->value = val;
+    ptr->location = loc;
+    return ptr;
+}
+
+void NewIdentifierExpr::setType(TypeData typ){
+    if (type == nullptr) {
+        *type = typ;
+    }else{
+        if (type->ir_used != typ.ir_used) {
+            scheato->FatalError(location, __FILE_NAME__, __LINE__, "%s is defined as %s but assigned %s value",
+                                value.c_str(), type->name.c_str(), typ.name.c_str());
+        }
+        
+    }
+};
+
 Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
     string reg;
     
@@ -527,6 +548,22 @@ Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
         scheato->FatalError(location, __FILE_NAME__, __LINE__, "type is not clear.");
         return nullptr;
     }
+    
+    auto classptr = global_context->findClass(type->name);
+    if (!classptr) {
+        scheato->FatalError(location, __FILE_NAME__, __LINE__, "%s is defined as unknown type %s",
+                            value.c_str(),
+                            type->name.c_str());
+        return nullptr;
+    }
+    auto func = classptr->context->findFunc(type->name + "_init");
+    if (!func) {
+        scheato->FatalError(location, __FILE_NAME__, __LINE__, "%s is not suitable object for Scheat. To use this here, you need to define %s_init function.",
+                            type->name.c_str(),
+                            type->name.c_str());
+        return nullptr;
+    }
+    
     
     if (local_context.top()->name == "main") {
         reg = "@" + value;
@@ -538,7 +575,7 @@ Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
         reg = "%" + value;
         f << reg << " = alloca " << type->ir_used << "\n";
     }
-    
+    initStream << "call void " << func->getMangledName() << "(" << type->ir_used << "* " << reg << ")\n";
     return new Value(reg, *type);
 }
 

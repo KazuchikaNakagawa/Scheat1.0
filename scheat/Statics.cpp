@@ -30,7 +30,7 @@ std::map<int, std::vector<std::string>> objects = {};
 std::string fname = "";
 Token *mTokens = nullptr;
 Scheat *scheato = nullptr;
-
+IRStream initStream;
 }
 
 }

@@ -230,7 +230,9 @@ public:
     TypeData *type;
     Value * codegenAsRef(IRStream &) override;
     Value * codegen(IRStream &f) override{ return codegenAsRef(f);};
-    
+    static unique_ptr<NewIdentifierExpr>
+    init(SourceLocation, string, TypeData *);
+    void setType(TypeData);
 };
 
 class VariableTerm : public TopIdentifierExpr {
