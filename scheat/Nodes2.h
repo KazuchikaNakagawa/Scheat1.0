@@ -169,11 +169,11 @@ public:
     string userdump() override;
 };
 
-class TopIdentifierExpr : public Term {
+class TopIdentifierExpr : public IdentifierExpr {
 public:
     Value * codegen(IRStream &) override { return nullptr; };
     string userdump() override{ return ""; };
-    
+    Value * codegenAsRef() override{ return nullptr; };
 };
 
 class GlobalExpr : public IdentifierExpr {

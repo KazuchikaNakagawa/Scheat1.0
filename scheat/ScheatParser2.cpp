@@ -144,7 +144,7 @@ int hasProperty(TypeData type, string k){
     return 0;
 }
 
-static unique_ptr<TopIdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
+static unique_ptr<IdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
     if (tok->kind != scheat::TokenKind::val_identifier) {
         scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "?????");
     }
@@ -200,16 +200,27 @@ unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
         return ptr;
     }
 //
-    auto ptr = parseIdentifierTerm(tok);
+    auto ptr = parseFirstIdentifierExpr(tok);
     if (!ptr) {
         return nullptr;
     }
-    
-    if (tok->kind == scheat::TokenKind::val_identifier) {
-        
+    while (true){
+        if (tok->kind == scheat::TokenKind::val_identifier) {
+            auto ch = parseIdentifierTerm(tok);
+            if (!ch) {
+                return nullptr;
+            }
+            ptr = AccessIdentifierExpr::init(move(ptr), move(ch));
+            
+        }else{
+            if (tok->kind == scheat::TokenKind::tok_access) {
+                eatThis(tok);
+                continue;
+            }
+            break;
+        }
     }
-    
-    return parseIdentifierTerm(tok);
+    return ptr;
 }
 
 static unique_ptr<Term> parseTermNodes(Token*& tok){
