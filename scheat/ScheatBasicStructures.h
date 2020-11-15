@@ -282,14 +282,14 @@ class Property {
 public:
     unsigned int index;
     TypeData type;
-    Property(TypeData ty) : type(ty) { index = 0; };
+    Property(TypeData ty = TypeData("the Void", "i8*")) : type(ty) { index = 0; };
 };
 
 class Class {
     
     unsigned int propCount = 0;
 public:
-    std::map<std::string, unsigned int> properties;
+    std::map<std::string, Property> properties;
     std::map<std::string, Operator*> operators;
     std::vector<TypeData *> bitMap;
     Class *parentClass;

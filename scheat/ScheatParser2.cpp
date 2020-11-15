@@ -121,14 +121,22 @@ static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token 
                                     parentType.name.c_str());
                 return nullptr;
             }
-            auto varptr = classptr->properties.find(idtok->value.strValue);
-            if (varptr == classptr->properties.end()) {
+            auto varindex = classptr->properties.find(idtok->value.strValue);
+            if (varindex == classptr->properties.end()) {
                 scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s has no property named %s",
                                     parentType.name.c_str(),
                                     idtok->value.strValue.c_str());
                 return nullptr;
             }
-            auto ptr = VariableTerm::init(idtok, parentType);
+//            auto varptr = classptr->context->findVariable(idtok->value.strValue);
+//            if (!varptr) {
+//                scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s has no property named %s",
+//                                    parentType.name.c_str(),
+//                                    idtok->value.strValue.c_str());
+//                return nullptr;
+//            }
+            auto ptr = VariableAttributeExpr::init(varindex->second, idtok->location);
+            return ptr;
         }
     }
     return nullptr;
@@ -145,7 +153,7 @@ int hasProperty(TypeData type, string k){
         scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "-? property %s does not exist...", k.c_str());
         return 0;
     }else{
-        return itervar->second;
+        return itervar->second.index;
     }
     return 0;
 }

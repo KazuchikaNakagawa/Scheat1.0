@@ -77,6 +77,11 @@ unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func
     return ptr;
 }
 
+Value *VariableAttributeExpr::codegenAsRef(IRStream &f){
+    
+    return nullptr;
+}
+
 Value *GlobalExpr::codegenAsRef(IRStream &f){
     auto v = ptr->codegen(f);
     return v;
@@ -482,8 +487,8 @@ Value *BoolTerm::codegen(IRStream &f){
 
 Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
     string reg = local_context.top()->getRegister();
-    f << reg << " = getelementptr " << parent->type.ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varindex->index) << "\n";
-    return new Value(reg, varindex->type);
+    f << reg << " = getelementptr " << parent->type.ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varindex.index) << "\n";
+    return new Value(reg, type);
 }
 
 Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
@@ -510,7 +515,7 @@ Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
 Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
     auto v = parent->codegen(f);
     if (child != nullptr) {
-        return child->codegenWith(v, f);
+        return child->codegenWithParent(v, f);
     }
     return v;
 }
@@ -542,26 +547,17 @@ AccessIdentifierExpr::init(unique_ptr<IdentifierExpr> p, unique_ptr<IdentifierTe
     return ptr;
 };
 
-Value *IdentifierTerm::codegenWith(Value *parent,IRStream &f){
-    if (funcptr == nullptr) {
-        return funcptr->codegenWithParent(parent, f);
-    }else{
-        return varptr->codegenWithParent(parent, f);
-    }
-    return nullptr;
-}
-
 Value *IdentifierTerm::codegen(IRStream &f){
     scheato->DevLog(location, __FILE_NAME__, __LINE__, "this function must not be called.");
     exit(0);
     return nullptr;
 }
 
-unique_ptr<VariableAttributeExpr> VariableAttributeExpr::init(unsigned int varptr, SourceLocation location){
+unique_ptr<VariableAttributeExpr> VariableAttributeExpr::init(Property varptr, SourceLocation location){
     auto ptr = make_unique<VariableAttributeExpr>();
     ptr->varindex = varptr;
     ptr->location = location;
-    ptr->type = varptr->type;
+    ptr->type = varptr.type;
     return ptr;
 }
 

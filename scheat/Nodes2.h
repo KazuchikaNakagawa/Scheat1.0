@@ -173,7 +173,7 @@ class TopIdentifierExpr : public IdentifierExpr {
 public:
     Value * codegen(IRStream &) override { return nullptr; };
     string userdump() override{ return ""; };
-    Value * codegenAsRef() override{ return nullptr; };
+    Value * codegenAsRef(IRStream &) override{ return nullptr; };
 };
 
 class GlobalExpr : public IdentifierExpr {
@@ -185,58 +185,46 @@ public:
     Value * codegenAsRef(IRStream &) override;
 };
 
-class VariableAttributeExpr {
+class IdentifierTerm : public IdentifierExpr {
+public:
+    string userdump() override{
+        return "UNDEFINED";
+    }
+    virtual Value * codegenWithParent(Value *,IRStream &) {return nullptr;};
+    Value * codegen(IRStream &) override;
+    Value * codegenAsRef(IRStream &) override{ return nullptr; };
+};
+
+class VariableAttributeExpr : public IdentifierTerm {
 public:
     SourceLocation location;
     TypeData type;
-    unsigned int varindex;
-    string userdump(){return "."+to_string(varindex);};
-    Value * codegenWithParent(Value *, IRStream &);
+    Property varindex;
+    string userdump()override{return "."+to_string(varindex.index);};
+    Value * codegenWithParent(Value *, IRStream &)override;
+    Value * codegenAsRef(IRStream &) override;
     static unique_ptr<VariableAttributeExpr>
-    init(unsigned int, SourceLocation location);
+    init(Property, SourceLocation location);
+    VariableAttributeExpr() { varindex = Property(); };
 };
 
-class FunctionAttributeExpr {
+class FunctionAttributeExpr : public IdentifierTerm {
 public:
     SourceLocation location;
     TypeData type;
     Function *func;
     vector<Value *> values = {};
-    string userdump() {return func->name;};
-    Value * codegenWithParent(Value *, IRStream &);
+    string userdump() override{return func->name;};
+    Value * codegenWithParent(Value *, IRStream &) override;
+    Value * codegen(IRStream &) override{ return nullptr; };
+    Value * codegenAsRef(IRStream &) override;
     static unique_ptr<FunctionAttributeExpr>
     init(Function *, SourceLocation);
 };
 
-class IdentifierTerm : public IdentifierExpr {
+class NewIdentifierExpr : public IdentifierExpr {
 public:
-    unique_ptr<VariableAttributeExpr> varptr = nullptr;
-    unique_ptr<FunctionAttributeExpr> funcptr = nullptr;
-    string userdump() override{
-        if (varptr == nullptr) {
-            return funcptr->userdump();
-        }else{
-            return varptr->userdump();
-        }
-    }
-    Value * codegenWith(Value *,IRStream &);
-    Value * codegen(IRStream &) override;
-    static unique_ptr<IdentifierTerm>
-    init(unique_ptr<VariableAttributeExpr> v){
-        auto ptr = make_unique<IdentifierTerm>();
-        ptr->location = v->location;
-        ptr->type = v->type;
-        ptr->varptr = move(v);
-        return ptr;
-    };
-    static unique_ptr<IdentifierTerm>
-    init(unique_ptr<FunctionAttributeExpr> v){
-        auto ptr = make_unique<IdentifierTerm>();
-        ptr->location = v->location;
-        ptr->type = v->type;
-        ptr->funcptr = move(v);
-        return ptr;
-    }
+    
 };
 
 class VariableTerm : public TopIdentifierExpr {
@@ -267,59 +255,6 @@ public:
     static unique_ptr<FunctionCallTerm> init(Token *, Function *);
 };
 
-//class AccessIdentifierTerm : public IdentifierTermTemplate {
-//public:
-//    Value * codegen(IRStream &) override;
-//    string userdump() override{ return "UNDEFINED"; };
-//    unique_ptr<Expr> lhs;
-//    unique_ptr<IdentifierTermTemplate> rhs;
-//    int index;
-//    static unique_ptr<AccessIdentifierTerm> init(unique_ptr<Expr>,
-//                                                 unique_ptr<IdentifierTermTemplate>,
-//                                                 int);
-//    void addArgument(bool, unique_ptr<Expr>) override{};
-//    ~AccessIdentifierTerm() {};
-//};
-//
-//class UnknownIdentifierTerm : public IdentifierTermTemplate {
-//public:
-//    static unique_ptr<UnknownIdentifierTerm> init(Token *tok){
-//        auto ptr = make_unique<UnknownIdentifierTerm>();
-//        ptr->value = tok->value.strValue;
-//        ptr->type = TypeData("COMPILED-NEW-ID", "i8*");
-//        return ptr;
-//    }
-//    Value * codegen(IRStream &) override{
-//        return new Value(value, type);
-//    }
-//
-//    string userdump() override{
-//        return "Variable(" + value + ")";
-//    }
-//
-//};
-
-//class TheIdentifierTerm : public IdentifierTermTemplate {
-//public:
-//    unique_ptr<IdentifierExprTemplate> id;
-//    static unique_ptr<TheIdentifierTerm> init(unique_ptr<IdentifierExprTemplate>);
-//    Value * codegen(IRStream &) override;
-//    string userdump() override{
-//        return id->userdump() + ".pointer";
-//    };
-//};
-//
-//class NewIdentifierExpr : public IdentifierExprTemplate {
-//public:
-//    Value * codegen(IRStream &) override;
-//    unique_ptr<IdentifierTermTemplate> id;
-//    static unique_ptr<NewIdentifierExpr> init(unique_ptr<IdentifierTermTemplate> ident, TypeData type){
-//        auto ptr = make_unique<NewIdentifierExpr>();
-//        ptr->id = move(ident);
-//        ptr->type = type;
-//        return ptr;
-//    };
-//};
 
 // -------------------------------------------------------------//
 
