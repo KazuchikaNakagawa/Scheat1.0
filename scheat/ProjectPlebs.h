@@ -11,13 +11,14 @@
 #include <vector>
 #include <map>
 #include <bitset>
+#include <stack>
 // Easy Engine for Scheat
 
 using std::unique_ptr;
 using std::vector;
 using namespace std;
 
-typedef atomic_bool Bit;
+typedef bool Bit;
 typedef Bit* Bits;
 
 namespace plebs {
@@ -38,9 +39,37 @@ public:
     }
 };
 
-class VPU {
+//struct _Instance;
+struct Address;
+
+struct Instance {
+    vector<Address> properties = {};
+    uint64_t calcSize();
+    void dump(ostream &);
+};
+
+union Value {
+    short* i4Ptr;
+    int8_t* i8Ptr;
+    int16_t* i16Ptr;
+    int32_t* i32Ptr;
+    int64_t* i64Ptr;
+    Instance instance;
+    void dump(ostream &);
+};
+
+enum Size : short {
+    i4 = 4,
+    i16 = 16,
+    i32 = 32,
+    i64 = 64,
+    instance = 0,
+};
+
+class Address {
 public:
-    
+    Value value;
+    Size size;
 };
 
 class Memory {
@@ -49,17 +78,12 @@ public:
     virtual void log(uint64_t, ostream&);
 };
 
-class Buffer : public Memory {
-public:
-    uint64_t size;
-    Bits buffer;
-    void log(uint64_t, ostream&) override;
-};
+struct Instruction;
 
-class Instance : public Memory {
+class VPU {
 public:
-    vector<Buffer> sizes;
-    void log(uint64_t, ostream&) override;
+    stack<Memory> caches;
+    void execute();
 };
 
 class ScheatVM {
@@ -79,14 +103,24 @@ public:
     }
 };
 
-class Code {
-public:
+struct Instruction {
     
 };
 
-class Instruction : public Code {
-public:
+struct FindInst : Instruction {
+    string identifier;
+};
+
+struct LoadInst : Instruction {
     
+};
+
+struct AccessInst : Instruction {
+    uint index;
+};
+
+struct CallInst : Instruction {
+    string identifier;
 };
 
 };
