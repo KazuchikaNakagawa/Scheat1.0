@@ -12,6 +12,10 @@
 
 
 int main(int argc, const char * argv[]) {
+    
+    std::string s = "Yeah*";
+    printf("%c", *--s.end());
+    return 0;
     scheat::Scheat *schprj = new scheat::Scheat();
     schprj->sourceFile = "test.scheat";
     schprj->outputFilePath = "/Users/kaz04/ScheatTest/test";

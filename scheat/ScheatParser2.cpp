@@ -161,6 +161,7 @@ int hasProperty(TypeData type, string k){
 static unique_ptr<IdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
     if (tok->kind != scheat::TokenKind::val_identifier) {
         scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "?????");
+        return nullptr;
     }
     auto idtok = tok;
     eatThis(tok);
@@ -528,7 +529,43 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
         return nullptr;
     }
     
+    // expr of Type
+    if (tok->kind == TokenKind::tok_of) {
+        
+    }
+    
     return ptr;
+}
+
+string CastExpr::userdump(){
+    return type.name + " *" + expr->userdump();
+}
+
+unique_ptr<CastExpr> CastExpr::init(TypeData type, unique_ptr<Expr> ptr){
+    auto pt = make_unique<CastExpr>();
+    pt->location = ptr->location;
+    pt->type = type;
+    pt->expr = move(ptr);
+    return pt;
+}
+
+Value *CastExpr::codegen(IRStream &f){
+    auto v = expr->codegen(f);
+    if (v->type.ir_used == type.ir_used) {
+        return v;
+    }
+    if (*--v->type.ir_used.end() == '*') {
+        scheato->DevLog(location, __FILE_NAME__, __LINE__, "pointer cast");
+        string reg = local_context.top()->getRegister();
+        
+        f << reg << " = bitcast " << v->asValue() << " to " << type.ir_used << "*\n";
+        return new Value(reg, type);
+    }else{
+        string reg = local_context.top()->getRegister();
+        f << reg << " = sext " << v->asValue() << " to " << type.ir_used << "\n";
+        return new Value(reg, type);
+    }
+    return nullptr;
 }
 
 extern void parser2::parse(Scheat *sch,Token *tokens){
@@ -564,18 +601,26 @@ extern void parser2::parse(Scheat *sch,Token *tokens){
     return;
 };
 
-static unique_ptr<IdentifierExpr> parseNewIdentifierExpr(Token *& tok){
-//    unique_ptr<IdentifierTermTemplate> id = nullptr;// make_unique<NewIdentifierExpr>();
-//    while (tok != nullptr) {
-//        if (tok->kind == scheat::TokenKind::val_identifier) {
-//            id = UnknownIdentifierTerm::init(tok);
-//            eatThis(tok);
-//            break;
-//        }
-//        eatThis(tok);
-//    }
-//    return NewIdentifierExpr::init(move(id), TypeData("nil", "i8*"));
+static TypeData *parseTypeExpr(Token *&tok){
     return nullptr;
+}
+
+static unique_ptr<IdentifierExpr> parseNewIdentifierExpr(Token *& tok){
+    unique_ptr<NewIdentifierExpr> ptr = nullptr;
+    
+    if (tok->kind == scheat::TokenKind::val_identifier) {
+        ptr = NewIdentifierExpr::init(tok->location, tok->value.strValue, nullptr);
+        eatThis(tok);
+    }
+    if (tok->kind == scheat::TokenKind::tok_of) {
+        eatThis(tok);
+        auto type = parseTypeExpr(tok);
+        if (!type) {
+            return nullptr;
+        }
+        ptr->type = type;
+    }
+    return ptr;
 }
 
 extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){

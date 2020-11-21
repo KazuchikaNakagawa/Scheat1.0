@@ -439,6 +439,14 @@ public:
     };
 };
 
+class CastExpr : public Expr {
+public:
+    unique_ptr<Expr> expr;
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    static unique_ptr<CastExpr> init(TypeData, unique_ptr<Expr>);
+};
+
 // expr : primary
 //      | primary OP expr
 //      | OP expr
