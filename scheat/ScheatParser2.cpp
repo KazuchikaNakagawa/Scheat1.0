@@ -537,36 +537,7 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
     return ptr;
 }
 
-string CastExpr::userdump(){
-    return type.name + " *" + expr->userdump();
-}
 
-unique_ptr<CastExpr> CastExpr::init(TypeData type, unique_ptr<Expr> ptr){
-    auto pt = make_unique<CastExpr>();
-    pt->location = ptr->location;
-    pt->type = type;
-    pt->expr = move(ptr);
-    return pt;
-}
-
-Value *CastExpr::codegen(IRStream &f){
-    auto v = expr->codegen(f);
-    if (v->type.ir_used == type.ir_used) {
-        return v;
-    }
-    if (*--v->type.ir_used.end() == '*') {
-        scheato->DevLog(location, __FILE_NAME__, __LINE__, "pointer cast");
-        string reg = local_context.top()->getRegister();
-        
-        f << reg << " = bitcast " << v->asValue() << " to " << type.ir_used << "*\n";
-        return new Value(reg, type);
-    }else{
-        string reg = local_context.top()->getRegister();
-        f << reg << " = sext " << v->asValue() << " to " << type.ir_used << "\n";
-        return new Value(reg, type);
-    }
-    return nullptr;
-}
 
 extern void parser2::parse(Scheat *sch,Token *tokens){
     scheato = sch;
