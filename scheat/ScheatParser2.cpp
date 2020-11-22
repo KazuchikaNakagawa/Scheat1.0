@@ -552,7 +552,6 @@ extern void parser2::parse(Scheat *sch,Token *tokens){
         return;
     }
     
-    
     while (tokens == nullptr){
     
         auto s = parseStatement(tokens);
@@ -573,6 +572,32 @@ extern void parser2::parse(Scheat *sch,Token *tokens){
 };
 
 static TypeData *parseTypeExpr(Token *&tok){
+    if (tok->kind == scheat::TokenKind::tok_of) {
+        // generics
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "generics are not available on Scheat 2.0");
+        return nullptr;
+    }
+    if (tok->kind == scheat::TokenKind::tok_the) {
+        eatThis(tok);
+        auto tp = parseTypeExpr(tok);
+        if (!tp) {
+            return nullptr;
+        }
+        return new TypeData("the " + tp->name, tp->ir_used + "*");
+    }
+    if (tok->kind == scheat::TokenKind::val_identifier) {
+        auto classptr = global_context->findClass(tok->value.strValue);
+        if (!classptr) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                                "name '%s' does not exist",
+                                tok->value.strValue.c_str());
+            return nullptr;
+        }
+        return classptr->type;
+    }
+    scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                        "type expression is expected but nowhere to be found");
     return nullptr;
 }
 
