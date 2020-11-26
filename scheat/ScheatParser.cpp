@@ -16,14 +16,13 @@
 #include <map>
 #include <stack>
 
+//#define ScheatContextData ScheatContext
+
 using namespace scheat::LegacyScheatParser;
 using namespace scheat;
 using namespace scheat::basics;
 using namespace scheat::node;
-using scheat::statics::contextCenter;
-using scheat::statics::global_context;
-using scheat::statics::main_Context;
-using scheat::statics::local_context;
+using namespace scheat::statics;
 using scheat::statics::objects;
 using scheat::statics::fname;
 using scheat::statics::mTokens;
@@ -62,13 +61,13 @@ static IDData inferID(Token *&tok){
         eatThis(tok);
         eatThis(tok);
         auto idd = inferID(tok);
-        auto v = local_context.top()->findVariable(idt->value.strValue);
+        auto v = ScheatContext::local()->findVariable(idt->value.strValue);
         if (v == nullptr) {
             scheato->FatalError(idt->location, __FILE_NAME__, __LINE__, "identifier %s is not defined",
                                 idt->value.strValue.c_str());
             exit(0);
         }
-        auto t = local_context.top()->findClass(v->type.name);
+        auto t = ScheatContext::local()->findClass(v->type.name);
         if (t == nullptr) {
             exit(0);
         }
@@ -83,14 +82,14 @@ static IDData inferID(Token *&tok){
         return idd;
         
     }else if (tok->kind == scheat::TokenKind::val_identifier){
-        if (!local_context.top()->isExists(tok->value.strValue)) {
+        if (!ScheatContext::local()->isExists(tok->value.strValue)) {
             return IDData("",TypeData("nil", "NULLTYPE"));
         }
-        auto v = local_context.top()->findVariable(tok->value.strValue);
+        auto v = ScheatContext::local()->findVariable(tok->value.strValue);
         if (v != nullptr) {
             return IDData(v->mangledName, v->type);
         }
-        auto f = local_context.top()->findFunc(tok->value.strValue);
+        auto f = ScheatContext::local()->findFunc(tok->value.strValue);
         if (f != nullptr) {
             if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
                 int i = 0;
@@ -120,7 +119,7 @@ static TypeData inferIDType(Token *&tok){
 //        eatThis(tok);
 //
 //    }
-    if (!local_context.top()->isExists(tok->value.strValue)) {
+    if (!ScheatContext::local()->isExists(tok->value.strValue)) {
         return TypeData("nil", "NULLTYPE");
     }
     
@@ -160,7 +159,7 @@ static TypeData inferPrimaryType(Token *&ktok){
     if (ktok->kind == scheat::TokenKind::val_operator) {
         ktok = ktok->next;
         auto t = inferTermType(ktok);
-        auto cl = global_context->findClass(t.name);
+        auto cl = ScheatContext::global->findClass(t.name);
         if (cl == nullptr) {
             return TypeData("nil", "NULLTYPE");
         }
@@ -188,7 +187,7 @@ static TypeData inferType(){
     if (ktok->kind == scheat::TokenKind::val_operator) {
         ktok = ktok->next;
         auto t = inferType();
-        auto cl = global_context->findClass(t.name);
+        auto cl = ScheatContext::global->findClass(t.name);
         if (cl == nullptr) {
             return TypeData("nil", "NULLTYPE");
         }
@@ -298,7 +297,7 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
         if (!primary) {
             return nullptr;
         }
-        auto opOwner = local_context.top()->findClass(primary->node_size.name);
+        auto opOwner = ScheatContext::local()->findClass(primary->node_size.name);
         if (!opOwner) {
             scheato->DevLog(opTok->location, __FILE_NAME__, __LINE__, "????");
         }
@@ -340,7 +339,7 @@ p_unique(PrimaryExpr) parsePrimaryExpr(Token *&gltokens){
             if (!e) {
                 return nullptr;
             }
-            auto opOwner = local_context.top()->findClass(e->node_size.name);
+            auto opOwner = ScheatContext::local()->findClass(e->node_size.name);
             if (!opOwner) {
                 scheato->DevLog(opTok->location, __FILE_NAME__, __LINE__, "????");
             }
@@ -387,7 +386,7 @@ p_unique(Expr) parseExpr(Token *&gltokens){
         if (!primary) {
             return nullptr;
         }
-        auto opOwner = local_context.top()->findClass(primary->node_size.name);
+        auto opOwner = ScheatContext::local()->findClass(primary->node_size.name);
         if (!opOwner) {
             scheato->DevLog(opTok->location, __FILE_NAME__, __LINE__, "????");
         }
@@ -427,7 +426,7 @@ p_unique(Expr) parseExpr(Token *&gltokens){
             if (!e) {
                 return nullptr;
             }
-            auto opOwner = local_context.top()->findClass(e->node_size.name);
+            auto opOwner = ScheatContext::local()->findClass(e->node_size.name);
             if (!opOwner) {
                 scheato->DevLog(opTok->location,__FILE_NAME__, __LINE__, "????");
             }
@@ -520,10 +519,10 @@ void LegacyScheatParser::LLParse(Scheat *host){
     mTokens = host->tokens;
     p_unique(Statements) stmt = nullptr;
     while (stmt = parseStatements(mTokens),stmt != nullptr) {
-        stmt->codegen(local_context.top()->stream_body);
+        stmt->codegen(ScheatContext::local()->stream_body);
         stmt = parseStatements(mTokens);
     }
-    for (auto i = contextCenter.begin(); i != contextCenter.end(); i = std::next(i)) {
+    for (auto i = ScheatContext::contextCenter.begin(); i != ScheatContext::contextCenter.end(); i = std::next(i)) {
         (*i)->dump(f);
         f << "\n";
     }

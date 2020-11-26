@@ -6,7 +6,7 @@
 //
 
 #include "ScheatParser2.h"
-
+#include <fstream>
 /*
  Parsing
  
@@ -28,10 +28,7 @@ using namespace scheat;
 using namespace basics;
 using namespace nodes2;
 using namespace parser2;
-using scheat::statics::contextCenter;
-using scheat::statics::global_context;
-using scheat::statics::main_Context;
-using scheat::statics::local_context;
+using namespace scheat::statics;
 using scheat::statics::objects;
 using scheat::statics::fname;
 using scheat::statics::mTokens;
@@ -66,7 +63,7 @@ static bool isValue(Token *tok){
 }
 
 static Operator *findOperator(Token *tok, TypeData type, OperatorPosition position, OperatorPresidence priority){
-    auto cla = global_context->findClass(type.name);
+    auto cla = ScheatContext::global->findClass(type.name);
     if (!cla) {
         return nullptr;
     }
@@ -114,7 +111,7 @@ static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token 
             eatThis(tok);
 
         }else{
-            auto classptr = global_context->findClass(parentType.name);
+            auto classptr = ScheatContext::global->findClass(parentType.name);
             if (!classptr) {
                 scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__,
                                     "type %s is undefined. you may forget to import external files.",
@@ -143,7 +140,7 @@ static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token 
 }
 
 int hasProperty(TypeData type, string k){
-    Class *cl = global_context->findClass(type.name);
+    Class *cl = ScheatContext::global->findClass(type.name);
     if (!cl) {
         scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "-? type %s does not exist...", type.name.c_str());
         return 0;
@@ -170,7 +167,7 @@ static unique_ptr<IdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
     }
     if (tok->kind == scheat::TokenKind::tok_paren_l) {
         eatThis(tok);
-        auto func = global_context->findFunc(idtok->value.strValue);
+        auto func = ScheatContext::global->findFunc(idtok->value.strValue);
         auto funcnode = FunctionCallTerm::init(idtok, func);
         if (!func) {
             scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s is undefined. Make sure if it is function.", idtok->value.strValue.c_str());
@@ -191,7 +188,7 @@ static unique_ptr<IdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
         eatThis(tok);
         return funcnode;
     }else{
-        auto var = global_context->findVariable(idtok->value.strValue);
+        auto var = ScheatContext::global->findVariable(idtok->value.strValue);
         if (!var) {
             scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s is undefined.",
                                 idtok->value.strValue.c_str());
@@ -209,9 +206,10 @@ unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
     //                | this ID
     //                | ID . ID
     if (tok->kind == scheat::TokenKind::tok_the) {
+        auto saved = tok;
         eatThis(tok);
         auto ptr = parseIdentifierExpr(tok);
-        //auto ret = TheIdentifierTerm::init(move(ptr));
+        auto ret = TheIdentifierExpr::init(saved, move(ptr));
         return ptr;
     }
 //
@@ -236,6 +234,36 @@ unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
         }
     }
     return ptr;
+}
+
+static TypeData *parseTypeExpr(Token *&tok){
+    if (tok->kind == scheat::TokenKind::tok_of) {
+        // generics
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "generics are not available on Scheat 2.0");
+        return nullptr;
+    }
+    if (tok->kind == scheat::TokenKind::tok_the) {
+        eatThis(tok);
+        auto tp = parseTypeExpr(tok);
+        if (!tp) {
+            return nullptr;
+        }
+        return new TypeData("the " + tp->name, tp->ir_used + "*");
+    }
+    if (tok->kind == scheat::TokenKind::val_identifier) {
+        auto classptr = ScheatContext::global->findClass(tok->value.strValue);
+        if (!classptr) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                                "name '%s' does not exist",
+                                tok->value.strValue.c_str());
+            return nullptr;
+        }
+        return classptr->type;
+    }
+    scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                        "type expression is expected but nowhere to be found");
+    return nullptr;
 }
 
 static unique_ptr<Term> parseTermNodes(Token*& tok){
@@ -531,7 +559,12 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
     
     // expr of Type
     if (tok->kind == TokenKind::tok_of) {
-        
+        eatThis(tok);
+        auto type = parseTypeExpr(tok);
+        if (!type) {
+            return nullptr;
+        }
+        return CastExpr::init(*type, move(ptr));
     }
     
     return ptr;
@@ -568,40 +601,11 @@ extern void parser2::parse(Scheat *sch,Token *tokens){
     }
     
     scheato->statements->statements = move(stmts);
+    ofstream file(scheato->outputFilePath);
     return;
 };
 
-static TypeData *parseTypeExpr(Token *&tok){
-    if (tok->kind == scheat::TokenKind::tok_of) {
-        // generics
-        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
-                            "generics are not available on Scheat 2.0");
-        return nullptr;
-    }
-    if (tok->kind == scheat::TokenKind::tok_the) {
-        eatThis(tok);
-        auto tp = parseTypeExpr(tok);
-        if (!tp) {
-            return nullptr;
-        }
-        return new TypeData("the " + tp->name, tp->ir_used + "*");
-    }
-    if (tok->kind == scheat::TokenKind::val_identifier) {
-        auto classptr = global_context->findClass(tok->value.strValue);
-        if (!classptr) {
-            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
-                                "name '%s' does not exist",
-                                tok->value.strValue.c_str());
-            return nullptr;
-        }
-        return classptr->type;
-    }
-    scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
-                        "type expression is expected but nowhere to be found");
-    return nullptr;
-}
-
-static unique_ptr<IdentifierExpr> parseNewIdentifierExpr(Token *& tok){
+static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
     unique_ptr<NewIdentifierExpr> ptr = nullptr;
     
     if (tok->kind == scheat::TokenKind::val_identifier) {
@@ -653,7 +657,17 @@ static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
 }
 
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
-    auto name = parseExpr(tok);
+    auto name = parseNewIdentifierExpr(tok);
+    if (!name) {
+        return nullptr;
+    }
+    if (tok->kind != scheat::TokenKind::tok_is) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "to define variable, needs 'is' after name.");
+        return nullptr;
+    }
+    eatThis(tok);
+    auto val = parseExpr(tok);
     return nullptr;
 }
 

@@ -13,6 +13,7 @@
 #include "LegacyTypeScheat.hpp"
 #include "ScheatParser2.h"
 #include "Initializers.h"
+#include "ScheatEncoder.h"
 #pragma GCC visibility push(default)
 
 namespace scheat{

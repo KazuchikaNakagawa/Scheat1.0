@@ -18,8 +18,7 @@
 using namespace scheat;
 using namespace scheat::basics;
 using namespace scheat::node;
-using statics::local_context;
-using statics::global_context;
+using namespace statics;
 using statics::scheato;
 
 Class *Context::findClass(std::string key){
@@ -28,12 +27,12 @@ Class *Context::findClass(std::string key){
 
 static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
     if (data->size.ir_used[0] == '%') {
-        auto a = global_context->findClass(data->size.name);
+        auto a = ScheatContext::global->findClass(data->size.name);
         if (a == nullptr) {
             scheato->FatalError(scheato->location, __FILE_NAME__, __LINE__, "Domestic Error. %s is undefined.", data->size.ir_used.c_str());
         }
         if (a->type->name == to->name) {
-            auto r = local_context.top()->getRegister();
+            auto r = ScheatContext::local()->getRegister();
             f << r << " = bitcast " << data->size.ir_used << "* " << data->value << " to " << to->ir_used << "*\n";
         }
     }
@@ -44,10 +43,10 @@ static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
 };
 
 Function::Function(std::string type, std::string nm) : return_type(type){
-    mangledName = "@" + local_context.top()->name + "_" + nm;
+    mangledName = "@" + ScheatContext::local()->name + "_" + nm;
     name = nm;
     argTypes = {};
-    context = Context::create(nm, local_context.top());
+    context = Context::create(nm, ScheatContext::local());
 }
 
 void Context::addFunction(std::string key, Function *value){

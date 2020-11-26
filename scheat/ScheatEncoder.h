@@ -18,7 +18,9 @@ namespace encoder {
 // Low Layer Scheat Compiler
 // Compile scheat to LLVM IR an to object file.
 class LLSCEncoder {
-    
+public:
+    static void encode(Scheat *);
+    static void encodeLL(Scheat *);
 };
 
 class SCVMEncoder {

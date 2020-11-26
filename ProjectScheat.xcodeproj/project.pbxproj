@@ -34,59 +34,162 @@
 		8204140A252365EC0073CB03 /* ScheatHelp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82041408252365EC0073CB03 /* ScheatHelp.cpp */; };
 		8204140B252365EC0073CB03 /* ScheatHelp.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82041409252365EC0073CB03 /* ScheatHelp.hpp */; };
 		8205E12D24D3178C001C5130 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849FC24D2DFA4004A7A64 /* main.cpp */; };
-		8205E13324D319F5001C5130 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E12F24D319F5001C5130 /* libLLVMAggressiveInstCombine.a */; };
-		8205E13424D319F5001C5130 /* libLLVMAsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13024D319F5001C5130 /* libLLVMAsmPrinter.a */; };
-		8205E13524D319F5001C5130 /* libLLVMAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13124D319F5001C5130 /* libLLVMAsmParser.a */; };
-		8205E13624D319F5001C5130 /* libLLVMAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13224D319F5001C5130 /* libLLVMAnalysis.a */; };
-		8205E13824D31A36001C5130 /* libLLVMBinaryFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13724D31A36001C5130 /* libLLVMBinaryFormat.a */; };
-		8205E13A24D31A39001C5130 /* libLLVMBitReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13924D31A39001C5130 /* libLLVMBitReader.a */; };
-		8205E13C24D31A40001C5130 /* libLLVMBitWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13B24D31A40001C5130 /* libLLVMBitWriter.a */; };
-		8205E13E24D31A44001C5130 /* libLLVMBitstreamReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13D24D31A44001C5130 /* libLLVMBitstreamReader.a */; };
-		8205E14024D31A55001C5130 /* libLLVMCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13F24D31A55001C5130 /* libLLVMCore.a */; };
-		8205E14224D31A5D001C5130 /* libLLVMCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14124D31A5D001C5130 /* libLLVMCodeGen.a */; };
-		8205E14424D31A63001C5130 /* libLLVMCoroutines.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14324D31A63001C5130 /* libLLVMCoroutines.a */; };
-		8205E14624D31A6A001C5130 /* libLLVMCFGuard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14524D31A6A001C5130 /* libLLVMCFGuard.a */; };
-		8205E14824D31A77001C5130 /* libLLVMDemangle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14724D31A77001C5130 /* libLLVMDemangle.a */; };
-		8205E14A24D31A7F001C5130 /* libLLVMDebugInfoDWARF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14924D31A7F001C5130 /* libLLVMDebugInfoDWARF.a */; };
-		8205E14C24D31A84001C5130 /* libLLVMDebugInfoCodeView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14B24D31A84001C5130 /* libLLVMDebugInfoCodeView.a */; };
-		8205E14E24D31A8A001C5130 /* libLLVMDebugInfoMSF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14D24D31A8A001C5130 /* libLLVMDebugInfoMSF.a */; };
-		8205E15024D31A98001C5130 /* libLLVMExecutionEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14F24D31A98001C5130 /* libLLVMExecutionEngine.a */; };
-		8205E15224D31AA2001C5130 /* libLLVMFrontendOpenMP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15124D31AA2001C5130 /* libLLVMFrontendOpenMP.a */; };
-		8205E15424D31AAC001C5130 /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15324D31AAC001C5130 /* libLLVMGlobalISel.a */; };
-		8205E15924D31ACA001C5130 /* libLLVMInstrumentation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15524D31ACA001C5130 /* libLLVMInstrumentation.a */; };
-		8205E15A24D31ACA001C5130 /* libLLVMipo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15624D31ACA001C5130 /* libLLVMipo.a */; };
-		8205E15B24D31ACA001C5130 /* libLLVMInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15724D31ACA001C5130 /* libLLVMInstCombine.a */; };
-		8205E15C24D31ACA001C5130 /* libLLVMIRReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15824D31ACA001C5130 /* libLLVMIRReader.a */; };
-		8205E15E24D31ADC001C5130 /* libLLVMJITLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15D24D31ADC001C5130 /* libLLVMJITLink.a */; };
-		8205E16024D31AEC001C5130 /* libLLVMLinker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15F24D31AEC001C5130 /* libLLVMLinker.a */; };
-		8205E16224D31AF8001C5130 /* libLLVMMC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16124D31AF8001C5130 /* libLLVMMC.a */; };
-		8205E16424D31B2B001C5130 /* libLLVMMCDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16324D31B2B001C5130 /* libLLVMMCDisassembler.a */; };
-		8205E16624D31B56001C5130 /* libLLVMMCParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16524D31B56001C5130 /* libLLVMMCParser.a */; };
-		8205E16824D31B9C001C5130 /* libLLVMRemarks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16724D31B9C001C5130 /* libLLVMRemarks.a */; };
-		8205E16A24D31BA1001C5130 /* libLLVMRuntimeDyld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16924D31BA1001C5130 /* libLLVMRuntimeDyld.a */; };
-		8205E16E24D31BC1001C5130 /* libLLVMSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16B24D31BC1001C5130 /* libLLVMSupport.a */; };
-		8205E16F24D31BC1001C5130 /* libLLVMSelectionDAG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16C24D31BC1001C5130 /* libLLVMSelectionDAG.a */; };
-		8205E17024D31BC1001C5130 /* libLLVMScalarOpts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16D24D31BC1001C5130 /* libLLVMScalarOpts.a */; };
-		8205E17424D31BD7001C5130 /* libLLVMTarget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17124D31BD7001C5130 /* libLLVMTarget.a */; };
-		8205E17524D31BD7001C5130 /* libLLVMTransformUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17224D31BD7001C5130 /* libLLVMTransformUtils.a */; };
-		8205E17624D31BD7001C5130 /* libLLVMTextAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17324D31BD7001C5130 /* libLLVMTextAPI.a */; };
-		8205E17824D31BE5001C5130 /* libLLVMVectorize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17724D31BE5001C5130 /* libLLVMVectorize.a */; };
-		8205E17E24D31C00001C5130 /* libLLVMX86Info.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17924D31C00001C5130 /* libLLVMX86Info.a */; };
-		8205E17F24D31C00001C5130 /* libLLVMX86Desc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17A24D31C00001C5130 /* libLLVMX86Desc.a */; };
-		8205E18024D31C01001C5130 /* libLLVMX86AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17B24D31C00001C5130 /* libLLVMX86AsmParser.a */; };
-		8205E18124D31C01001C5130 /* libLLVMX86CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17C24D31C00001C5130 /* libLLVMX86CodeGen.a */; };
-		8205E18224D31C01001C5130 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17D24D31C00001C5130 /* libLLVMX86Disassembler.a */; };
 		8205E18624D31CDE001C5130 /* libpthread.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18524D31CDE001C5130 /* libpthread.tbd */; };
 		8205E18824D31CE8001C5130 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18724D31CE8001C5130 /* libz.tbd */; };
 		8205E18A24D31CF4001C5130 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18924D31CF4001C5130 /* libedit.tbd */; };
 		8205E18C24D31D02001C5130 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18B24D31D02001C5130 /* libcurses.tbd */; };
 		8205E18E24D31D0D001C5130 /* libm.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18D24D31D0D001C5130 /* libm.tbd */; };
 		82097C8F25076A31002D048A /* CScheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8283093624F93CB2006EFFEA /* CScheat.cpp */; };
-		8224EB232568D32F00581ABC /* ProjectPlebs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8224EB222568D32F00581ABC /* ProjectPlebs.cpp */; };
 		8225412224E01BD600DBF05C /* ScheatNodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412024E01BD600DBF05C /* ScheatNodes.cpp */; };
 		8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */; };
 		8225412B24E175F700DBF05C /* ScheatRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 8225412A24E175F700DBF05C /* ScheatRun.h */; };
 		8225412D24E175F700DBF05C /* ScheatRunPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */; };
+		824E3D20256AC2C700BB7B40 /* libLLVMAArch64AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3D1F256AC2C700BB7B40 /* libLLVMAArch64AsmParser.a */; };
+		824E3D8D256AC49B00BB7B40 /* libLLVMAArch64AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3D1F256AC2C700BB7B40 /* libLLVMAArch64AsmParser.a */; };
+		824E3D9F256AC4D000BB7B40 /* libLLVMAArch64Desc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3D9A256AC4D000BB7B40 /* libLLVMAArch64Desc.a */; };
+		824E3DA0256AC4D000BB7B40 /* libLLVMAArch64CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3D9B256AC4D000BB7B40 /* libLLVMAArch64CodeGen.a */; };
+		824E3DA1256AC4D000BB7B40 /* libLLVMAArch64Info.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3D9C256AC4D000BB7B40 /* libLLVMAArch64Info.a */; };
+		824E3DA2256AC4D000BB7B40 /* libLLVMAArch64Utils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3D9D256AC4D000BB7B40 /* libLLVMAArch64Utils.a */; };
+		824E3DA3256AC4D000BB7B40 /* libLLVMAArch64Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3D9E256AC4D000BB7B40 /* libLLVMAArch64Disassembler.a */; };
+		824E3E3B256AC50E00BB7B40 /* libLLVMMipsDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB0256AC50900BB7B40 /* libLLVMMipsDesc.a */; };
+		824E3E3C256AC50E00BB7B40 /* libLLVMWebAssemblyDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB1256AC50900BB7B40 /* libLLVMWebAssemblyDisassembler.a */; };
+		824E3E3D256AC50E00BB7B40 /* libLLVMAMDGPUDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB2256AC50900BB7B40 /* libLLVMAMDGPUDesc.a */; };
+		824E3E3E256AC50E00BB7B40 /* libLLVMInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB3256AC50900BB7B40 /* libLLVMInstCombine.a */; };
+		824E3E3F256AC50E00BB7B40 /* libLLVMOrcError.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB4256AC50900BB7B40 /* libLLVMOrcError.a */; };
+		824E3E40256AC50E00BB7B40 /* libLLVMHexagonDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB5256AC50900BB7B40 /* libLLVMHexagonDesc.a */; };
+		824E3E41256AC50E00BB7B40 /* libLLVMBitReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB6256AC50900BB7B40 /* libLLVMBitReader.a */; };
+		824E3E42256AC50E00BB7B40 /* libLLVMBitWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB7256AC50A00BB7B40 /* libLLVMBitWriter.a */; };
+		824E3E43256AC50E00BB7B40 /* libLLVMSystemZDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB8256AC50A00BB7B40 /* libLLVMSystemZDisassembler.a */; };
+		824E3E44256AC50E00BB7B40 /* libLLVMRISCVAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DB9256AC50A00BB7B40 /* libLLVMRISCVAsmParser.a */; };
+		824E3E45256AC50E00BB7B40 /* libLLVMWebAssemblyInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DBA256AC50A00BB7B40 /* libLLVMWebAssemblyInfo.a */; };
+		824E3E46256AC50E00BB7B40 /* libLLVMInstrumentation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DBB256AC50A00BB7B40 /* libLLVMInstrumentation.a */; };
+		824E3E47256AC50E00BB7B40 /* libLLVMARMDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DBC256AC50A00BB7B40 /* libLLVMARMDesc.a */; };
+		824E3E48256AC50E00BB7B40 /* libLLVMScalarOpts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DBD256AC50A00BB7B40 /* libLLVMScalarOpts.a */; };
+		824E3E49256AC50E00BB7B40 /* libLLVMMSP430Desc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DBE256AC50A00BB7B40 /* libLLVMMSP430Desc.a */; };
+		824E3E4A256AC50E00BB7B40 /* libLLVMMIRParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DBF256AC50A00BB7B40 /* libLLVMMIRParser.a */; };
+		824E3E4B256AC50E00BB7B40 /* libLLVMDWARFLinker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC0256AC50A00BB7B40 /* libLLVMDWARFLinker.a */; };
+		824E3E4C256AC50E00BB7B40 /* libLLVMExtensions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC1256AC50A00BB7B40 /* libLLVMExtensions.a */; };
+		824E3E4D256AC50E00BB7B40 /* libLLVMLibDriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC2256AC50A00BB7B40 /* libLLVMLibDriver.a */; };
+		824E3E4E256AC50E00BB7B40 /* libLLVMARMUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC3256AC50A00BB7B40 /* libLLVMARMUtils.a */; };
+		824E3E4F256AC50E00BB7B40 /* libLLVMDebugInfoGSYM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC4256AC50A00BB7B40 /* libLLVMDebugInfoGSYM.a */; };
+		824E3E50256AC50E00BB7B40 /* libLLVMAMDGPUCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC5256AC50A00BB7B40 /* libLLVMAMDGPUCodeGen.a */; };
+		824E3E51256AC50E00BB7B40 /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC6256AC50A00BB7B40 /* libLLVMGlobalISel.a */; };
+		824E3E52256AC50E00BB7B40 /* libLLVMRISCVUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC7256AC50A00BB7B40 /* libLLVMRISCVUtils.a */; };
+		824E3E53256AC50E00BB7B40 /* libLLVMMCJIT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC8256AC50A00BB7B40 /* libLLVMMCJIT.a */; };
+		824E3E54256AC50E00BB7B40 /* libLLVMDlltoolDriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DC9256AC50A00BB7B40 /* libLLVMDlltoolDriver.a */; };
+		824E3E55256AC50E00BB7B40 /* libLLVMTransformUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DCA256AC50A00BB7B40 /* libLLVMTransformUtils.a */; };
+		824E3E56256AC50E00BB7B40 /* libLLVMVectorize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DCB256AC50A00BB7B40 /* libLLVMVectorize.a */; };
+		824E3E57256AC50E00BB7B40 /* libLLVMAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DCC256AC50A00BB7B40 /* libLLVMAsmParser.a */; };
+		824E3E58256AC50E00BB7B40 /* libLLVMMipsInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DCD256AC50A00BB7B40 /* libLLVMMipsInfo.a */; };
+		824E3E59256AC50E00BB7B40 /* libLLVMCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DCE256AC50A00BB7B40 /* libLLVMCore.a */; };
+		824E3E5A256AC50E00BB7B40 /* libLLVMDebugInfoDWARF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DCF256AC50A00BB7B40 /* libLLVMDebugInfoDWARF.a */; };
+		824E3E5B256AC50E00BB7B40 /* libLLVMXCoreInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD0256AC50A00BB7B40 /* libLLVMXCoreInfo.a */; };
+		824E3E5C256AC50E00BB7B40 /* libLLVMLanaiAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD1256AC50A00BB7B40 /* libLLVMLanaiAsmParser.a */; };
+		824E3E5D256AC50E00BB7B40 /* libLLVMDemangle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD2256AC50A00BB7B40 /* libLLVMDemangle.a */; };
+		824E3E5E256AC50E00BB7B40 /* libLLVMNVPTXDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD3256AC50A00BB7B40 /* libLLVMNVPTXDesc.a */; };
+		824E3E5F256AC50E00BB7B40 /* libLLVMBPFDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD4256AC50A00BB7B40 /* libLLVMBPFDesc.a */; };
+		824E3E60256AC50E00BB7B40 /* libLLVMLanaiDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD5256AC50A00BB7B40 /* libLLVMLanaiDesc.a */; };
+		824E3E61256AC50E00BB7B40 /* libLLVMCoverage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD6256AC50A00BB7B40 /* libLLVMCoverage.a */; };
+		824E3E62256AC50E00BB7B40 /* libLLVMCFGuard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD7256AC50A00BB7B40 /* libLLVMCFGuard.a */; };
+		824E3E63256AC50E00BB7B40 /* libLLVMIRReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD8256AC50A00BB7B40 /* libLLVMIRReader.a */; };
+		824E3E64256AC50E00BB7B40 /* libLLVMHexagonInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DD9256AC50B00BB7B40 /* libLLVMHexagonInfo.a */; };
+		824E3E65256AC50E00BB7B40 /* libLLVMBPFAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DDA256AC50B00BB7B40 /* libLLVMBPFAsmParser.a */; };
+		824E3E66256AC50E00BB7B40 /* libLLVMObjCARCOpts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DDB256AC50B00BB7B40 /* libLLVMObjCARCOpts.a */; };
+		824E3E67256AC50E00BB7B40 /* libLLVMOption.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DDC256AC50B00BB7B40 /* libLLVMOption.a */; };
+		824E3E68256AC50E00BB7B40 /* libLLVMMipsDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DDD256AC50B00BB7B40 /* libLLVMMipsDisassembler.a */; };
+		824E3E69256AC50E00BB7B40 /* libLLVMXRay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DDE256AC50B00BB7B40 /* libLLVMXRay.a */; };
+		824E3E6A256AC50E00BB7B40 /* libLLVMPowerPCDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DDF256AC50B00BB7B40 /* libLLVMPowerPCDesc.a */; };
+		824E3E6B256AC50E00BB7B40 /* libLLVMOrcJIT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE0256AC50B00BB7B40 /* libLLVMOrcJIT.a */; };
+		824E3E6C256AC50E00BB7B40 /* libLLVMTableGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE1256AC50B00BB7B40 /* libLLVMTableGen.a */; };
+		824E3E6D256AC50E00BB7B40 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE2256AC50B00BB7B40 /* libLLVMAggressiveInstCombine.a */; };
+		824E3E6E256AC50E00BB7B40 /* libLLVMNVPTXInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE3256AC50B00BB7B40 /* libLLVMNVPTXInfo.a */; };
+		824E3E6F256AC50E00BB7B40 /* libLLVMHexagonDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE4256AC50B00BB7B40 /* libLLVMHexagonDisassembler.a */; };
+		824E3E70256AC50E00BB7B40 /* libLLVMSparcAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE5256AC50B00BB7B40 /* libLLVMSparcAsmParser.a */; };
+		824E3E71256AC50E00BB7B40 /* libLLVMMSP430Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE6256AC50B00BB7B40 /* libLLVMMSP430Disassembler.a */; };
+		824E3E72256AC50E00BB7B40 /* libLLVMExecutionEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE7256AC50B00BB7B40 /* libLLVMExecutionEngine.a */; };
+		824E3E73256AC50E00BB7B40 /* libLLVMCoroutines.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE8256AC50B00BB7B40 /* libLLVMCoroutines.a */; };
+		824E3E74256AC50E00BB7B40 /* libLLVMWebAssemblyAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DE9256AC50B00BB7B40 /* libLLVMWebAssemblyAsmParser.a */; };
+		824E3E75256AC50E00BB7B40 /* libLLVMLTO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DEA256AC50B00BB7B40 /* libLLVMLTO.a */; };
+		824E3E76256AC50E00BB7B40 /* libLLVMProfileData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DEB256AC50B00BB7B40 /* libLLVMProfileData.a */; };
+		824E3E77256AC50E00BB7B40 /* libLLVMPowerPCDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DEC256AC50B00BB7B40 /* libLLVMPowerPCDisassembler.a */; };
+		824E3E78256AC50E00BB7B40 /* libLLVMLineEditor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DED256AC50B00BB7B40 /* libLLVMLineEditor.a */; };
+		824E3E79256AC50E00BB7B40 /* libLLVMRuntimeDyld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DEE256AC50B00BB7B40 /* libLLVMRuntimeDyld.a */; };
+		824E3E7A256AC50E00BB7B40 /* libLLVMSparcDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DEF256AC50B00BB7B40 /* libLLVMSparcDesc.a */; };
+		824E3E7B256AC50E00BB7B40 /* libLLVMARMCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF0256AC50C00BB7B40 /* libLLVMARMCodeGen.a */; };
+		824E3E7C256AC50E00BB7B40 /* libLLVMWebAssemblyCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF1256AC50C00BB7B40 /* libLLVMWebAssemblyCodeGen.a */; };
+		824E3E7D256AC50E00BB7B40 /* libLLVMNVPTXCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF2256AC50C00BB7B40 /* libLLVMNVPTXCodeGen.a */; };
+		824E3E7E256AC50E00BB7B40 /* libLLVMTarget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF3256AC50C00BB7B40 /* libLLVMTarget.a */; };
+		824E3E7F256AC50E00BB7B40 /* libLLVMPasses.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF4256AC50C00BB7B40 /* libLLVMPasses.a */; };
+		824E3E80256AC50E00BB7B40 /* libLLVMLanaiDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF5256AC50C00BB7B40 /* libLLVMLanaiDisassembler.a */; };
+		824E3E81256AC50E00BB7B40 /* libLLVMBPFInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF6256AC50C00BB7B40 /* libLLVMBPFInfo.a */; };
+		824E3E82256AC50E00BB7B40 /* libLLVMRISCVCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF7256AC50C00BB7B40 /* libLLVMRISCVCodeGen.a */; };
+		824E3E83256AC50E00BB7B40 /* libLLVMMC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF8256AC50C00BB7B40 /* libLLVMMC.a */; };
+		824E3E84256AC50E00BB7B40 /* libLLVMSystemZInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DF9256AC50C00BB7B40 /* libLLVMSystemZInfo.a */; };
+		824E3E85256AC50E00BB7B40 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DFA256AC50C00BB7B40 /* libLLVMX86Disassembler.a */; };
+		824E3E86256AC50E00BB7B40 /* libLLVMLanaiCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DFB256AC50C00BB7B40 /* libLLVMLanaiCodeGen.a */; };
+		824E3E87256AC50E00BB7B40 /* libLLVMAsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DFC256AC50C00BB7B40 /* libLLVMAsmPrinter.a */; };
+		824E3E88256AC50E00BB7B40 /* libLLVMBinaryFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DFD256AC50C00BB7B40 /* libLLVMBinaryFormat.a */; };
+		824E3E89256AC50E00BB7B40 /* libLLVMARMDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DFE256AC50C00BB7B40 /* libLLVMARMDisassembler.a */; };
+		824E3E8A256AC50E00BB7B40 /* libLLVMX86CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3DFF256AC50C00BB7B40 /* libLLVMX86CodeGen.a */; };
+		824E3E8B256AC50E00BB7B40 /* libLLVMSparcCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E00256AC50C00BB7B40 /* libLLVMSparcCodeGen.a */; };
+		824E3E8C256AC50E00BB7B40 /* libLLVMMCA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E01256AC50C00BB7B40 /* libLLVMMCA.a */; };
+		824E3E8D256AC50E00BB7B40 /* libLLVMAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E02256AC50C00BB7B40 /* libLLVMAnalysis.a */; };
+		824E3E8E256AC50E00BB7B40 /* libLLVMSparcDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E03256AC50C00BB7B40 /* libLLVMSparcDisassembler.a */; };
+		824E3E8F256AC50E00BB7B40 /* libLLVMXCoreCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E04256AC50C00BB7B40 /* libLLVMXCoreCodeGen.a */; };
+		824E3E90256AC50E00BB7B40 /* libLLVMMSP430AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E05256AC50C00BB7B40 /* libLLVMMSP430AsmParser.a */; };
+		824E3E91256AC50E00BB7B40 /* libLLVMSparcInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E06256AC50C00BB7B40 /* libLLVMSparcInfo.a */; };
+		824E3E92256AC50E00BB7B40 /* libLLVMHexagonAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E07256AC50C00BB7B40 /* libLLVMHexagonAsmParser.a */; };
+		824E3E93256AC50E00BB7B40 /* libLLVMMCParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E08256AC50C00BB7B40 /* libLLVMMCParser.a */; };
+		824E3E94256AC50F00BB7B40 /* libLLVMFrontendOpenMP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E09256AC50C00BB7B40 /* libLLVMFrontendOpenMP.a */; };
+		824E3E95256AC50F00BB7B40 /* libLLVMLinker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E0A256AC50C00BB7B40 /* libLLVMLinker.a */; };
+		824E3E96256AC50F00BB7B40 /* libLLVMMSP430CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E0B256AC50C00BB7B40 /* libLLVMMSP430CodeGen.a */; };
+		824E3E97256AC50F00BB7B40 /* libLLVMDebugInfoPDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E0C256AC50C00BB7B40 /* libLLVMDebugInfoPDB.a */; };
+		824E3E98256AC50F00BB7B40 /* libLLVMSelectionDAG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E0D256AC50C00BB7B40 /* libLLVMSelectionDAG.a */; };
+		824E3E99256AC50F00BB7B40 /* libLLVMInterpreter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E0E256AC50C00BB7B40 /* libLLVMInterpreter.a */; };
+		824E3E9A256AC50F00BB7B40 /* libLLVMSystemZAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E0F256AC50C00BB7B40 /* libLLVMSystemZAsmParser.a */; };
+		824E3E9B256AC50F00BB7B40 /* libLLVMSymbolize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E10256AC50D00BB7B40 /* libLLVMSymbolize.a */; };
+		824E3E9C256AC50F00BB7B40 /* libLLVMDebugInfoCodeView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E11256AC50D00BB7B40 /* libLLVMDebugInfoCodeView.a */; };
+		824E3E9D256AC50F00BB7B40 /* libLLVMARMAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E12256AC50D00BB7B40 /* libLLVMARMAsmParser.a */; };
+		824E3E9E256AC50F00BB7B40 /* libLLVMPowerPCAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E13256AC50D00BB7B40 /* libLLVMPowerPCAsmParser.a */; };
+		824E3E9F256AC50F00BB7B40 /* libLLVMObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E14256AC50D00BB7B40 /* libLLVMObject.a */; };
+		824E3EA0256AC50F00BB7B40 /* libLLVMBPFCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E15256AC50D00BB7B40 /* libLLVMBPFCodeGen.a */; };
+		824E3EA1256AC50F00BB7B40 /* libLLVMWebAssemblyDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E16256AC50D00BB7B40 /* libLLVMWebAssemblyDesc.a */; };
+		824E3EA2256AC50F00BB7B40 /* libLLVMX86Desc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E17256AC50D00BB7B40 /* libLLVMX86Desc.a */; };
+		824E3EA3256AC50F00BB7B40 /* libLLVMAMDGPUAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E18256AC50D00BB7B40 /* libLLVMAMDGPUAsmParser.a */; };
+		824E3EA4256AC50F00BB7B40 /* libLLVMMSP430Info.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E19256AC50D00BB7B40 /* libLLVMMSP430Info.a */; };
+		824E3EA5256AC50F00BB7B40 /* libLLVMMipsAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E1A256AC50D00BB7B40 /* libLLVMMipsAsmParser.a */; };
+		824E3EA6256AC50F00BB7B40 /* libLLVMPowerPCCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E1B256AC50D00BB7B40 /* libLLVMPowerPCCodeGen.a */; };
+		824E3EA7256AC50F00BB7B40 /* libLLVMLanaiInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E1C256AC50D00BB7B40 /* libLLVMLanaiInfo.a */; };
+		824E3EA8256AC50F00BB7B40 /* libLLVMCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E1D256AC50D00BB7B40 /* libLLVMCodeGen.a */; };
+		824E3EA9256AC50F00BB7B40 /* libLLVMipo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E1E256AC50D00BB7B40 /* libLLVMipo.a */; };
+		824E3EAA256AC50F00BB7B40 /* libLLVMSystemZCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E1F256AC50D00BB7B40 /* libLLVMSystemZCodeGen.a */; };
+		824E3EAB256AC50F00BB7B40 /* libLLVMX86AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E20256AC50D00BB7B40 /* libLLVMX86AsmParser.a */; };
+		824E3EAC256AC50F00BB7B40 /* libLLVMPowerPCInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E21256AC50D00BB7B40 /* libLLVMPowerPCInfo.a */; };
+		824E3EAD256AC50F00BB7B40 /* libLLVMMCDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E22256AC50D00BB7B40 /* libLLVMMCDisassembler.a */; };
+		824E3EAE256AC50F00BB7B40 /* libLLVMSystemZDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E23256AC50D00BB7B40 /* libLLVMSystemZDesc.a */; };
+		824E3EAF256AC50F00BB7B40 /* libLLVMBitstreamReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E24256AC50D00BB7B40 /* libLLVMBitstreamReader.a */; };
+		824E3EB0256AC50F00BB7B40 /* libLLVMBPFDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E25256AC50D00BB7B40 /* libLLVMBPFDisassembler.a */; };
+		824E3EB1256AC50F00BB7B40 /* libLLVMWindowsManifest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E26256AC50D00BB7B40 /* libLLVMWindowsManifest.a */; };
+		824E3EB2256AC50F00BB7B40 /* libLLVMMipsCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E27256AC50D00BB7B40 /* libLLVMMipsCodeGen.a */; };
+		824E3EB3256AC50F00BB7B40 /* libLLVMRemarks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E28256AC50D00BB7B40 /* libLLVMRemarks.a */; };
+		824E3EB4256AC50F00BB7B40 /* libLLVMDebugInfoMSF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E29256AC50D00BB7B40 /* libLLVMDebugInfoMSF.a */; };
+		824E3EB5256AC50F00BB7B40 /* libLLVMObjectYAML.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E2A256AC50D00BB7B40 /* libLLVMObjectYAML.a */; };
+		824E3EB6256AC50F00BB7B40 /* libLLVMRISCVInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E2B256AC50D00BB7B40 /* libLLVMRISCVInfo.a */; };
+		824E3EB7256AC50F00BB7B40 /* libLLVMSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E2C256AC50D00BB7B40 /* libLLVMSupport.a */; };
+		824E3EB8256AC50F00BB7B40 /* libLLVMTextAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E2D256AC50D00BB7B40 /* libLLVMTextAPI.a */; };
+		824E3EB9256AC50F00BB7B40 /* libLLVMX86Utils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E2E256AC50D00BB7B40 /* libLLVMX86Utils.a */; };
+		824E3EBA256AC50F00BB7B40 /* libLLVMARMInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E2F256AC50D00BB7B40 /* libLLVMARMInfo.a */; };
+		824E3EBB256AC50F00BB7B40 /* libLLVMAMDGPUDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E30256AC50E00BB7B40 /* libLLVMAMDGPUDisassembler.a */; };
+		824E3EBC256AC50F00BB7B40 /* libLLVMAMDGPUInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E31256AC50E00BB7B40 /* libLLVMAMDGPUInfo.a */; };
+		824E3EBD256AC50F00BB7B40 /* libLLVMAMDGPUUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E32256AC50E00BB7B40 /* libLLVMAMDGPUUtils.a */; };
+		824E3EBE256AC50F00BB7B40 /* libLLVMHexagonCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E33256AC50E00BB7B40 /* libLLVMHexagonCodeGen.a */; };
+		824E3EBF256AC50F00BB7B40 /* libLLVMFuzzMutate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E34256AC50E00BB7B40 /* libLLVMFuzzMutate.a */; };
+		824E3EC0256AC50F00BB7B40 /* libLLVMJITLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E35256AC50E00BB7B40 /* libLLVMJITLink.a */; };
+		824E3EC1256AC50F00BB7B40 /* libLLVMXCoreDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E36256AC50E00BB7B40 /* libLLVMXCoreDisassembler.a */; };
+		824E3EC2256AC50F00BB7B40 /* libLLVMRISCVDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E37256AC50E00BB7B40 /* libLLVMRISCVDesc.a */; };
+		824E3EC3256AC50F00BB7B40 /* libLLVMRISCVDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E38256AC50E00BB7B40 /* libLLVMRISCVDisassembler.a */; };
+		824E3EC4256AC50F00BB7B40 /* libLLVMX86Info.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E39256AC50E00BB7B40 /* libLLVMX86Info.a */; };
+		824E3EC5256AC50F00BB7B40 /* libLLVMXCoreDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3E3A256AC50E00BB7B40 /* libLLVMXCoreDesc.a */; };
 		8262653125275F4700E71311 /* ScheatEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8262652F25275F4700E71311 /* ScheatEncoder.cpp */; };
 		8262653225275F4700E71311 /* ScheatEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 8262653025275F4700E71311 /* ScheatEncoder.h */; };
 		826720D824F7D56300C94D22 /* ScheatFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720D624F7D56300C94D22 /* ScheatFoundation.cpp */; };
@@ -133,73 +236,11 @@
 		82AEB63824DC3DC400889AC3 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18924D31CF4001C5130 /* libedit.tbd */; };
 		82AEB63924DC3DC400889AC3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18724D31CE8001C5130 /* libz.tbd */; };
 		82AEB63A24DC3DC400889AC3 /* libpthread.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18524D31CDE001C5130 /* libpthread.tbd */; };
-		82AEB63B24DC3DC400889AC3 /* libLLVMMC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16124D31AF8001C5130 /* libLLVMMC.a */; };
-		82AEB63C24DC3DC400889AC3 /* libLLVMMCDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16324D31B2B001C5130 /* libLLVMMCDisassembler.a */; };
-		82AEB63D24DC3DC400889AC3 /* libLLVMLinker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15F24D31AEC001C5130 /* libLLVMLinker.a */; };
-		82AEB63E24DC3DC400889AC3 /* libLLVMTarget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17124D31BD7001C5130 /* libLLVMTarget.a */; };
-		82AEB63F24DC3DC400889AC3 /* libLLVMVectorize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17724D31BE5001C5130 /* libLLVMVectorize.a */; };
-		82AEB64024DC3DC400889AC3 /* libLLVMX86Info.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17924D31C00001C5130 /* libLLVMX86Info.a */; };
-		82AEB64124DC3DC400889AC3 /* libLLVMX86Desc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17A24D31C00001C5130 /* libLLVMX86Desc.a */; };
-		82AEB64224DC3DC400889AC3 /* libLLVMX86AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17B24D31C00001C5130 /* libLLVMX86AsmParser.a */; };
-		82AEB64324DC3DC400889AC3 /* libLLVMX86CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17C24D31C00001C5130 /* libLLVMX86CodeGen.a */; };
-		82AEB64424DC3DC400889AC3 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17D24D31C00001C5130 /* libLLVMX86Disassembler.a */; };
-		82AEB64524DC3DC400889AC3 /* libLLVMTransformUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17224D31BD7001C5130 /* libLLVMTransformUtils.a */; };
-		82AEB64624DC3DC400889AC3 /* libLLVMTextAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E17324D31BD7001C5130 /* libLLVMTextAPI.a */; };
-		82AEB64724DC3DC400889AC3 /* libLLVMAggressiveInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E12F24D319F5001C5130 /* libLLVMAggressiveInstCombine.a */; };
-		82AEB64824DC3DC400889AC3 /* libLLVMJITLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15D24D31ADC001C5130 /* libLLVMJITLink.a */; };
-		82AEB64924DC3DC400889AC3 /* libLLVMSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16B24D31BC1001C5130 /* libLLVMSupport.a */; };
-		82AEB64A24DC3DC400889AC3 /* libLLVMSelectionDAG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16C24D31BC1001C5130 /* libLLVMSelectionDAG.a */; };
-		82AEB64B24DC3DC400889AC3 /* libLLVMScalarOpts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16D24D31BC1001C5130 /* libLLVMScalarOpts.a */; };
-		82AEB64C24DC3DC400889AC3 /* libLLVMRuntimeDyld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16924D31BA1001C5130 /* libLLVMRuntimeDyld.a */; };
-		82AEB64D24DC3DC400889AC3 /* libLLVMRemarks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16724D31B9C001C5130 /* libLLVMRemarks.a */; };
-		82AEB64E24DC3DC400889AC3 /* libLLVMAsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13024D319F5001C5130 /* libLLVMAsmPrinter.a */; };
-		82AEB64F24DC3DC400889AC3 /* libLLVMCFGuard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14524D31A6A001C5130 /* libLLVMCFGuard.a */; };
-		82AEB65024DC3DC400889AC3 /* libLLVMInstrumentation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15524D31ACA001C5130 /* libLLVMInstrumentation.a */; };
-		82AEB65124DC3DC400889AC3 /* libLLVMipo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15624D31ACA001C5130 /* libLLVMipo.a */; };
-		82AEB65224DC3DC400889AC3 /* libLLVMInstCombine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15724D31ACA001C5130 /* libLLVMInstCombine.a */; };
-		82AEB65324DC3DC400889AC3 /* libLLVMMCParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E16524D31B56001C5130 /* libLLVMMCParser.a */; };
-		82AEB65424DC3DC400889AC3 /* libLLVMIRReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15824D31ACA001C5130 /* libLLVMIRReader.a */; };
-		82AEB65524DC3DC400889AC3 /* libLLVMFrontendOpenMP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15124D31AA2001C5130 /* libLLVMFrontendOpenMP.a */; };
-		82AEB65624DC3DC400889AC3 /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E15324D31AAC001C5130 /* libLLVMGlobalISel.a */; };
-		82AEB65724DC3DC400889AC3 /* libLLVMDebugInfoMSF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14D24D31A8A001C5130 /* libLLVMDebugInfoMSF.a */; };
-		82AEB65824DC3DC400889AC3 /* libLLVMExecutionEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14F24D31A98001C5130 /* libLLVMExecutionEngine.a */; };
-		82AEB65924DC3DC400889AC3 /* libLLVMDebugInfoCodeView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14B24D31A84001C5130 /* libLLVMDebugInfoCodeView.a */; };
-		82AEB65A24DC3DC400889AC3 /* libLLVMDebugInfoDWARF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14924D31A7F001C5130 /* libLLVMDebugInfoDWARF.a */; };
-		82AEB65B24DC3DC400889AC3 /* libLLVMCoroutines.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14324D31A63001C5130 /* libLLVMCoroutines.a */; };
-		82AEB65C24DC3DC400889AC3 /* libLLVMDemangle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14724D31A77001C5130 /* libLLVMDemangle.a */; };
-		82AEB65D24DC3DC400889AC3 /* libLLVMCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E14124D31A5D001C5130 /* libLLVMCodeGen.a */; };
-		82AEB65E24DC3DC400889AC3 /* libLLVMAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13124D319F5001C5130 /* libLLVMAsmParser.a */; };
-		82AEB65F24DC3DC400889AC3 /* libLLVMCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13F24D31A55001C5130 /* libLLVMCore.a */; };
-		82AEB66024DC3DC400889AC3 /* libLLVMBitstreamReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13D24D31A44001C5130 /* libLLVMBitstreamReader.a */; };
-		82AEB66124DC3DC400889AC3 /* libLLVMAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13224D319F5001C5130 /* libLLVMAnalysis.a */; };
-		82AEB66224DC3DC400889AC3 /* libLLVMBinaryFormat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13724D31A36001C5130 /* libLLVMBinaryFormat.a */; };
-		82AEB66324DC3DC400889AC3 /* libLLVMBitWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13B24D31A40001C5130 /* libLLVMBitWriter.a */; };
-		82AEB66424DC3DC400889AC3 /* libLLVMBitReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E13924D31A39001C5130 /* libLLVMBitReader.a */; };
 		82AEB66F24DC3EFD00889AC3 /* ScheatIR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82AEB66E24DC3EFD00889AC3 /* ScheatIR.cpp */; };
 		82B3FB082507729F007594A9 /* ScheatRun2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82B3FB072507729F007594A9 /* ScheatRun2.cpp */; };
 		82D6F4D324F3EE240003D0EA /* ScheatARC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */; };
 		82D6F4D524F3EE240003D0EA /* ScheatARCPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */; };
 		82D6F4D724F3EE240003D0EA /* ScheatARC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */; };
-		82D6F4F724F555F40003D0EA /* liblldMachO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4ED24F555F30003D0EA /* liblldMachO.a */; };
-		82D6F4F824F555F40003D0EA /* liblldMachO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4ED24F555F30003D0EA /* liblldMachO.a */; };
-		82D6F4F924F555F40003D0EA /* liblldCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4EE24F555F30003D0EA /* liblldCommon.a */; };
-		82D6F4FA24F555F40003D0EA /* liblldCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4EE24F555F30003D0EA /* liblldCommon.a */; };
-		82D6F4FB24F555F40003D0EA /* liblldMinGW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4EF24F555F30003D0EA /* liblldMinGW.a */; };
-		82D6F4FC24F555F40003D0EA /* liblldMinGW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4EF24F555F30003D0EA /* liblldMinGW.a */; };
-		82D6F4FD24F555F40003D0EA /* liblldDriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F024F555F30003D0EA /* liblldDriver.a */; };
-		82D6F4FE24F555F40003D0EA /* liblldDriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F024F555F30003D0EA /* liblldDriver.a */; };
-		82D6F4FF24F555F40003D0EA /* liblldYAML.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F124F555F30003D0EA /* liblldYAML.a */; };
-		82D6F50024F555F40003D0EA /* liblldYAML.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F124F555F30003D0EA /* liblldYAML.a */; };
-		82D6F50124F555F40003D0EA /* liblldCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F224F555F30003D0EA /* liblldCore.a */; };
-		82D6F50224F555F40003D0EA /* liblldCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F224F555F30003D0EA /* liblldCore.a */; };
-		82D6F50324F555F40003D0EA /* liblldWasm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F324F555F30003D0EA /* liblldWasm.a */; };
-		82D6F50424F555F40003D0EA /* liblldWasm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F324F555F30003D0EA /* liblldWasm.a */; };
-		82D6F50524F555F40003D0EA /* liblldELF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F424F555F30003D0EA /* liblldELF.a */; };
-		82D6F50624F555F40003D0EA /* liblldELF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F424F555F30003D0EA /* liblldELF.a */; };
-		82D6F50724F555F40003D0EA /* liblldCOFF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F524F555F40003D0EA /* liblldCOFF.a */; };
-		82D6F50824F555F40003D0EA /* liblldCOFF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F524F555F40003D0EA /* liblldCOFF.a */; };
-		82D6F50924F555F40003D0EA /* liblldReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F624F555F40003D0EA /* liblldReaderWriter.a */; };
-		82D6F50A24F555F40003D0EA /* liblldReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D6F4F624F555F40003D0EA /* liblldReaderWriter.a */; };
 		82E6975024D32ACB00F13264 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974F24D32ACB00F13264 /* libxml2.tbd */; };
 		82E6975124D32B5500F13264 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974C24D321B400F13264 /* libncurses.tbd */; };
 		82E6975424D32B5500F13264 /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975224D32B5500F13264 /* libncurses.5.tbd */; };
@@ -361,48 +402,6 @@
 		820413F62523659B0073CB03 /* libScheatHelp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatHelp.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82041408252365EC0073CB03 /* ScheatHelp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatHelp.cpp; sourceTree = "<group>"; };
 		82041409252365EC0073CB03 /* ScheatHelp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatHelp.hpp; sourceTree = "<group>"; };
-		8205E12F24D319F5001C5130 /* libLLVMAggressiveInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAggressiveInstCombine.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAggressiveInstCombine.a; sourceTree = "<group>"; };
-		8205E13024D319F5001C5130 /* libLLVMAsmPrinter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAsmPrinter.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAsmPrinter.a; sourceTree = "<group>"; };
-		8205E13124D319F5001C5130 /* libLLVMAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAsmParser.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAsmParser.a; sourceTree = "<group>"; };
-		8205E13224D319F5001C5130 /* libLLVMAnalysis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAnalysis.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMAnalysis.a; sourceTree = "<group>"; };
-		8205E13724D31A36001C5130 /* libLLVMBinaryFormat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBinaryFormat.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMBinaryFormat.a; sourceTree = "<group>"; };
-		8205E13924D31A39001C5130 /* libLLVMBitReader.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBitReader.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMBitReader.a; sourceTree = "<group>"; };
-		8205E13B24D31A40001C5130 /* libLLVMBitWriter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBitWriter.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMBitWriter.a; sourceTree = "<group>"; };
-		8205E13D24D31A44001C5130 /* libLLVMBitstreamReader.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBitstreamReader.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMBitstreamReader.a; sourceTree = "<group>"; };
-		8205E13F24D31A55001C5130 /* libLLVMCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCore.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMCore.a; sourceTree = "<group>"; };
-		8205E14124D31A5D001C5130 /* libLLVMCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCodeGen.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMCodeGen.a; sourceTree = "<group>"; };
-		8205E14324D31A63001C5130 /* libLLVMCoroutines.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCoroutines.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMCoroutines.a; sourceTree = "<group>"; };
-		8205E14524D31A6A001C5130 /* libLLVMCFGuard.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCFGuard.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMCFGuard.a; sourceTree = "<group>"; };
-		8205E14724D31A77001C5130 /* libLLVMDemangle.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDemangle.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMDemangle.a; sourceTree = "<group>"; };
-		8205E14924D31A7F001C5130 /* libLLVMDebugInfoDWARF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDebugInfoDWARF.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMDebugInfoDWARF.a; sourceTree = "<group>"; };
-		8205E14B24D31A84001C5130 /* libLLVMDebugInfoCodeView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDebugInfoCodeView.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMDebugInfoCodeView.a; sourceTree = "<group>"; };
-		8205E14D24D31A8A001C5130 /* libLLVMDebugInfoMSF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDebugInfoMSF.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMDebugInfoMSF.a; sourceTree = "<group>"; };
-		8205E14F24D31A98001C5130 /* libLLVMExecutionEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMExecutionEngine.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMExecutionEngine.a; sourceTree = "<group>"; };
-		8205E15124D31AA2001C5130 /* libLLVMFrontendOpenMP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMFrontendOpenMP.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMFrontendOpenMP.a; sourceTree = "<group>"; };
-		8205E15324D31AAC001C5130 /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMGlobalISel.a; sourceTree = "<group>"; };
-		8205E15524D31ACA001C5130 /* libLLVMInstrumentation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMInstrumentation.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMInstrumentation.a; sourceTree = "<group>"; };
-		8205E15624D31ACA001C5130 /* libLLVMipo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMipo.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMipo.a; sourceTree = "<group>"; };
-		8205E15724D31ACA001C5130 /* libLLVMInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMInstCombine.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMInstCombine.a; sourceTree = "<group>"; };
-		8205E15824D31ACA001C5130 /* libLLVMIRReader.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMIRReader.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMIRReader.a; sourceTree = "<group>"; };
-		8205E15D24D31ADC001C5130 /* libLLVMJITLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMJITLink.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMJITLink.a; sourceTree = "<group>"; };
-		8205E15F24D31AEC001C5130 /* libLLVMLinker.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLinker.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMLinker.a; sourceTree = "<group>"; };
-		8205E16124D31AF8001C5130 /* libLLVMMC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMC.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMMC.a; sourceTree = "<group>"; };
-		8205E16324D31B2B001C5130 /* libLLVMMCDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMCDisassembler.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMMCDisassembler.a; sourceTree = "<group>"; };
-		8205E16524D31B56001C5130 /* libLLVMMCParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMCParser.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMMCParser.a; sourceTree = "<group>"; };
-		8205E16724D31B9C001C5130 /* libLLVMRemarks.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRemarks.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMRemarks.a; sourceTree = "<group>"; };
-		8205E16924D31BA1001C5130 /* libLLVMRuntimeDyld.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRuntimeDyld.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMRuntimeDyld.a; sourceTree = "<group>"; };
-		8205E16B24D31BC1001C5130 /* libLLVMSupport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSupport.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMSupport.a; sourceTree = "<group>"; };
-		8205E16C24D31BC1001C5130 /* libLLVMSelectionDAG.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSelectionDAG.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMSelectionDAG.a; sourceTree = "<group>"; };
-		8205E16D24D31BC1001C5130 /* libLLVMScalarOpts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMScalarOpts.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMScalarOpts.a; sourceTree = "<group>"; };
-		8205E17124D31BD7001C5130 /* libLLVMTarget.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMTarget.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMTarget.a; sourceTree = "<group>"; };
-		8205E17224D31BD7001C5130 /* libLLVMTransformUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMTransformUtils.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMTransformUtils.a; sourceTree = "<group>"; };
-		8205E17324D31BD7001C5130 /* libLLVMTextAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMTextAPI.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMTextAPI.a; sourceTree = "<group>"; };
-		8205E17724D31BE5001C5130 /* libLLVMVectorize.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMVectorize.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMVectorize.a; sourceTree = "<group>"; };
-		8205E17924D31C00001C5130 /* libLLVMX86Info.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Info.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMX86Info.a; sourceTree = "<group>"; };
-		8205E17A24D31C00001C5130 /* libLLVMX86Desc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Desc.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMX86Desc.a; sourceTree = "<group>"; };
-		8205E17B24D31C00001C5130 /* libLLVMX86AsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86AsmParser.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMX86AsmParser.a; sourceTree = "<group>"; };
-		8205E17C24D31C00001C5130 /* libLLVMX86CodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86CodeGen.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMX86CodeGen.a; sourceTree = "<group>"; };
-		8205E17D24D31C00001C5130 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = ../../../usr/local/Cellar/llvm/10.0.0_3/lib/libLLVMX86Disassembler.a; sourceTree = "<group>"; };
 		8205E18524D31CDE001C5130 /* libpthread.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpthread.tbd; path = usr/lib/libpthread.tbd; sourceTree = SDKROOT; };
 		8205E18724D31CE8001C5130 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8205E18924D31CF4001C5130 /* libedit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libedit.tbd; path = usr/lib/libedit.tbd; sourceTree = SDKROOT; };
@@ -415,6 +414,151 @@
 		8225412824E175F700DBF05C /* libScheatRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatRun.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8225412A24E175F700DBF05C /* ScheatRun.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatRun.h; sourceTree = "<group>"; };
 		8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatRunPriv.hpp; sourceTree = "<group>"; };
+		824E3D1F256AC2C700BB7B40 /* libLLVMAArch64AsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAArch64AsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAArch64AsmParser.a; sourceTree = "<group>"; };
+		824E3D9A256AC4D000BB7B40 /* libLLVMAArch64Desc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAArch64Desc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAArch64Desc.a; sourceTree = "<group>"; };
+		824E3D9B256AC4D000BB7B40 /* libLLVMAArch64CodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAArch64CodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAArch64CodeGen.a; sourceTree = "<group>"; };
+		824E3D9C256AC4D000BB7B40 /* libLLVMAArch64Info.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAArch64Info.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAArch64Info.a; sourceTree = "<group>"; };
+		824E3D9D256AC4D000BB7B40 /* libLLVMAArch64Utils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAArch64Utils.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAArch64Utils.a; sourceTree = "<group>"; };
+		824E3D9E256AC4D000BB7B40 /* libLLVMAArch64Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAArch64Disassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAArch64Disassembler.a; sourceTree = "<group>"; };
+		824E3DB0256AC50900BB7B40 /* libLLVMMipsDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMipsDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMipsDesc.a; sourceTree = "<group>"; };
+		824E3DB1256AC50900BB7B40 /* libLLVMWebAssemblyDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMWebAssemblyDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMWebAssemblyDisassembler.a; sourceTree = "<group>"; };
+		824E3DB2256AC50900BB7B40 /* libLLVMAMDGPUDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAMDGPUDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAMDGPUDesc.a; sourceTree = "<group>"; };
+		824E3DB3256AC50900BB7B40 /* libLLVMInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMInstCombine.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMInstCombine.a; sourceTree = "<group>"; };
+		824E3DB4256AC50900BB7B40 /* libLLVMOrcError.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMOrcError.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMOrcError.a; sourceTree = "<group>"; };
+		824E3DB5256AC50900BB7B40 /* libLLVMHexagonDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMHexagonDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMHexagonDesc.a; sourceTree = "<group>"; };
+		824E3DB6256AC50900BB7B40 /* libLLVMBitReader.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBitReader.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMBitReader.a; sourceTree = "<group>"; };
+		824E3DB7256AC50A00BB7B40 /* libLLVMBitWriter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBitWriter.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMBitWriter.a; sourceTree = "<group>"; };
+		824E3DB8256AC50A00BB7B40 /* libLLVMSystemZDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSystemZDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSystemZDisassembler.a; sourceTree = "<group>"; };
+		824E3DB9256AC50A00BB7B40 /* libLLVMRISCVAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRISCVAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMRISCVAsmParser.a; sourceTree = "<group>"; };
+		824E3DBA256AC50A00BB7B40 /* libLLVMWebAssemblyInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMWebAssemblyInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMWebAssemblyInfo.a; sourceTree = "<group>"; };
+		824E3DBB256AC50A00BB7B40 /* libLLVMInstrumentation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMInstrumentation.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMInstrumentation.a; sourceTree = "<group>"; };
+		824E3DBC256AC50A00BB7B40 /* libLLVMARMDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMARMDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMARMDesc.a; sourceTree = "<group>"; };
+		824E3DBD256AC50A00BB7B40 /* libLLVMScalarOpts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMScalarOpts.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMScalarOpts.a; sourceTree = "<group>"; };
+		824E3DBE256AC50A00BB7B40 /* libLLVMMSP430Desc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMSP430Desc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMSP430Desc.a; sourceTree = "<group>"; };
+		824E3DBF256AC50A00BB7B40 /* libLLVMMIRParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMIRParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMIRParser.a; sourceTree = "<group>"; };
+		824E3DC0256AC50A00BB7B40 /* libLLVMDWARFLinker.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDWARFLinker.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMDWARFLinker.a; sourceTree = "<group>"; };
+		824E3DC1256AC50A00BB7B40 /* libLLVMExtensions.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMExtensions.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMExtensions.a; sourceTree = "<group>"; };
+		824E3DC2256AC50A00BB7B40 /* libLLVMLibDriver.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLibDriver.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMLibDriver.a; sourceTree = "<group>"; };
+		824E3DC3256AC50A00BB7B40 /* libLLVMARMUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMARMUtils.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMARMUtils.a; sourceTree = "<group>"; };
+		824E3DC4256AC50A00BB7B40 /* libLLVMDebugInfoGSYM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDebugInfoGSYM.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMDebugInfoGSYM.a; sourceTree = "<group>"; };
+		824E3DC5256AC50A00BB7B40 /* libLLVMAMDGPUCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAMDGPUCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAMDGPUCodeGen.a; sourceTree = "<group>"; };
+		824E3DC6256AC50A00BB7B40 /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMGlobalISel.a; sourceTree = "<group>"; };
+		824E3DC7256AC50A00BB7B40 /* libLLVMRISCVUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRISCVUtils.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMRISCVUtils.a; sourceTree = "<group>"; };
+		824E3DC8256AC50A00BB7B40 /* libLLVMMCJIT.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMCJIT.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMCJIT.a; sourceTree = "<group>"; };
+		824E3DC9256AC50A00BB7B40 /* libLLVMDlltoolDriver.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDlltoolDriver.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMDlltoolDriver.a; sourceTree = "<group>"; };
+		824E3DCA256AC50A00BB7B40 /* libLLVMTransformUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMTransformUtils.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMTransformUtils.a; sourceTree = "<group>"; };
+		824E3DCB256AC50A00BB7B40 /* libLLVMVectorize.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMVectorize.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMVectorize.a; sourceTree = "<group>"; };
+		824E3DCC256AC50A00BB7B40 /* libLLVMAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAsmParser.a; sourceTree = "<group>"; };
+		824E3DCD256AC50A00BB7B40 /* libLLVMMipsInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMipsInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMipsInfo.a; sourceTree = "<group>"; };
+		824E3DCE256AC50A00BB7B40 /* libLLVMCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCore.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMCore.a; sourceTree = "<group>"; };
+		824E3DCF256AC50A00BB7B40 /* libLLVMDebugInfoDWARF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDebugInfoDWARF.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMDebugInfoDWARF.a; sourceTree = "<group>"; };
+		824E3DD0256AC50A00BB7B40 /* libLLVMXCoreInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMXCoreInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMXCoreInfo.a; sourceTree = "<group>"; };
+		824E3DD1256AC50A00BB7B40 /* libLLVMLanaiAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLanaiAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMLanaiAsmParser.a; sourceTree = "<group>"; };
+		824E3DD2256AC50A00BB7B40 /* libLLVMDemangle.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDemangle.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMDemangle.a; sourceTree = "<group>"; };
+		824E3DD3256AC50A00BB7B40 /* libLLVMNVPTXDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMNVPTXDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMNVPTXDesc.a; sourceTree = "<group>"; };
+		824E3DD4256AC50A00BB7B40 /* libLLVMBPFDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBPFDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMBPFDesc.a; sourceTree = "<group>"; };
+		824E3DD5256AC50A00BB7B40 /* libLLVMLanaiDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLanaiDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMLanaiDesc.a; sourceTree = "<group>"; };
+		824E3DD6256AC50A00BB7B40 /* libLLVMCoverage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCoverage.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMCoverage.a; sourceTree = "<group>"; };
+		824E3DD7256AC50A00BB7B40 /* libLLVMCFGuard.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCFGuard.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMCFGuard.a; sourceTree = "<group>"; };
+		824E3DD8256AC50A00BB7B40 /* libLLVMIRReader.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMIRReader.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMIRReader.a; sourceTree = "<group>"; };
+		824E3DD9256AC50B00BB7B40 /* libLLVMHexagonInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMHexagonInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMHexagonInfo.a; sourceTree = "<group>"; };
+		824E3DDA256AC50B00BB7B40 /* libLLVMBPFAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBPFAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMBPFAsmParser.a; sourceTree = "<group>"; };
+		824E3DDB256AC50B00BB7B40 /* libLLVMObjCARCOpts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMObjCARCOpts.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMObjCARCOpts.a; sourceTree = "<group>"; };
+		824E3DDC256AC50B00BB7B40 /* libLLVMOption.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMOption.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMOption.a; sourceTree = "<group>"; };
+		824E3DDD256AC50B00BB7B40 /* libLLVMMipsDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMipsDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMipsDisassembler.a; sourceTree = "<group>"; };
+		824E3DDE256AC50B00BB7B40 /* libLLVMXRay.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMXRay.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMXRay.a; sourceTree = "<group>"; };
+		824E3DDF256AC50B00BB7B40 /* libLLVMPowerPCDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMPowerPCDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMPowerPCDesc.a; sourceTree = "<group>"; };
+		824E3DE0256AC50B00BB7B40 /* libLLVMOrcJIT.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMOrcJIT.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMOrcJIT.a; sourceTree = "<group>"; };
+		824E3DE1256AC50B00BB7B40 /* libLLVMTableGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMTableGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMTableGen.a; sourceTree = "<group>"; };
+		824E3DE2256AC50B00BB7B40 /* libLLVMAggressiveInstCombine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAggressiveInstCombine.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAggressiveInstCombine.a; sourceTree = "<group>"; };
+		824E3DE3256AC50B00BB7B40 /* libLLVMNVPTXInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMNVPTXInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMNVPTXInfo.a; sourceTree = "<group>"; };
+		824E3DE4256AC50B00BB7B40 /* libLLVMHexagonDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMHexagonDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMHexagonDisassembler.a; sourceTree = "<group>"; };
+		824E3DE5256AC50B00BB7B40 /* libLLVMSparcAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSparcAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSparcAsmParser.a; sourceTree = "<group>"; };
+		824E3DE6256AC50B00BB7B40 /* libLLVMMSP430Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMSP430Disassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMSP430Disassembler.a; sourceTree = "<group>"; };
+		824E3DE7256AC50B00BB7B40 /* libLLVMExecutionEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMExecutionEngine.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMExecutionEngine.a; sourceTree = "<group>"; };
+		824E3DE8256AC50B00BB7B40 /* libLLVMCoroutines.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCoroutines.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMCoroutines.a; sourceTree = "<group>"; };
+		824E3DE9256AC50B00BB7B40 /* libLLVMWebAssemblyAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMWebAssemblyAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMWebAssemblyAsmParser.a; sourceTree = "<group>"; };
+		824E3DEA256AC50B00BB7B40 /* libLLVMLTO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLTO.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMLTO.a; sourceTree = "<group>"; };
+		824E3DEB256AC50B00BB7B40 /* libLLVMProfileData.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMProfileData.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMProfileData.a; sourceTree = "<group>"; };
+		824E3DEC256AC50B00BB7B40 /* libLLVMPowerPCDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMPowerPCDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMPowerPCDisassembler.a; sourceTree = "<group>"; };
+		824E3DED256AC50B00BB7B40 /* libLLVMLineEditor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLineEditor.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMLineEditor.a; sourceTree = "<group>"; };
+		824E3DEE256AC50B00BB7B40 /* libLLVMRuntimeDyld.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRuntimeDyld.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMRuntimeDyld.a; sourceTree = "<group>"; };
+		824E3DEF256AC50B00BB7B40 /* libLLVMSparcDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSparcDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSparcDesc.a; sourceTree = "<group>"; };
+		824E3DF0256AC50C00BB7B40 /* libLLVMARMCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMARMCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMARMCodeGen.a; sourceTree = "<group>"; };
+		824E3DF1256AC50C00BB7B40 /* libLLVMWebAssemblyCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMWebAssemblyCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMWebAssemblyCodeGen.a; sourceTree = "<group>"; };
+		824E3DF2256AC50C00BB7B40 /* libLLVMNVPTXCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMNVPTXCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMNVPTXCodeGen.a; sourceTree = "<group>"; };
+		824E3DF3256AC50C00BB7B40 /* libLLVMTarget.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMTarget.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMTarget.a; sourceTree = "<group>"; };
+		824E3DF4256AC50C00BB7B40 /* libLLVMPasses.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMPasses.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMPasses.a; sourceTree = "<group>"; };
+		824E3DF5256AC50C00BB7B40 /* libLLVMLanaiDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLanaiDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMLanaiDisassembler.a; sourceTree = "<group>"; };
+		824E3DF6256AC50C00BB7B40 /* libLLVMBPFInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBPFInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMBPFInfo.a; sourceTree = "<group>"; };
+		824E3DF7256AC50C00BB7B40 /* libLLVMRISCVCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRISCVCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMRISCVCodeGen.a; sourceTree = "<group>"; };
+		824E3DF8256AC50C00BB7B40 /* libLLVMMC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMC.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMC.a; sourceTree = "<group>"; };
+		824E3DF9256AC50C00BB7B40 /* libLLVMSystemZInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSystemZInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSystemZInfo.a; sourceTree = "<group>"; };
+		824E3DFA256AC50C00BB7B40 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMX86Disassembler.a; sourceTree = "<group>"; };
+		824E3DFB256AC50C00BB7B40 /* libLLVMLanaiCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLanaiCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMLanaiCodeGen.a; sourceTree = "<group>"; };
+		824E3DFC256AC50C00BB7B40 /* libLLVMAsmPrinter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAsmPrinter.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAsmPrinter.a; sourceTree = "<group>"; };
+		824E3DFD256AC50C00BB7B40 /* libLLVMBinaryFormat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBinaryFormat.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMBinaryFormat.a; sourceTree = "<group>"; };
+		824E3DFE256AC50C00BB7B40 /* libLLVMARMDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMARMDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMARMDisassembler.a; sourceTree = "<group>"; };
+		824E3DFF256AC50C00BB7B40 /* libLLVMX86CodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86CodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMX86CodeGen.a; sourceTree = "<group>"; };
+		824E3E00256AC50C00BB7B40 /* libLLVMSparcCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSparcCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSparcCodeGen.a; sourceTree = "<group>"; };
+		824E3E01256AC50C00BB7B40 /* libLLVMMCA.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMCA.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMCA.a; sourceTree = "<group>"; };
+		824E3E02256AC50C00BB7B40 /* libLLVMAnalysis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAnalysis.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAnalysis.a; sourceTree = "<group>"; };
+		824E3E03256AC50C00BB7B40 /* libLLVMSparcDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSparcDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSparcDisassembler.a; sourceTree = "<group>"; };
+		824E3E04256AC50C00BB7B40 /* libLLVMXCoreCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMXCoreCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMXCoreCodeGen.a; sourceTree = "<group>"; };
+		824E3E05256AC50C00BB7B40 /* libLLVMMSP430AsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMSP430AsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMSP430AsmParser.a; sourceTree = "<group>"; };
+		824E3E06256AC50C00BB7B40 /* libLLVMSparcInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSparcInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSparcInfo.a; sourceTree = "<group>"; };
+		824E3E07256AC50C00BB7B40 /* libLLVMHexagonAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMHexagonAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMHexagonAsmParser.a; sourceTree = "<group>"; };
+		824E3E08256AC50C00BB7B40 /* libLLVMMCParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMCParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMCParser.a; sourceTree = "<group>"; };
+		824E3E09256AC50C00BB7B40 /* libLLVMFrontendOpenMP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMFrontendOpenMP.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMFrontendOpenMP.a; sourceTree = "<group>"; };
+		824E3E0A256AC50C00BB7B40 /* libLLVMLinker.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLinker.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMLinker.a; sourceTree = "<group>"; };
+		824E3E0B256AC50C00BB7B40 /* libLLVMMSP430CodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMSP430CodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMSP430CodeGen.a; sourceTree = "<group>"; };
+		824E3E0C256AC50C00BB7B40 /* libLLVMDebugInfoPDB.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDebugInfoPDB.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMDebugInfoPDB.a; sourceTree = "<group>"; };
+		824E3E0D256AC50C00BB7B40 /* libLLVMSelectionDAG.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSelectionDAG.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSelectionDAG.a; sourceTree = "<group>"; };
+		824E3E0E256AC50C00BB7B40 /* libLLVMInterpreter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMInterpreter.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMInterpreter.a; sourceTree = "<group>"; };
+		824E3E0F256AC50C00BB7B40 /* libLLVMSystemZAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSystemZAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSystemZAsmParser.a; sourceTree = "<group>"; };
+		824E3E10256AC50D00BB7B40 /* libLLVMSymbolize.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSymbolize.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSymbolize.a; sourceTree = "<group>"; };
+		824E3E11256AC50D00BB7B40 /* libLLVMDebugInfoCodeView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDebugInfoCodeView.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMDebugInfoCodeView.a; sourceTree = "<group>"; };
+		824E3E12256AC50D00BB7B40 /* libLLVMARMAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMARMAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMARMAsmParser.a; sourceTree = "<group>"; };
+		824E3E13256AC50D00BB7B40 /* libLLVMPowerPCAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMPowerPCAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMPowerPCAsmParser.a; sourceTree = "<group>"; };
+		824E3E14256AC50D00BB7B40 /* libLLVMObject.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMObject.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMObject.a; sourceTree = "<group>"; };
+		824E3E15256AC50D00BB7B40 /* libLLVMBPFCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBPFCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMBPFCodeGen.a; sourceTree = "<group>"; };
+		824E3E16256AC50D00BB7B40 /* libLLVMWebAssemblyDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMWebAssemblyDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMWebAssemblyDesc.a; sourceTree = "<group>"; };
+		824E3E17256AC50D00BB7B40 /* libLLVMX86Desc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Desc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMX86Desc.a; sourceTree = "<group>"; };
+		824E3E18256AC50D00BB7B40 /* libLLVMAMDGPUAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAMDGPUAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAMDGPUAsmParser.a; sourceTree = "<group>"; };
+		824E3E19256AC50D00BB7B40 /* libLLVMMSP430Info.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMSP430Info.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMSP430Info.a; sourceTree = "<group>"; };
+		824E3E1A256AC50D00BB7B40 /* libLLVMMipsAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMipsAsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMipsAsmParser.a; sourceTree = "<group>"; };
+		824E3E1B256AC50D00BB7B40 /* libLLVMPowerPCCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMPowerPCCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMPowerPCCodeGen.a; sourceTree = "<group>"; };
+		824E3E1C256AC50D00BB7B40 /* libLLVMLanaiInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMLanaiInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMLanaiInfo.a; sourceTree = "<group>"; };
+		824E3E1D256AC50D00BB7B40 /* libLLVMCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMCodeGen.a; sourceTree = "<group>"; };
+		824E3E1E256AC50D00BB7B40 /* libLLVMipo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMipo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMipo.a; sourceTree = "<group>"; };
+		824E3E1F256AC50D00BB7B40 /* libLLVMSystemZCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSystemZCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSystemZCodeGen.a; sourceTree = "<group>"; };
+		824E3E20256AC50D00BB7B40 /* libLLVMX86AsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86AsmParser.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMX86AsmParser.a; sourceTree = "<group>"; };
+		824E3E21256AC50D00BB7B40 /* libLLVMPowerPCInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMPowerPCInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMPowerPCInfo.a; sourceTree = "<group>"; };
+		824E3E22256AC50D00BB7B40 /* libLLVMMCDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMCDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMCDisassembler.a; sourceTree = "<group>"; };
+		824E3E23256AC50D00BB7B40 /* libLLVMSystemZDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSystemZDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSystemZDesc.a; sourceTree = "<group>"; };
+		824E3E24256AC50D00BB7B40 /* libLLVMBitstreamReader.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBitstreamReader.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMBitstreamReader.a; sourceTree = "<group>"; };
+		824E3E25256AC50D00BB7B40 /* libLLVMBPFDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBPFDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMBPFDisassembler.a; sourceTree = "<group>"; };
+		824E3E26256AC50D00BB7B40 /* libLLVMWindowsManifest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMWindowsManifest.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMWindowsManifest.a; sourceTree = "<group>"; };
+		824E3E27256AC50D00BB7B40 /* libLLVMMipsCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMipsCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMMipsCodeGen.a; sourceTree = "<group>"; };
+		824E3E28256AC50D00BB7B40 /* libLLVMRemarks.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRemarks.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMRemarks.a; sourceTree = "<group>"; };
+		824E3E29256AC50D00BB7B40 /* libLLVMDebugInfoMSF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMDebugInfoMSF.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMDebugInfoMSF.a; sourceTree = "<group>"; };
+		824E3E2A256AC50D00BB7B40 /* libLLVMObjectYAML.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMObjectYAML.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMObjectYAML.a; sourceTree = "<group>"; };
+		824E3E2B256AC50D00BB7B40 /* libLLVMRISCVInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRISCVInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMRISCVInfo.a; sourceTree = "<group>"; };
+		824E3E2C256AC50D00BB7B40 /* libLLVMSupport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSupport.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMSupport.a; sourceTree = "<group>"; };
+		824E3E2D256AC50D00BB7B40 /* libLLVMTextAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMTextAPI.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMTextAPI.a; sourceTree = "<group>"; };
+		824E3E2E256AC50D00BB7B40 /* libLLVMX86Utils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Utils.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMX86Utils.a; sourceTree = "<group>"; };
+		824E3E2F256AC50D00BB7B40 /* libLLVMARMInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMARMInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMARMInfo.a; sourceTree = "<group>"; };
+		824E3E30256AC50E00BB7B40 /* libLLVMAMDGPUDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAMDGPUDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAMDGPUDisassembler.a; sourceTree = "<group>"; };
+		824E3E31256AC50E00BB7B40 /* libLLVMAMDGPUInfo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAMDGPUInfo.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAMDGPUInfo.a; sourceTree = "<group>"; };
+		824E3E32256AC50E00BB7B40 /* libLLVMAMDGPUUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAMDGPUUtils.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMAMDGPUUtils.a; sourceTree = "<group>"; };
+		824E3E33256AC50E00BB7B40 /* libLLVMHexagonCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMHexagonCodeGen.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMHexagonCodeGen.a; sourceTree = "<group>"; };
+		824E3E34256AC50E00BB7B40 /* libLLVMFuzzMutate.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMFuzzMutate.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMFuzzMutate.a; sourceTree = "<group>"; };
+		824E3E35256AC50E00BB7B40 /* libLLVMJITLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMJITLink.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMJITLink.a; sourceTree = "<group>"; };
+		824E3E36256AC50E00BB7B40 /* libLLVMXCoreDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMXCoreDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMXCoreDisassembler.a; sourceTree = "<group>"; };
+		824E3E37256AC50E00BB7B40 /* libLLVMRISCVDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRISCVDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMRISCVDesc.a; sourceTree = "<group>"; };
+		824E3E38256AC50E00BB7B40 /* libLLVMRISCVDisassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMRISCVDisassembler.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMRISCVDisassembler.a; sourceTree = "<group>"; };
+		824E3E39256AC50E00BB7B40 /* libLLVMX86Info.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Info.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMX86Info.a; sourceTree = "<group>"; };
+		824E3E3A256AC50E00BB7B40 /* libLLVMXCoreDesc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMXCoreDesc.a; path = ../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libLLVMXCoreDesc.a; sourceTree = "<group>"; };
 		8262652F25275F4700E71311 /* ScheatEncoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatEncoder.cpp; sourceTree = "<group>"; };
 		8262653025275F4700E71311 /* ScheatEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatEncoder.h; sourceTree = "<group>"; };
 		826265942527652900E71311 /* Classes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Classes.h; sourceTree = "<group>"; };
@@ -463,16 +607,6 @@
 		82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARC.hpp; sourceTree = "<group>"; };
 		82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARCPriv.hpp; sourceTree = "<group>"; };
 		82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatARC.cpp; sourceTree = "<group>"; };
-		82D6F4ED24F555F30003D0EA /* liblldMachO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldMachO.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldMachO.a; sourceTree = "<group>"; };
-		82D6F4EE24F555F30003D0EA /* liblldCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldCommon.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldCommon.a; sourceTree = "<group>"; };
-		82D6F4EF24F555F30003D0EA /* liblldMinGW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldMinGW.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldMinGW.a; sourceTree = "<group>"; };
-		82D6F4F024F555F30003D0EA /* liblldDriver.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldDriver.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldDriver.a; sourceTree = "<group>"; };
-		82D6F4F124F555F30003D0EA /* liblldYAML.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldYAML.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldYAML.a; sourceTree = "<group>"; };
-		82D6F4F224F555F30003D0EA /* liblldCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldCore.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldCore.a; sourceTree = "<group>"; };
-		82D6F4F324F555F30003D0EA /* liblldWasm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldWasm.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldWasm.a; sourceTree = "<group>"; };
-		82D6F4F424F555F30003D0EA /* liblldELF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldELF.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldELF.a; sourceTree = "<group>"; };
-		82D6F4F524F555F40003D0EA /* liblldCOFF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldCOFF.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldCOFF.a; sourceTree = "<group>"; };
-		82D6F4F624F555F40003D0EA /* liblldReaderWriter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblldReaderWriter.a; path = ../../../../usr/local/Cellar/llvm/10.0.0_3/lib/liblldReaderWriter.a; sourceTree = "<group>"; };
 		82E6974C24D321B400F13264 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
 		82E6974E24D324B600F13264 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		82E6974F24D32ACB00F13264 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -540,10 +674,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D6F50724F555F40003D0EA /* liblldCOFF.a in Frameworks */,
 				82E6975424D32B5500F13264 /* libncurses.5.tbd in Frameworks */,
-				82D6F4FF24F555F40003D0EA /* liblldYAML.a in Frameworks */,
 				82E6975524D32B5500F13264 /* libncurses.5.4.tbd in Frameworks */,
+				824E3D8D256AC49B00BB7B40 /* libLLVMAArch64AsmParser.a in Frameworks */,
 				82E6975124D32B5500F13264 /* libncurses.tbd in Frameworks */,
 				82E6975024D32ACB00F13264 /* libxml2.tbd in Frameworks */,
 				8205E18C24D31D02001C5130 /* libcurses.tbd in Frameworks */,
@@ -551,56 +684,6 @@
 				8205E18A24D31CF4001C5130 /* libedit.tbd in Frameworks */,
 				8205E18824D31CE8001C5130 /* libz.tbd in Frameworks */,
 				8205E18624D31CDE001C5130 /* libpthread.tbd in Frameworks */,
-				82D6F50124F555F40003D0EA /* liblldCore.a in Frameworks */,
-				8205E16224D31AF8001C5130 /* libLLVMMC.a in Frameworks */,
-				82D6F50924F555F40003D0EA /* liblldReaderWriter.a in Frameworks */,
-				82D6F50324F555F40003D0EA /* liblldWasm.a in Frameworks */,
-				8205E16424D31B2B001C5130 /* libLLVMMCDisassembler.a in Frameworks */,
-				8205E16024D31AEC001C5130 /* libLLVMLinker.a in Frameworks */,
-				8205E17424D31BD7001C5130 /* libLLVMTarget.a in Frameworks */,
-				8205E17824D31BE5001C5130 /* libLLVMVectorize.a in Frameworks */,
-				8205E17E24D31C00001C5130 /* libLLVMX86Info.a in Frameworks */,
-				8205E17F24D31C00001C5130 /* libLLVMX86Desc.a in Frameworks */,
-				82D6F4F924F555F40003D0EA /* liblldCommon.a in Frameworks */,
-				8205E18024D31C01001C5130 /* libLLVMX86AsmParser.a in Frameworks */,
-				8205E18124D31C01001C5130 /* libLLVMX86CodeGen.a in Frameworks */,
-				8205E18224D31C01001C5130 /* libLLVMX86Disassembler.a in Frameworks */,
-				8205E17524D31BD7001C5130 /* libLLVMTransformUtils.a in Frameworks */,
-				8205E17624D31BD7001C5130 /* libLLVMTextAPI.a in Frameworks */,
-				8205E13324D319F5001C5130 /* libLLVMAggressiveInstCombine.a in Frameworks */,
-				8205E15E24D31ADC001C5130 /* libLLVMJITLink.a in Frameworks */,
-				8205E16E24D31BC1001C5130 /* libLLVMSupport.a in Frameworks */,
-				8205E16F24D31BC1001C5130 /* libLLVMSelectionDAG.a in Frameworks */,
-				8205E17024D31BC1001C5130 /* libLLVMScalarOpts.a in Frameworks */,
-				8205E16A24D31BA1001C5130 /* libLLVMRuntimeDyld.a in Frameworks */,
-				82D6F4FD24F555F40003D0EA /* liblldDriver.a in Frameworks */,
-				8205E16824D31B9C001C5130 /* libLLVMRemarks.a in Frameworks */,
-				8205E13424D319F5001C5130 /* libLLVMAsmPrinter.a in Frameworks */,
-				8205E14624D31A6A001C5130 /* libLLVMCFGuard.a in Frameworks */,
-				82D6F4FB24F555F40003D0EA /* liblldMinGW.a in Frameworks */,
-				8205E15924D31ACA001C5130 /* libLLVMInstrumentation.a in Frameworks */,
-				8205E15A24D31ACA001C5130 /* libLLVMipo.a in Frameworks */,
-				8205E15B24D31ACA001C5130 /* libLLVMInstCombine.a in Frameworks */,
-				8205E16624D31B56001C5130 /* libLLVMMCParser.a in Frameworks */,
-				8205E15C24D31ACA001C5130 /* libLLVMIRReader.a in Frameworks */,
-				82D6F4F724F555F40003D0EA /* liblldMachO.a in Frameworks */,
-				8205E15224D31AA2001C5130 /* libLLVMFrontendOpenMP.a in Frameworks */,
-				8205E15424D31AAC001C5130 /* libLLVMGlobalISel.a in Frameworks */,
-				8205E14E24D31A8A001C5130 /* libLLVMDebugInfoMSF.a in Frameworks */,
-				8205E15024D31A98001C5130 /* libLLVMExecutionEngine.a in Frameworks */,
-				8205E14C24D31A84001C5130 /* libLLVMDebugInfoCodeView.a in Frameworks */,
-				8205E14A24D31A7F001C5130 /* libLLVMDebugInfoDWARF.a in Frameworks */,
-				8205E14424D31A63001C5130 /* libLLVMCoroutines.a in Frameworks */,
-				8205E14824D31A77001C5130 /* libLLVMDemangle.a in Frameworks */,
-				8205E14224D31A5D001C5130 /* libLLVMCodeGen.a in Frameworks */,
-				8205E13524D319F5001C5130 /* libLLVMAsmParser.a in Frameworks */,
-				8205E14024D31A55001C5130 /* libLLVMCore.a in Frameworks */,
-				8205E13E24D31A44001C5130 /* libLLVMBitstreamReader.a in Frameworks */,
-				8205E13624D319F5001C5130 /* libLLVMAnalysis.a in Frameworks */,
-				82D6F50524F555F40003D0EA /* liblldELF.a in Frameworks */,
-				8205E13824D31A36001C5130 /* libLLVMBinaryFormat.a in Frameworks */,
-				8205E13C24D31A40001C5130 /* libLLVMBitWriter.a in Frameworks */,
-				8205E13A24D31A39001C5130 /* libLLVMBitReader.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,6 +722,151 @@
 				82A1A23024D80AFE009C2E5F /* libcurses.tbd in Frameworks */,
 				82A1A23124D80AFE009C2E5F /* libxml2.2.tbd in Frameworks */,
 				82A1A23224D80AFE009C2E5F /* libxml2.tbd in Frameworks */,
+				824E3D20256AC2C700BB7B40 /* libLLVMAArch64AsmParser.a in Frameworks */,
+				824E3DA0256AC4D000BB7B40 /* libLLVMAArch64CodeGen.a in Frameworks */,
+				824E3D9F256AC4D000BB7B40 /* libLLVMAArch64Desc.a in Frameworks */,
+				824E3DA3256AC4D000BB7B40 /* libLLVMAArch64Disassembler.a in Frameworks */,
+				824E3DA1256AC4D000BB7B40 /* libLLVMAArch64Info.a in Frameworks */,
+				824E3DA2256AC4D000BB7B40 /* libLLVMAArch64Utils.a in Frameworks */,
+				824E3E3B256AC50E00BB7B40 /* libLLVMMipsDesc.a in Frameworks */,
+				824E3E3C256AC50E00BB7B40 /* libLLVMWebAssemblyDisassembler.a in Frameworks */,
+				824E3E3D256AC50E00BB7B40 /* libLLVMAMDGPUDesc.a in Frameworks */,
+				824E3E3E256AC50E00BB7B40 /* libLLVMInstCombine.a in Frameworks */,
+				824E3E3F256AC50E00BB7B40 /* libLLVMOrcError.a in Frameworks */,
+				824E3E40256AC50E00BB7B40 /* libLLVMHexagonDesc.a in Frameworks */,
+				824E3E41256AC50E00BB7B40 /* libLLVMBitReader.a in Frameworks */,
+				824E3E42256AC50E00BB7B40 /* libLLVMBitWriter.a in Frameworks */,
+				824E3E43256AC50E00BB7B40 /* libLLVMSystemZDisassembler.a in Frameworks */,
+				824E3E44256AC50E00BB7B40 /* libLLVMRISCVAsmParser.a in Frameworks */,
+				824E3E45256AC50E00BB7B40 /* libLLVMWebAssemblyInfo.a in Frameworks */,
+				824E3E46256AC50E00BB7B40 /* libLLVMInstrumentation.a in Frameworks */,
+				824E3E47256AC50E00BB7B40 /* libLLVMARMDesc.a in Frameworks */,
+				824E3E48256AC50E00BB7B40 /* libLLVMScalarOpts.a in Frameworks */,
+				824E3E49256AC50E00BB7B40 /* libLLVMMSP430Desc.a in Frameworks */,
+				824E3E4A256AC50E00BB7B40 /* libLLVMMIRParser.a in Frameworks */,
+				824E3E4B256AC50E00BB7B40 /* libLLVMDWARFLinker.a in Frameworks */,
+				824E3E4C256AC50E00BB7B40 /* libLLVMExtensions.a in Frameworks */,
+				824E3E4D256AC50E00BB7B40 /* libLLVMLibDriver.a in Frameworks */,
+				824E3E4E256AC50E00BB7B40 /* libLLVMARMUtils.a in Frameworks */,
+				824E3E4F256AC50E00BB7B40 /* libLLVMDebugInfoGSYM.a in Frameworks */,
+				824E3E50256AC50E00BB7B40 /* libLLVMAMDGPUCodeGen.a in Frameworks */,
+				824E3E51256AC50E00BB7B40 /* libLLVMGlobalISel.a in Frameworks */,
+				824E3E52256AC50E00BB7B40 /* libLLVMRISCVUtils.a in Frameworks */,
+				824E3E53256AC50E00BB7B40 /* libLLVMMCJIT.a in Frameworks */,
+				824E3E54256AC50E00BB7B40 /* libLLVMDlltoolDriver.a in Frameworks */,
+				824E3E55256AC50E00BB7B40 /* libLLVMTransformUtils.a in Frameworks */,
+				824E3E56256AC50E00BB7B40 /* libLLVMVectorize.a in Frameworks */,
+				824E3E57256AC50E00BB7B40 /* libLLVMAsmParser.a in Frameworks */,
+				824E3E58256AC50E00BB7B40 /* libLLVMMipsInfo.a in Frameworks */,
+				824E3E59256AC50E00BB7B40 /* libLLVMCore.a in Frameworks */,
+				824E3E5A256AC50E00BB7B40 /* libLLVMDebugInfoDWARF.a in Frameworks */,
+				824E3E5B256AC50E00BB7B40 /* libLLVMXCoreInfo.a in Frameworks */,
+				824E3E5C256AC50E00BB7B40 /* libLLVMLanaiAsmParser.a in Frameworks */,
+				824E3E5D256AC50E00BB7B40 /* libLLVMDemangle.a in Frameworks */,
+				824E3E5E256AC50E00BB7B40 /* libLLVMNVPTXDesc.a in Frameworks */,
+				824E3E5F256AC50E00BB7B40 /* libLLVMBPFDesc.a in Frameworks */,
+				824E3E60256AC50E00BB7B40 /* libLLVMLanaiDesc.a in Frameworks */,
+				824E3E61256AC50E00BB7B40 /* libLLVMCoverage.a in Frameworks */,
+				824E3E62256AC50E00BB7B40 /* libLLVMCFGuard.a in Frameworks */,
+				824E3E63256AC50E00BB7B40 /* libLLVMIRReader.a in Frameworks */,
+				824E3E64256AC50E00BB7B40 /* libLLVMHexagonInfo.a in Frameworks */,
+				824E3E65256AC50E00BB7B40 /* libLLVMBPFAsmParser.a in Frameworks */,
+				824E3E66256AC50E00BB7B40 /* libLLVMObjCARCOpts.a in Frameworks */,
+				824E3E67256AC50E00BB7B40 /* libLLVMOption.a in Frameworks */,
+				824E3E68256AC50E00BB7B40 /* libLLVMMipsDisassembler.a in Frameworks */,
+				824E3E69256AC50E00BB7B40 /* libLLVMXRay.a in Frameworks */,
+				824E3E6A256AC50E00BB7B40 /* libLLVMPowerPCDesc.a in Frameworks */,
+				824E3E6B256AC50E00BB7B40 /* libLLVMOrcJIT.a in Frameworks */,
+				824E3E6C256AC50E00BB7B40 /* libLLVMTableGen.a in Frameworks */,
+				824E3E6D256AC50E00BB7B40 /* libLLVMAggressiveInstCombine.a in Frameworks */,
+				824E3E6E256AC50E00BB7B40 /* libLLVMNVPTXInfo.a in Frameworks */,
+				824E3E6F256AC50E00BB7B40 /* libLLVMHexagonDisassembler.a in Frameworks */,
+				824E3E70256AC50E00BB7B40 /* libLLVMSparcAsmParser.a in Frameworks */,
+				824E3E71256AC50E00BB7B40 /* libLLVMMSP430Disassembler.a in Frameworks */,
+				824E3E72256AC50E00BB7B40 /* libLLVMExecutionEngine.a in Frameworks */,
+				824E3E73256AC50E00BB7B40 /* libLLVMCoroutines.a in Frameworks */,
+				824E3E74256AC50E00BB7B40 /* libLLVMWebAssemblyAsmParser.a in Frameworks */,
+				824E3E75256AC50E00BB7B40 /* libLLVMLTO.a in Frameworks */,
+				824E3E76256AC50E00BB7B40 /* libLLVMProfileData.a in Frameworks */,
+				824E3E77256AC50E00BB7B40 /* libLLVMPowerPCDisassembler.a in Frameworks */,
+				824E3E78256AC50E00BB7B40 /* libLLVMLineEditor.a in Frameworks */,
+				824E3E79256AC50E00BB7B40 /* libLLVMRuntimeDyld.a in Frameworks */,
+				824E3E7A256AC50E00BB7B40 /* libLLVMSparcDesc.a in Frameworks */,
+				824E3E7B256AC50E00BB7B40 /* libLLVMARMCodeGen.a in Frameworks */,
+				824E3E7C256AC50E00BB7B40 /* libLLVMWebAssemblyCodeGen.a in Frameworks */,
+				824E3E7D256AC50E00BB7B40 /* libLLVMNVPTXCodeGen.a in Frameworks */,
+				824E3E7E256AC50E00BB7B40 /* libLLVMTarget.a in Frameworks */,
+				824E3E7F256AC50E00BB7B40 /* libLLVMPasses.a in Frameworks */,
+				824E3E80256AC50E00BB7B40 /* libLLVMLanaiDisassembler.a in Frameworks */,
+				824E3E81256AC50E00BB7B40 /* libLLVMBPFInfo.a in Frameworks */,
+				824E3E82256AC50E00BB7B40 /* libLLVMRISCVCodeGen.a in Frameworks */,
+				824E3E83256AC50E00BB7B40 /* libLLVMMC.a in Frameworks */,
+				824E3E84256AC50E00BB7B40 /* libLLVMSystemZInfo.a in Frameworks */,
+				824E3E85256AC50E00BB7B40 /* libLLVMX86Disassembler.a in Frameworks */,
+				824E3E86256AC50E00BB7B40 /* libLLVMLanaiCodeGen.a in Frameworks */,
+				824E3E87256AC50E00BB7B40 /* libLLVMAsmPrinter.a in Frameworks */,
+				824E3E88256AC50E00BB7B40 /* libLLVMBinaryFormat.a in Frameworks */,
+				824E3E89256AC50E00BB7B40 /* libLLVMARMDisassembler.a in Frameworks */,
+				824E3E8A256AC50E00BB7B40 /* libLLVMX86CodeGen.a in Frameworks */,
+				824E3E8B256AC50E00BB7B40 /* libLLVMSparcCodeGen.a in Frameworks */,
+				824E3E8C256AC50E00BB7B40 /* libLLVMMCA.a in Frameworks */,
+				824E3E8D256AC50E00BB7B40 /* libLLVMAnalysis.a in Frameworks */,
+				824E3E8E256AC50E00BB7B40 /* libLLVMSparcDisassembler.a in Frameworks */,
+				824E3E8F256AC50E00BB7B40 /* libLLVMXCoreCodeGen.a in Frameworks */,
+				824E3E90256AC50E00BB7B40 /* libLLVMMSP430AsmParser.a in Frameworks */,
+				824E3E91256AC50E00BB7B40 /* libLLVMSparcInfo.a in Frameworks */,
+				824E3E92256AC50E00BB7B40 /* libLLVMHexagonAsmParser.a in Frameworks */,
+				824E3E93256AC50E00BB7B40 /* libLLVMMCParser.a in Frameworks */,
+				824E3E94256AC50F00BB7B40 /* libLLVMFrontendOpenMP.a in Frameworks */,
+				824E3E95256AC50F00BB7B40 /* libLLVMLinker.a in Frameworks */,
+				824E3E96256AC50F00BB7B40 /* libLLVMMSP430CodeGen.a in Frameworks */,
+				824E3E97256AC50F00BB7B40 /* libLLVMDebugInfoPDB.a in Frameworks */,
+				824E3E98256AC50F00BB7B40 /* libLLVMSelectionDAG.a in Frameworks */,
+				824E3E99256AC50F00BB7B40 /* libLLVMInterpreter.a in Frameworks */,
+				824E3E9A256AC50F00BB7B40 /* libLLVMSystemZAsmParser.a in Frameworks */,
+				824E3E9B256AC50F00BB7B40 /* libLLVMSymbolize.a in Frameworks */,
+				824E3E9C256AC50F00BB7B40 /* libLLVMDebugInfoCodeView.a in Frameworks */,
+				824E3E9D256AC50F00BB7B40 /* libLLVMARMAsmParser.a in Frameworks */,
+				824E3E9E256AC50F00BB7B40 /* libLLVMPowerPCAsmParser.a in Frameworks */,
+				824E3E9F256AC50F00BB7B40 /* libLLVMObject.a in Frameworks */,
+				824E3EA0256AC50F00BB7B40 /* libLLVMBPFCodeGen.a in Frameworks */,
+				824E3EA1256AC50F00BB7B40 /* libLLVMWebAssemblyDesc.a in Frameworks */,
+				824E3EA2256AC50F00BB7B40 /* libLLVMX86Desc.a in Frameworks */,
+				824E3EA3256AC50F00BB7B40 /* libLLVMAMDGPUAsmParser.a in Frameworks */,
+				824E3EA4256AC50F00BB7B40 /* libLLVMMSP430Info.a in Frameworks */,
+				824E3EA5256AC50F00BB7B40 /* libLLVMMipsAsmParser.a in Frameworks */,
+				824E3EA6256AC50F00BB7B40 /* libLLVMPowerPCCodeGen.a in Frameworks */,
+				824E3EA7256AC50F00BB7B40 /* libLLVMLanaiInfo.a in Frameworks */,
+				824E3EA8256AC50F00BB7B40 /* libLLVMCodeGen.a in Frameworks */,
+				824E3EA9256AC50F00BB7B40 /* libLLVMipo.a in Frameworks */,
+				824E3EAA256AC50F00BB7B40 /* libLLVMSystemZCodeGen.a in Frameworks */,
+				824E3EAB256AC50F00BB7B40 /* libLLVMX86AsmParser.a in Frameworks */,
+				824E3EAC256AC50F00BB7B40 /* libLLVMPowerPCInfo.a in Frameworks */,
+				824E3EAD256AC50F00BB7B40 /* libLLVMMCDisassembler.a in Frameworks */,
+				824E3EAE256AC50F00BB7B40 /* libLLVMSystemZDesc.a in Frameworks */,
+				824E3EAF256AC50F00BB7B40 /* libLLVMBitstreamReader.a in Frameworks */,
+				824E3EB0256AC50F00BB7B40 /* libLLVMBPFDisassembler.a in Frameworks */,
+				824E3EB1256AC50F00BB7B40 /* libLLVMWindowsManifest.a in Frameworks */,
+				824E3EB2256AC50F00BB7B40 /* libLLVMMipsCodeGen.a in Frameworks */,
+				824E3EB3256AC50F00BB7B40 /* libLLVMRemarks.a in Frameworks */,
+				824E3EB4256AC50F00BB7B40 /* libLLVMDebugInfoMSF.a in Frameworks */,
+				824E3EB5256AC50F00BB7B40 /* libLLVMObjectYAML.a in Frameworks */,
+				824E3EB6256AC50F00BB7B40 /* libLLVMRISCVInfo.a in Frameworks */,
+				824E3EB7256AC50F00BB7B40 /* libLLVMSupport.a in Frameworks */,
+				824E3EB8256AC50F00BB7B40 /* libLLVMTextAPI.a in Frameworks */,
+				824E3EB9256AC50F00BB7B40 /* libLLVMX86Utils.a in Frameworks */,
+				824E3EBA256AC50F00BB7B40 /* libLLVMARMInfo.a in Frameworks */,
+				824E3EBB256AC50F00BB7B40 /* libLLVMAMDGPUDisassembler.a in Frameworks */,
+				824E3EBC256AC50F00BB7B40 /* libLLVMAMDGPUInfo.a in Frameworks */,
+				824E3EBD256AC50F00BB7B40 /* libLLVMAMDGPUUtils.a in Frameworks */,
+				824E3EBE256AC50F00BB7B40 /* libLLVMHexagonCodeGen.a in Frameworks */,
+				824E3EBF256AC50F00BB7B40 /* libLLVMFuzzMutate.a in Frameworks */,
+				824E3EC0256AC50F00BB7B40 /* libLLVMJITLink.a in Frameworks */,
+				824E3EC1256AC50F00BB7B40 /* libLLVMXCoreDisassembler.a in Frameworks */,
+				824E3EC2256AC50F00BB7B40 /* libLLVMRISCVDesc.a in Frameworks */,
+				824E3EC3256AC50F00BB7B40 /* libLLVMRISCVDisassembler.a in Frameworks */,
+				824E3EC4256AC50F00BB7B40 /* libLLVMX86Info.a in Frameworks */,
+				824E3EC5256AC50F00BB7B40 /* libLLVMXCoreDesc.a in Frameworks */,
 				82A1A23324D80AFE009C2E5F /* libncurses.5.4.tbd in Frameworks */,
 				82A1A23424D80AFE009C2E5F /* libncurses.5.tbd in Frameworks */,
 				82A1A23524D80AFE009C2E5F /* libncurses.tbd in Frameworks */,
@@ -650,9 +878,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D6F50824F555F40003D0EA /* liblldCOFF.a in Frameworks */,
 				82AEB63224DC3DC400889AC3 /* libncurses.5.tbd in Frameworks */,
-				82D6F50024F555F40003D0EA /* liblldYAML.a in Frameworks */,
 				82AEB63324DC3DC400889AC3 /* libncurses.5.4.tbd in Frameworks */,
 				82AEB63424DC3DC400889AC3 /* libncurses.tbd in Frameworks */,
 				82AEB63524DC3DC400889AC3 /* libxml2.tbd in Frameworks */,
@@ -661,56 +887,6 @@
 				82AEB63824DC3DC400889AC3 /* libedit.tbd in Frameworks */,
 				82AEB63924DC3DC400889AC3 /* libz.tbd in Frameworks */,
 				82AEB63A24DC3DC400889AC3 /* libpthread.tbd in Frameworks */,
-				82D6F50224F555F40003D0EA /* liblldCore.a in Frameworks */,
-				82AEB63B24DC3DC400889AC3 /* libLLVMMC.a in Frameworks */,
-				82D6F50A24F555F40003D0EA /* liblldReaderWriter.a in Frameworks */,
-				82D6F50424F555F40003D0EA /* liblldWasm.a in Frameworks */,
-				82AEB63C24DC3DC400889AC3 /* libLLVMMCDisassembler.a in Frameworks */,
-				82AEB63D24DC3DC400889AC3 /* libLLVMLinker.a in Frameworks */,
-				82AEB63E24DC3DC400889AC3 /* libLLVMTarget.a in Frameworks */,
-				82AEB63F24DC3DC400889AC3 /* libLLVMVectorize.a in Frameworks */,
-				82AEB64024DC3DC400889AC3 /* libLLVMX86Info.a in Frameworks */,
-				82AEB64124DC3DC400889AC3 /* libLLVMX86Desc.a in Frameworks */,
-				82D6F4FA24F555F40003D0EA /* liblldCommon.a in Frameworks */,
-				82AEB64224DC3DC400889AC3 /* libLLVMX86AsmParser.a in Frameworks */,
-				82AEB64324DC3DC400889AC3 /* libLLVMX86CodeGen.a in Frameworks */,
-				82AEB64424DC3DC400889AC3 /* libLLVMX86Disassembler.a in Frameworks */,
-				82AEB64524DC3DC400889AC3 /* libLLVMTransformUtils.a in Frameworks */,
-				82AEB64624DC3DC400889AC3 /* libLLVMTextAPI.a in Frameworks */,
-				82AEB64724DC3DC400889AC3 /* libLLVMAggressiveInstCombine.a in Frameworks */,
-				82AEB64824DC3DC400889AC3 /* libLLVMJITLink.a in Frameworks */,
-				82AEB64924DC3DC400889AC3 /* libLLVMSupport.a in Frameworks */,
-				82AEB64A24DC3DC400889AC3 /* libLLVMSelectionDAG.a in Frameworks */,
-				82AEB64B24DC3DC400889AC3 /* libLLVMScalarOpts.a in Frameworks */,
-				82AEB64C24DC3DC400889AC3 /* libLLVMRuntimeDyld.a in Frameworks */,
-				82D6F4FE24F555F40003D0EA /* liblldDriver.a in Frameworks */,
-				82AEB64D24DC3DC400889AC3 /* libLLVMRemarks.a in Frameworks */,
-				82AEB64E24DC3DC400889AC3 /* libLLVMAsmPrinter.a in Frameworks */,
-				82AEB64F24DC3DC400889AC3 /* libLLVMCFGuard.a in Frameworks */,
-				82D6F4FC24F555F40003D0EA /* liblldMinGW.a in Frameworks */,
-				82AEB65024DC3DC400889AC3 /* libLLVMInstrumentation.a in Frameworks */,
-				82AEB65124DC3DC400889AC3 /* libLLVMipo.a in Frameworks */,
-				82AEB65224DC3DC400889AC3 /* libLLVMInstCombine.a in Frameworks */,
-				82AEB65324DC3DC400889AC3 /* libLLVMMCParser.a in Frameworks */,
-				82AEB65424DC3DC400889AC3 /* libLLVMIRReader.a in Frameworks */,
-				82D6F4F824F555F40003D0EA /* liblldMachO.a in Frameworks */,
-				82AEB65524DC3DC400889AC3 /* libLLVMFrontendOpenMP.a in Frameworks */,
-				82AEB65624DC3DC400889AC3 /* libLLVMGlobalISel.a in Frameworks */,
-				82AEB65724DC3DC400889AC3 /* libLLVMDebugInfoMSF.a in Frameworks */,
-				82AEB65824DC3DC400889AC3 /* libLLVMExecutionEngine.a in Frameworks */,
-				82AEB65924DC3DC400889AC3 /* libLLVMDebugInfoCodeView.a in Frameworks */,
-				82AEB65A24DC3DC400889AC3 /* libLLVMDebugInfoDWARF.a in Frameworks */,
-				82AEB65B24DC3DC400889AC3 /* libLLVMCoroutines.a in Frameworks */,
-				82AEB65C24DC3DC400889AC3 /* libLLVMDemangle.a in Frameworks */,
-				82AEB65D24DC3DC400889AC3 /* libLLVMCodeGen.a in Frameworks */,
-				82AEB65E24DC3DC400889AC3 /* libLLVMAsmParser.a in Frameworks */,
-				82AEB65F24DC3DC400889AC3 /* libLLVMCore.a in Frameworks */,
-				82AEB66024DC3DC400889AC3 /* libLLVMBitstreamReader.a in Frameworks */,
-				82AEB66124DC3DC400889AC3 /* libLLVMAnalysis.a in Frameworks */,
-				82D6F50624F555F40003D0EA /* liblldELF.a in Frameworks */,
-				82AEB66224DC3DC400889AC3 /* libLLVMBinaryFormat.a in Frameworks */,
-				82AEB66324DC3DC400889AC3 /* libLLVMBitWriter.a in Frameworks */,
-				82AEB66424DC3DC400889AC3 /* libLLVMBitReader.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,16 +1051,151 @@
 		82984A0324D2E070004A7A64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				82D6F4F524F555F40003D0EA /* liblldCOFF.a */,
-				82D6F4EE24F555F30003D0EA /* liblldCommon.a */,
-				82D6F4F224F555F30003D0EA /* liblldCore.a */,
-				82D6F4F024F555F30003D0EA /* liblldDriver.a */,
-				82D6F4F424F555F30003D0EA /* liblldELF.a */,
-				82D6F4ED24F555F30003D0EA /* liblldMachO.a */,
-				82D6F4EF24F555F30003D0EA /* liblldMinGW.a */,
-				82D6F4F624F555F40003D0EA /* liblldReaderWriter.a */,
-				82D6F4F324F555F30003D0EA /* liblldWasm.a */,
-				82D6F4F124F555F30003D0EA /* liblldYAML.a */,
+				824E3DE2256AC50B00BB7B40 /* libLLVMAggressiveInstCombine.a */,
+				824E3E18256AC50D00BB7B40 /* libLLVMAMDGPUAsmParser.a */,
+				824E3DC5256AC50A00BB7B40 /* libLLVMAMDGPUCodeGen.a */,
+				824E3DB2256AC50900BB7B40 /* libLLVMAMDGPUDesc.a */,
+				824E3E30256AC50E00BB7B40 /* libLLVMAMDGPUDisassembler.a */,
+				824E3E31256AC50E00BB7B40 /* libLLVMAMDGPUInfo.a */,
+				824E3E32256AC50E00BB7B40 /* libLLVMAMDGPUUtils.a */,
+				824E3E02256AC50C00BB7B40 /* libLLVMAnalysis.a */,
+				824E3E12256AC50D00BB7B40 /* libLLVMARMAsmParser.a */,
+				824E3DF0256AC50C00BB7B40 /* libLLVMARMCodeGen.a */,
+				824E3DBC256AC50A00BB7B40 /* libLLVMARMDesc.a */,
+				824E3DFE256AC50C00BB7B40 /* libLLVMARMDisassembler.a */,
+				824E3E2F256AC50D00BB7B40 /* libLLVMARMInfo.a */,
+				824E3DC3256AC50A00BB7B40 /* libLLVMARMUtils.a */,
+				824E3DCC256AC50A00BB7B40 /* libLLVMAsmParser.a */,
+				824E3DFC256AC50C00BB7B40 /* libLLVMAsmPrinter.a */,
+				824E3DFD256AC50C00BB7B40 /* libLLVMBinaryFormat.a */,
+				824E3DB6256AC50900BB7B40 /* libLLVMBitReader.a */,
+				824E3E24256AC50D00BB7B40 /* libLLVMBitstreamReader.a */,
+				824E3DB7256AC50A00BB7B40 /* libLLVMBitWriter.a */,
+				824E3DDA256AC50B00BB7B40 /* libLLVMBPFAsmParser.a */,
+				824E3E15256AC50D00BB7B40 /* libLLVMBPFCodeGen.a */,
+				824E3DD4256AC50A00BB7B40 /* libLLVMBPFDesc.a */,
+				824E3E25256AC50D00BB7B40 /* libLLVMBPFDisassembler.a */,
+				824E3DF6256AC50C00BB7B40 /* libLLVMBPFInfo.a */,
+				824E3DD7256AC50A00BB7B40 /* libLLVMCFGuard.a */,
+				824E3E1D256AC50D00BB7B40 /* libLLVMCodeGen.a */,
+				824E3DCE256AC50A00BB7B40 /* libLLVMCore.a */,
+				824E3DE8256AC50B00BB7B40 /* libLLVMCoroutines.a */,
+				824E3DD6256AC50A00BB7B40 /* libLLVMCoverage.a */,
+				824E3E11256AC50D00BB7B40 /* libLLVMDebugInfoCodeView.a */,
+				824E3DCF256AC50A00BB7B40 /* libLLVMDebugInfoDWARF.a */,
+				824E3DC4256AC50A00BB7B40 /* libLLVMDebugInfoGSYM.a */,
+				824E3E29256AC50D00BB7B40 /* libLLVMDebugInfoMSF.a */,
+				824E3E0C256AC50C00BB7B40 /* libLLVMDebugInfoPDB.a */,
+				824E3DD2256AC50A00BB7B40 /* libLLVMDemangle.a */,
+				824E3DC9256AC50A00BB7B40 /* libLLVMDlltoolDriver.a */,
+				824E3DC0256AC50A00BB7B40 /* libLLVMDWARFLinker.a */,
+				824E3DE7256AC50B00BB7B40 /* libLLVMExecutionEngine.a */,
+				824E3DC1256AC50A00BB7B40 /* libLLVMExtensions.a */,
+				824E3E09256AC50C00BB7B40 /* libLLVMFrontendOpenMP.a */,
+				824E3E34256AC50E00BB7B40 /* libLLVMFuzzMutate.a */,
+				824E3DC6256AC50A00BB7B40 /* libLLVMGlobalISel.a */,
+				824E3E07256AC50C00BB7B40 /* libLLVMHexagonAsmParser.a */,
+				824E3E33256AC50E00BB7B40 /* libLLVMHexagonCodeGen.a */,
+				824E3DB5256AC50900BB7B40 /* libLLVMHexagonDesc.a */,
+				824E3DE4256AC50B00BB7B40 /* libLLVMHexagonDisassembler.a */,
+				824E3DD9256AC50B00BB7B40 /* libLLVMHexagonInfo.a */,
+				824E3DB3256AC50900BB7B40 /* libLLVMInstCombine.a */,
+				824E3DBB256AC50A00BB7B40 /* libLLVMInstrumentation.a */,
+				824E3E0E256AC50C00BB7B40 /* libLLVMInterpreter.a */,
+				824E3E1E256AC50D00BB7B40 /* libLLVMipo.a */,
+				824E3DD8256AC50A00BB7B40 /* libLLVMIRReader.a */,
+				824E3E35256AC50E00BB7B40 /* libLLVMJITLink.a */,
+				824E3DD1256AC50A00BB7B40 /* libLLVMLanaiAsmParser.a */,
+				824E3DFB256AC50C00BB7B40 /* libLLVMLanaiCodeGen.a */,
+				824E3DD5256AC50A00BB7B40 /* libLLVMLanaiDesc.a */,
+				824E3DF5256AC50C00BB7B40 /* libLLVMLanaiDisassembler.a */,
+				824E3E1C256AC50D00BB7B40 /* libLLVMLanaiInfo.a */,
+				824E3DC2256AC50A00BB7B40 /* libLLVMLibDriver.a */,
+				824E3DED256AC50B00BB7B40 /* libLLVMLineEditor.a */,
+				824E3E0A256AC50C00BB7B40 /* libLLVMLinker.a */,
+				824E3DEA256AC50B00BB7B40 /* libLLVMLTO.a */,
+				824E3DF8256AC50C00BB7B40 /* libLLVMMC.a */,
+				824E3E01256AC50C00BB7B40 /* libLLVMMCA.a */,
+				824E3E22256AC50D00BB7B40 /* libLLVMMCDisassembler.a */,
+				824E3DC8256AC50A00BB7B40 /* libLLVMMCJIT.a */,
+				824E3E08256AC50C00BB7B40 /* libLLVMMCParser.a */,
+				824E3E1A256AC50D00BB7B40 /* libLLVMMipsAsmParser.a */,
+				824E3E27256AC50D00BB7B40 /* libLLVMMipsCodeGen.a */,
+				824E3DB0256AC50900BB7B40 /* libLLVMMipsDesc.a */,
+				824E3DDD256AC50B00BB7B40 /* libLLVMMipsDisassembler.a */,
+				824E3DCD256AC50A00BB7B40 /* libLLVMMipsInfo.a */,
+				824E3DBF256AC50A00BB7B40 /* libLLVMMIRParser.a */,
+				824E3E05256AC50C00BB7B40 /* libLLVMMSP430AsmParser.a */,
+				824E3E0B256AC50C00BB7B40 /* libLLVMMSP430CodeGen.a */,
+				824E3DBE256AC50A00BB7B40 /* libLLVMMSP430Desc.a */,
+				824E3DE6256AC50B00BB7B40 /* libLLVMMSP430Disassembler.a */,
+				824E3E19256AC50D00BB7B40 /* libLLVMMSP430Info.a */,
+				824E3DF2256AC50C00BB7B40 /* libLLVMNVPTXCodeGen.a */,
+				824E3DD3256AC50A00BB7B40 /* libLLVMNVPTXDesc.a */,
+				824E3DE3256AC50B00BB7B40 /* libLLVMNVPTXInfo.a */,
+				824E3DDB256AC50B00BB7B40 /* libLLVMObjCARCOpts.a */,
+				824E3E14256AC50D00BB7B40 /* libLLVMObject.a */,
+				824E3E2A256AC50D00BB7B40 /* libLLVMObjectYAML.a */,
+				824E3DDC256AC50B00BB7B40 /* libLLVMOption.a */,
+				824E3DB4256AC50900BB7B40 /* libLLVMOrcError.a */,
+				824E3DE0256AC50B00BB7B40 /* libLLVMOrcJIT.a */,
+				824E3DF4256AC50C00BB7B40 /* libLLVMPasses.a */,
+				824E3E13256AC50D00BB7B40 /* libLLVMPowerPCAsmParser.a */,
+				824E3E1B256AC50D00BB7B40 /* libLLVMPowerPCCodeGen.a */,
+				824E3DDF256AC50B00BB7B40 /* libLLVMPowerPCDesc.a */,
+				824E3DEC256AC50B00BB7B40 /* libLLVMPowerPCDisassembler.a */,
+				824E3E21256AC50D00BB7B40 /* libLLVMPowerPCInfo.a */,
+				824E3DEB256AC50B00BB7B40 /* libLLVMProfileData.a */,
+				824E3E28256AC50D00BB7B40 /* libLLVMRemarks.a */,
+				824E3DB9256AC50A00BB7B40 /* libLLVMRISCVAsmParser.a */,
+				824E3DF7256AC50C00BB7B40 /* libLLVMRISCVCodeGen.a */,
+				824E3E37256AC50E00BB7B40 /* libLLVMRISCVDesc.a */,
+				824E3E38256AC50E00BB7B40 /* libLLVMRISCVDisassembler.a */,
+				824E3E2B256AC50D00BB7B40 /* libLLVMRISCVInfo.a */,
+				824E3DC7256AC50A00BB7B40 /* libLLVMRISCVUtils.a */,
+				824E3DEE256AC50B00BB7B40 /* libLLVMRuntimeDyld.a */,
+				824E3DBD256AC50A00BB7B40 /* libLLVMScalarOpts.a */,
+				824E3E0D256AC50C00BB7B40 /* libLLVMSelectionDAG.a */,
+				824E3DE5256AC50B00BB7B40 /* libLLVMSparcAsmParser.a */,
+				824E3E00256AC50C00BB7B40 /* libLLVMSparcCodeGen.a */,
+				824E3DEF256AC50B00BB7B40 /* libLLVMSparcDesc.a */,
+				824E3E03256AC50C00BB7B40 /* libLLVMSparcDisassembler.a */,
+				824E3E06256AC50C00BB7B40 /* libLLVMSparcInfo.a */,
+				824E3E2C256AC50D00BB7B40 /* libLLVMSupport.a */,
+				824E3E10256AC50D00BB7B40 /* libLLVMSymbolize.a */,
+				824E3E0F256AC50C00BB7B40 /* libLLVMSystemZAsmParser.a */,
+				824E3E1F256AC50D00BB7B40 /* libLLVMSystemZCodeGen.a */,
+				824E3E23256AC50D00BB7B40 /* libLLVMSystemZDesc.a */,
+				824E3DB8256AC50A00BB7B40 /* libLLVMSystemZDisassembler.a */,
+				824E3DF9256AC50C00BB7B40 /* libLLVMSystemZInfo.a */,
+				824E3DE1256AC50B00BB7B40 /* libLLVMTableGen.a */,
+				824E3DF3256AC50C00BB7B40 /* libLLVMTarget.a */,
+				824E3E2D256AC50D00BB7B40 /* libLLVMTextAPI.a */,
+				824E3DCA256AC50A00BB7B40 /* libLLVMTransformUtils.a */,
+				824E3DCB256AC50A00BB7B40 /* libLLVMVectorize.a */,
+				824E3DE9256AC50B00BB7B40 /* libLLVMWebAssemblyAsmParser.a */,
+				824E3DF1256AC50C00BB7B40 /* libLLVMWebAssemblyCodeGen.a */,
+				824E3E16256AC50D00BB7B40 /* libLLVMWebAssemblyDesc.a */,
+				824E3DB1256AC50900BB7B40 /* libLLVMWebAssemblyDisassembler.a */,
+				824E3DBA256AC50A00BB7B40 /* libLLVMWebAssemblyInfo.a */,
+				824E3E26256AC50D00BB7B40 /* libLLVMWindowsManifest.a */,
+				824E3E20256AC50D00BB7B40 /* libLLVMX86AsmParser.a */,
+				824E3DFF256AC50C00BB7B40 /* libLLVMX86CodeGen.a */,
+				824E3E17256AC50D00BB7B40 /* libLLVMX86Desc.a */,
+				824E3DFA256AC50C00BB7B40 /* libLLVMX86Disassembler.a */,
+				824E3E39256AC50E00BB7B40 /* libLLVMX86Info.a */,
+				824E3E2E256AC50D00BB7B40 /* libLLVMX86Utils.a */,
+				824E3E04256AC50C00BB7B40 /* libLLVMXCoreCodeGen.a */,
+				824E3E3A256AC50E00BB7B40 /* libLLVMXCoreDesc.a */,
+				824E3E36256AC50E00BB7B40 /* libLLVMXCoreDisassembler.a */,
+				824E3DD0256AC50A00BB7B40 /* libLLVMXCoreInfo.a */,
+				824E3DDE256AC50B00BB7B40 /* libLLVMXRay.a */,
+				824E3D9B256AC4D000BB7B40 /* libLLVMAArch64CodeGen.a */,
+				824E3D9A256AC4D000BB7B40 /* libLLVMAArch64Desc.a */,
+				824E3D9E256AC4D000BB7B40 /* libLLVMAArch64Disassembler.a */,
+				824E3D9C256AC4D000BB7B40 /* libLLVMAArch64Info.a */,
+				824E3D9D256AC4D000BB7B40 /* libLLVMAArch64Utils.a */,
+				824E3D1F256AC2C700BB7B40 /* libLLVMAArch64AsmParser.a */,
 				82E6976424D32C0100F13264 /* libz.1.1.3.tbd */,
 				82E6976124D32C0100F13264 /* libz.1.2.5.tbd */,
 				82E6976524D32C0200F13264 /* libz.1.2.8.tbd */,
@@ -901,48 +1212,6 @@
 				8205E18924D31CF4001C5130 /* libedit.tbd */,
 				8205E18724D31CE8001C5130 /* libz.tbd */,
 				8205E18524D31CDE001C5130 /* libpthread.tbd */,
-				8205E17B24D31C00001C5130 /* libLLVMX86AsmParser.a */,
-				8205E17C24D31C00001C5130 /* libLLVMX86CodeGen.a */,
-				8205E17A24D31C00001C5130 /* libLLVMX86Desc.a */,
-				8205E17D24D31C00001C5130 /* libLLVMX86Disassembler.a */,
-				8205E17924D31C00001C5130 /* libLLVMX86Info.a */,
-				8205E17724D31BE5001C5130 /* libLLVMVectorize.a */,
-				8205E17124D31BD7001C5130 /* libLLVMTarget.a */,
-				8205E17324D31BD7001C5130 /* libLLVMTextAPI.a */,
-				8205E17224D31BD7001C5130 /* libLLVMTransformUtils.a */,
-				8205E16D24D31BC1001C5130 /* libLLVMScalarOpts.a */,
-				8205E16C24D31BC1001C5130 /* libLLVMSelectionDAG.a */,
-				8205E16B24D31BC1001C5130 /* libLLVMSupport.a */,
-				8205E16924D31BA1001C5130 /* libLLVMRuntimeDyld.a */,
-				8205E16724D31B9C001C5130 /* libLLVMRemarks.a */,
-				8205E16524D31B56001C5130 /* libLLVMMCParser.a */,
-				8205E16324D31B2B001C5130 /* libLLVMMCDisassembler.a */,
-				8205E16124D31AF8001C5130 /* libLLVMMC.a */,
-				8205E15F24D31AEC001C5130 /* libLLVMLinker.a */,
-				8205E15D24D31ADC001C5130 /* libLLVMJITLink.a */,
-				8205E15724D31ACA001C5130 /* libLLVMInstCombine.a */,
-				8205E15524D31ACA001C5130 /* libLLVMInstrumentation.a */,
-				8205E15624D31ACA001C5130 /* libLLVMipo.a */,
-				8205E15824D31ACA001C5130 /* libLLVMIRReader.a */,
-				8205E15324D31AAC001C5130 /* libLLVMGlobalISel.a */,
-				8205E15124D31AA2001C5130 /* libLLVMFrontendOpenMP.a */,
-				8205E14F24D31A98001C5130 /* libLLVMExecutionEngine.a */,
-				8205E14D24D31A8A001C5130 /* libLLVMDebugInfoMSF.a */,
-				8205E14B24D31A84001C5130 /* libLLVMDebugInfoCodeView.a */,
-				8205E14924D31A7F001C5130 /* libLLVMDebugInfoDWARF.a */,
-				8205E14724D31A77001C5130 /* libLLVMDemangle.a */,
-				8205E14524D31A6A001C5130 /* libLLVMCFGuard.a */,
-				8205E14324D31A63001C5130 /* libLLVMCoroutines.a */,
-				8205E14124D31A5D001C5130 /* libLLVMCodeGen.a */,
-				8205E13F24D31A55001C5130 /* libLLVMCore.a */,
-				8205E13D24D31A44001C5130 /* libLLVMBitstreamReader.a */,
-				8205E13B24D31A40001C5130 /* libLLVMBitWriter.a */,
-				8205E13924D31A39001C5130 /* libLLVMBitReader.a */,
-				8205E13724D31A36001C5130 /* libLLVMBinaryFormat.a */,
-				8205E12F24D319F5001C5130 /* libLLVMAggressiveInstCombine.a */,
-				8205E13224D319F5001C5130 /* libLLVMAnalysis.a */,
-				8205E13124D319F5001C5130 /* libLLVMAsmParser.a */,
-				8205E13024D319F5001C5130 /* libLLVMAsmPrinter.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1350,7 +1619,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8224EB232568D32F00581ABC /* ProjectPlebs.cpp in Sources */,
 				82806DD2250E0BA70010F012 /* ScheatBasicStructures.cpp in Sources */,
 				82097C8F25076A31002D048A /* CScheat.cpp in Sources */,
 				8225412224E01BD600DBF05C /* ScheatNodes.cpp in Sources */,
@@ -1766,6 +2034,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1780,10 +2049,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.1_1/include,
-					"$(SRCROOT)/ScheatFoundation",
-				);
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/include;
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1796,6 +2062,9 @@
 				);
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
+				SYSTEM_HEADER_SEARCH_PATHS = "";
+				USER_HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/include;
 			};
 			name = Debug;
 		};
@@ -1836,6 +2105,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1848,10 +2118,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.1_1/include,
-					"$(SRCROOT)/ScheatFoundation",
-				);
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/include;
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1863,6 +2130,9 @@
 				);
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
+				SYSTEM_HEADER_SEARCH_PATHS = "";
+				USER_HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/include;
 			};
 			name = Release;
 		};
@@ -2014,14 +2284,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.0_3/include,
-					"$(SRCROOT)/scheat/",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.1_1/lib,
-					"$(SDKROOT)/usr/lib/system",
-				);
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/lib;
 				PRODUCT_NAME = scheat;
 			};
 			name = Debug;
@@ -2042,14 +2306,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.0_3/include,
-					"\"$(SRCROOT)/scheat\"",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/10.0.1_1/lib,
-					"$(SDKROOT)/usr/lib/system",
-				);
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.1_1/lib;
 				PRODUCT_NAME = scheat;
 			};
 			name = Release;

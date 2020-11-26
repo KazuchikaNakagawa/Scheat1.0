@@ -46,6 +46,9 @@ struct Instance {
     vector<Address> properties = {};
     uint64_t calcSize();
     void dump(ostream &);
+    Instance(){
+        properties = {};
+    }
 };
 
 union Value {
@@ -56,6 +59,8 @@ union Value {
     int64_t* i64Ptr;
     Instance instance;
     void dump(ostream &);
+    Value() {};
+    ~Value();
 };
 
 enum Size : short {
@@ -70,6 +75,11 @@ class Address {
 public:
     Value value;
     Size size;
+    Address(){
+        value.i64Ptr = nullptr;
+    }
+    
+    Address(const Address&) {};
 };
 
 class Memory {

@@ -10,6 +10,8 @@
 #include <string>
 #include "scheat.h"
 
+
+using namespace std;
 int main(int argc, const char *argv[]){
     // std::cout << argc << std::endl;
     
@@ -97,7 +99,21 @@ int main(int argc, const char *argv[]){
             std::ifstream ifs(argv[3]);
             lexer.lex(ifs);
         }*/
-        
+        if (strcmp(argv[1], "-ll") == 0) {
+            string basePath(argv[2]);
+            string inFilePath = basePath + ".scheat";
+            string outfilePath = basePath;
+            scheat::Scheat sch;
+            sch.outputFilePath = outfilePath;
+            sch.sourceFile = inFilePath;
+            scheat::lexer::Lexer lxr(&sch);
+            ifstream ifs(sch.sourceFile);
+            lxr.lex(ifs);
+            scheat::parser2::parse(&sch, lxr.getTokens());
+            
+            scheat::encoder::LLSCEncoder::encodeLL(&sch);
+            return 0;
+        }
         
         return 0;
     }

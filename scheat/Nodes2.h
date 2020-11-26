@@ -169,6 +169,15 @@ public:
     string userdump() override;
 };
 
+class TheIdentifierExpr : public IdentifierExpr {
+public:
+    unique_ptr<IdentifierExpr> expr;
+    static unique_ptr<TheIdentifierExpr> init(Token *, unique_ptr<IdentifierExpr>);
+    string userdump() override{ return "&" + expr->userdump(); };
+    Value * codegen(IRStream &) override;
+    Value * codegenAsRef(IRStream &) override;
+};
+
 class TopIdentifierExpr : public IdentifierExpr {
 public:
     Value * codegen(IRStream &) override { return nullptr; };
@@ -217,7 +226,7 @@ public:
     string userdump() override{return func->name;};
     Value * codegenWithParent(Value *, IRStream &) override;
     Value * codegen(IRStream &) override{ return nullptr; };
-    Value * codegenAsRef(IRStream &) override;
+    Value * codegenAsRef(IRStream &) override{return nullptr;};
     static unique_ptr<FunctionAttributeExpr>
     init(Function *, SourceLocation);
 };
@@ -243,7 +252,9 @@ public:
     };
     string userdump() override;
     //void addArgument(bool, unique_ptr<Expr>) override{};
-    static unique_ptr<VariableTerm> init(Token *, TypeData);
+    static unique_ptr<VariableTerm> init(Token *, TypeData){
+        return nullptr;
+    };
 };
 
 class FunctionCallTerm : public TopIdentifierExpr {
@@ -524,7 +535,7 @@ public:
     
     unique_ptr<Expr> value;
     static unique_ptr<DeclareVariableStatement>
-    init(Token *, unique_ptr<Expr>,bool pub = true, bool con = false, bool nul = false);
+    init(unique_ptr<NewIdentifierExpr>, unique_ptr<Expr>,bool pub = true, bool con = false, bool nul = false);
     Value * codegen(IRStream &) override;
 };
 

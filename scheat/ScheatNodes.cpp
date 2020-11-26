@@ -25,10 +25,11 @@ using namespace scheat::LegacyScheatParser;
 using namespace scheat;
 using namespace scheat::basics;
 using namespace scheat::node;
-using scheat::statics::contextCenter;
-using scheat::statics::global_context;
-using scheat::statics::main_Context;
-using scheat::statics::local_context;
+//using scheat::statics::ScheatContext::contextCenter;
+//using scheat::statics::ScheatContextData::global;
+//using scheat::statics::ScheatContext::main;
+using namespace scheat::statics;
+//using scheat::statics::ScheatContextData::local();
 using scheat::statics::objects;
 using scheat::statics::fname;
 using scheat::statics::mTokens;
@@ -107,48 +108,48 @@ static void getNextTok(){
 Context *Context::create(std::string name, Context *parents){
     Context *cnt = new Context(name, parents);
     if (parents == nullptr) {
-        contextCenter.push_back(cnt);
+        ScheatContext::contextCenter.push_back(cnt);
     }
     return cnt;
 }
 
 void LegacyScheatParser::E9::InitializeContexts(){
-    global_context = new Context();
-    global_context->name = "Global";
-    local_context.push(global_context);
-    contextCenter.push_back(global_context);
-    global_context->stream_entry << "source_filename = \"" << scheato->sourceFile << "\"\n";
-    global_context->stream_entry << "target datalayout = \"" << scheato->datalayout << "\"\n";
-    global_context->stream_entry << "target triple = \"" << scheato->target << "\"\n\n";
-    global_context->stream_body << "%ScheatShortConstString = type{ i8, [7 x i8] }\n";
-    global_context->stream_body << "%Array = type{ i32, i64, i8* }\n";
-    global_context->stream_body << "%union_buf = type{ %ScheatShortConstString }\n";
-    global_context->stream_body << "%String = type{ %union_buf }\n";
-    global_context->stream_body << "declare void @print_return()\n";
-    global_context->stream_body << "declare void @print_i32(i32)\n";
-    global_context->stream_body << "declare void @print_i8x(i8*)\n";
-    global_context->stream_body << "declare void @printn()\n";
-    global_context->stream_body << "declare void @print_i1(i1)\n";
-    global_context->stream_body << "declare i8* @ScheatPointer_alloc(i64, void(i8*)*)\n";
-    global_context->stream_body << "declare void @ScheatPointer_copy(i8*)\n";
-    global_context->stream_body << "declare void @ScheatPointer_unref(i8*)\n";
-    global_context->stream_body << "declare void @ScheatPointer_release(i8*)\n";
-    global_context->stream_body << "declare void @print_String(%String*)\n";
-    global_context->stream_body << "declare %String @String_init(i8*)\n";
-    global_context->stream_body << "declare %String* @String_add(%String*, %String*)\n";
-    global_context->stream_body << "declare %String* @String_copy(%String*)\n";
-    global_context->stream_body << "declare void @Array_append(%Array*, i8*)\n";
-    global_context->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
-    global_context->stream_body << "declare %Array @Array_init(i64)\n";
+    ScheatContext::global = new Context();
+    ScheatContext::global->name = "Global";
+    ScheatContext::push(ScheatContext::global);
+    ScheatContext::contextCenter.push_back(ScheatContext::global);
+    ScheatContext::global->stream_entry << "source_filename = \"" << scheato->sourceFile << "\"\n";
+    ScheatContext::global->stream_entry << "target datalayout = \"" << scheato->datalayout << "\"\n";
+    ScheatContext::global->stream_entry << "target triple = \"" << scheato->target << "\"\n\n";
+    ScheatContext::global->stream_body << "%ScheatShortConstString = type{ i8, [7 x i8] }\n";
+    ScheatContext::global->stream_body << "%Array = type{ i32, i64, i8* }\n";
+    ScheatContext::global->stream_body << "%union_buf = type{ %ScheatShortConstString }\n";
+    ScheatContext::global->stream_body << "%String = type{ %union_buf }\n";
+    ScheatContext::global->stream_body << "declare void @print_return()\n";
+    ScheatContext::global->stream_body << "declare void @print_i32(i32)\n";
+    ScheatContext::global->stream_body << "declare void @print_i8x(i8*)\n";
+    ScheatContext::global->stream_body << "declare void @printn()\n";
+    ScheatContext::global->stream_body << "declare void @print_i1(i1)\n";
+    ScheatContext::global->stream_body << "declare i8* @ScheatPointer_alloc(i64, void(i8*)*)\n";
+    ScheatContext::global->stream_body << "declare void @ScheatPointer_copy(i8*)\n";
+    ScheatContext::global->stream_body << "declare void @ScheatPointer_unref(i8*)\n";
+    ScheatContext::global->stream_body << "declare void @ScheatPointer_release(i8*)\n";
+    ScheatContext::global->stream_body << "declare void @print_String(%String*)\n";
+    ScheatContext::global->stream_body << "declare %String @String_init(i8*)\n";
+    ScheatContext::global->stream_body << "declare %String* @String_add(%String*, %String*)\n";
+    ScheatContext::global->stream_body << "declare %String* @String_copy(%String*)\n";
+    ScheatContext::global->stream_body << "declare void @Array_append(%Array*, i8*)\n";
+    ScheatContext::global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
+    ScheatContext::global->stream_body << "declare %Array @Array_init(i64)\n";
     //global_context->stream_body << "declare i8* ";
-    main_Context = nullptr;
+    ScheatContext::main = nullptr;
     mTokens = nullptr;
     
     auto Int = new Class(new TypeData("i32"));
     Int->context->name = "Int";
-    global_context->addClass("Int", Int);
+    ScheatContext::global->addClass("Int", Int);
     auto String = new Class(new TypeData("String"));
-    global_context->addClass("String", String);
+    ScheatContext::global->addClass("String", String);
 }
 
 void LegacyScheatParser::E9::CreateMainContext(){
@@ -156,19 +157,19 @@ void LegacyScheatParser::E9::CreateMainContext(){
     mainf->argTypes.push_back(TypeData("i32"));
     mainf->argTypes.push_back(TypeData("i8**"));
     mainf->return_type = TypeData("i32");
-    main_Context = mainf->context;
-    contextCenter.push_back(main_Context);
+    ScheatContext::main = mainf->context;
+    ScheatContext::contextCenter.push_back(ScheatContext::main);
     Variable *argc = new Variable("argc", TypeData("i32"));
-    main_Context->addVariable("argc", argc);
+    ScheatContext::main->addVariable("argc", argc);
     Variable *argv = new Variable("argv", TypeData("i8**"));
-    main_Context->addVariable("argv", argv);
-    mainf->codegen(main_Context->stream_entry);
-    main_Context->stream_body << "entry:\n";
-    main_Context->stream_body << "%argc = alloca i32\n";
-    main_Context->stream_body << "%argv = alloca i8**\n";
-    main_Context->stream_body << "store i32 %0, i32* %argc\n";
-    main_Context->stream_body << "store i8** %1, i8*** %argv\n";
-    main_Context->stream_tail << "ret i32 0\n}\n";
+    ScheatContext::main->addVariable("argv", argv);
+    mainf->codegen(ScheatContext::main->stream_entry);
+    ScheatContext::main->stream_body << "entry:\n";
+    ScheatContext::main->stream_body << "%argc = alloca i32\n";
+    ScheatContext::main->stream_body << "%argv = alloca i8**\n";
+    ScheatContext::main->stream_body << "store i32 %0, i32* %argc\n";
+    ScheatContext::main->stream_body << "store i8** %1, i8*** %argv\n";
+    ScheatContext::main->stream_tail << "ret i32 0\n}\n";
 }
 
 p_unique(node::Term) node::Term::create(std::unique_ptr<node::TermNode> term){
@@ -192,7 +193,7 @@ p_unique(node::Term) node::Term::create(std::unique_ptr<Term> term, scheat::Toke
 Class::Class(TypeData *ty) : type(ty){
     properties = {};
     operators = {};
-    context = Context::create(ty->name, global_context);
+    context = Context::create(ty->name, ScheatContext::global);
 };
 
 static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs, scheat::Token *tok, node::NodeData *rhs){
@@ -289,7 +290,7 @@ static node::NodeData *subFunc_OpInt(IRStream &f, node::NodeData *lhs, scheat::T
     if (tok->value.strValue == "+") {
         std::string r1 = lhs->value;
         std::string r2 = rhs->value;
-        std::string r = local_context.top()->getRegister();
+        std::string r = ScheatContext::local()->getRegister();
         f << r << " = add nsw i32 "
         << r1 << ", " << r2 << "\n";
         return new node::NodeData(r, "i32");
@@ -297,7 +298,7 @@ static node::NodeData *subFunc_OpInt(IRStream &f, node::NodeData *lhs, scheat::T
     if (tok->value.strValue == "-") {
         std::string r1 = lhs->value;
         std::string r2 = rhs->value;
-        std::string r = local_context.top()->getRegister();
+        std::string r = ScheatContext::local()->getRegister();
         f << r << " = sub nsw i32 "
         << r1 << ", " << r2 << "\n";
         return new node::NodeData(r, "i32");
@@ -315,7 +316,7 @@ static node::NodeData *subFunc_OpInt_Primary(IRStream &f, node::NodeData *lhs, s
     if (tok->value.strValue == "*") {
         std::string r1 = lhs->value;
         std::string r2 = rhs->value;
-        std::string r = local_context.top()->getRegister();
+        std::string r = ScheatContext::local()->getRegister();
         f << r << " = imul nsw i32 "
         << r1 << ", " << r2 << "\n";
         return new node::NodeData(r, "i32");
@@ -323,7 +324,7 @@ static node::NodeData *subFunc_OpInt_Primary(IRStream &f, node::NodeData *lhs, s
     if (tok->value.strValue == "/") {
         std::string r1 = lhs->value;
         std::string r2 = rhs->value;
-        std::string r = local_context.top()->getRegister();
+        std::string r = ScheatContext::local()->getRegister();
         f << r << " = idiv nsw i32 "
         << r1 << ", " << r2 << "\n";
         return new node::NodeData(r, "i32");
@@ -363,7 +364,7 @@ node::NodeData *node::PrimaryExpr::codegen(IRStream &f){
     if (lhs->size.ir_used[0] == '%') {
         std::string k = lhs->size.ir_used;
         k.erase(k.begin());
-        auto ty = global_context->findClass(k);
+        auto ty = ScheatContext::global->findClass(k);
         if (ty == nullptr) {
             scheato->FatalError(location,__FILE_NAME__, __LINE__,
                                 "%s is undefined.", k.c_str());
@@ -393,7 +394,7 @@ node::NodeData *node::PrimaryExpr::codegen(IRStream &f){
                                 fu->argTypes[1].name.c_str());
         }
         
-        auto r = local_context.top()->getRegister();
+        auto r = ScheatContext::local()->getRegister();
         if (op->position == OperatorPosition::infix) {
             f << r << " = call " << fu->lltype() << " "
             << fu->getMangledName() << "(" << lhs->size.ir_used << "* " <<
@@ -476,14 +477,14 @@ node::NodeData *PrimaryExprInt::codegen(IRStream &f){
         return term->codegen(f);
     }else{
         if (opTok->value.strValue == "*") {
-            std::string r = local_context.top()->getRegister();
+            std::string r = ScheatContext::local()->getRegister();
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
             f << r << " = imul i32 " << k << ", " << l << "\n";
             return new node::NodeData(r, "i32");
         }
         if (opTok->value.strValue == "/") {
-            std::string r = local_context.top()->getRegister();
+            std::string r = ScheatContext::local()->getRegister();
             std::string k = exprs->codegen(f)->value;
             std::string l = term->codegen(f)->value;
             f << r << " = idiv i32 " << k << ", " << l << "\n";
@@ -567,7 +568,7 @@ p_unique(TermInt) TermInt::init(scheat::Token *i){
 }
 
 p_unique(node::IdentifierTerm) node::IdentifierTerm::create(std::string v, bool n){
-    auto cond = local_context.top()->isExists(v);
+    auto cond = ScheatContext::local()->isExists(v);
     if (cond && !n) {
         scheato->FatalError(scheato->location,__FILE_NAME__, __LINE__, "%s already exists.", v.c_str());
     }
@@ -592,12 +593,12 @@ void PrintStatement::dump(IRStream &f){
 
 NodeData *node::IdentifierExpr::codegen(IRStream &f){
     if (expr == nullptr) {
-        auto v = local_context.top()->findVariable(term->codegen(f)->value);
+        auto v = ScheatContext::local()->findVariable(term->codegen(f)->value);
         if (v == nullptr) {
             // when the variable is undefined
             scheato->FatalError(location,__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", term->location.line, term->location.column, term->codegen(f)->value.c_str());
         }
-        auto r = local_context.top()->getRegister();
+        auto r = ScheatContext::local()->getRegister();
         f << r << " load " << v->type.ir_used << ", "
         << v->type.ir_used << "* " << v->mangledName << "\n";
         return new NodeData(r, v->type);
@@ -612,7 +613,7 @@ NodeData *node::IdentifierExpr::codegen(IRStream &f){
     
     if (opTok->kind == TokenKind::tok_period) {
         auto pt = d->size.name;
-        auto ptclass = local_context.top()->findClass(pt);
+        auto ptclass = ScheatContext::local()->findClass(pt);
         if (ptclass == nullptr) {
             scheato->FatalError(location,__FILE_NAME__, __LINE__, "in %d.%d %s is undefined.", expr->location.line, expr->location.column, pt.c_str());
         }
@@ -701,9 +702,9 @@ p_unique(node::Term) node::Term::create(std::unique_ptr<Expr> parenExpr){
 
 NodeData *node::Expr::codegen(IRStream &f){
     if (exprs != nullptr && op != nullptr) {
-        auto r = local_context.top()->getRegister();
+        auto r = ScheatContext::local()->getRegister();
         auto nd = exprs->codegen(f);
-        auto cl = local_context.top()->findClass(nd->size.name);
+        auto cl = ScheatContext::local()->findClass(nd->size.name);
         if (cl == nullptr) {
             scheato->FatalError(location,__FILE_NAME__, __LINE__,
                                 "%s does not have operator %s",

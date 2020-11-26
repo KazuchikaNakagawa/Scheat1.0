@@ -19,15 +19,27 @@ namespace scheat {
 
 namespace statics {
 
-extern std::vector<Context *> contextCenter;
-extern Context *global_context;
-extern Context *main_Context;
-extern std::stack<Context *> local_context;
 extern std::map<int, std::vector<std::string>> objects;
 extern std::string fname;
 extern scheat::Token *mTokens;
 extern Scheat *scheato;
 extern IRStream initStream;
+
+class ScheatContext {
+    static stack<Context *> localcon;
+public:
+    static vector<Context *> contextCenter;
+    static void Init(Scheat *);
+    static void AddMain();
+    static void Shutdown(){ delete ScheatContext::global; };
+    static Context *main;
+    static Context *global;
+    static Context *init;
+    static Context *local();
+    static void push(Context *c) { localcon.push(c); };
+    static void pop() { localcon.pop(); };
+};
+
 }
 
 }
