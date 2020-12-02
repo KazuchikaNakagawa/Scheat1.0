@@ -65,6 +65,7 @@ void ScheatContext::Init(Scheat *sch){
     initf->context->stream_entry << "declare void @init(){\n";
     initf->context->stream_tail << "ret void\n}\n";
     contextCenter.push_back(initf->context);
+    init = initf->context;
     ScheatContext::main = nullptr;
     mTokens = nullptr;
 }
@@ -97,6 +98,7 @@ void ScheatContext::AddMain(){
 stack<Context *> ScheatContext::localcon = {};
 Context *ScheatContext::global;
 vector<Context *> ScheatContext::contextCenter = {};
+Context *ScheatContext::init = nullptr;
 
 }
 

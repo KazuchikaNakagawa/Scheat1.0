@@ -17,7 +17,6 @@ using scheat::statics::objects;
 using scheat::statics::fname;
 using scheat::statics::mTokens;
 using scheat::statics::scheato;
-using scheat::statics::initStream;
 
 static TypeData asPointer(TypeData ty){
     return TypeData("the " + ty.name, ty.ir_used + "*");
@@ -619,7 +618,7 @@ Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
         reg = "%" + value;
         f << reg << " = alloca " << type->ir_used << "\n";
     }
-    initStream << "call void " << func->getMangledName() << "(" << type->ir_used << "* " << reg << ")\n";
+    ScheatContext::init->stream_body << "call void " << func->getMangledName() << "(" << type->ir_used << "* " << reg << ")\n";
     return new Value(reg, *type);
 }
 
