@@ -352,6 +352,25 @@ unique_ptr<PrefixOperatorPrimaryExpr> PrefixOperatorPrimaryExpr::init(Operator *
     return ptr;
 }
 
+Value *FunctionAttributeExpr::codegen(IRStream &f){
+    string reg = "";
+    if (type == "Void") {
+        f << "call " << func->lltype() << " " << func->getMangledName() << "(";
+        return nullptr;
+    }else{
+        reg = ScheatContext::local()->getRegister();
+        f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
+    }
+    for (int i = 0; i < values.size(); i++) {
+        f << values[i]->asValue();
+        if (i != values.size() - 1) {
+            f << ", ";
+        }
+    }
+    f << ")\n";
+    return new Value(reg, type);
+}
+
 Value *PrefixOperatorPrimaryExpr::codegen(IRStream &f){
     auto r = rhs->codegen(f);
     if (op->return_type.name == "Void") {

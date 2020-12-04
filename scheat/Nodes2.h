@@ -225,7 +225,7 @@ public:
     vector<Value *> values = {};
     string userdump() override{return func->name;};
     Value * codegenWithParent(Value *, IRStream &) override;
-    Value * codegen(IRStream &) override{ return nullptr; };
+    Value * codegen(IRStream &) override;
     Value * codegenAsRef(IRStream &) override{return nullptr;};
     static unique_ptr<FunctionAttributeExpr>
     init(Function *, SourceLocation);
