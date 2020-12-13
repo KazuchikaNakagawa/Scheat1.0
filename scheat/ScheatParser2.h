@@ -24,7 +24,7 @@ namespace parser2 {
 
 // this parser was started to build another type of parser.
 // we solve type inferences, identifier existence, and so on when parsing.
-void parse(Scheat *,Token *);
+void parse(_Scheat *,Token *);
 
 unique_ptr<Statement> parseStatement(Token *&);
 

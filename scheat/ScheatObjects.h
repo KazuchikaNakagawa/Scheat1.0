@@ -15,10 +15,10 @@
 #define SV_P 15
 namespace scheat {
 class Token;
-class Scheat;
+class _Scheat;
 class ScheatLexer;
 namespace LegacyScheatParser {
-extern void LLParse(Scheat *);
+extern void LLParse(_Scheat *);
 }
 
 using namespace std;
@@ -31,11 +31,11 @@ struct DebugOption {
 class ScheatDelegate {
 public:
     
-    virtual void fatalError(Scheat *_scheat,SourceLocation location, std::string filePath, std::string message, ...);
+    virtual void fatalError(_Scheat *_scheat,SourceLocation location, std::string filePath, std::string message, ...);
     
-    virtual void warning(Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
+    virtual void warning(_Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
     
-    virtual void log(Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
+    virtual void log(_Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
     
     virtual std::string target_triple();
     
@@ -52,7 +52,7 @@ class DataHolder;
 using namespace nodes2;
 
 /// represents a project file like CMakeLists.txt
-class Scheat {
+class _Scheat {
     bool debug;
     bool deepDebug;
     bool hasError;
@@ -68,7 +68,7 @@ public:
     scheat::Token *tokens;
     std::string sourceFile = "";
     std::string targettingFile;
-    std::string outputFilePath;
+    std::string outputFilePath;co
     std::string target;
     std::string datalayout;
     std::string header_search_path;
@@ -90,10 +90,10 @@ public:
     void Log(SourceLocation, const char *,unsigned int, const char *, ...);
     void Warning(SourceLocation, const char *,unsigned int, const char *, ...);
     void DevLog(SourceLocation, const char *,unsigned int, const char *, ...);
-    Scheat();
+    _Scheat();
     
     friend class Lexer;
-    friend void LegacyScheatParser::LLParse(Scheat *);
+    friend void LegacyScheatParser::LLParse(_Scheat *);
 };
 
 enum class ScheatError : int {

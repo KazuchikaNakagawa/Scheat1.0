@@ -16,7 +16,7 @@ using std::string;
 bool scheat_build(const char *outputPath, const char *option, const char *sourceFilePath, const char *headerSearchPath, const char *librarySearchPath){
     printf("this feture is not available yet.\n");
     // exit(0);
-    Scheat *scheatprj = new Scheat();
+    _Scheat *scheatprj = new _Scheat();
     scheatprj->sourceFile = std::string(sourceFilePath);
     scheatprj->header_search_path = std::string(headerSearchPath);
     scheatprj->library_search_path = string(librarySearchPath);

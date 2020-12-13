@@ -496,7 +496,7 @@ p_unique(Statements) parseStatements(Token*& gltokens){
     return nullptr;
 }
 
-void LegacyScheatParser::LLParse(Scheat *host){
+void LegacyScheatParser::LLParse(_Scheat *host){
     scheato = host;
     std::ofstream f(host->outputFilePath + ".ll");
     if (!f.is_open()) {
@@ -521,6 +521,6 @@ void LegacyScheatParser::LLParse(Scheat *host){
     }
 }
 
-std::vector<std::unique_ptr<Statements>> Parse(Scheat *obj){
+std::vector<std::unique_ptr<Statements>> Parse(_Scheat *obj){
     return {};
 }

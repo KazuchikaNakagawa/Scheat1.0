@@ -94,7 +94,7 @@ Token *Token::first(){
     return cpy;
 }
 
-Lexer::Lexer(scheat::Scheat *host) : location(host->location){
+Lexer::Lexer(scheat::_Scheat *host) : location(host->location){
     buf = "";
     skipFlag = false;
     this->host = host;
@@ -792,14 +792,14 @@ Token *Lexer::eatThisTok(){
     return tokens;
 }
 
-Token *Lexer::lexString(Scheat *sch, std::string sstream){
+Token *Lexer::lexString(_Scheat *sch, std::string sstream){
     Lexer lexer(sch);
     lexer.lex(sstream);
     sch->tokens = lexer.tokens;
     return lexer.tokens;
 }
 
-Token *Lexer::lexThis(Scheat *sch){
+Token *Lexer::lexThis(_Scheat *sch){
     std::ifstream ifs(sch->sourceFile);
     if (!ifs.is_open()) {
         sch->Warning(SourceLocation(), __FILE_NAME__, __LINE__, "file %s does not exists. ", sch->sourceFile.c_str());

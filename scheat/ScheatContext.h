@@ -74,7 +74,7 @@ class ScheatContext {
     static stack<Context *> localcon;
 public:
     static vector<Context *> contextCenter;
-    static void Init(Scheat *);
+    static void Init(_Scheat *);
     static void AddMain();
     static void Shutdown(){ //delete ScheatContext::global;
         

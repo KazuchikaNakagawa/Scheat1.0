@@ -26,7 +26,7 @@
 using namespace scheat;
 using namespace scheat::encoder;
 
-void LLSCEncoder::encodeLL(Scheat *o){
+void LLSCEncoder::encodeLL(_Scheat *o){
     ofstream f(o->outputFilePath + ".ll");
     for (auto cont : ScheatContext::contextCenter) {
         cont->dump(f);
@@ -34,7 +34,7 @@ void LLSCEncoder::encodeLL(Scheat *o){
     f.close();
 }
 
-void LLSCEncoder::encode(Scheat *o){
+void LLSCEncoder::encode(_Scheat *o){
     ofstream f(o->outputFilePath + ".ll");
     for (auto cont : ScheatContext::contextCenter) {
         cont->dump(f);

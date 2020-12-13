@@ -16,7 +16,7 @@ int main(int argc, const char *argv[]){
     // std::cout << argc << std::endl;
     
     if (argc == 1) {
-        scheat::Scheat s;
+        scheat::_Scheat s;
         printf("\033[1mScheat Compiler(C++ Edition)\033[m\n    Scheat's main compiler.\n");
         printf("    version 1.0.%d beta\n", SV_P);
         return 0;
@@ -66,7 +66,7 @@ int main(int argc, const char *argv[]){
     }
     
     if (strcmp(argv[1], "-lex") == 0) {
-        scheat::Scheat sch = scheat::Scheat();
+        scheat::_Scheat sch = scheat::_Scheat();
         
         scheat::lexer::Lexer lexer(&sch);
         if (argc == 2){
@@ -103,7 +103,7 @@ int main(int argc, const char *argv[]){
             string basePath(argv[2]);
             string inFilePath = basePath + ".scheat";
             string outfilePath = basePath;
-            scheat::Scheat sch;
+            scheat::_Scheat sch;
             sch.outputFilePath = outfilePath;
             sch.sourceFile = inFilePath;
             scheat::lexer::Lexer lxr(&sch);

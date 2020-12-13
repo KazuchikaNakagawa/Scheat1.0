@@ -22,7 +22,7 @@ namespace scheat {
 extern std::map<int, std::vector<std::string>> objects;
 extern std::string fname;
 extern Token *mTokens;
-extern Scheat *scheato;
+extern _Scheat *scheato;
 
 
 }

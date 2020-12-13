@@ -91,7 +91,7 @@ public:
     static llvm::LLVMContext context;
     static llvm::IRBuilder<> builder;
     static std::unique_ptr<llvm::Module> module;
-    static scheat::Scheat *host;
+    static scheat::_Scheat *host;
     static void check();
     static void setReady(){
         ready = !ready;

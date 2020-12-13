@@ -8,10 +8,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "ScheatObjects.h"
+#include "ScheatDevelopers.h"
 
-
+using namespace scheat;
 int main(int argc, const char * argv[]) {
+    _Scheat schobj = _Scheat();
     
     return 0;
 }

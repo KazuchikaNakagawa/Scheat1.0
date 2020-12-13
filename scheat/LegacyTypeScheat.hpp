@@ -30,9 +30,9 @@ void CreateMainContext();
 
 }
 
-void LLParse(Scheat *);
+void LLParse(_Scheat *);
 
-std::vector<std::unique_ptr<node::Statements>> Parse(Scheat *);
+std::vector<std::unique_ptr<node::Statements>> Parse(_Scheat *);
 
 }
 

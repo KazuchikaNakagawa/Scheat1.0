@@ -11,12 +11,12 @@
 
 namespace scheat {
 //using scheat::Token;
-class Scheat;
+class _Scheat;
 class Token;
 
 class ScheatLexer {
 public:
-    virtual void lex(Scheat *) {};
+    virtual void lex(_Scheat *) {};
     virtual Token *getNextTok() { return nullptr; };
     virtual Token *eatThisTok() { return nullptr; };
     virtual ~ScheatLexer() {};
@@ -24,13 +24,13 @@ public:
 
 class ScheatAnalyzer {
 public:
-    virtual void analyze(Scheat *);
+    virtual void analyze(_Scheat *);
     ~ScheatAnalyzer() {};
 };
 
 class ScheatEncoder {
 public:
-    virtual void encode(Scheat *);
+    virtual void encode(_Scheat *);
     virtual ~ScheatEncoder() {};
 };
 

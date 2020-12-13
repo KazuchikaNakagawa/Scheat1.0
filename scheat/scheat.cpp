@@ -19,16 +19,16 @@ llvm::IRBuilder<> IRBuilderReplica::builder(IRBuilderReplica::context);
 std::unique_ptr<llvm::Module> IRBuilderReplica::module;
 std::map<std::string, StructureData*> IRContext::types;
 std::map<std::string, VariableData*> IRContext::ids;
-Scheat *IRBuilderReplica::host = nullptr;
+_Scheat *IRBuilderReplica::host = nullptr;
 bool IRBuilderReplica::ready = false;
 
 class scheat::IRBuilder {
     
 public:
-    IRBuilder(scheat::Scheat*, std::string);
+    IRBuilder(scheat::_Scheat*, std::string);
 };
 
-scheat::IRBuilder::IRBuilder(Scheat *obj, std::string modname){
+scheat::IRBuilder::IRBuilder(_Scheat *obj, std::string modname){
     if (IRBuilderReplica::isReady()) {
         return;
     }
@@ -55,7 +55,7 @@ void OldScheat::old_Debug(const char *msg, unsigned int line){
     printf("line%u : %s\n", line, msg);
 }
 
-void Scheat::FatalError(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
+void _Scheat::FatalError(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
     hasError = true;
     if (delegate != nullptr) {
         delegate->fatalError(this,location, targettingFile, fmt);
@@ -102,7 +102,7 @@ void OldScheat::old_FatalError(const char *msg, unsigned int line){
     exit(0);
 }
 
-void Scheat::Warning(SourceLocation location, const char *fn, unsigned int line, const char *format, ...){
+void _Scheat::Warning(SourceLocation location, const char *fn, unsigned int line, const char *format, ...){
     if (delegate != nullptr) {
         delegate->warning(this, location, sourceFile, format);
         return;
@@ -128,7 +128,7 @@ void Scheat::Warning(SourceLocation location, const char *fn, unsigned int line,
     printf("\n");
 }
 
-void Scheat::Log(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
+void _Scheat::Log(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
     if (!debug) {
         return;
     }
@@ -157,7 +157,7 @@ void Scheat::Log(SourceLocation location, const char *fn, unsigned int line, con
     printf("\n");
 }
 
-Scheat::Scheat(){
+_Scheat::_Scheat(){
     debug = false;
     deepDebug = false;
     hasError = false;
@@ -166,7 +166,7 @@ Scheat::Scheat(){
     delegate = nullptr;
 }
 
-void Scheat::DevLog(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
+void _Scheat::DevLog(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
     if (deepDebug) {
         printf("\033[1mLog:\033[m(from %s, line%u)\n in file: %s\n line%u.%u : ",
                fn,

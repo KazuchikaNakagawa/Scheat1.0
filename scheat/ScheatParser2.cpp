@@ -566,7 +566,7 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
 
 
 
-extern void parser2::parse(Scheat *sch,Token *tokens){
+extern void parser2::parse(_Scheat *sch,Token *tokens){
     scheato = sch;
     sch->statements = new DataHolder();
     auto stmts = make_unique<Statements>();

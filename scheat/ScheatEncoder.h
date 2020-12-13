@@ -20,8 +20,8 @@ namespace encoder {
 // Compile scheat to LLVM IR an to object file.
 class LLSCEncoder {
 public:
-    static void encode(Scheat *);
-    static void encodeLL(Scheat *);
+    static void encode(_Scheat *);
+    static void encodeLL(_Scheat *);
 };
 
 class SCVMEncoder {

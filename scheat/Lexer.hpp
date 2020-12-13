@@ -15,7 +15,7 @@
 #include <fstream>
 
 namespace scheat {
-class Scheat;
+class _Scheat;
 class SourceLocation;
 
 namespace lexer {
@@ -34,7 +34,7 @@ enum LexerState {
 class Lexer : public ScheatLexer {
     std::string buf;
     LexerState state;
-    scheat::Scheat *host = nullptr;
+    scheat::_Scheat *host = nullptr;
     SourceLocation &location;
     Token *tokens = nullptr;
     void input(int c, int next);
@@ -47,7 +47,7 @@ public:
     
     // initializer
     // Scheat object for version management
-    Lexer(scheat::Scheat*);
+    Lexer(scheat::_Scheat*);
     
     // lex(ifstream)
     // lex file and return token
@@ -55,10 +55,10 @@ public:
     
     void lex(std::string);
     
-    static Token *lexString(Scheat *, std::string);
+    static Token *lexString(_Scheat *, std::string);
     
-    static Token *lexThis(Scheat *);
-    void lex(Scheat *sch) override {
+    static Token *lexThis(_Scheat *);
+    void lex(_Scheat *sch) override {
         lexThis(sch);
     };
     Token * getNextTok() override;

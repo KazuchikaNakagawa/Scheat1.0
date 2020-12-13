@@ -27,10 +27,10 @@ Context *ScheatContext::main = nullptr;
 std::map<int, std::vector<std::string>> objects = {};
 std::string fname = "";
 Token *mTokens = nullptr;
-Scheat *scheato = nullptr;
+_Scheat *scheato = nullptr;
 IRStream initStream;
 
-void ScheatContext::Init(Scheat *sch){
+void ScheatContext::Init(_Scheat *sch){
     scheato = sch;
     global = new Context();
     global->name = "global";

@@ -16,7 +16,7 @@ struct SourceLocation;
 
 class ScheatDelegate;
 
-class Scheat;
+class _Scheat;
 
 class IRBuilder;
 
