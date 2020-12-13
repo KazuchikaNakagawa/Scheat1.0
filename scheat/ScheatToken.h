@@ -11,6 +11,16 @@
 
 namespace scheat {
 
+struct SourceLocation {
+    int line;
+    int column;
+    SourceLocation(){
+        line = 1;
+        column = 0;
+    }
+    ~SourceLocation() = default;
+};
+
 enum class TokenKind : int {
     
     val_identifier,

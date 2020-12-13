@@ -9,9 +9,11 @@
 #define ScheatContextStructures_h
 #include <vector>
 #include <string>
+#include "ScheatTypes.h"
 
 namespace scheat {
 class Context;
+using namespace std;
 
 class IRStream {
 public:

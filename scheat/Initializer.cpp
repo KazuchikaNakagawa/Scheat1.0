@@ -7,11 +7,8 @@
 
 #include <stdio.h>
 #include "Initializers.h"
-#include "ScheatBasicStructures.h"
-//using scheat::statics::ScheatContext::contextCenter;
+#include "ScheatTypes.h"
 using namespace scheat::statics;
-//using scheat::statics::ScheatContext::main;
-//using scheat::statics::ScheatContextData::local();
 using scheat::statics::objects;
 using scheat::statics::fname;
 using scheat::statics::mTokens;

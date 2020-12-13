@@ -21,7 +21,6 @@ namespace statics {
 
 using namespace scheat;
 using namespace scheat::statics;
-using namespace scheat::basics;
 
 //std::vector<Context *> ScheatContext::contextCenter = {};
 //Context *ScheatContext::global = nullptr;

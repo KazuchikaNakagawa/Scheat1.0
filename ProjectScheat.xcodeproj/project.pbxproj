@@ -708,7 +708,6 @@
 		826265942527652900E71311 /* Classes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Classes.h; sourceTree = "<group>"; };
 		826720A524F64ADB00C94D22 /* ScheatNodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatNodes.h; sourceTree = "<group>"; };
 		826720A624F64B8200C94D22 /* ScheatContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatContext.h; sourceTree = "<group>"; };
-		826720A724F64C4300C94D22 /* ScheatBasicStructures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatBasicStructures.h; sourceTree = "<group>"; };
 		826720A824F7CA1200C94D22 /* ScheatEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatEngine.h; sourceTree = "<group>"; };
 		826720D024F7D4DA00C94D22 /* libFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		826720D524F7D52A00C94D22 /* ScheatCFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatCFoundation.h; sourceTree = "<group>"; };
@@ -1297,14 +1296,14 @@
 			children = (
 				82B8CB6D2585C0180034820D /* ScheatTypes.h */,
 				82B8CB602585BF0F0034820D /* ScheatToken.h */,
+				826720A624F64B8200C94D22 /* ScheatContext.h */,
+				82B8CB7A2585C0C30034820D /* ScheatContextStructures.h */,
 				829849ED24D2DA20004A7A64 /* scheat.h */,
 				826720E924F9042E00C94D22 /* ScheatObjects.h */,
-				826720A724F64C4300C94D22 /* ScheatBasicStructures.h */,
 				829CD922251F26B600139E5F /* ScheatParser2.h */,
 				826265942527652900E71311 /* Classes.h */,
 				82FF1F3D2556317E0047DEF4 /* Initializers.h */,
 				829CD926251F28A900139E5F /* Nodes2.h */,
-				826720A624F64B8200C94D22 /* ScheatContext.h */,
 				8262653025275F4700E71311 /* ScheatEncoder.h */,
 				826720A524F64ADB00C94D22 /* ScheatNodes.h */,
 				8283093524F93BEE006EFFEA /* CScheat.h */,
@@ -1328,7 +1327,6 @@
 				8214272625456D530084CBA4 /* ProjectPlebs.h */,
 				8224EB222568D32F00581ABC /* ProjectPlebs.cpp */,
 				82FF1F3E255631A90047DEF4 /* Initializer.cpp */,
-				82B8CB7A2585C0C30034820D /* ScheatContextStructures.h */,
 			);
 			path = scheat;
 			sourceTree = "<group>";

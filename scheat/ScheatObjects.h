@@ -23,16 +23,6 @@ extern void LLParse(Scheat *);
 
 using namespace std;
 
-struct SourceLocation {
-    int line;
-    int column;
-    SourceLocation(){
-        line = 1;
-        column = 0;
-    }
-    ~SourceLocation() = default;
-};
-
 struct DebugOption {
     bool enableDebug;
     bool developerMode;

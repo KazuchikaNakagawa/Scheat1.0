@@ -7,8 +7,8 @@
 
 #ifndef ScheatContext_h
 #define ScheatContext_h
-#include "ScheatBasicStructures.h"
 #include "ScheatContextStructures.h"
+#include "ScheatObjects.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -66,6 +66,28 @@ public:
     
     static Context *create(std::string name, Context *parents = nullptr);
 };
+
+class Context;
+
+namespace statics{
+class ScheatContext {
+    static stack<Context *> localcon;
+public:
+    static vector<Context *> contextCenter;
+    static void Init(Scheat *);
+    static void AddMain();
+    static void Shutdown(){ //delete ScheatContext::global;
+        
+    };
+    static Context *main;
+    static Context *global;
+    static Context *init;
+    static Context *local();
+    static void push(Context *c) { localcon.push(c); };
+    static void pop() { localcon.pop(); };
+    static void printout();
+};
+}
 
 }
 
