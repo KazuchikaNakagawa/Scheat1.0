@@ -10,7 +10,10 @@
 #include <cstdarg>
 #include "scheat.h"
 #include "ScheatObjects.h"
+#include "ScheatContextStructures.h"
 #include "scheatPriv.hpp"
+#include "ScheatStatics.h"
+#include "ScheatContext.h"
 
 using namespace scheat;
 
@@ -46,6 +49,10 @@ void IRBuilderReplica::check(){
         }
         exit(0);
     }
+}
+
+bool Scheat::hasProbrem() const{
+    return schobj->hasProbrem();
 }
 
 void OldScheat::old_Debug(const char *msg, unsigned int line){
@@ -164,6 +171,15 @@ _Scheat::_Scheat(){
     targettingFile = "";
     location = SourceLocation();
     delegate = nullptr;
+}
+
+Scheat::Scheat(){
+    debug = false;
+    deepDebug = false;
+    targettingFile = "";
+    delegate = nullptr;
+    scheato = new _Scheat(this);
+    ScheatContext::Init(scheato);
 }
 
 void _Scheat::DevLog(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){

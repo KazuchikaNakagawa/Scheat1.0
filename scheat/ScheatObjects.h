@@ -11,6 +11,7 @@
 #include <vector>
 #include <type_traits>
 #include "ScheatToken.h"
+#include "scheat.h"
 
 #define SV_P 15
 namespace scheat {
@@ -68,7 +69,7 @@ public:
     scheat::Token *tokens;
     std::string sourceFile = "";
     std::string targettingFile;
-    std::string outputFilePath;co
+    std::string outputFilePath;
     std::string target;
     std::string datalayout;
     std::string header_search_path;
@@ -91,7 +92,20 @@ public:
     void Warning(SourceLocation, const char *,unsigned int, const char *, ...);
     void DevLog(SourceLocation, const char *,unsigned int, const char *, ...);
     _Scheat();
-    
+    _Scheat(Scheat *sch){
+        debug = sch->debug;
+        deepDebug = sch->deepDebug;
+        sch->schobj = this;
+        sourceFile = sch->sourceFile;
+        targettingFile = sch->targettingFile;
+        outputFilePath = sch->outputFilePath;
+        target = sch->target;
+        datalayout = sch->datalayout;
+        header_search_path = sch->header_search_path;
+        library_search_path = sch->library_search_path;
+        delegate = sch->delegate;
+    }
+    void include(string filename) { Warning(SourceLocation(), __FILE_NAME__, __LINE__, "this feature is not available yet."); };
     friend class Lexer;
     friend void LegacyScheatParser::LLParse(_Scheat *);
 };
