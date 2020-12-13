@@ -12,6 +12,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <stack>
 namespace scheat{
 using namespace std;
 //using namespace basics;
@@ -69,7 +70,6 @@ public:
 
 class Context;
 
-namespace statics{
 class ScheatContext {
     static stack<Context *> localcon;
 public:
@@ -87,7 +87,6 @@ public:
     static void pop() { localcon.pop(); };
     static void printout();
 };
-}
 
 }
 

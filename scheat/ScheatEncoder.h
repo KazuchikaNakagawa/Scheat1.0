@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "Nodes2.h"
+#include "ScheatObjects.h"
 
 namespace scheat {
 

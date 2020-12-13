@@ -11,12 +11,6 @@
 using namespace scheat;
 using namespace scheat::nodes2;
 using namespace std;
-using namespace basics;
-using namespace scheat::statics;
-using scheat::statics::objects;
-using scheat::statics::fname;
-using scheat::statics::mTokens;
-using scheat::statics::scheato;
 
 static TypeData asPointer(TypeData ty){
     return TypeData("the " + ty.name, ty.ir_used + "*");

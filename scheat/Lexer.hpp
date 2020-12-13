@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 #include "ScheatObjects.h"
-#include "ScheatBasicStructures.h"
+#include "ScheatToken.h"
 #include "Classes.h"
 #include <fstream>
 

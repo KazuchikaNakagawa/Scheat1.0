@@ -7,7 +7,6 @@
 
 #include <stdio.h>
 #include "ScheatContext.h"
-#include "ScheatBasicStructures.h"
 #include "ScheatStatics.h"
 #include "ScheatNodes.h"
 #include <string>
@@ -16,10 +15,7 @@
 #include <map>
 
 using namespace scheat;
-using namespace scheat::basics;
 using namespace scheat::node;
-using namespace statics;
-using statics::scheato;
 
 Class *Context::findClass(std::string key){
     return classes[key];

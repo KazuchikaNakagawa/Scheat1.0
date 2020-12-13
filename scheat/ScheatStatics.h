@@ -18,14 +18,12 @@
 
 namespace scheat {
 
-namespace statics {
 
 extern std::map<int, std::vector<std::string>> objects;
 extern std::string fname;
 extern Token *mTokens;
 extern Scheat *scheato;
 
-}
 
 }
 

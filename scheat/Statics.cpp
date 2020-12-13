@@ -17,10 +17,8 @@
 
 namespace scheat {
 
-namespace statics {
 
 using namespace scheat;
-using namespace scheat::statics;
 
 //std::vector<Context *> ScheatContext::contextCenter = {};
 //Context *ScheatContext::global = nullptr;
@@ -72,24 +70,24 @@ void ScheatContext::Init(Scheat *sch){
     auto Int = new Class(new TypeData("i32"));
     Int->context->name = "Int";
     auto opadd = new Operator("+", "add");
-    opadd->position = basics::infix;
-    opadd->precidence = basics::secondary;
+    opadd->position = infix;
+    opadd->precidence = secondary;
     opadd->return_type = TypeData("Int", "i32");
     opadd->lhs_type = &TypeData::IntType;
     opadd->rhs_type = &TypeData::IntType;
     Int->operators["+"] = opadd;
     
     auto opsub = new Operator("-", "sub");
-    opsub->position = basics::infix;
-    opsub->precidence = basics::secondary;
+    opsub->position = infix;
+    opsub->precidence = secondary;
     opsub->return_type = TypeData("Int", "i32");
     opsub->lhs_type = &TypeData::IntType;
     opsub->rhs_type = &TypeData::IntType;
     Int->operators["-"] = opsub;
     
     auto opmul = new Operator("*", "mul");
-    opmul->position = basics::infix;
-    opmul->precidence = basics::primary;
+    opmul->position = infix;
+    opmul->precidence = primary;
     opmul->return_type = TypeData("Int", "i32");
     opmul->lhs_type = &TypeData::IntType;
     opmul->rhs_type = &TypeData::IntType;
@@ -140,6 +138,5 @@ Context *ScheatContext::global = nullptr;
 vector<Context *> ScheatContext::contextCenter = {};
 Context *ScheatContext::init = nullptr;
 
-}
 
 }

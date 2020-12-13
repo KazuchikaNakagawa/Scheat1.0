@@ -7,7 +7,6 @@
 
 #include <stdio.h>
 #include "ScheatNodes.h"
-#include "ScheatBasicStructures.h"
 #include "ScheatStatics.h"
 #include "LegacyTypeScheat.hpp"
 #include <fstream>
@@ -20,13 +19,7 @@
 
 using namespace scheat::LegacyScheatParser;
 using namespace scheat;
-using namespace scheat::basics;
 using namespace scheat::node;
-using namespace scheat::statics;
-using scheat::statics::objects;
-using scheat::statics::fname;
-using scheat::statics::mTokens;
-using scheat::statics::scheato;
 using std::string;
 
 static void getNextTok(){

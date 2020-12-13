@@ -8,11 +8,6 @@
 #include <stdio.h>
 #include "Initializers.h"
 #include "ScheatTypes.h"
-using namespace scheat::statics;
-using scheat::statics::objects;
-using scheat::statics::fname;
-using scheat::statics::mTokens;
-using scheat::statics::scheato;
 
 void scheat::InitializeAll(){
     InitializeGlobals();
@@ -82,24 +77,24 @@ void scheat::InitializeFoundationClass(){
     auto Int = new Class(new TypeData("i32"));
     Int->context->name = "Int";
     auto opadd = new Operator("+", "add");
-    opadd->position = basics::infix;
-    opadd->precidence = basics::secondary;
+    opadd->position = infix;
+    opadd->precidence = secondary;
     opadd->return_type = TypeData("Int", "i32");
     opadd->lhs_type = &IntType;
     opadd->rhs_type = &IntType;
     Int->operators["+"] = opadd;
     
     auto opsub = new Operator("-", "sub");
-    opsub->position = basics::infix;
-    opsub->precidence = basics::secondary;
+    opsub->position = infix;
+    opsub->precidence = secondary;
     opsub->return_type = TypeData("Int", "i32");
     opsub->lhs_type = &IntType;
     opsub->rhs_type = &IntType;
     Int->operators["-"] = opsub;
     
     auto opmul = new Operator("*", "mul");
-    opmul->position = basics::infix;
-    opmul->precidence = basics::primary;
+    opmul->position = infix;
+    opmul->precidence = primary;
     opmul->return_type = TypeData("Int", "i32");
     opmul->lhs_type = &IntType;
     opmul->rhs_type = &IntType;

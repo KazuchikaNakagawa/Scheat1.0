@@ -5,14 +5,17 @@
 //  Created by かずちか on 2020/07/31.
 //
 
-#include "scheat.h"
-#include "ScheatBasicStructures.h"
+#include "ScheatToken.h"
+#include "Lexer.hpp"
+#include "ScheatObjects.h"
+#include "ScheatStatics.h"
 
 using namespace scheat;
 using namespace scheat::lexer;
 
 std::string Token::encodeOperator(){
     if (kind != TokenKind::val_operator) {
+        scheato->Warning(SourceLocation(), __FILE_NAME__, __LINE__, "token was tried to encoded though it was not an operator");
         return "__NON_OPERATOR_ENCODED__";
     }
     std::string result = "";
@@ -748,7 +751,7 @@ void Lexer::lex(std::string str){
     }
 }
 
-std::string basics::Function::codegen(IRStream &f){
+std::string Function::codegen(IRStream &f){
     f << "define " << return_type.ir_used << " @" << name << "(";
     int i = 0;
     for (auto arg = argTypes.begin(); arg != argTypes.end(); arg = std::next(arg)) {

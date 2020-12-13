@@ -10,13 +10,14 @@
 
 #include <stdio.h>
 #include <string>
-//#include "ScheatObjects.h"
+#include "ScheatTypes.h"
+#include "ScheatToken.h"
+#include "ScheatContextStructures.h"
 
 namespace scheat {
 using namespace std;
-
+struct SourceLocation;
 namespace nodes2 {
-using namespace scheat::basics;
 class Value {
 public:
     TypeData type;

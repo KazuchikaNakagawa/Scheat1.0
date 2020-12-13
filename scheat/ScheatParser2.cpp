@@ -25,14 +25,8 @@
 
 using namespace std;
 using namespace scheat;
-using namespace basics;
 using namespace nodes2;
 using namespace parser2;
-using namespace scheat::statics;
-using scheat::statics::objects;
-using scheat::statics::fname;
-using scheat::statics::mTokens;
-using scheat::statics::scheato;
 
 unique_ptr<StatementNode> parseStatement_single(Token *&);
 

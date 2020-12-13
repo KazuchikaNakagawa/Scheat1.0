@@ -20,7 +20,7 @@ void scheat::Tokens::back(){
 void scheat::eatThis(scheat::Token *&tokref){
     tokref = tokref->next;
     if (tokref == nullptr) {
-        statics::scheato->Log(statics::scheato->location, __FILE_NAME__, __LINE__, "Lex ended");
+        scheato->Log(scheato->location, __FILE_NAME__, __LINE__, "Lex ended");
         
     }
 }

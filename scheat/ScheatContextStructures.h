@@ -9,6 +9,7 @@
 #define ScheatContextStructures_h
 #include <vector>
 #include <string>
+#include <map>
 #include "ScheatTypes.h"
 
 namespace scheat {
