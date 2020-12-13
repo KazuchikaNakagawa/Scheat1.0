@@ -11,14 +11,13 @@
 #include <stdio.h>
 #include <string>
 #include "ScheatBasicStructures.h"
-#include "ScheatObjects.h"
+//#include "ScheatObjects.h"
 
 namespace scheat {
 using namespace std;
-using namespace basics;
 
 namespace nodes2 {
-
+using namespace scheat::basics;
 class Value {
 public:
     TypeData type;

@@ -16,6 +16,7 @@
 
 namespace scheat {
 class Scheat;
+class SourceLocation;
 
 namespace lexer {
 enum LexerState {
@@ -60,30 +61,15 @@ public:
     void lex(Scheat *sch) override {
         lexThis(sch);
     };
-    Token * getNextTok() override{
-        tokens = tokens->next;
-        return tokens;
-    }
-    Token * eatThisTok() override{
-        tokens = tokens->next;
-        return tokens;
-    }
+    Token * getNextTok() override;
+    Token * eatThisTok() override;
     // this function has fatal probrem
     // void addToken();
     void clear();
     
-    void clearTokens() {
-        if (tokens == nullptr) {
-            return;
-        }
-        tokens->release();
-        tokens = nullptr;
-        state = initState;
-        buf = "";
-        commentDepth = 0;
-    }
+    void clearTokens() ;
     
-    Token *getTokens() { return tokens->first(); };
+    Token *getTokens();
 };
 
 }

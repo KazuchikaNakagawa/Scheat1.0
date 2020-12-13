@@ -747,6 +747,7 @@
 		82AEB66D24DC3E3500889AC3 /* ScheatIR_Hidd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatIR_Hidd.hpp; sourceTree = "<group>"; };
 		82AEB66E24DC3EFD00889AC3 /* ScheatIR.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatIR.cpp; sourceTree = "<group>"; };
 		82B3FB072507729F007594A9 /* ScheatRun2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatRun2.cpp; sourceTree = "<group>"; };
+		82B8CB602585BF0F0034820D /* ScheatToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatToken.h; sourceTree = "<group>"; };
 		82D6F4D024F3EE240003D0EA /* libScheatARC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatARC.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARC.hpp; sourceTree = "<group>"; };
 		82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatARCPriv.hpp; sourceTree = "<group>"; };
@@ -1292,6 +1293,7 @@
 		829849EC24D2DA20004A7A64 /* scheat */ = {
 			isa = PBXGroup;
 			children = (
+				82B8CB602585BF0F0034820D /* ScheatToken.h */,
 				829849ED24D2DA20004A7A64 /* scheat.h */,
 				826720E924F9042E00C94D22 /* ScheatObjects.h */,
 				826720A724F64C4300C94D22 /* ScheatBasicStructures.h */,

@@ -766,6 +766,29 @@ std::string basics::Function::codegen(IRStream &f){
     return getMangledName();
 }
 
+void Lexer::clearTokens(){
+    if (tokens == nullptr) {
+        return;
+    }
+    tokens->release();
+    tokens = nullptr;
+    state = initState;
+    buf = "";
+    commentDepth = 0;
+}
+
+Token *Lexer::getTokens(){ return tokens->first(); }
+
+Token *Lexer::getNextTok(){
+    tokens = tokens->next;
+    return tokens;
+}
+
+Token *Lexer::eatThisTok(){
+    tokens = tokens->next;
+    return tokens;
+}
+
 Token *Lexer::lexString(Scheat *sch, std::string sstream){
     Lexer lexer(sch);
     lexer.lex(sstream);

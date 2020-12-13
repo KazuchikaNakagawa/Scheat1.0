@@ -16,6 +16,10 @@
 
 namespace scheat{
 
+namespace node {
+class Statements;
+};
+
 namespace LegacyScheatParser {
 
 namespace E9 {

@@ -11,7 +11,10 @@
 #include "ScheatObjects.h"
 
 namespace scheat {
-using scheat::Token;
+//using scheat::Token;
+class Scheat;
+class Token;
+
 class ScheatLexer {
 public:
     virtual void lex(Scheat *) {};
