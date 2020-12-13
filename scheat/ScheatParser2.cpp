@@ -607,7 +607,9 @@ extern void parser2::parse(Scheat *sch,Token *tokens){
 
 static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
     unique_ptr<NewIdentifierExpr> ptr = nullptr;
-    
+    if (tok->kind == scheat::TokenKind::tok_this) {
+        eatThis(tok);
+    }
     if (tok->kind == scheat::TokenKind::val_identifier) {
         ptr = NewIdentifierExpr::init(tok->location, tok->value.strValue, nullptr);
         eatThis(tok);
@@ -644,7 +646,7 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
         }
         sts = make_unique<Statement>(move(sts));
     }
-    return nullptr;
+    return sts;
 }
 
 static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
@@ -668,13 +670,20 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
     }
     eatThis(tok);
     auto val = parseExpr(tok);
-    return nullptr;
+    if (!val) {
+        return nullptr;
+    }
+    auto stmtptr = DeclareVariableStatement::init(move(name), move(val));
+    return stmtptr;
 }
 
 extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     // statement : this id is expr.
+    if (tokens == nullptr) {
+        return nullptr;
+    }
     if (tokens->kind == TokenKind::tok_this) {
-        // return parseDeclareVariableStatement(tokens);
+        return parseDeclareVariableStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::val_identifier) {
         // return parseFunctionCallStatement(tokens);

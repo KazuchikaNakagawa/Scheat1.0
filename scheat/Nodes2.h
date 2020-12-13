@@ -492,7 +492,14 @@ public:
     unique_ptr<StatementNode> statement;
     Token *perTok;
     unique_ptr<Statement> stmt;
-    Value * codegen(IRStream &) override { return nullptr; };
+    Value * codegen(IRStream &f) override {
+        statement->codegen(f);
+        if (stmt != nullptr) {
+            stmt->codegen(f);
+        }
+        return nullptr;
+        
+    };
     string userdump() override{ return "UNDEFINED"; };
     Statement() {};
     Statement(unique_ptr<Statement> stn){

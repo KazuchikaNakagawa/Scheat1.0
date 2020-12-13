@@ -8,9 +8,10 @@
 #ifndef Classes_h
 #define Classes_h
 #include "ScheatBasicStructures.h"
+#include "ScheatObjects.h"
 
 namespace scheat {
-
+using scheat::Token;
 class ScheatLexer {
 public:
     virtual void lex(Scheat *) {};

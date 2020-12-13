@@ -12,6 +12,7 @@
 #include <string>
 #include "ScheatNodes.h"
 #include "ScheatContext.h"
+#include "Classes.h"
 #include "ScheatStatics.h"
 
 namespace scheat {
@@ -35,7 +36,7 @@ IRStream initStream;
 void ScheatContext::Init(Scheat *sch){
     scheato = sch;
     global = new Context();
-    global->name = "Global";
+    global->name = "global";
     localcon.push(ScheatContext::global);
     contextCenter.push_back(ScheatContext::global);
     global->stream_entry << "source_filename = \"" << scheato->sourceFile << "\"\n";
@@ -62,17 +63,55 @@ void ScheatContext::Init(Scheat *sch){
     global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global->stream_body << "declare %Array @Array_init(i64)\n";
     Function *initf = new Function("void", "main");
-    initf->context->stream_entry << "declare void @init(){\n";
+    initf->context->stream_entry << "declare void @" << scheato->sourceFile << "init(){\n";
     initf->context->stream_tail << "ret void\n}\n";
     contextCenter.push_back(initf->context);
     init = initf->context;
+    ScheatContext::global->addFunction(scheato->sourceFile + "_init", initf);
     ScheatContext::main = nullptr;
     mTokens = nullptr;
+    auto Int = new Class(new TypeData("i32"));
+    Int->context->name = "Int";
+    auto opadd = new Operator("+", "add");
+    opadd->position = basics::infix;
+    opadd->precidence = basics::secondary;
+    opadd->return_type = TypeData("Int", "i32");
+    opadd->lhs_type = &TypeData::IntType;
+    opadd->rhs_type = &TypeData::IntType;
+    Int->operators["+"] = opadd;
+    
+    auto opsub = new Operator("-", "sub");
+    opsub->position = basics::infix;
+    opsub->precidence = basics::secondary;
+    opsub->return_type = TypeData("Int", "i32");
+    opsub->lhs_type = &TypeData::IntType;
+    opsub->rhs_type = &TypeData::IntType;
+    Int->operators["-"] = opsub;
+    
+    auto opmul = new Operator("*", "mul");
+    opmul->position = basics::infix;
+    opmul->precidence = basics::primary;
+    opmul->return_type = TypeData("Int", "i32");
+    opmul->lhs_type = &TypeData::IntType;
+    opmul->rhs_type = &TypeData::IntType;
+    Int->operators["*"] = opmul;
+    
+    ScheatContext::global->addClass("Int", Int);
+    auto String = new Class(new TypeData("String"));
+    ScheatContext::global->addClass("String", String);
 }
 
 Context *ScheatContext::local(){
     
     return localcon.top();
+}
+
+void ScheatContext::printout(){
+    for (auto c : contextCenter) {
+        c->stream_entry.printout();
+        c->stream_body.printout();
+        c->stream_tail.printout();
+    }
 }
 
 void ScheatContext::AddMain(){
@@ -87,7 +126,9 @@ void ScheatContext::AddMain(){
     Variable *argv = new Variable("argv", TypeData("i8**"));
     ScheatContext::main->addVariable("argv", argv);
     mainf->codegen(ScheatContext::main->stream_entry);
-    ScheatContext::main->stream_body << "entry:\n";
+    ScheatContext::push(ScheatContext::main);
+    ScheatContext::main->stream_entry << "entry:\n";
+    ScheatContext::main->stream_entry << "call void() @" << scheato->sourceFile + "_init()\n";
     ScheatContext::main->stream_body << "%argc = alloca i32\n";
     ScheatContext::main->stream_body << "%argv = alloca i8**\n";
     ScheatContext::main->stream_body << "store i32 %0, i32* %argc\n";
@@ -95,8 +136,8 @@ void ScheatContext::AddMain(){
     ScheatContext::main->stream_tail << "ret i32 0\n}\n";
 }
 
-stack<Context *> ScheatContext::localcon = {};
-Context *ScheatContext::global;
+stack<Context *> ScheatContext::localcon;
+Context *ScheatContext::global = nullptr;
 vector<Context *> ScheatContext::contextCenter = {};
 Context *ScheatContext::init = nullptr;
 

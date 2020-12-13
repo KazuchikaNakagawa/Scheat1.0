@@ -17,19 +17,22 @@ int main(int argc, const char * argv[]) {
     schprj->sourceFile = "test.scheat";
     schprj->outputFilePath = "/Users/kaz04/ScheatTest/test";
     schprj->allowDeepDebug(true);
-    schprj->debugSet(true);
+    schprj->setDebugSetting(true);
     scheat::statics::scheato = schprj;
     //scheat::LegacyScheatParser::LLParse(schprj);
     scheat::lexer::Lexer lxr(schprj);
-    scheat::InitializeAll();
-    scheat::InitializeFoundationClass();
-    lxr.lex("id.  ");
+    //scheat::InitializeAll();
+    //scheat::InitializeFoundationClass();
+    lxr.lex("this i is 7 + 8 + 2. ");
     auto tokens = lxr.getTokens();
     tokens->enumerate();
-    auto ptr = scheat::parser2::parseExpr(tokens);
-    scheat::IRStream f;
-    ptr->codegen(f);
-    f.printout();
+    scheat::statics::ScheatContext::Init(schprj);
+    scheat::statics::ScheatContext::AddMain();
+    
+    auto ptr = scheat::parser2::parseStatement(tokens);
+    
+    ptr->codegen(scheat::statics::ScheatContext::main->stream_body);
+    scheat::statics::ScheatContext::printout();
     return 0;
 }
 

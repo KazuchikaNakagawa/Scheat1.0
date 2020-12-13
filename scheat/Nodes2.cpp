@@ -727,6 +727,25 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
         // global function
         
         if (value->type.name == "Int") {
+            ScheatContext::global->stream_entry << "@" << name << " = global i32 0\n";
+            auto ff = ScheatContext::global->findFunc(ScheatContext::global->name + "_init");
+            if (!ff) {
+                scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
+                return nullptr;
+            }
+            ScheatContext::push(ff->context);
+            auto v = value->codegen(ff->context->stream_body);
+            
+            ff->context->stream_body << "store i32 " << v->value << ", i32* " << "@" << name << "\n";
+            ScheatContext::pop();
+            return nullptr;
+            
+        }else if (value->type.name == "String"){
+            
+        }
+        
+    }else if (ScheatContext::local()->name == "global"){
+        if (value->type.name == "Int") {
             f << "@" << name << " = global i32 0\n";
             auto ff = ScheatContext::global->findFunc(ScheatContext::global->name + "_init");
             if (!ff) {
@@ -739,7 +758,6 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
         }else if (value->type.name == "String"){
             
         }
-        
     }
     return nullptr;
 }

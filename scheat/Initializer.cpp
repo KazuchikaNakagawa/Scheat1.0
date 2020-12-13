@@ -51,7 +51,7 @@ void scheat::InitializeGlobals(){
     ScheatContext::global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     ScheatContext::global->stream_body << "declare %Array @Array_init(i64)\n";
     Function *initf = new Function("void", "main");
-    initf->context->stream_entry << "define void @" << scheato->outputFilePath << "init(){\n";
+    initf->context->stream_entry << "define void @" << scheato->sourceFile << "_init(){\n";
     initf->context->stream_tail << "ret void\n}\n";
     ScheatContext::contextCenter.push_back(initf->context);
     ScheatContext::main = nullptr;

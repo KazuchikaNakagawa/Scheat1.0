@@ -7,33 +7,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9E6405B9-8C47-43FB-9D48-2B7B8FC7B18A"
+            uuid = "37646028-0C97-4603-83C4-80FD473A7E02"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "scheat/Nodes2.h"
+            filePath = "TestScheat/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
-            landmarkName = "FunctionAttributeExpr"
-            landmarkType = "3">
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "main(argc, argv)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3E40AA21-F377-40FE-A749-8B608E170174"
+            uuid = "2B835ADC-7332-4ED8-AD3B-95BC1D420EF7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "scheat/Nodes2.h"
+            filePath = "scheat/Nodes2.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
-            landmarkName = "FunctionAttributeExpr"
-            landmarkType = "3">
+            startingLineNumber = "749"
+            endingLineNumber = "749"
+            landmarkName = "DeclareVariableStatement::codegen(f)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

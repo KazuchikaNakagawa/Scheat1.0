@@ -21,6 +21,9 @@ using namespace scheat;
 using namespace scheat::basics;
 using namespace scheat::node;
 
+TypeData TypeData::IntType = TypeData("Int", "i32");
+TypeData TypeData::StringType = TypeData("String", "%String");
+
 std::string Function::getMangledName(){
     std::string base = "@" + return_type.mangledName() + "_";
     for (int i = 0; i < argTypes.size(); i++) {

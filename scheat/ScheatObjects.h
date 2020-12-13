@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <type_traits>
+#include "scheat.h"
 
 #define SV_P 15
 namespace scheat {
@@ -84,7 +85,7 @@ public:
     std::string library_search_path;
     ScheatDelegate *delegate = nullptr;
     DataHolder *statements = nullptr;
-    void debugSet(bool o) {
+    void setDebugSetting(bool o) {
         debug = o;
     };
     void allowDeepDebug(bool b){

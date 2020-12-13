@@ -48,6 +48,8 @@ public:
         name = "";
     }
     
+    Context(const Context &con) = default;
+    
     pair<string, string> getIfLabel(){
         ifnum++;
         return make_pair("if" + to_string(ifnum), "else" + to_string(ifnum));
