@@ -7,7 +7,8 @@
 
 #include <stdio.h>
 #include "CScheat.h"
-#include "scheat.h"
+#include "ScheatObjects.h"
+#include "Lexer.hpp"
 
 using namespace scheat;
 using std::string;

@@ -1294,6 +1294,7 @@
 		829849EC24D2DA20004A7A64 /* scheat */ = {
 			isa = PBXGroup;
 			children = (
+				829849ED24D2DA20004A7A64 /* scheat.h */,
 				82B8CB6D2585C0180034820D /* ScheatTypes.h */,
 				82806DD3250E11080010F012 /* ScheatStatics.h */,
 				82B8CB602585BF0F0034820D /* ScheatToken.h */,
@@ -1302,7 +1303,6 @@
 				826720E924F9042E00C94D22 /* ScheatObjects.h */,
 				82B8CB7A2585C0C30034820D /* ScheatContextStructures.h */,
 				82ECF52D24D3A72900EB8316 /* Lexer.hpp */,
-				829849ED24D2DA20004A7A64 /* scheat.h */,
 				829CD922251F26B600139E5F /* ScheatParser2.h */,
 				826265942527652900E71311 /* Classes.h */,
 				82FF1F3D2556317E0047DEF4 /* Initializers.h */,

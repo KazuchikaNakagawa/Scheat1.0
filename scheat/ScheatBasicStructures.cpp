@@ -18,7 +18,6 @@
 
 using namespace scheat::LegacyScheatParser;
 using namespace scheat;
-using namespace scheat::basics;
 using namespace scheat::node;
 
 TypeData TypeData::IntType = TypeData("Int", "i32");
@@ -44,7 +43,7 @@ Operator *Class::findOperator(string key){
     return iter->second;
 }
 
-std::string basics::Function::lltype(){
+std::string Function::lltype(){
     std::string base = return_type.mangledName() + "(";
     for (int i = 0; i < argTypes.size(); i++) {
         base = base + argTypes[i].mangledName();

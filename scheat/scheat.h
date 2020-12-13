@@ -8,13 +8,6 @@
 #ifndef scheat_
 #define scheat_
 
-#include "Lexer.hpp"
-//#include "ScheatObjects.h"
-#include "LegacyTypeScheat.hpp"
-#include "ScheatParser2.h"
-#include "Initializers.h"
-#include "ScheatEncoder.h"
-#include "Classes.h"
 #pragma GCC visibility push(default)
 
 namespace scheat{
@@ -26,10 +19,6 @@ class ScheatDelegate;
 class Scheat;
 
 class IRBuilder;
-
-extern void LegacyScheatParser::LLParse(Scheat *);
-
-extern void parser2::parse(Scheat *, Token *);
 
 }
 

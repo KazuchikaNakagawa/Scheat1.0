@@ -25,7 +25,6 @@
 
 using namespace scheat;
 using namespace scheat::encoder;
-using namespace statics;
 
 void LLSCEncoder::encodeLL(Scheat *o){
     ofstream f(o->outputFilePath + ".ll");

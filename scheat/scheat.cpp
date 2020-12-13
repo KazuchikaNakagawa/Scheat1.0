@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <cstdarg>
 #include "scheat.h"
+#include "ScheatObjects.h"
 #include "scheatPriv.hpp"
 
 using namespace scheat;

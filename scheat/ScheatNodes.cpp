@@ -23,17 +23,7 @@
 using namespace std;
 using namespace scheat::LegacyScheatParser;
 using namespace scheat;
-using namespace scheat::basics;
 using namespace scheat::node;
-//using scheat::statics::ScheatContext::contextCenter;
-//using scheat::statics::ScheatContextData::global;
-//using scheat::statics::ScheatContext::main;
-using namespace scheat::statics;
-//using scheat::statics::ScheatContextData::local();
-using scheat::statics::objects;
-using scheat::statics::fname;
-using scheat::statics::mTokens;
-using scheat::statics::scheato;
 
 //static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
 //    if (data->size.ir_used[0] == '%') {
