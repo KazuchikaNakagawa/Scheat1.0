@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 #include <type_traits>
-#include "scheat.h"
+#include "ScheatToken.h"
 
 #define SV_P 15
 namespace scheat {

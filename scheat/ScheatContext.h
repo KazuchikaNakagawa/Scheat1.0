@@ -8,12 +8,13 @@
 #ifndef ScheatContext_h
 #define ScheatContext_h
 #include "ScheatBasicStructures.h"
+#include "ScheatContextStructures.h"
 #include <map>
 #include <vector>
 #include <string>
 namespace scheat{
 using namespace std;
-using namespace basics;
+//using namespace basics;
 
 class Context {
     unsigned int rnum;
