@@ -10,11 +10,27 @@
 #include <string>
 #pragma GCC visibility push(default)
 
+#include "Classes.h"
 namespace scheat{
 
 struct SourceLocation;
 
-class ScheatDelegate;
+class _Scheat;
+
+class ScheatDelegate {
+public:
+    
+    virtual void fatalError(_Scheat *_scheat,SourceLocation location, std::string filePath, std::string message, ...);
+    
+    virtual void warning(_Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
+    
+    virtual void log(_Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
+    
+    virtual std::string target_triple();
+    
+    virtual std::string datalayout();
+    
+};
 
 class _Scheat;
 

@@ -31,7 +31,7 @@ enum LexerState {
     ErrorState,
 };
 
-class Lexer : public ScheatLexer {
+class Lexer {
     std::string buf;
     LexerState state;
     scheat::_Scheat *host = nullptr;
@@ -58,11 +58,11 @@ public:
     static Token *lexString(_Scheat *, std::string);
     
     static Token *lexThis(_Scheat *);
-    void lex(_Scheat *sch) override {
+    void lex(_Scheat *sch) {
         lexThis(sch);
     };
-    Token * getNextTok() override;
-    Token * eatThisTok() override;
+    Token * getNextTok();
+    Token * eatThisTok();
     // this function has fatal probrem
     // void addToken();
     void clear();

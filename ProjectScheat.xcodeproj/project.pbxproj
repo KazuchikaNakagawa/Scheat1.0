@@ -346,6 +346,7 @@
 		82806DD5250E15DA0010F012 /* Statics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82806DD4250E15DA0010F012 /* Statics.cpp */; };
 		8283093824F93CDC006EFFEA /* CScheat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8283093524F93BEE006EFFEA /* CScheat.h */; };
 		8283093B24FBF990006EFFEA /* libscheat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829849EB24D2DA20004A7A64 /* libscheat.a */; };
+		8289BA00258A3C6900F7DC0B /* ScheatKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8289B9FF258A3C6900F7DC0B /* ScheatKit.cpp */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
 		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
@@ -724,6 +725,10 @@
 		82806DD4250E15DA0010F012 /* Statics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Statics.cpp; sourceTree = "<group>"; };
 		8283093524F93BEE006EFFEA /* CScheat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CScheat.h; sourceTree = "<group>"; };
 		8283093624F93CB2006EFFEA /* CScheat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CScheat.cpp; sourceTree = "<group>"; };
+		8289B9EC258A3BF900F7DC0B /* libScheatDriver.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatDriver.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8289B9FE258A3C3D00F7DC0B /* ScheatKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatKit.h; sourceTree = "<group>"; };
+		8289B9FF258A3C6900F7DC0B /* ScheatKit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatKit.cpp; sourceTree = "<group>"; };
+		8289BA1B258A3C8400F7DC0B /* ScheatLogReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatLogReader.h; sourceTree = "<group>"; };
 		828FFCB724D80E28007BEBFF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		829849D924D1B5A7004A7A64 /* libspica.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libspica.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpica.hpp; sourceTree = "<group>"; };
@@ -807,6 +812,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				826720E824F7F7AE00C94D22 /* libFoundation.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8289B9EA258A3BF900F7DC0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1237,6 +1249,16 @@
 			path = ScheatARCTest;
 			sourceTree = "<group>";
 		};
+		8289B9FD258A3C0C00F7DC0B /* ScheatDriver */ = {
+			isa = PBXGroup;
+			children = (
+				8289B9FE258A3C3D00F7DC0B /* ScheatKit.h */,
+				8289B9FF258A3C6900F7DC0B /* ScheatKit.cpp */,
+				8289BA1B258A3C8400F7DC0B /* ScheatLogReader.h */,
+			);
+			path = ScheatDriver;
+			sourceTree = "<group>";
+		};
 		828FFCB624D80DFF007BEBFF /* scheat-commandlineTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -1248,6 +1270,7 @@
 		829849D024D1B5A7004A7A64 = {
 			isa = PBXGroup;
 			children = (
+				8289B9FD258A3C0C00F7DC0B /* ScheatDriver */,
 				82041407252365D10073CB03 /* ScheatHelp */,
 				820413C6251F7BBC0073CB03 /* FoundationTest */,
 				82984A0324D2E070004A7A64 /* Frameworks */,
@@ -1278,6 +1301,7 @@
 				826720DF24F7F4C900C94D22 /* ScheatARCTest */,
 				820413C5251F7BBC0073CB03 /* FoundationTest */,
 				820413F62523659B0073CB03 /* libScheatHelp.a */,
+				8289B9EC258A3BF900F7DC0B /* libScheatDriver.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1557,6 +1581,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8289B9E8258A3BF900F7DC0B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		829849D524D1B5A7004A7A64 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1687,6 +1718,23 @@
 			productReference = 826720DF24F7F4C900C94D22 /* ScheatARCTest */;
 			productType = "com.apple.product-type.tool";
 		};
+		8289B9EB258A3BF900F7DC0B /* ScheatDriver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8289B9EF258A3BF900F7DC0B /* Build configuration list for PBXNativeTarget "ScheatDriver" */;
+			buildPhases = (
+				8289B9E8258A3BF900F7DC0B /* Headers */,
+				8289B9E9258A3BF900F7DC0B /* Sources */,
+				8289B9EA258A3BF900F7DC0B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScheatDriver;
+			productName = ScheatDriver;
+			productReference = 8289B9EC258A3BF900F7DC0B /* libScheatDriver.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		829849D824D1B5A7004A7A64 /* ProjectScheat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 829849E424D1B5A7004A7A64 /* Build configuration list for PBXNativeTarget "ProjectScheat" */;
@@ -1814,6 +1862,9 @@
 					826720DE24F7F4C900C94D22 = {
 						CreatedOnToolsVersion = 12.0;
 					};
+					8289B9EB258A3BF900F7DC0B = {
+						CreatedOnToolsVersion = 12.2;
+					};
 					829849D824D1B5A7004A7A64 = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -1856,6 +1907,7 @@
 				826720DE24F7F4C900C94D22 /* ScheatARCTest */,
 				820413C4251F7BBC0073CB03 /* FoundationTest */,
 				820413F52523659B0073CB03 /* ScheatHelp */,
+				8289B9EB258A3BF900F7DC0B /* ScheatDriver */,
 			);
 		};
 /* End PBXProject section */
@@ -1898,6 +1950,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				826720E224F7F4C900C94D22 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8289B9E9258A3BF900F7DC0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8289BA00258A3C6900F7DC0B /* ScheatKit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2288,6 +2348,54 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		8289B9ED258A3BF900F7DC0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		8289B9EE258A3BF900F7DC0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -2769,6 +2877,15 @@
 			buildConfigurations = (
 				826720E424F7F4C900C94D22 /* Debug */,
 				826720E524F7F4C900C94D22 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8289B9EF258A3BF900F7DC0B /* Build configuration list for PBXNativeTarget "ScheatDriver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8289B9ED258A3BF900F7DC0B /* Debug */,
+				8289B9EE258A3BF900F7DC0B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

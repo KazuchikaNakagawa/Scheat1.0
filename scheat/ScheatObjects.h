@@ -17,7 +17,9 @@
 namespace scheat {
 class Token;
 class _Scheat;
+class Scheat;
 class ScheatLexer;
+class ScheatDelegate;
 namespace LegacyScheatParser {
 extern void LLParse(_Scheat *);
 }
@@ -27,21 +29,6 @@ using namespace std;
 struct DebugOption {
     bool enableDebug;
     bool developerMode;
-};
-
-class ScheatDelegate {
-public:
-    
-    virtual void fatalError(_Scheat *_scheat,SourceLocation location, std::string filePath, std::string message, ...);
-    
-    virtual void warning(_Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
-    
-    virtual void log(_Scheat *_scheat, SourceLocation location, std::string filePath, std::string message, ...);
-    
-    virtual std::string target_triple();
-    
-    virtual std::string datalayout();
-    
 };
 
 namespace nodes2{
@@ -92,19 +79,7 @@ public:
     void Warning(SourceLocation, const char *,unsigned int, const char *, ...);
     void DevLog(SourceLocation, const char *,unsigned int, const char *, ...);
     _Scheat();
-    _Scheat(Scheat *sch){
-        debug = sch->debug;
-        deepDebug = sch->deepDebug;
-        sch->schobj = this;
-        sourceFile = sch->sourceFile;
-        targettingFile = sch->targettingFile;
-        outputFilePath = sch->outputFilePath;
-        target = sch->target;
-        datalayout = sch->datalayout;
-        header_search_path = sch->header_search_path;
-        library_search_path = sch->library_search_path;
-        delegate = sch->delegate;
-    }
+    _Scheat(Scheat *sch);
     void include(string filename) { Warning(SourceLocation(), __FILE_NAME__, __LINE__, "this feature is not available yet."); };
     friend class Lexer;
     friend void LegacyScheatParser::LLParse(_Scheat *);

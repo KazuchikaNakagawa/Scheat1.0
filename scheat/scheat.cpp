@@ -14,6 +14,7 @@
 #include "scheatPriv.hpp"
 #include "ScheatStatics.h"
 #include "ScheatContext.h"
+#include "Classes.h"
 
 using namespace scheat;
 
@@ -173,11 +174,29 @@ _Scheat::_Scheat(){
     delegate = nullptr;
 }
 
+_Scheat::_Scheat(Scheat *sch){
+    debug = sch->debug;
+    deepDebug = sch->deepDebug;
+    sch->schobj = this;
+    sourceFile = sch->sourceFile;
+    targettingFile = sch->targettingFile;
+    outputFilePath = sch->outputFilePath;
+    target = sch->target;
+    datalayout = sch->datalayout;
+    header_search_path = sch->header_search_path;
+    library_search_path = sch->library_search_path;
+    delegate = sch->delegate;
+}
+
 Scheat::Scheat(){
     debug = false;
     deepDebug = false;
     targettingFile = "";
     delegate = nullptr;
+    if (scheato != nullptr) {
+        scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "Another Scheat is initialized. One thread can have only one Scheat.");
+        exit(0);
+    }
     scheato = new _Scheat(this);
     ScheatContext::Init(scheato);
 }
@@ -248,3 +267,14 @@ void scheat::OldScheat::printVersion(){
             std::to_string(part)).c_str());
 }
 
+void ScheatLexer::lex(){
+    
+}
+
+void ScheatAnalyzer::parse(){
+    
+}
+
+void ScheatEncoder::encode(){
+    
+}

@@ -16,22 +16,17 @@ class Token;
 
 class ScheatLexer {
 public:
-    virtual void lex(_Scheat *) {};
-    virtual Token *getNextTok() { return nullptr; };
-    virtual Token *eatThisTok() { return nullptr; };
-    virtual ~ScheatLexer() {};
+    static void lex();
 };
 
 class ScheatAnalyzer {
 public:
-    virtual void analyze(_Scheat *);
-    ~ScheatAnalyzer() {};
+    static void parse();
 };
 
 class ScheatEncoder {
 public:
-    virtual void encode(_Scheat *);
-    virtual ~ScheatEncoder() {};
+    static void encode();
 };
 
 
