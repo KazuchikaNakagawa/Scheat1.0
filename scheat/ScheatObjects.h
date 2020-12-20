@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <type_traits>
+#include <iostream>
 #include "ScheatToken.h"
 #include "scheat.h"
 
@@ -61,8 +62,8 @@ public:
     std::string datalayout;
     std::string header_search_path;
     std::string library_search_path;
+    std::string loggingFile = "";
     ScheatDelegate *delegate = nullptr;
-    DataHolder *statements = nullptr;
     void setDebugSetting(bool o) {
         debug = o;
     };

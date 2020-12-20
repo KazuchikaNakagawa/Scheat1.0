@@ -568,7 +568,7 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
 
 extern void parser2::parse(_Scheat *sch,Token *tokens){
     scheato = sch;
-    sch->statements = new DataHolder();
+    //sch->statements = new DataHolder();
     auto stmts = make_unique<Statements>();
     stmts->statements = nullptr;
     stmts->statement = parseStatement(tokens);
@@ -593,9 +593,7 @@ extern void parser2::parse(_Scheat *sch,Token *tokens){
         stmts = make_unique<Statements>(move(stmts), move(s));
         
     }
-    
-    scheato->statements->statements = move(stmts);
-    ofstream file(scheato->outputFilePath);
+    stmts->codegen(ScheatContext::local()->stream_body);
     return;
 };
 

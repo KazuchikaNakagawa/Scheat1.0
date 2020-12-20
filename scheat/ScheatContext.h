@@ -86,6 +86,7 @@ public:
     static void push(Context *c) { localcon.push(c); };
     static void pop() { localcon.pop(); };
     static void printout();
+    static void exportTo(ofstream &);
 };
 
 }

@@ -13,11 +13,6 @@ namespace scheat {
 
 using namespace std;
 
-struct SourceLocation {
-    unsigned int line;
-    unsigned int column;
-};
-
 enum class MessageType : int {
     error = -1,
     warning = 0,
@@ -29,6 +24,15 @@ struct Message{
     string fileName;
     MessageType type;
 };
+
+extern void executeScheat(string targetFilePath,
+                   string productName,
+                   string headerSearchPath,
+                   string librarySearchPath,
+                   bool debugs = true,
+                   bool debugDetails = false,
+                   string targetName = "",
+                   string datalayout = "");
 
 }
 

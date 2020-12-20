@@ -14,7 +14,9 @@
 #include "scheatPriv.hpp"
 #include "ScheatStatics.h"
 #include "ScheatContext.h"
+#include "Lexer.hpp"
 #include "Classes.h"
+#include "ScheatParser2.h"
 
 using namespace scheat;
 
@@ -65,19 +67,26 @@ void OldScheat::old_Debug(const char *msg, unsigned int line){
 
 void _Scheat::FatalError(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
     hasError = true;
+    FILE *fp = stdout;
+    if (loggingFile != "") {
+        fp = fopen(loggingFile.c_str(), "a");
+        if (!fp) {
+            printf("logging file couldn't be opened.");
+        }
+    }
     if (delegate != nullptr) {
         delegate->fatalError(this,location, targettingFile, fmt);
         return;
     }
     if (deepDebug) {
-        printf("\033[1;31mError:\033[m(from %s, line%u)\n in file: %s\n line%u.%u : ",
+        fprintf(fp, "\033[1;31mError:\033[m(from %s, line%u)\n in file: %s\n line%u.%u : ",
                fn,
                line,
                targettingFile.c_str(),
                location.line,
                location.column);
     }else{
-        printf("\033[1;31mError:\033[m\n in file: %s\n line%u.%u : ",
+        fprintf(fp, "\033[1;31mError:\033[m\n in file: %s\n line%u.%u : ",
                targettingFile.c_str(),
                location.line,
                location.column);
@@ -85,9 +94,10 @@ void _Scheat::FatalError(SourceLocation location, const char *fn, unsigned int l
     va_list arg;
     
     va_start(arg, fmt);
-    ::vprintf(fmt, arg);
+    ::vfprintf(fp, fmt, arg);
     va_end(arg);
-    printf("\n");
+    fprintf(fp, "\n");
+    fclose(fp);
     exit(0);
 }
 
@@ -268,13 +278,22 @@ void scheat::OldScheat::printVersion(){
 }
 
 void ScheatLexer::lex(){
-    
+    lexer::Lexer lxr(scheato);
+    lxr.lex(scheato);
+    if (!scheato->tokens) {
+        printf("\n");
+    }
 }
 
 void ScheatAnalyzer::parse(){
-    
+    parser2::parse(scheato, scheato->tokens);
 }
 
 void ScheatEncoder::encode(){
-    
+    ofstream fp(scheato->outputFilePath);
+    if (!fp.is_open()) {
+        scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "%s could not  be opened.", scheato->outputFilePath.c_str());
+        return;
+    }
+    ScheatContext::exportTo(fp);
 }

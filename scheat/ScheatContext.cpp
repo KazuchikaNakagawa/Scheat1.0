@@ -21,6 +21,14 @@ Class *Context::findClass(std::string key){
     return classes[key];
 }
 
+void ScheatContext::exportTo(ofstream &f){
+    for (auto con : contextCenter) {
+        con->stream_entry.exportTo(f);
+        con->stream_body.exportTo(f);
+        con->stream_tail.exportTo(f);
+    }
+}
+
 static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
     if (data->size.ir_used[0] == '%') {
         auto a = ScheatContext::global->findClass(data->size.name);
