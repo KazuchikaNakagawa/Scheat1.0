@@ -63,6 +63,7 @@ public:
     std::string header_search_path;
     std::string library_search_path;
     std::string loggingFile = "";
+    std::string productName;
     ScheatDelegate *delegate = nullptr;
     void setDebugSetting(bool o) {
         debug = o;
@@ -84,6 +85,7 @@ public:
     void include(string filename) { Warning(SourceLocation(), __FILE_NAME__, __LINE__, "this feature is not available yet."); };
     friend class Lexer;
     friend void LegacyScheatParser::LLParse(_Scheat *);
+    friend class Scheat;
 };
 
 enum class ScheatError : int {

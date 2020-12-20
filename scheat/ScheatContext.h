@@ -72,6 +72,7 @@ class Context;
 
 class ScheatContext {
     static stack<Context *> localcon;
+    static stack<string> namespace_center;
 public:
     static vector<Context *> contextCenter;
     static void Init(_Scheat *);
@@ -83,6 +84,9 @@ public:
     static Context *global;
     static Context *init;
     static Context *local();
+    static void pushNewNamespace(string n) { namespace_center.push(n); };
+    static void popNewNamespace() { namespace_center.pop(); };
+    static string getNamespace() { return namespace_center.top(); };
     static void push(Context *c) { localcon.push(c); };
     static void pop() { localcon.pop(); };
     static void printout();

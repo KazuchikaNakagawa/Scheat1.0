@@ -749,6 +749,7 @@ void Lexer::lex(std::string str){
             input(' ', ' ');
         }
     }
+    host->tokens = (tokens->first());
 }
 
 std::string Function::codegen(IRStream &f){

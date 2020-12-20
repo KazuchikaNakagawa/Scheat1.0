@@ -196,6 +196,12 @@ _Scheat::_Scheat(Scheat *sch){
     header_search_path = sch->header_search_path;
     library_search_path = sch->library_search_path;
     delegate = sch->delegate;
+    productName = sch->productName;
+}
+
+void Scheat::ready(){
+    scheato = new _Scheat(this);
+    ScheatContext::Init(scheato);
 }
 
 Scheat::Scheat(){
@@ -207,8 +213,8 @@ Scheat::Scheat(){
         scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "Another Scheat is initialized. One thread can have only one Scheat.");
         exit(0);
     }
-    scheato = new _Scheat(this);
-    ScheatContext::Init(scheato);
+//    scheato = new _Scheat(this);
+//    ScheatContext::Init(scheato);
 }
 
 void _Scheat::DevLog(SourceLocation location, const char *fn, unsigned int line, const char *fmt, ...){
@@ -270,6 +276,11 @@ scheat::OldScheat::OldScheat(const char *format, const char *target, bool debugO
     }
 }
 
+void Scheat::setProductName(string nm){
+    productName = nm;
+    schobj->productName = nm;
+}
+
 void scheat::OldScheat::printVersion(){
     
     printf("%s\n", (std::to_string(version) + "." +
@@ -285,6 +296,21 @@ void ScheatLexer::lex(){
     }
 }
 
+void ScheatLexer::testlex(std::string buf){
+    lexer::Lexer lxr(scheato);
+    lxr.lex(buf);
+}
+
+void Scheat::setDebugSetting(bool o){
+    debug = o;
+    if (schobj != nullptr) schobj->setDebugSetting(o);
+}
+
+void Scheat::allowDeepDebug(bool b){
+    deepDebug = b;
+    if (schobj != nullptr) schobj->allowDeepDebug(b);
+};
+
 void ScheatAnalyzer::parse(){
     parser2::parse(scheato, scheato->tokens);
 }
@@ -296,4 +322,8 @@ void ScheatEncoder::encode(){
         return;
     }
     ScheatContext::exportTo(fp);
+}
+
+void ScheatEncoder::printout(){
+    ScheatContext::printout();
 }

@@ -37,8 +37,8 @@ class _Scheat;
 class Scheat {
     bool debug;
     bool deepDebug;
-    _Scheat *schobj;
-    
+    _Scheat *schobj = nullptr;
+    std::string productName;
 public:
     /// returns true if this fails to compile.
     /// this is regarded as a flag.
@@ -52,12 +52,10 @@ public:
     std::string header_search_path;
     std::string library_search_path;
     ScheatDelegate *delegate = nullptr;
-    void setDebugSetting(bool o) {
-        debug = o;
-    };
-    void allowDeepDebug(bool b){
-        deepDebug = b;
-    };
+    void setDebugSetting(bool o) ;
+    void allowDeepDebug(bool b);
+    void setProductName(std::string);
+    void ready();
     Scheat();
     friend class _Scheat;
 };;

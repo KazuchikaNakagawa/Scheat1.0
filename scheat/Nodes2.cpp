@@ -704,7 +704,7 @@ DeclareVariableStatement::init(unique_ptr<NewIdentifierExpr> name, unique_ptr<Ex
 }
 
 Value *Statements::codegen(IRStream &f){
-    statements->codegen(f);
+    if (statements != nullptr) statements->codegen(f);
     if (scheato->hasProbrem()) {
         return nullptr;
     }
@@ -741,7 +741,8 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
     }else if (ScheatContext::local()->name == "global"){
         if (value->type.name == "Int") {
             f << "@" << name << " = global i32 0\n";
-            auto ff = ScheatContext::global->findFunc(ScheatContext::global->name + "_init");
+            string k = scheato->productName + "_init";
+            auto ff = ScheatContext::global->findFunc(k);
             if (!ff) {
                 scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
                 return nullptr;

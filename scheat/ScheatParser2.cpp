@@ -651,7 +651,10 @@ static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
 }
 
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
+    string name_raw = tok->value.strValue;
+    tok->valStr(ScheatContext::getNamespace() + tok->value.strValue);
     auto name = parseNewIdentifierExpr(tok);
+    
     if (!name) {
         return nullptr;
     }
@@ -665,6 +668,9 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
     if (!val) {
         return nullptr;
     }
+    auto var = new Variable(ScheatContext::getNamespace() + name->value, val->type);
+    ScheatContext::local()->addVariable(name_raw, var);
+    
     auto stmtptr = DeclareVariableStatement::init(move(name), move(val));
     return stmtptr;
 }
