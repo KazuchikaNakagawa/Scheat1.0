@@ -53,6 +53,9 @@ public:
     
     TypeData(std::string a, std::string ir) : name(a), ir_used(ir) {};
     
+    TypeData pointer(){
+        return TypeData("the " + name, ir_used + "*");
+    };
     
     static TypeData IntType;
     static TypeData StringType;

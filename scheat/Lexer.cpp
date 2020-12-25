@@ -779,6 +779,10 @@ std::string Function::codegen(IRStream &f){
     return getMangledName();
 }
 
+string Function::asValue(){
+    return lltype() + "* @" + mangledName;
+}
+
 void Lexer::clearTokens(){
     if (tokens == nullptr) {
         return;

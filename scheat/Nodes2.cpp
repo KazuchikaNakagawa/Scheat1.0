@@ -446,6 +446,26 @@ static int countof(string t, char c){
     return i;
 }
 
+Value *AllocationExpr::codegen(IRStream &f){
+    auto val = expr->codegen(f);
+    if (!val) {
+        scheato->FatalError(expr->location, __FILE_NAME__, __LINE__,
+                            "this expression is void.");
+        return nullptr;
+    }
+    auto tp = val->type;
+    auto cln = ScheatContext::local()->findClass(tp.name);
+    if (!cln) {
+        scheato->FatalError(expr->location, __FILE_NAME__, __LINE__,
+                            "this expression's type is undefined.");
+        return nullptr;
+    }
+    auto r = ScheatContext::local()->getRegister();
+    f << r << " = call i8*(i64, void(i8*)*) @ScheatPointer_alloc(" << to_string(cln->size) << ", " << ((cln->destructor != nullptr) ? cln->destructor->asValue() : "void(i8*)* null") << ")\n";
+    f << "store " << val->asValue() << ", " << val->type.ir_used + "*" << r << "\n";
+    return new Value(r, cln->type->pointer());
+}
+
 Value *StringTerm::codegen(IRStream &f){
     
     string substr = value;

@@ -546,6 +546,7 @@ infix_postfix:
 
 extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
     // expr : operatedExpr t_of id
+    //      | the expr
     auto ptr = parseOperatedExpr(tok);
     if (!ptr) {
         return nullptr;

@@ -457,6 +457,14 @@ public:
     static unique_ptr<CastExpr> init(TypeData, unique_ptr<Expr>);
 };
 
+class AllocationExpr : public Expr {
+public:
+    unique_ptr<Expr> expr;
+    Value *codegen(IRStream &) override;
+    string userdump() override;
+    static unique_ptr<AllocationExpr> init(unique_ptr<Expr>);
+};
+
 // expr : primary
 //      | primary OP expr
 //      | OP expr

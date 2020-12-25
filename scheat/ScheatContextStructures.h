@@ -83,6 +83,7 @@ public:
     std::string codegen(IRStream &);
     Context *context;
     Function(std::string ,std::string);
+    string asValue();
 };
 
 class Variable {
@@ -116,7 +117,12 @@ public:
     TypeData *type;
     Context *context;
     Operator *findOperator(string);
+    unsigned int size = 0;
     Class(TypeData *ty);
+    Function *destructor = nullptr;
+    Function *constructor = nullptr;
+    Function *copyConstructor = nullptr;
+    Function *assignedConstructor = nullptr;
 };
 }
 
