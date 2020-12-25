@@ -7,25 +7,56 @@
 
 #include "Nodes2.h"
 #include "ScheatStatics.h"
+#include <regex>
 //#include <dlfcn.h>
 using namespace scheat;
 using namespace scheat::nodes2;
 using namespace std;
 
+
+static string strreplace(string &str, string target, string into){
+    string base = str;
+    if (target == "") {
+        return base;
+    }
+    string copy = base;
+    if (base == "") {
+        return base;
+    }
+    string result;
+    vector<unsigned int> lists = {};
+    while (true) {
+        auto index = base.find(target);
+        if (index == string::npos) {
+            break;
+        }
+        base = base.substr(0, index);
+        lists.push_back(index);
+    }
+    if (lists.empty()) {
+        return result;
+    }
+    for (int i = 0; i < copy.size(); i++) {
+        if (lists.empty()) {
+            result.push_back(copy[i]);
+            continue;
+        }
+        if (i == lists[0]) {
+            result = result + into;
+            i += target.size() - 1;
+            lists.erase(lists.begin());
+        }else{
+            result.push_back(copy[i]);
+        }
+    }
+    str = result;
+    return result;
+}
+
 static TypeData asPointer(TypeData ty){
     return TypeData("the " + ty.name, ty.ir_used + "*");
 }
 
-static string strreplace(string base, string target, string into){
-    if (!target.empty()) {
-        std::string::size_type pos = 0;
-        while ((pos = base.find(target, pos)) != std::string::npos) {
-            base.replace(pos, target.length(), into);
-            pos += into.length();
-        }
-    }
-    return base;
-}
 
 string InfixOperatorTerm::userdump(){
     return lhs->userdump() + op->value + rhs->userdump();
@@ -403,6 +434,18 @@ unique_ptr<InfixOperatorPrimaryExpr> InfixOperatorPrimaryExpr::init(unique_ptr<T
 //    return nullptr;
 //}
 
+static int countof(string t, char c){
+    int i = 0;
+    
+    for (int u = 0; u < t.size(); u++) {
+        if (t[u] == c) {
+            i++;
+        }
+        
+    }
+    return i;
+}
+
 Value *StringTerm::codegen(IRStream &f){
     
     string substr = value;
@@ -420,13 +463,15 @@ Value *StringTerm::codegen(IRStream &f){
         r = r + to_string(ScheatContext::global->strmap[substr]);
     }
     auto rn = r;
-    int strlength = substr.size() - 2;
+    int strlength = value.size() - countof(value, '\\') - 2;
     auto sname =  rn + ".str";
     ScheatContext::global->stream_entry <<
     sname << " = private unnamed_addr constant [" <<
-    to_string(strlength) << " x i8] c" << value << "\n";
-    string v = "bitcast (i8* getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i32 0, i32 0) to %String*)";
-    return new Value(v, this->type);
+    to_string(strlength) << " x i8] c" << substr << "\n";
+    string v = "call %String(i8*) @String_init(i8* getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i32 0, i32 0))";
+    string rr = ScheatContext::local()->getRegister();
+    ScheatContext::local()->stream_body << rr << " = " << v << "\n";
+    return new Value(rr, TypeData::StringType);
 }
 
 //unique_ptr<OperatedExpr> Expr::initAsSyntaxedExpr(unique_ptr<Expr> node){
@@ -735,7 +780,20 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             return nullptr;
             
         }else if (value->type.name == "String"){
-            
+            ScheatContext::global->stream_entry << "@" << name << " = global zeroinitializer %String*\n";
+            auto ff = ScheatContext::global->findFunc(ScheatContext::global->name + "_init");
+            if (!ff) {
+                scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
+                return nullptr;
+            }
+            ScheatContext::push(ff->context);
+            auto v = value->codegen(ff->context->stream_body);
+            if (!v) {
+                return nullptr;
+            }
+            ff->context->stream_body << "store %String " << v->value << ", %String* " << "@" << name << "\n";
+            ScheatContext::pop();
+            return nullptr;
         }
         
     }else if (ScheatContext::local()->name == "global"){
@@ -751,7 +809,20 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             ff->context->stream_body << "store i32 " << v->value << ", i32* " << "@" << name << "\n";
             return nullptr;
         }else if (value->type.name == "String"){
-            
+            ScheatContext::global->stream_entry << "@" << name << " = global zeroinitializer %String*\n";
+            auto ff = ScheatContext::global->findFunc(scheato->productName + "_init");
+            if (!ff) {
+                scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
+                return nullptr;
+            }
+            ScheatContext::push(ff->context);
+            auto v = value->codegen(ff->context->stream_body);
+            if (!v) {
+                return nullptr;
+            }
+            ff->context->stream_body << "store %String " << v->value << ", %String* " << "@" << name << "\n";
+            ScheatContext::pop();
+            return nullptr;
         }
     }
     return nullptr;

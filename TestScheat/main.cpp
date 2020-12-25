@@ -17,7 +17,8 @@ int main(int argc, const char * argv[]) {
     scheat.allowDeepDebug(true);
     scheat.datalayout = "; testlayout";
     scheat.ready();
-    ScheatLexer::testlex("this b is 8 + 8.");
+    printf("this b is \"assass\".::::\n");
+    ScheatLexer::testlex("this b is \"assefa\\n\".");
     if (scheat.hasProbrem()) {
         return 0;
     }

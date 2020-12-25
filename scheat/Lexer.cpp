@@ -174,7 +174,7 @@ Token *Token::add(Token *tokens, Token *token){
 #define tadd tokens = Token::add(tokens, tok)
 
 void Lexer::genTok(){
-    //printf("genTok with %s\n", buf.c_str());
+    scheato->DevLog(SourceLocation(), __FILE_NAME__, __LINE__, "genTok with %s\n", buf.c_str());
     if (buf.empty()) {
         state = initState;
         clear();
@@ -237,6 +237,8 @@ void Lexer::genTok(){
         return;
     }
     if (state == stringState) {
+        buf.pop_back();
+        buf.append("\\0\"");
         tok->valStr(buf);
         tokens = Token::add(tokens, tok);
         clear();
@@ -511,7 +513,8 @@ void Lexer::input(int c, int next){
     
     if (state == stringState && c == '\\') {
         if (next == 'n') {
-            buf.push_back('\n');
+            buf.push_back('\\');
+            buf.push_back('n');
             skipFlag = true;
             return;
         }
@@ -526,7 +529,13 @@ void Lexer::input(int c, int next){
             return;
         }
         if (next == '\"') {
-            buf.push_back(c);
+            buf.push_back('\"');
+            skipFlag = true;
+            return;
+        }
+        if (next == '\\') {
+            buf.push_back('\\');
+            skipFlag = true;
             return;
         }
         buf.push_back(next);
