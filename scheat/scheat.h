@@ -43,7 +43,7 @@ public:
     /// returns true if this fails to compile.
     /// this is regarded as a flag.
     bool hasProbrem() const;
-    
+    bool isMain = false;
     std::string sourceFile = "";
     std::string targettingFile;
     std::string outputFilePath;

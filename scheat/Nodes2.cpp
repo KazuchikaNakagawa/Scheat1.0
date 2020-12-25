@@ -762,7 +762,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
     if (scheato->hasProbrem()) {
         return nullptr;
     }
-    if (ScheatContext::local()->name == "main") {
+    if (/*ScheatContext::local()->name == "main"*/false) {
         // global function
         
         if (value->type.name == "Int") {
@@ -796,7 +796,8 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             return nullptr;
         }
         
-    }else if (ScheatContext::local()->name == "global"){
+    }else if (ScheatContext::local()->name == "global" ||
+              ScheatContext::local()->name == "main"){
         if (value->type.name == "Int") {
             f << "@" << name << " = global i32 0\n";
             string k = scheato->productName + "_init";

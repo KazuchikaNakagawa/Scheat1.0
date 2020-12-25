@@ -16,6 +16,9 @@ int main(int argc, const char * argv[]) {
     scheat.setDebugSetting(true);
     scheat.allowDeepDebug(true);
     scheat.datalayout = "; testlayout";
+    scheat.isMain = true;
+    scheat.setProductName("testProduct");
+    scheat.outputFilePath = "/Users/kaz04/ScheatDocument/XCODETEST.ll";
     scheat.ready();
     printf("this b is \"assass\".::::\n");
     ScheatLexer::testlex("this b is \"assefa\\n\".");
@@ -27,6 +30,7 @@ int main(int argc, const char * argv[]) {
         return 0;
     }
     ScheatEncoder::printout();
+    ScheatEncoder::encode();
     return 0;
 }
 

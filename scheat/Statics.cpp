@@ -127,12 +127,13 @@ void ScheatContext::AddMain(){
     mainf->codegen(ScheatContext::main->stream_entry);
     ScheatContext::push(ScheatContext::main);
     ScheatContext::main->stream_entry << "entry:\n";
-    ScheatContext::main->stream_entry << "call void() @" << scheato->sourceFile + "_init()\n";
+    ScheatContext::main->stream_entry << "call void() @" << scheato->productName + "_init()\n";
     ScheatContext::main->stream_body << "%argc = alloca i32\n";
     ScheatContext::main->stream_body << "%argv = alloca i8**\n";
     ScheatContext::main->stream_body << "store i32 %0, i32* %argc\n";
     ScheatContext::main->stream_body << "store i8** %1, i8*** %argv\n";
     ScheatContext::main->stream_tail << "ret i32 0\n}\n";
+    //ScheatContext::main->stream_body << "call void @" << scheato->sourceFile + "_init()\n";
 }
 
 stack<Context *> ScheatContext::localcon;

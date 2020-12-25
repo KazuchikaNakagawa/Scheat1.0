@@ -202,6 +202,9 @@ _Scheat::_Scheat(Scheat *sch){
 void Scheat::ready(){
     scheato = new _Scheat(this);
     ScheatContext::Init(scheato);
+    if (isMain) {
+        ScheatContext::AddMain();
+    }
 }
 
 Scheat::Scheat(){
@@ -278,7 +281,7 @@ scheat::OldScheat::OldScheat(const char *format, const char *target, bool debugO
 
 void Scheat::setProductName(string nm){
     productName = nm;
-    schobj->productName = nm;
+    //schobj->productName = nm;
 }
 
 void scheat::OldScheat::printVersion(){

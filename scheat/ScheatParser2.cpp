@@ -603,7 +603,7 @@ static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
         eatThis(tok);
     }
     if (tok->kind == scheat::TokenKind::val_identifier) {
-        ptr = NewIdentifierExpr::init(tok->location, ScheatContext::getNamespace() + tok->value.strValue, nullptr);
+        ptr = NewIdentifierExpr::init(tok->location, ScheatContext::getNamespace() + "_" + tok->value.strValue, nullptr);
         eatThis(tok);
     }
     if (tok->kind == scheat::TokenKind::tok_of) {
@@ -651,13 +651,12 @@ static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
 }
 
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
-    eatThis(tok);
+    //eatThis(tok);
     if (tok->kind != scheat::TokenKind::val_identifier) {
-        exit(0);
+        //exit(0);
     }
     
     string name_raw = tok->value.strValue;
-    tok->value.strValue = (ScheatContext::getNamespace() + tok->value.strValue);
     auto name = parseNewIdentifierExpr(tok);
     
     if (!name) {
