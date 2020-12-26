@@ -666,16 +666,31 @@ static unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
 static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
     if (tok->value.strValue == "print") {
         eatThis(tok);
-        auto ptr = parseExpr(tok);
-        
+        auto ptr = parseArgumentExpr(tok);
+        if (!ptr) {
+            return nullptr;
+        }
+        return PrintStatement::init(move(ptr));
     }
     return nullptr;
 }
 
 static unique_ptr<PrintStatement> parsePrintStatement(Token *&tok){
     eatThis(tok);
-    
-    return nullptr;
+    if (tok->kind == scheat::TokenKind::tok_with) {
+        eatThis(tok);
+    }
+    if (tok->kind == scheat::TokenKind::tok_paren_l) {
+        eatThis(tok);
+    }
+    auto ptr = parseArgumentExpr(tok);
+    if (tok->kind == scheat::TokenKind::tok_paren_r) {
+        eatThis(tok);
+    }
+    if (!ptr) {
+        return nullptr;
+    }
+    return PrintStatement::init(move(ptr));
 }
 
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){

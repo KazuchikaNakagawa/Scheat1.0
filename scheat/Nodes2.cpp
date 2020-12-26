@@ -516,6 +516,31 @@ vector<Value *> ArgumentExpr::codegenAsArray(IRStream &f){
     return arr;
 }
 
+Value *PrintStatement::codegen(IRStream &f){
+    for (auto v : arg->codegenAsArray(f)) {
+        if (v->type.name == TypeData::IntType.name) {
+            f << "call void(i32) @print_i32(" << v->asValue() << ")\n";
+        }else if (v->type.name == TypeData::StringType.name){
+            f << "call void(%String) @print_String(" << v->asValue() << ")\n";
+        }else{
+            auto clasp = ScheatContext::global->findClass(v->type.name);
+            if (!clasp) {
+                scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__,
+                                    "%s is unknown.", v->type.name.c_str());
+                return nullptr;
+            }
+            auto func = clasp->context->findFunc("print");
+            if (!func) {
+                scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__,
+                                    "this object can't print.");
+            }
+            f << "call void(" << v->type.mangledName() << ")" << func->getMangledName() << "(" << v->asValue() << ")\n";
+        }
+    }
+    f << "call void() @printn()\n";
+    return nullptr;
+}
+
 unique_ptr<ArgumentExpr> ArgumentExpr::init(unique_ptr<Expr> bdy){
     auto ptr = make_unique<ArgumentExpr>();
     ptr->location = bdy->location;

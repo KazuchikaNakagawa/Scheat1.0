@@ -193,11 +193,11 @@ void print_i1(bool b){
     }
 }
 
-void print_String(String *str){
-    if (ScheatString_isPtr(str)) {
-        printf("%s", str->buf.char_ptr);
+void print_String(String str){
+    if (ScheatString_isPtr(&str)) {
+        printf("%s", str.buf.char_ptr);
     }else{
-        printf("%s", str->buf.const_chars.const_char);
+        printf("%s", str.buf.const_chars.const_char);
     }
 }
 

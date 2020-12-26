@@ -40,7 +40,7 @@ extern "C" struct String{
     } buf;
 };
 
-extern "C" void print_String(String *);
+extern "C" void print_String(String);
 
 extern "C" String String_init(char *);
 

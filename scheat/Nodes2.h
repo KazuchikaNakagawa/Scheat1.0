@@ -582,8 +582,10 @@ public:
 
 class PrintStatement : public StatementNode {
 public:
-    unique_ptr<Expr> arg;
-    
+    unique_ptr<ArgumentExpr> arg;
+    static unique_ptr<PrintStatement> init(unique_ptr<ArgumentExpr>);
+    Value * codegen(IRStream &) override;
+    string userdump() override{ return "print(" + arg->userdump() + ")"; };
 };
 
 // ====================================
