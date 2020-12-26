@@ -59,7 +59,7 @@ public:
     
     static Token *lexThis(_Scheat *);
     void lex(_Scheat *sch) {
-        lexThis(sch);
+        sch->tokens = lexThis(sch);
     };
     Token * getNextTok();
     Token * eatThisTok();

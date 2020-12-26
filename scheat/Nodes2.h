@@ -376,6 +376,18 @@ public:
     string userdump() override{ return lhs->userdump() + op->value; };
 };
 
+class ArgumentExpr : public Expr {
+public:
+    unique_ptr<ArgumentExpr> container;
+    unique_ptr<Expr> self;
+    Value * codegen(IRStream &) override{ return nullptr; };
+    string userdump() override{
+        if (container == nullptr) return self->userdump();
+        return container->userdump() + ", " + self->userdump();
+    };
+    vector<Value *> codegenAsArray(IRStream &);
+};
+
 // primary : term
 //         | term OP primary
 //         | OP primary
@@ -564,6 +576,12 @@ public:
     }
     
     Value * codegen(IRStream &) override;
+};
+
+class PrintStatement : public StatementNode {
+public:
+    unique_ptr<Expr> arg;
+    
 };
 
 // ====================================

@@ -86,6 +86,8 @@ public:
     friend class Lexer;
     friend void LegacyScheatParser::LLParse(_Scheat *);
     friend class Scheat;
+    friend class ScheatAnalyzer;
+    friend class ScheatParser;
 };
 
 enum class ScheatError : int {

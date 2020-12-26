@@ -174,7 +174,7 @@ Token *Token::add(Token *tokens, Token *token){
 #define tadd tokens = Token::add(tokens, tok)
 
 void Lexer::genTok(){
-    scheato->DevLog(SourceLocation(), __FILE_NAME__, __LINE__, "genTok with %s\n", buf.c_str());
+    scheato->DevLog(SourceLocation(), __FILE_NAME__, __LINE__, "token generated with %s\n", buf.c_str());
     if (buf.empty()) {
         state = initState;
         clear();
@@ -821,6 +821,6 @@ Token *Lexer::lexThis(_Scheat *sch){
     }
     Lexer lexer(sch);
     lexer.lex(ifs);
-    sch->tokens = lexer.tokens;
+    sch->tokens = lexer.getTokens();
     return lexer.getTokens();
 }

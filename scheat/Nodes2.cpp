@@ -446,6 +446,10 @@ static int countof(string t, char c){
     return i;
 }
 
+string AllocationExpr::userdump(){
+    return "allocate(" + expr->userdump() + ")";
+}
+
 Value *AllocationExpr::codegen(IRStream &f){
     auto val = expr->codegen(f);
     if (!val) {
@@ -494,63 +498,6 @@ Value *StringTerm::codegen(IRStream &f){
     return new Value(rr, TypeData::StringType);
 }
 
-//unique_ptr<OperatedExpr> Expr::initAsSyntaxedExpr(unique_ptr<Expr> node){
-//    auto u = make_unique<Expr>();
-//    u->syntax = move(node);
-//    u->syntaxedExpr = true;
-//    return u;
-//}
-
-//Value *Expr::codegen(IRStream &f){
-//    if (syntaxedExpr) {
-//        return syntax->codegen(f);
-//    }
-//    if (op != nullptr) {
-//        // this means (X op X), (op X), (X op)
-//        if (op->position == op->infix) {
-//            // infix operator
-//            auto r = local_context.top()->getRegister();
-//            auto lhsv = lhs->codegen(f);
-//            auto rhsv = rhs->codegen(f);
-//            if (!lhsv || !rhsv) {
-//                return nullptr;
-//            }
-//
-//            f << r << " = call " << op->return_type.ir_used << "("
-//            << lhsv->type.ir_used << ", " << rhsv->type.ir_used << ") " << op->func_name << "(" << lhsv->type.ir_used
-//            << " " << lhsv->value << ", " << rhsv->type.ir_used
-//            << " " << rhsv->value << ")\n";
-//            return new Value(r, op->return_type);
-//        }else if (op->position == op->prefix){
-//            // prefix operator
-//            auto r = local_context.top()->getRegister();
-//            auto rhsv = rhs->codegen(f);
-//            if (!rhsv) {
-//                return nullptr;
-//            }
-//            f << r << " call " << op->return_type.ir_used << "("
-//            << rhsv->type.ir_used << ") " << op->func_name << "("
-//            << rhsv->type.ir_used << " " << rhsv->value << ")\n";
-//            return new Value(r, op->return_type);
-//        }else if (op->position == op->postfix){
-//            // postfix operator
-//            auto r = local_context.top()->getRegister();
-//            auto lhsv = rhs->codegen(f);
-//            if (!lhsv) {
-//                return nullptr;
-//            }
-//            f << r << " = call " << op->return_type.ir_used << "("
-//            << lhsv->type.ir_used << ") " << op->func_name << "("
-//            << lhsv->type.ir_used << " " << lhsv->value << ")\n";
-//            return new Value(r, op->return_type);
-//        }else{
-//            scheato->DevLog(location, __FILE_NAME__, __LINE__, "?????");
-//            return nullptr;
-//        }
-//    }
-//    return lhs->codegen(f);
-//}
-
 Value *BoolTerm::codegen(IRStream &f){
     if (value) {
         return new Value(to_string(1),type);
@@ -558,6 +505,15 @@ Value *BoolTerm::codegen(IRStream &f){
         return new Value(to_string(0),type);
     }
     return nullptr;
+}
+
+vector<Value *> ArgumentExpr::codegenAsArray(IRStream &f){
+    if (container == nullptr) {
+        return {self->codegen(f)};
+    }
+    auto arr = container->codegenAsArray(f);
+    arr.push_back(self->codegen(f));
+    return arr;
 }
 
 Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){

@@ -295,7 +295,9 @@ void ScheatLexer::lex(){
     lexer::Lexer lxr(scheato);
     lxr.lex(scheato);
     if (!scheato->tokens) {
-        printf("\n");
+        scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__,
+                            "Failed to lex and unable to continue.");
+        exit(0);
     }
 }
 
@@ -315,6 +317,9 @@ void Scheat::allowDeepDebug(bool b){
 };
 
 void ScheatAnalyzer::parse(){
+    if (scheato->deepDebug) {
+        scheato->tokens->enumerate();
+    }
     parser2::parse(scheato, scheato->tokens);
 }
 

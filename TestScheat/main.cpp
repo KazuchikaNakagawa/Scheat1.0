@@ -15,13 +15,15 @@ int main(int argc, const char * argv[]) {
     Scheat scheat = Scheat();
     scheat.setDebugSetting(true);
     scheat.allowDeepDebug(true);
-    scheat.datalayout = "; testlayout";
+    scheat.datalayout = "i32-SCHEAT64";
     scheat.isMain = true;
     scheat.setProductName("testProduct");
     scheat.outputFilePath = "/Users/kaz04/ScheatDocument/XCODETEST.ll";
+    scheat.sourceFile = "/Users/kaz04/ScheatDocument/XCODETEST.scheat";
     scheat.ready();
-    printf("this b is \"assass\".::::\n");
-    ScheatLexer::testlex("this b is \"assefa\\n\".");
+    
+    //printf("this b is \"assass\".::::\nlog b.");
+    ScheatLexer::lex();
     if (scheat.hasProbrem()) {
         return 0;
     }

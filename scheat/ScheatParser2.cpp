@@ -691,5 +691,8 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     if (tokens->kind == scheat::TokenKind::val_identifier) {
         // return parseFunctionCallStatement(tokens);
     }
+    if (tokens->kind == scheat::TokenKind::embbed_func_print) {
+        
+    }
     return nullptr;
 }
