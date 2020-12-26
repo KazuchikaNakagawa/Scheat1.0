@@ -642,12 +642,39 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
     return sts;
 }
 
+static unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
+    auto first = parseExpr(tok);
+    if (!first) {
+        return nullptr;
+    }
+    auto ptr = ArgumentExpr::init(move(first));
+    while (true) {
+        auto expr = parseExpr(tok);
+        if (!expr) {
+            return nullptr;
+        }
+        ptr = ArgumentExpr::addArg(move(ptr), move(expr));
+        if (tok->kind == scheat::TokenKind::tok_comma) {
+            eatThis(tok);
+        }else{
+            break;
+        }
+    }
+    return ptr;
+}
+
 static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
     if (tok->value.strValue == "print") {
         eatThis(tok);
         auto ptr = parseExpr(tok);
         
     }
+    return nullptr;
+}
+
+static unique_ptr<PrintStatement> parsePrintStatement(Token *&tok){
+    eatThis(tok);
+    
     return nullptr;
 }
 

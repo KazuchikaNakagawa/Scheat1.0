@@ -516,6 +516,20 @@ vector<Value *> ArgumentExpr::codegenAsArray(IRStream &f){
     return arr;
 }
 
+unique_ptr<ArgumentExpr> ArgumentExpr::init(unique_ptr<Expr> bdy){
+    auto ptr = make_unique<ArgumentExpr>();
+    ptr->location = bdy->location;
+    ptr->self = move(bdy);
+    return ptr;
+}
+
+unique_ptr<ArgumentExpr> ArgumentExpr::addArg(unique_ptr<ArgumentExpr> args, unique_ptr<Expr> n){
+    auto ptr = make_unique<ArgumentExpr>();
+    ptr->container = move(args);
+    ptr->self = move(n);
+    return ptr;
+}
+
 Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
     string reg = ScheatContext::local()->getRegister();
     f << reg << " = getelementptr " << parent->type.ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varindex.index) << "\n";

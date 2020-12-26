@@ -378,7 +378,7 @@ public:
 
 class ArgumentExpr : public Expr {
 public:
-    unique_ptr<ArgumentExpr> container;
+    unique_ptr<ArgumentExpr> container = nullptr;
     unique_ptr<Expr> self;
     Value * codegen(IRStream &) override{ return nullptr; };
     string userdump() override{
@@ -386,6 +386,8 @@ public:
         return container->userdump() + ", " + self->userdump();
     };
     vector<Value *> codegenAsArray(IRStream &);
+    static unique_ptr<ArgumentExpr> init(unique_ptr<Expr>);
+    static unique_ptr<ArgumentExpr> addArg(unique_ptr<ArgumentExpr>, unique_ptr<Expr>);
 };
 
 // primary : term
