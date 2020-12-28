@@ -233,6 +233,9 @@ public:
 class NewIdentifierExpr : public IdentifierExpr {
 public:
     string value;
+    bool isGlobal = false;
+    bool isPublic = true;
+    
     // if this is not restricted, this become nullptr.
     // it must not be null till code-generating.
     TypeData *type;
@@ -552,6 +555,8 @@ public:
 class DeclareVariableStatement : public StatementNode {
 public:
     string name;
+    
+    bool isGlobal = false;
     
     bool isPublic;
     bool isConstant;

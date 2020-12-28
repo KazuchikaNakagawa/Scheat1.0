@@ -124,51 +124,6 @@ unique_ptr<GlobalExpr> GlobalExpr::init(unique_ptr<TopIdentifierExpr> ptr){
     return p;
 }
 
-//Value* AccessIdentifierTerm::codegen(IRStream &f){
-//    auto l = lhs->codegenAsRef(f);
-//    auto r = rhs->codegen(f);
-//    if (rhs->value == "FUNCTION") {
-//        rhs->addArgument(true, move(lhs));
-//
-//    }else{
-//        auto reg = local_context.top()->getRegister();
-//        f << reg << " = getelementptr " << l->type.ir_used << ", " << l->asValue() << ", i32 0, i32 "
-//        << to_string(index) << "\n";
-//        return new Value(reg, r->type);
-//    }
-//    return nullptr;
-//}
-
-//unique_ptr<TheIdentifierTerm> TheIdentifierTerm::init(unique_ptr<IdentifierExprTemplate> expr){
-//    auto ptr = make_unique<TheIdentifierTerm>();
-//    ptr->location = expr->location;
-//    ptr->type = TypeData(expr->type.name + "*", expr->type.name + "*");
-//    ptr->id = move(expr);
-//    return ptr;
-//}
-//
-//Value *TheIdentifierTerm::codegen(IRStream &f){
-//    return id->codegenAsRef(f);
-//}
-//
-//unique_ptr<VariableTerm> VariableTerm::init(Token *id, TypeData type){
-//    auto ptr = make_unique<VariableTerm>();
-//    ptr->type = type;
-//    ptr->value = id->value.strValue;
-//    ptr->location = id->location;
-//    return ptr;
-//}
-//
-//unique_ptr<AccessIdentifierTerm> AccessIdentifierTerm::init(unique_ptr<Expr> expr, unique_ptr<IdentifierTermTemplate> id, int index){
-//    auto ptr = make_unique<AccessIdentifierTerm>();
-//    ptr->index = index;
-//    ptr->lhs = move(expr);
-//    ptr->type = id->type;
-//    ptr->location = id->location;
-//    ptr->rhs = move(id);
-//    return ptr;
-//}
-
 Value *PostfixOperatorExpr::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     if (op->return_type.name == "Void") {
@@ -795,6 +750,8 @@ DeclareVariableStatement::init(unique_ptr<NewIdentifierExpr> name, unique_ptr<Ex
     n->isNullable = nul;
     n->isPublic = pub;
     n->value = move(expr);
+    n->isGlobal = name->isGlobal;
+    name.release();
     return n;
 }
 
@@ -812,42 +769,8 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
     if (scheato->hasProbrem()) {
         return nullptr;
     }
-    if (/*ScheatContext::local()->name == "main"*/false) {
-        // global function
-        /*
-        if (value->type.name == "Int") {
-            ScheatContext::global->stream_entry << "@" << name << " = global i32 0\n";
-            auto ff = ScheatContext::global->findFunc(ScheatContext::global->name + "_init");
-            if (!ff) {
-                scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
-                return nullptr;
-            }
-            ScheatContext::push(ff->context);
-            auto v = value->codegen(ff->context->stream_body);
-            
-            ff->context->stream_body << "store i32 " << v->value << ", i32* " << "@" << name << "\n";
-            ScheatContext::pop();
-            return nullptr;
-            
-        }else if (value->type.name == "String"){
-            ScheatContext::global->stream_entry << "@" << name << " = global zeroinitializer %String*\n";
-            auto ff = ScheatContext::global->findFunc(ScheatContext::global->name + "_init");
-            if (!ff) {
-                scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
-                return nullptr;
-            }
-            ScheatContext::push(ff->context);
-            auto v = value->codegen(ff->context->stream_body);
-            if (!v) {
-                return nullptr;
-            }
-            ff->context->stream_body << "store %String " << v->value << ", %String* " << "@" << name << "\n";
-            ScheatContext::pop();
-            return nullptr;
-        }
-        */
-    }else if (ScheatContext::local()->name == "global" ||
-              ScheatContext::local()->name == "main"){
+    
+    if (isGlobal) {
         if (value->type.name == "Int") {
             ScheatContext::global->stream_body << name << " = global i32 0\n";
             string k = scheato->productName + "_init";
@@ -857,6 +780,11 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
                 return nullptr;
             }
             auto v = value->codegen(ff->context->stream_body);
+            
+            if (!v) {
+                return nullptr;
+            }
+            
             ff->context->stream_body << "store i32 " << v->value << ", i32* " << name << "\n";
             return nullptr;
         }else if (value->type.name == "String"){
@@ -875,6 +803,28 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             ScheatContext::pop();
             return nullptr;
         }
+    }else{
+        // it is local variable
+        if (value->type.name == "Int") {
+            f << name << " = alloca i32\n";
+            auto v = value->codegen(f);
+            
+            if (!v) {
+                return nullptr;
+            }
+            
+            f << "store i32 " << v->value << ", i32* " << name << "\n";
+            return nullptr;
+        }else if (value->type.name == "String"){
+            f << name << " = alloca  %String\n";
+            auto v = value->codegen(f);
+            if (!v) {
+                return nullptr;
+            }
+            f << "store %String " << v->value << ", %String* " << name << "\n";
+            return nullptr;
+        }
+        
     }
     return nullptr;
 }

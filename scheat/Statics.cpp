@@ -96,7 +96,7 @@ void ScheatContext::Init(_Scheat *sch){
     Int->operators["*"] = opmul;
     
     ScheatContext::global->addClass("Int", Int);
-    auto String = new Class(new TypeData("String"));
+    auto String = new Class(new TypeData("String", "%String"));
     ScheatContext::global->addClass("String", String);
 }
 
@@ -128,10 +128,26 @@ void ScheatContext::AddMain(){
     ScheatContext::push(ScheatContext::main);
     ScheatContext::main->stream_entry << "entry:\n";
     ScheatContext::main->stream_entry << "call void() @" << scheato->productName + "_init()\n";
-    ScheatContext::main->stream_body << "%argc = alloca i32\n";
-    ScheatContext::main->stream_body << "%argv = alloca i8**\n";
-    ScheatContext::main->stream_body << "store i32 %0, i32* %argc\n";
-    ScheatContext::main->stream_body << "store i8** %1, i8*** %argv\n";
+    auto nargv = new Variable("argv", TypeData("Array of String", "%Array"));
+    ScheatContext::main->addVariable("argv", nargv);
+    ScheatContext::main->stream_body << "%argv = alloca %Array\n";
+    ScheatContext::main->stream_body << "%far = call %Array(i64) @Array_init(i64 8)\n";
+    ScheatContext::main->stream_body << "store %Array %far, %Array* %argv\n";
+    ScheatContext::main->stream_body << "%counter = i32 0\n";
+    ScheatContext::main->stream_body << "ready_condition:\n";
+    ScheatContext::main->stream_body << "%limit = sub nsw i32 %0, 1\n";
+    ScheatContext::main->stream_body << "%cond = icmp ne i32 %limit, %counter\n";
+    ScheatContext::main->stream_body << "br i1 %cond, label %ready_body, label %ready_end\n";
+    ScheatContext::main->stream_body << "ready_body:\n";
+    ScheatContext::main->stream_body << "%str_element = i8* getelementptr inbounds i8** %1, i32 0, i32 %counter\n";
+    ScheatContext::main->stream_body << "call void(%Array*, i8*) @Array_append(%Array* %argv, i8* %str_element)\n";
+    ScheatContext::main->stream_body << "%str_element = add nsw i32 %counter, 1\n";
+    ScheatContext::main->stream_body << "br label %ready_condition\n";
+    ScheatContext::main->stream_body << "ready_end:\n";
+    //ScheatContext::main->stream_body << "%argc = alloca i32\n";
+    //ScheatContext::main->stream_body << "%argv = alloca i8**\n";
+    //ScheatContext::main->stream_body << "store i32 %0, i32* %argc\n";
+    //ScheatContext::main->stream_body << "store i8** %1, i8*** %argv\n";
     ScheatContext::main->stream_tail << "ret i32 0\n}\n";
     //ScheatContext::main->stream_body << "call void @" << scheato->sourceFile + "_init()\n";
 }

@@ -182,7 +182,7 @@ static unique_ptr<IdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
         eatThis(tok);
         return funcnode;
     }else{
-        auto var = ScheatContext::global->findVariable(idtok->value.strValue);
+        auto var = ScheatContext::local()->findVariable(idtok->value.strValue);
         if (!var) {
             scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s is undefined.",
                                 idtok->value.strValue.c_str());
@@ -600,12 +600,24 @@ extern void parser2::parse(_Scheat *sch,Token *tokens){
 
 static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
     unique_ptr<NewIdentifierExpr> ptr = nullptr;
+    bool glbl = false;
     if (tok->kind == scheat::TokenKind::tok_this) {
+        eatThis(tok);
+    }
+    if (tok->kind == scheat::TokenKind::tok_global) {
+        glbl = true;
+        eatThis(tok);
+    }
+    else if (tok->kind == scheat::TokenKind::tok_local) {
+        glbl = false;
         eatThis(tok);
     }
     if (tok->kind == scheat::TokenKind::val_identifier) {
         ptr = NewIdentifierExpr::init(tok->location, /*ScheatContext::getNamespace() + "_" +*/ tok->value.strValue, nullptr);
         eatThis(tok);
+    }else{
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "identifier must be defined like: this (global/local) (public/private) identifier");
     }
     if (tok->kind == scheat::TokenKind::tok_of) {
         eatThis(tok);
@@ -733,20 +745,41 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
         return nullptr;
     }
     string prefix = "%";
-    if (ScheatContext::local()->name == "main"
-        || ScheatContext::local()->name == "global") {
+    if ((ScheatContext::local()->name == "main"
+        || ScheatContext::local()->name == "global")) {
         prefix = "@";
+        if (!name->isGlobal) {
+            prefix = "%";
+        }else{
+            name->isGlobal = true;
+        }
+    }else{
+        if (name->isGlobal) {
+            prefix = "@";
+        }else{
+            name->isGlobal = false;
+        }
     }
-    auto var = new Variable(prefix + ScheatContext::getNamespace() + "_" +  name->value, val->type);
+    string kname;
+    if (name->isGlobal) {
+        kname = prefix + "glbl_" + name->value;
+    }else{
+        kname = prefix + ScheatContext::getNamespace() + "_" +  name->value;
+    }
+    auto var = new Variable(kname, val->type);
     
-    if (ScheatContext::local()->name == "main") {
+    if (name->isGlobal) {
         ScheatContext::global->addVariable(name_raw, var);
     }else{
         ScheatContext::local()->addVariable(name_raw, var);
     }
     
     auto stmtptr = DeclareVariableStatement::init(move(name), move(val));
+    if (prefix == "@") {
+        stmtptr->isGlobal = true;
+    }
     stmtptr->name = var->mangledName;
+    
     return stmtptr;
 }
 

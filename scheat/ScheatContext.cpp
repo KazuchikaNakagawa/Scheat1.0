@@ -58,23 +58,6 @@ void ScheatContext::exportTo(ofstream &f){
     }
 }
 
-//static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
-//    if (data->size.ir_used[0] == '%') {
-//        auto a = ScheatContext::global->findClass(data->size.name);
-//        if (a == nullptr) {
-//            scheato->FatalError(scheato->location, __FILE_NAME__, __LINE__, "Domestic Error. %s is undefined.", data->size.ir_used.c_str());
-//        }
-//        if (a->type->name == to->name) {
-//            auto r = ScheatContext::local()->getRegister();
-//            f << r << " = bitcast " << data->size.ir_used << "* " << data->value << " to " << to->ir_used << "*\n";
-//        }
-//    }
-//    if (data->size.ir_used[0] == 'i') {
-//
-//    }
-//    return nullptr;
-//};
-
 Function::Function(std::string type, std::string nm) : return_type(type){
     mangledName = "@" + ScheatContext::local()->name + "_" + nm;
     name = nm;

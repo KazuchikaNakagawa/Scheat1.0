@@ -292,6 +292,20 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "global") {
+        tok->kind = TokenKind::tok_global;
+        tadd;
+        clear();
+        return;
+    }
+    
+    if (buf == "local") {
+        tok->kind = TokenKind::tok_local;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "print") {
         tok->kind = TokenKind::embbed_func_print;
         tadd;

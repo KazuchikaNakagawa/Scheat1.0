@@ -50,6 +50,9 @@ enum class TokenKind : int {
     tok_to,
     tok_with,
     
+    tok_local,
+    tok_global,
+    
     embbed_func_print,
     embbed_func_import,
     embbed_func_free,
