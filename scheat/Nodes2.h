@@ -246,14 +246,10 @@ public:
 class VariableTerm : public TopIdentifierExpr {
 public:
     string value;
-    Value * codegen(IRStream &) override{
-        return nullptr;
-    };
+    Value * codegen(IRStream &) override;
     string userdump() override;
     //void addArgument(bool, unique_ptr<Expr>) override{};
-    static unique_ptr<VariableTerm> init(Token *, TypeData){
-        return nullptr;
-    };
+    static unique_ptr<VariableTerm> init(Token *, TypeData);
 };
 
 class FunctionCallTerm : public TopIdentifierExpr {
@@ -583,7 +579,12 @@ public:
 class PrintStatement : public StatementNode {
 public:
     unique_ptr<ArgumentExpr> arg;
-    static unique_ptr<PrintStatement> init(unique_ptr<ArgumentExpr>);
+    static unique_ptr<PrintStatement> init(unique_ptr<ArgumentExpr> a){
+        auto ptr = make_unique<PrintStatement>();
+        ptr->location = a->location;
+        ptr->arg = move(a);
+        return ptr;
+    };
     Value * codegen(IRStream &) override;
     string userdump() override{ return "print(" + arg->userdump() + ")"; };
 };

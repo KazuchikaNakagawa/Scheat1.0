@@ -446,6 +446,26 @@ static int countof(string t, char c){
     return i;
 }
 
+Value *VariableTerm::codegen(IRStream &f){
+    auto vp = ScheatContext::local()->findVariable(value);
+    if (!vp) {
+        scheato->FatalError(location, __FILE_NAME__, __LINE__,
+                            "this error should be appeared by analyzer. (by Encoder)");
+        return nullptr;
+    }
+    auto reg = ScheatContext::local()->getRegister();
+    f << reg << " = load " << vp->type.ir_used << ", " << vp->type.ir_used << "* " << vp->mangledName << "\n";
+    return new Value(reg, type);
+}
+
+unique_ptr<VariableTerm> VariableTerm::init(Token *tok, TypeData tp){
+    auto ptr = make_unique<VariableTerm>();
+    ptr->location = tok->location;
+    ptr->type = tp;
+    ptr->value = tok->value.strValue;
+    return ptr;
+}
+
 string AllocationExpr::userdump(){
     return "allocate(" + expr->userdump() + ")";
 }
@@ -779,7 +799,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
     }
     if (/*ScheatContext::local()->name == "main"*/false) {
         // global function
-        
+        /*
         if (value->type.name == "Int") {
             ScheatContext::global->stream_entry << "@" << name << " = global i32 0\n";
             auto ff = ScheatContext::global->findFunc(ScheatContext::global->name + "_init");
@@ -810,7 +830,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             ScheatContext::pop();
             return nullptr;
         }
-        
+        */
     }else if (ScheatContext::local()->name == "global" ||
               ScheatContext::local()->name == "main"){
         if (value->type.name == "Int") {
@@ -822,10 +842,10 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
                 return nullptr;
             }
             auto v = value->codegen(ff->context->stream_body);
-            ff->context->stream_body << "store i32 " << v->value << ", i32* " << "@" << name << "\n";
+            ff->context->stream_body << "store i32 " << v->value << ", i32* " << name << "\n";
             return nullptr;
         }else if (value->type.name == "String"){
-            ScheatContext::global->stream_entry << "@" << name << " = global zeroinitializer %String*\n";
+            ScheatContext::global->stream_entry << name << " = global zeroinitializer %String*\n";
             auto ff = ScheatContext::global->findFunc(scheato->productName + "_init");
             if (!ff) {
                 scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
@@ -836,7 +856,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             if (!v) {
                 return nullptr;
             }
-            ff->context->stream_body << "store %String " << v->value << ", %String* " << "@" << name << "\n";
+            ff->context->stream_body << "store %String " << v->value << ", %String* " << name << "\n";
             ScheatContext::pop();
             return nullptr;
         }

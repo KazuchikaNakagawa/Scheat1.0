@@ -50,7 +50,7 @@ extern "C" String ScheatString_assign(String *);
 
 extern "C" String ScheatString_copy(String *);
 
-extern "C" String ScheatString_add(String *, String *);
+extern "C" String ScheatString_add(String, String);
 
 extern "C" struct Array {
     uint32_t count;

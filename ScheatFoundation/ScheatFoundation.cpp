@@ -134,20 +134,20 @@ Array Array_init(uint64_t size){
     return arr;
 }
 
-String ScheatString_add(String *lhs, String *rhs){
+String ScheatString_add(String lhs, String rhs){
     String str;
     unsigned long ll = 0;
     unsigned long rl = 0;
-    if (ScheatString_isPtr(lhs)) {
-        ll = strlen(lhs->buf.char_ptr);
+    if (ScheatString_isPtr(&lhs)) {
+        ll = strlen(lhs.buf.char_ptr);
     }else{
-        ll = strlen(lhs->buf.const_chars.const_char);
+        ll = strlen(lhs.buf.const_chars.const_char);
     }
     
-    if (ScheatString_isPtr(rhs)) {
-        rl = strlen(rhs->buf.char_ptr);
+    if (ScheatString_isPtr(&rhs)) {
+        rl = strlen(rhs.buf.char_ptr);
     }else{
-        rl = strlen(rhs->buf.const_chars.const_char);
+        rl = strlen(rhs.buf.const_chars.const_char);
     }
     
     if (ll + rl < 8) {
@@ -158,16 +158,16 @@ String ScheatString_add(String *lhs, String *rhs){
         memset(str.buf.char_ptr, 0, sizeof(8 * (ll + rl + 1)));
     }
     
-    if (ScheatString_isPtr(lhs)) {
-        sprintf(str.buf.char_ptr, "%s", lhs->buf.char_ptr);
+    if (ScheatString_isPtr(&lhs)) {
+        sprintf(str.buf.char_ptr, "%s", lhs.buf.char_ptr);
     }else{
-        sprintf(str.buf.char_ptr, "%s", lhs->buf.const_chars.const_char);
+        sprintf(str.buf.char_ptr, "%s", lhs.buf.const_chars.const_char);
     }
     
-    if (ScheatString_isPtr(rhs)) {
-        sprintf(str.buf.char_ptr, "%s%s", str.buf.char_ptr, rhs->buf.char_ptr);
+    if (ScheatString_isPtr(&rhs)) {
+        sprintf(str.buf.char_ptr, "%s%s", str.buf.char_ptr, rhs.buf.char_ptr);
     }else{
-        sprintf(str.buf.char_ptr, "%s%s", str.buf.char_ptr, rhs->buf.const_chars.const_char);
+        sprintf(str.buf.char_ptr, "%s%s", str.buf.char_ptr, rhs.buf.const_chars.const_char);
     }
     
     return str;

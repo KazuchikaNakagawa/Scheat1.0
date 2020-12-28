@@ -52,10 +52,10 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare void @ScheatPointer_copy(i8*)\n";
     global->stream_body << "declare void @ScheatPointer_unref(i8*)\n";
     global->stream_body << "declare void @ScheatPointer_release(i8*)\n";
-    global->stream_body << "declare void @print_String(%String*)\n";
+    global->stream_body << "declare void @print_String(%String)\n";
     global->stream_body << "declare %String @String_init(i8*)\n";
-    global->stream_body << "declare %String* @String_add(%String*, %String*)\n";
-    global->stream_body << "declare %String* @String_copy(%String*)\n";
+    global->stream_body << "declare %String @String_add(%String, %String)\n";
+    global->stream_body << "declare %String @String_copy(%String)\n";
     global->stream_body << "declare void @Array_append(%Array*, i8*)\n";
     global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global->stream_body << "declare %Array @Array_init(i64)\n";

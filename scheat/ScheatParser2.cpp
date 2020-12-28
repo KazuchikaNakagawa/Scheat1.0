@@ -354,7 +354,7 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
     
     else if (tok->kind == TokenKind::val_identifier || tok->kind == TokenKind::tok_the) {
         ptr = parseIdentifierExpr(tok);
-        eatThis(tok);
+        //eatThis(tok);
     }
     
     else{
@@ -580,11 +580,11 @@ extern void parser2::parse(_Scheat *sch,Token *tokens){
         return;
     }
     
-    while (tokens == nullptr){
+    while (tokens != nullptr){
     
         auto s = parseStatement(tokens);
         if (!s && !scheato->hasProbrem()) {
-            return;
+            break;
         }
         
         if (scheato->hasProbrem()) {
@@ -604,7 +604,7 @@ static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
         eatThis(tok);
     }
     if (tok->kind == scheat::TokenKind::val_identifier) {
-        ptr = NewIdentifierExpr::init(tok->location, ScheatContext::getNamespace() + "_" + tok->value.strValue, nullptr);
+        ptr = NewIdentifierExpr::init(tok->location, /*ScheatContext::getNamespace() + "_" +*/ tok->value.strValue, nullptr);
         eatThis(tok);
     }
     if (tok->kind == scheat::TokenKind::tok_of) {
@@ -620,16 +620,28 @@ static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
 
 extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
     auto sts = make_unique<Statement>();
+    sts->stmt = nullptr;
     sts -> statement = parseStatement_single(tokens);
     if (!sts->statement) {
         return nullptr;
     }
+    if (tokens->kind == TokenKind::tok_period) {
+        eatThis(tokens);
+        return sts;
+    }
+    if (tokens->kind != TokenKind::tok_period && tokens->kind != TokenKind::tok_comma) {
+        scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__,
+                            "statements must end with period.");
+        return nullptr;
+    }
+    eatThis(tokens);
     unique_ptr<StatementNode> s = nullptr;
     while (s = parseStatement_single(tokens) , s != nullptr) {
         sts->statement = move(s);
         if (tokens->kind == TokenKind::tok_period) {
             sts->perTok = tokens;
             eatThis(tokens);
+            return sts;
         }else if (tokens->kind == TokenKind::tok_comma){
             sts->perTok = tokens;
             eatThis(tokens);
@@ -637,7 +649,11 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
             scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__, "the end of sentence must be period or comma in Scheat.");
             return nullptr;
         }
-        sts = make_unique<Statement>(move(sts));
+        auto k = make_unique<Statement>(move(sts));
+        k->statement = nullptr;
+        sts = move(k);
+        // DEFINE THIS
+        // add(Statement, Statement)
     }
     return sts;
 }
@@ -648,6 +664,9 @@ static unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
         return nullptr;
     }
     auto ptr = ArgumentExpr::init(move(first));
+    if (tok->kind != scheat::TokenKind::tok_comma) {
+        return ptr;
+    }
     while (true) {
         auto expr = parseExpr(tok);
         if (!expr) {
@@ -664,14 +683,7 @@ static unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
 }
 
 static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
-    if (tok->value.strValue == "print") {
-        eatThis(tok);
-        auto ptr = parseArgumentExpr(tok);
-        if (!ptr) {
-            return nullptr;
-        }
-        return PrintStatement::init(move(ptr));
-    }
+    
     return nullptr;
 }
 
@@ -684,6 +696,10 @@ static unique_ptr<PrintStatement> parsePrintStatement(Token *&tok){
         eatThis(tok);
     }
     auto ptr = parseArgumentExpr(tok);
+    if (tok == nullptr) {
+        scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "file ends illegal token.");
+        return nullptr;
+    }
     if (tok->kind == scheat::TokenKind::tok_paren_r) {
         eatThis(tok);
     }
@@ -699,12 +715,13 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
         //exit(0);
     }
     
-    string name_raw = tok->value.strValue;
+    
     auto name = parseNewIdentifierExpr(tok);
     
     if (!name) {
         return nullptr;
     }
+    string name_raw = name->value;
     if (tok->kind != scheat::TokenKind::tok_is) {
         scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
                             "to define variable, needs 'is' after name.");
@@ -715,10 +732,21 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
     if (!val) {
         return nullptr;
     }
-    auto var = new Variable(ScheatContext::getNamespace() + name->value, val->type);
-    ScheatContext::local()->addVariable(name_raw, var);
+    string prefix = "%";
+    if (ScheatContext::local()->name == "main"
+        || ScheatContext::local()->name == "global") {
+        prefix = "@";
+    }
+    auto var = new Variable(prefix + ScheatContext::getNamespace() + "_" +  name->value, val->type);
+    
+    if (ScheatContext::local()->name == "main") {
+        ScheatContext::global->addVariable(name_raw, var);
+    }else{
+        ScheatContext::local()->addVariable(name_raw, var);
+    }
     
     auto stmtptr = DeclareVariableStatement::init(move(name), move(val));
+    stmtptr->name = var->mangledName;
     return stmtptr;
 }
 
@@ -734,7 +762,7 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
         // return parseFunctionCallStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::embbed_func_print) {
-        
+        return parsePrintStatement(tokens);
     }
     return nullptr;
 }
