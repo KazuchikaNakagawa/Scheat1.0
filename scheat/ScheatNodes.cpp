@@ -5,12 +5,12 @@
 //  Created by かずちか on 2020/08/09.
 //
 
-#include "LegacyTypeScheat.hpp"
+//#include "LegacyTypeScheat.hpp"
 #include "scheat.h"
 #include "scheatPriv.hpp"
 #include "Lexer.hpp"
 #include "ScheatContext.h"
-#include "ScheatNodes.h"
+//#include "ScheatNodes.h"
 #include "ScheatStatics.h"
 #include <fstream>
 #include <iostream>
@@ -21,9 +21,9 @@
 #define make_p(id) std::make_unique<id>
 
 using namespace std;
-using namespace scheat::LegacyScheatParser;
+//using namespace scheat::LegacyScheatParser;
 using namespace scheat;
-using namespace scheat::node;
+//using namespace scheat::node;
 
 //static NodeData* castType(IRStream &f, NodeData *data, TypeData *to){
 //    if (data->size.ir_used[0] == '%') {
@@ -179,12 +179,6 @@ p_unique(node::Term) node::Term::create(std::unique_ptr<Term> term, scheat::Toke
     t->node_size = tn->node_size;
     return t;
 }
-
-Class::Class(TypeData *ty) : type(ty){
-    properties = {};
-    operators = {};
-    context = Context::create(ty->name, ScheatContext::global);
-};
 
 static node::NodeData *embbed_op_func_term_int(IRStream &f, node::NodeData *lhs, scheat::Token *tok, node::NodeData *rhs){
     if (lhs == nullptr) {

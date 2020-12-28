@@ -6,9 +6,9 @@
 //
 
 #include <stdio.h>
-#include "ScheatNodes.h"
+//#include "ScheatNodes.h"
 #include "ScheatStatics.h"
-#include "LegacyTypeScheat.hpp"
+//#include "LegacyTypeScheat.hpp"
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -17,9 +17,9 @@
 
 //#define ScheatContextData ScheatContext
 
-using namespace scheat::LegacyScheatParser;
+//using namespace scheat::LegacyScheatParser;
 using namespace scheat;
-using namespace scheat::node;
+//using namespace scheat::node;
 using std::string;
 
 static void getNextTok(){

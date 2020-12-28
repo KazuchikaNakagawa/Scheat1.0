@@ -40,8 +40,6 @@
 		8205E18C24D31D02001C5130 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18B24D31D02001C5130 /* libcurses.tbd */; };
 		8205E18E24D31D0D001C5130 /* libm.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8205E18D24D31D0D001C5130 /* libm.tbd */; };
 		82097C8F25076A31002D048A /* CScheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8283093624F93CB2006EFFEA /* CScheat.cpp */; };
-		8225412224E01BD600DBF05C /* ScheatNodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8225412024E01BD600DBF05C /* ScheatNodes.cpp */; };
-		8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */; };
 		8225412B24E175F700DBF05C /* ScheatRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 8225412A24E175F700DBF05C /* ScheatRun.h */; };
 		8225412D24E175F700DBF05C /* ScheatRunPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */; };
 		824E3D20256AC2C700BB7B40 /* libLLVMAArch64AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824E3D1F256AC2C700BB7B40 /* libLLVMAArch64AsmParser.a */; };
@@ -340,7 +338,6 @@
 		826720E224F7F4C900C94D22 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720E124F7F4C900C94D22 /* main.cpp */; };
 		826720E824F7F7AE00C94D22 /* libFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826720D024F7D4DA00C94D22 /* libFoundation.a */; };
 		82730C5524FFB88900C27D79 /* Tokens.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82730C5424FFB88900C27D79 /* Tokens.cpp */; };
-		82806DCE250E09F30010F012 /* ScheatParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82806DCD250E09F30010F012 /* ScheatParser.cpp */; };
 		82806DD0250E0A6A0010F012 /* ScheatContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82806DCF250E0A6A0010F012 /* ScheatContext.cpp */; };
 		82806DD2250E0BA70010F012 /* ScheatBasicStructures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82806DD1250E0BA70010F012 /* ScheatBasicStructures.cpp */; };
 		82806DD5250E15DA0010F012 /* Statics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82806DD4250E15DA0010F012 /* Statics.cpp */; };
@@ -554,8 +551,6 @@
 		8205E18D24D31D0D001C5130 /* libm.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libm.tbd; path = usr/lib/libm.tbd; sourceTree = SDKROOT; };
 		8214272625456D530084CBA4 /* ProjectPlebs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectPlebs.h; sourceTree = "<group>"; };
 		8224EB222568D32F00581ABC /* ProjectPlebs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectPlebs.cpp; sourceTree = "<group>"; };
-		8225412024E01BD600DBF05C /* ScheatNodes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatNodes.cpp; sourceTree = "<group>"; };
-		8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LegacyTypeScheat.hpp; sourceTree = "<group>"; };
 		8225412824E175F700DBF05C /* libScheatRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatRun.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8225412A24E175F700DBF05C /* ScheatRun.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatRun.h; sourceTree = "<group>"; };
 		8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatRunPriv.hpp; sourceTree = "<group>"; };
@@ -718,7 +713,6 @@
 		826720E124F7F4C900C94D22 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		826720E924F9042E00C94D22 /* ScheatObjects.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatObjects.h; sourceTree = "<group>"; };
 		82730C5424FFB88900C27D79 /* Tokens.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tokens.cpp; sourceTree = "<group>"; };
-		82806DCD250E09F30010F012 /* ScheatParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatParser.cpp; sourceTree = "<group>"; };
 		82806DCF250E0A6A0010F012 /* ScheatContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatContext.cpp; sourceTree = "<group>"; };
 		82806DD1250E0BA70010F012 /* ScheatBasicStructures.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatBasicStructures.cpp; sourceTree = "<group>"; };
 		82806DD3250E11080010F012 /* ScheatStatics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatStatics.h; sourceTree = "<group>"; };
@@ -1335,7 +1329,6 @@
 				8262653025275F4700E71311 /* ScheatEncoder.h */,
 				826720A524F64ADB00C94D22 /* ScheatNodes.h */,
 				8283093524F93BEE006EFFEA /* CScheat.h */,
-				8225412124E01BD600DBF05C /* LegacyTypeScheat.hpp */,
 				829849EF24D2DA20004A7A64 /* scheatPriv.hpp */,
 				829849F124D2DA20004A7A64 /* scheat.cpp */,
 				82806DD4250E15DA0010F012 /* Statics.cpp */,
@@ -1343,10 +1336,8 @@
 				82730C5424FFB88900C27D79 /* Tokens.cpp */,
 				82ECF52C24D3A72900EB8316 /* Lexer.cpp */,
 				829CD925251F28A900139E5F /* Nodes2.cpp */,
-				82806DCD250E09F30010F012 /* ScheatParser.cpp */,
 				829CD921251F26B600139E5F /* ScheatParser2.cpp */,
 				82806DCF250E0A6A0010F012 /* ScheatContext.cpp */,
-				8225412024E01BD600DBF05C /* ScheatNodes.cpp */,
 				8262652F25275F4700E71311 /* ScheatEncoder.cpp */,
 				82806DD1250E0BA70010F012 /* ScheatBasicStructures.cpp */,
 				8283093624F93CB2006EFFEA /* CScheat.cpp */,
@@ -1602,7 +1593,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */,
-				8225412324E01BD600DBF05C /* LegacyTypeScheat.hpp in Headers */,
 				8283093824F93CDC006EFFEA /* CScheat.h in Headers */,
 				829849EE24D2DA20004A7A64 /* scheat.h in Headers */,
 				829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */,
@@ -1975,13 +1965,11 @@
 			files = (
 				82806DD2250E0BA70010F012 /* ScheatBasicStructures.cpp in Sources */,
 				82097C8F25076A31002D048A /* CScheat.cpp in Sources */,
-				8225412224E01BD600DBF05C /* ScheatNodes.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
 				829CD923251F26B600139E5F /* ScheatParser2.cpp in Sources */,
 				82FF1F3F255631A90047DEF4 /* Initializer.cpp in Sources */,
 				82806DD5250E15DA0010F012 /* Statics.cpp in Sources */,
 				8262653125275F4700E71311 /* ScheatEncoder.cpp in Sources */,
-				82806DCE250E09F30010F012 /* ScheatParser.cpp in Sources */,
 				829849F224D2DA20004A7A64 /* scheat.cpp in Sources */,
 				829CD927251F28A900139E5F /* Nodes2.cpp in Sources */,
 				82806DD0250E0A6A0010F012 /* ScheatContext.cpp in Sources */,

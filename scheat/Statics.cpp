@@ -10,7 +10,7 @@
 #include <stack>
 #include <map>
 #include <string>
-#include "ScheatNodes.h"
+//#include "ScheatNodes.h"
 #include "ScheatContext.h"
 #include "Classes.h"
 #include "ScheatStatics.h"
@@ -59,7 +59,7 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare void @Array_append(%Array*, i8*)\n";
     global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global->stream_body << "declare %Array @Array_init(i64)\n";
-    Function *initf = new Function("void", "main");
+    Function *initf = new Function("void", "init");
     initf->context->stream_entry << "define void @" << scheato->productName << "_init(){\n";
     initf->context->stream_entry << "entry:\n";
     initf->context->stream_tail << "ret void\n}\n";

@@ -259,6 +259,12 @@ Value *IfStatement::codegen(IRStream &f){
 Value *InfixOperatorExpr::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);
+    if (l->type == TypeData::IntType &&
+        r->type == TypeData::IntType) {
+        auto reg = ScheatContext::local()->getRegister();
+        f << reg << " = " << op->func_name << " nsw i32 " << l->value << ", " << r->value << "\n";
+        return new Value(reg, TypeData::IntType);
+    }
     if (op->return_type.name == "Void") {
         f << "call void(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
@@ -292,12 +298,21 @@ Value *PostfixOperatorTerm::codegen(IRStream &f){
 Value * InfixOperatorTerm::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);
+    if (l->type == TypeData::IntType) {
+        auto reg = ScheatContext::local()->getRegister();
+        f << reg << " = " << op->func_name << " nsw i32 " << l->value << ", " << r->value
+        << "\n";
+        delete l;
+        delete r;
+        return new Value(reg, TypeData::IntType);
+    }
     if (op->return_type.name == "Void") {
         f << "call void(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
         return nullptr;
     }else{
+        // incompleted code
         auto reg = ScheatContext::local()->getRegister();
         f << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ")\n";
         delete l;
@@ -834,7 +849,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
     }else if (ScheatContext::local()->name == "global" ||
               ScheatContext::local()->name == "main"){
         if (value->type.name == "Int") {
-            f << "@" << name << " = global i32 0\n";
+            ScheatContext::global->stream_body << name << " = global i32 0\n";
             string k = scheato->productName + "_init";
             auto ff = ScheatContext::global->findFunc(k);
             if (!ff) {

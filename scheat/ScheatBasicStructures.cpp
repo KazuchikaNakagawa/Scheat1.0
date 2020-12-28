@@ -9,7 +9,7 @@
 #include "scheatPriv.hpp"
 #include "Lexer.hpp"
 #include "ScheatContext.h"
-#include "ScheatNodes.h"
+//#include "ScheatNodes.h"
 #include <fstream>
 #include <iostream>
 #include <stdio.h>
@@ -18,7 +18,7 @@
 
 using namespace scheat::LegacyScheatParser;
 using namespace scheat;
-using namespace scheat::node;
+//using namespace scheat::node;
 
 TypeData TypeData::IntType = TypeData("Int", "i32");
 TypeData TypeData::StringType = TypeData("String", "%String");
@@ -42,6 +42,12 @@ Operator *Class::findOperator(string key){
     }
     return iter->second;
 }
+
+Class::Class(TypeData *ty) : type(ty){
+    properties = {};
+    operators = {};
+    context = Context::create(ty->name, ScheatContext::global);
+};
 
 std::string Function::lltype(){
     std::string base = return_type.mangledName() + "(";

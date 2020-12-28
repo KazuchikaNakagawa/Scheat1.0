@@ -16,9 +16,9 @@ public:
     std::string ir_used;
     std::string name;
     
-    bool operator==(TypeData *rhs){
-        return this->name == rhs->name
-        && this->mangledName() == rhs->mangledName();
+    bool operator==(TypeData rhs){
+        return this->name == rhs.name
+        && this->mangledName() == rhs.mangledName();
     }
     bool operator==(std::string s){
         return this->name == s || this->mangledName() == s;
