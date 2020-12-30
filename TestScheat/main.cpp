@@ -22,7 +22,6 @@ int main(int argc, const char * argv[]) {
     scheat.sourceFile = "/Users/kaz04/ScheatDocument/XCODETEST.scheat";
     scheat.ready();
     
-    //printf("this b is \"assass\".::::\nlog b.");
     ScheatLexer::lex();
     if (scheat.hasProbrem()) {
         return 0;

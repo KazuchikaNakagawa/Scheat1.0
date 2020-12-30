@@ -216,18 +216,21 @@ public:
     VariableAttributeExpr() { varindex = Property(); };
 };
 
+class ArgumentExpr;
+
 class FunctionAttributeExpr : public IdentifierTerm {
 public:
     SourceLocation location;
     TypeData type;
     Function *func;
+    unique_ptr<ArgumentExpr> args = nullptr;
     vector<Value *> values = {};
     string userdump() override{return func->name;};
     Value * codegenWithParent(Value *, IRStream &) override;
     Value * codegen(IRStream &) override;
-    Value * codegenAsRef(IRStream &) override{return nullptr;};
+    Value * codegenAsRef(IRStream &) override;
     static unique_ptr<FunctionAttributeExpr>
-    init(Function *, SourceLocation);
+    init(Function *, unique_ptr<ArgumentExpr>, SourceLocation);
 };
 
 class NewIdentifierExpr : public IdentifierExpr {

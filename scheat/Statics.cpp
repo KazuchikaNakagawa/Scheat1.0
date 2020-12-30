@@ -97,6 +97,7 @@ void ScheatContext::Init(_Scheat *sch){
     
     ScheatContext::global->addClass("Int", Int);
     auto String = new Class(new TypeData("String", "%String"));
+    
     ScheatContext::global->addClass("String", String);
 }
 

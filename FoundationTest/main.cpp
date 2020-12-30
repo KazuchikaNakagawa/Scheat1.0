@@ -17,8 +17,18 @@ union K {
 
 int main(int argc, const char * argv[]) {
     // insert code here...
-    K s;
-    s.cp = std::string("asjkj").c_str();
-    print_String(&s.s);
+    Array arr = Array_init(sizeof(bool));
+    bool c = true;
+    Array_append(&arr, &c);
+    c = false;
+    Array_append(&arr, &c);
+    c = true;
+    Array_append(&arr, &c);
+    c = false;
+    Array_append(&arr, &c);
+    for (int i = 0; i < arr.count; i++) {
+        auto p = *(bool *)Array_at(&arr, i);
+        printf("%d", p);
+    }
     return 0;
 }

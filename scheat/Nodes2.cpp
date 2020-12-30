@@ -347,8 +347,24 @@ unique_ptr<PrefixOperatorPrimaryExpr> PrefixOperatorPrimaryExpr::init(Operator *
     return ptr;
 }
 
+Value *FunctionAttributeExpr::codegenAsRef(IRStream &f){
+    auto value = codegen(f);
+    if (!value) {
+        return nullptr;
+    }
+    auto r = ScheatContext::local()->getRegister();
+    f << r << " = alloca " << value->type.ir_used << "\n";
+    f << "store " << value->asValue() << ", " << value->type.ir_used << "* " << r << "\n";
+    return new Value(r, value->type.pointer());
+}
+
 Value *FunctionAttributeExpr::codegen(IRStream &f){
     string reg = "";
+    
+    if (args != nullptr) {
+        values = args->codegenAsArray(f);
+    }
+    
     if (type == "Void") {
         f << "call " << func->lltype() << " " << func->getMangledName() << "(";
         return nullptr;
@@ -356,12 +372,14 @@ Value *FunctionAttributeExpr::codegen(IRStream &f){
         reg = ScheatContext::local()->getRegister();
         f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
     }
+    
     for (int i = 0; i < values.size(); i++) {
         f << values[i]->asValue();
         if (i != values.size() - 1) {
             f << ", ";
         }
     }
+    
     f << ")\n";
     return new Value(reg, type);
 }
@@ -501,6 +519,9 @@ vector<Value *> ArgumentExpr::codegenAsArray(IRStream &f){
     if (container == nullptr) {
         return {self->codegen(f)};
     }
+    if (self == nullptr) {
+        return {};
+    }
     auto arr = container->codegenAsArray(f);
     arr.push_back(self->codegen(f));
     return arr;
@@ -573,7 +594,7 @@ Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
 }
 
 Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
-    auto v = parent->codegen(f);
+    auto v = parent->codegenAsRef(f);
     if (child != nullptr) {
         return child->codegenWithParent(v, f);
     }
@@ -726,11 +747,12 @@ unique_ptr<VariableAttributeExpr> VariableAttributeExpr::init(Property varptr, S
     return ptr;
 }
 
-unique_ptr<FunctionAttributeExpr> FunctionAttributeExpr::init(Function *func, SourceLocation location){
+unique_ptr<FunctionAttributeExpr> FunctionAttributeExpr::init(Function *func, unique_ptr<ArgumentExpr> args, SourceLocation location){
     auto ptr = make_unique<FunctionAttributeExpr>();
     ptr->location = location;
     ptr->func = func;
     ptr->type = func->return_type;
+    ptr->args = move(args);
     return ptr;
 }
 Value *FloatTerm::codegen(IRStream &f){

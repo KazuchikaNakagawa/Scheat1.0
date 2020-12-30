@@ -14,8 +14,8 @@
             filePath = "scheat/ScheatParser2.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
+            startingLineNumber = "381"
+            endingLineNumber = "381"
             landmarkName = "scheat::parser2::parseTerm(tok)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "scheat/ScheatParser2.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "356"
-            endingLineNumber = "356"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
             landmarkName = "scheat::parser2::parseTerm(tok)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "scheat/ScheatParser2.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "357"
-            endingLineNumber = "357"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
             landmarkName = "scheat::parser2::parseTerm(tok)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "scheat/ScheatParser2.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "575"
-            endingLineNumber = "575"
+            startingLineNumber = "615"
+            endingLineNumber = "615"
             landmarkName = "parser2::parse(sch, tokens)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,10 +142,420 @@
             filePath = "scheat/ScheatParser2.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "636"
-            endingLineNumber = "636"
+            startingLineNumber = "676"
+            endingLineNumber = "676"
             landmarkName = "parser2::parseStatement(tokens)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8648FB79-0196-4D38-AB1D-2358968ACDFE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FoundationTest/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "main(argc, argv)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F0F754A-0D03-4248-86CF-AD0381C097F9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/ScheatParser2.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
+            landmarkName = "scheat::parser2::parseTerm(tok)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5B214F55-7D0C-424C-9D1B-6B01263ED45D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2F8D4785-C8F7-4629-843E-23D0E42DD0CD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "50102F2A-0DCF-4AF6-BAC0-3D89FC7E96FF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "53444F06-4F01-49C1-9072-BE0CEC567944"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6E710B86-DA66-4FE8-997C-05B247134C2B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F3B181A4-606F-4B78-8C9A-FC67526FAFAE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "24F00BA2-42C3-49A7-BAD6-65DDF8C38433"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5BCE3EC9-CF8B-4AD5-ABBB-E5794AB1AA64"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "349446FF-C87F-415E-879C-9162BA7AC56E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "76C894C1-E652-433B-95ED-49820BE8FEDC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "51E05536-3335-4558-9D13-DAB752814253"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "51E05536-3335-4558-9D13-DAB752814253 - 37a358d818f6756c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::~NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "51E05536-3335-4558-9D13-DAB752814253 - 37a358d818f6756c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::~NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "51E05536-3335-4558-9D13-DAB752814253 - 37a358d818f6756c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::~NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "29">
+               </Location>
+               <Location
+                  uuid = "51E05536-3335-4558-9D13-DAB752814253 - 9aa7a6e459dcc7ef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "51E05536-3335-4558-9D13-DAB752814253 - 9aa7a6e459dcc7ef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6E366E93-4C2E-4065-AFCC-C5361BEAE08C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "6E366E93-4C2E-4065-AFCC-C5361BEAE08C - 37a358d818f6756c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::~NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "6E366E93-4C2E-4065-AFCC-C5361BEAE08C - 37a358d818f6756c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::~NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "6E366E93-4C2E-4065-AFCC-C5361BEAE08C - 37a358d818f6756c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::~NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "29">
+               </Location>
+               <Location
+                  uuid = "6E366E93-4C2E-4065-AFCC-C5361BEAE08C - 9aa7a6e459dcc7ef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "6E366E93-4C2E-4065-AFCC-C5361BEAE08C - 9aa7a6e459dcc7ef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "scheat::nodes2::NewIdentifierExpr::NewIdentifierExpr()"
+                  moduleName = "TestScheat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kaz04/XcodeProjects/Language-Scheat/scheat/Nodes2.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C976AB3A-1415-4BF9-B849-74010039D378"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF7E3128-D8D9-4B47-8076-1BC4E8A45393"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "scheat/Nodes2.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
+            landmarkName = "FunctionAttributeExpr"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

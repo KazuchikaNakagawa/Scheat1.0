@@ -212,7 +212,7 @@ void *Array_at(Array *arr, int index){
     if (arr->count < index) {
         return NULL;
     }
-    return (void *)((unsigned long long)(arr->begPtr) + (arr->count * arr->elemSize));
+    return (void *)((unsigned long long)(arr->begPtr) + (index * arr->elemSize));
 }
 
 String String_init(char *p){

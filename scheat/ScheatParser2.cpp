@@ -81,22 +81,34 @@ static Operator *findOperator(Token *tok, TypeData type, OperatorPosition positi
 }
 
 //extern unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&);
+static unique_ptr<ArgumentExpr> parseArgumentExpr(Token*& tok);
 
 static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token *&tok){
     
     if (tok->kind == scheat::TokenKind::val_identifier){
         auto idtok = tok;
         eatThis(tok);
-        if (tok->next->kind == scheat::TokenKind::tok_paren_l) {
+        if (tok->kind == scheat::TokenKind::tok_paren_l) {
             eatThis(tok);
-            while (tok->kind == scheat::TokenKind::tok_paren_r) {
-                auto ptr = parseExpr(tok);
-                if (!ptr) {
-                    return nullptr;
-                }
-
+            //
+            auto classptr = ScheatContext::global->findClass(parentType.name);
+            if (!classptr) {
+                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "type %s is undefined.", parentType.name.c_str());
+                return nullptr;
             }
-        }else if (tok->next->kind == scheat::TokenKind::tok_with){
+            auto attptr = classptr->context->findFunc(idtok->value.strValue);
+            auto ptr = parseArgumentExpr(tok);
+            if (!ptr) {
+                //return nullptr;
+                return FunctionAttributeExpr::init(attptr, idtok->location);
+            }
+            if (tok->kind != scheat::TokenKind::tok_paren_r) {
+                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there are no right parentheses.");
+                return nullptr;
+            }
+            
+            
+        }else if (tok->kind == scheat::TokenKind::tok_with){
             eatThis(tok);
             if (tok->kind != scheat::TokenKind::tok_paren_l) {
                 scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "( is needed after with keyword.");
@@ -282,6 +294,34 @@ static unique_ptr<Term> parseTermNodes(Token*& tok){
     }
     return nullptr;
 }
+
+static unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
+    if (tok->kind == scheat::TokenKind::tok_paren_r) {
+        return ArgumentExpr::init(nullptr);
+    }
+    auto first = parseExpr(tok);
+    if (!first) {
+        return nullptr;
+    }
+    auto ptr = ArgumentExpr::init(move(first));
+    if (tok->kind != scheat::TokenKind::tok_comma) {
+        return ptr;
+    }
+    while (true) {
+        auto expr = parseExpr(tok);
+        if (!expr) {
+            return nullptr;
+        }
+        ptr = ArgumentExpr::addArg(move(ptr), move(expr));
+        if (tok->kind == scheat::TokenKind::tok_comma) {
+            eatThis(tok);
+        }else{
+            break;
+        }
+    }
+    return ptr;
+}
+
 
 extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
     // term : identifierExpr
@@ -668,30 +708,6 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
         // add(Statement, Statement)
     }
     return sts;
-}
-
-static unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
-    auto first = parseExpr(tok);
-    if (!first) {
-        return nullptr;
-    }
-    auto ptr = ArgumentExpr::init(move(first));
-    if (tok->kind != scheat::TokenKind::tok_comma) {
-        return ptr;
-    }
-    while (true) {
-        auto expr = parseExpr(tok);
-        if (!expr) {
-            return nullptr;
-        }
-        ptr = ArgumentExpr::addArg(move(ptr), move(expr));
-        if (tok->kind == scheat::TokenKind::tok_comma) {
-            eatThis(tok);
-        }else{
-            break;
-        }
-    }
-    return ptr;
 }
 
 static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
