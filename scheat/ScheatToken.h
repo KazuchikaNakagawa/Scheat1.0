@@ -12,13 +12,11 @@
 namespace scheat {
 
 struct SourceLocation {
+    SourceLocation(int l = 1, int c = 0) : line(l), column(c){};
     int line;
     int column;
-    SourceLocation(){
-        line = 1;
-        column = 0;
-    }
     ~SourceLocation() = default;
+    static SourceLocation OUTOFFILELOCATION;
 };
 
 enum class TokenKind : int {

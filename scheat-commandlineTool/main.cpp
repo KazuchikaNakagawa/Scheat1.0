@@ -8,10 +8,12 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "scheat.h"
 
 
 using namespace std;
+using namespace scheat;
 int main(int argc, const char *argv[]){
     // std::cout << argc << std::endl;
     
@@ -25,30 +27,43 @@ int main(int argc, const char *argv[]){
     }
     
     if (strcmp(argv[1], "-build") == 0) {
+        Scheat scheat;
         std::string path;
         std::cout << "main source> ";
-        std::cin >> path;
+        std::cin >> scheat.sourceFile;
         std::string includes;
         std::cout << "header search path> ";
-        std::cin >> includes;
+        std::cin >> scheat.header_search_path;
         std::string libs;
         std::cout << "library search path> ";
-        std::cin >> libs;
+        std::cin >> scheat.library_search_path;
         std::string outputFilePath;
-        std::cout << "product name> ";
-        std::cin >> outputFilePath;
+        std::cout << "output file> ";
+        std::cin >> scheat.outputFilePath;
+        cout << "product name> ";
+        string l;
+        cin >> l;
+        scheat.setProductName(l);
         std::cout << "this compiling service is unavailable yet. sorry! :)" << std::endl;
         return 0;
     }
     if (strcmp(argv[1], "-play") == 0) {
         std::cout << "Scheat 2.0.1 beta(C++ Edition)" << std::endl;
         std::cout << "[based on LLVM 10.0.0]" << std::endl;
-        std::cout << "> ";
+        //std::cout << "> ";
+        Scheat scheat;
+        //scheat.allowDeepDebug(true);
+        scheat.setDebugSetting(true);
+        scheat.ready();
         while (true) {
             std::string code;
+            cout << "> ";
             std::getline(std::cin, code);
-            std::cout << "this feature is not available yet." << std::endl;
-            break;
+            if (code == "\\q") {
+                break;
+            }
+            ScheatLexer::testlex(code + "\n");
+            
         }
         return 0;
     }
@@ -66,13 +81,13 @@ int main(int argc, const char *argv[]){
     }
     
     if (strcmp(argv[1], "-lex") == 0) {
-        scheat::_Scheat sch = scheat::_Scheat();
+        scheat::Scheat sch = scheat::Scheat();
         
-        scheat::lexer::Lexer lexer(&sch);
+        //scheat::ScheatLexer lexer(&sch);
         if (argc == 2){
             while (true){
                 std::string kv;
-                lexer.clearTokens();
+                //lexer.clearTokens();
                 std::cout << "> ";
                 std::getline(std::cin, kv);
                 if (kv == "\\q") {
@@ -80,17 +95,19 @@ int main(int argc, const char *argv[]){
                     break;
                 }
                 std::string buf = std::string(kv) + "\n";
-                lexer.lex(kv);
+                sch.allowDeepDebug(true);
+                sch.ready();
+                scheat::ScheatLexer::testlex(buf);
                 
-                lexer.getTokens()->enumerate();
+                //lexer.getTokens()->enumerate();
             }
         }else if (argc == 3 && strcmp(argv[2], "-wdebug") == 0){
             sch.allowDeepDebug(true);
+            sch.ready();
             std::string kv;
             std::cout << "> ";
             std::getline(std::cin, kv);
-            lexer.lex(kv);
-            lexer.getTokens()->enumerate();
+            scheat::ScheatLexer::testlex(kv);
         }else if (argc == 3){
             std::cout << "this option was obsoluted..." << std::endl;
             return 0;
@@ -103,15 +120,20 @@ int main(int argc, const char *argv[]){
             string basePath(argv[2]);
             string inFilePath = basePath + ".scheat";
             string outfilePath = basePath;
-            scheat::_Scheat sch;
+            scheat::Scheat sch;
             sch.outputFilePath = outfilePath;
             sch.sourceFile = inFilePath;
-            scheat::lexer::Lexer lxr(&sch);
-            ifstream ifs(sch.sourceFile);
-            lxr.lex(ifs);
-            scheat::parser2::parse(&sch, lxr.getTokens());
-            
-            scheat::encoder::LLSCEncoder::encodeLL(&sch);
+            //scheat::ScheatLexer lxr(&sch);
+            scheat::ScheatLexer::lex();
+            if (sch.hasProbrem()) {
+                return 0;
+            }
+            scheat::ScheatAnalyzer::parse();
+            if (sch.hasProbrem()) {
+                return 0;
+            }
+            scheat::ScheatEncoder::printout();
+            scheat::ScheatEncoder::encode();
             return 0;
         }
         

@@ -101,6 +101,8 @@ Lexer::Lexer(scheat::_Scheat *host) : location(host->location){
     tokens = nullptr;
     commentDepth = 0;
     state = initState;
+    tokens = host->tokens->last();
+    location = host->location;
 }
 
 void Lexer::lex(std::ifstream &stream){
@@ -116,6 +118,7 @@ void Lexer::lex(std::ifstream &stream){
             break;
         }
     }
+    host->location = location;
 }
 
 void Token::valInt(std::string k){
@@ -474,13 +477,15 @@ void Lexer::input(int c, int next){
     }
     host->DevLog(location, __FILE_NAME__,__LINE__, "%c was input, %s : now buffer", c, buf.c_str());
     if (c == '\0' || c == EOF) {
+        genTok();
         return;
     }
     
     location.column++;
     
     if (c == '\n') {
-        location.line++;
+//        location.line++;
+//        location.column = 0;
     }
     
     if (skipFlag) {
@@ -504,11 +509,19 @@ void Lexer::input(int c, int next){
     if (true
         && state == commentState
         && c != '\n') {
-        
+        location.line++;
+        location.column = 0;
         return;
         
     }else if (state == commentState && c == '\n'){
         clear();
+        location.line++;
+        location.column = 0;
+        return;
+    }else if (c == '\n'){
+        genTok();
+        location.line++;
+        location.column = 0;
         return;
     }
     
@@ -559,11 +572,6 @@ void Lexer::input(int c, int next){
     
     if (state == stringState) {
         buf.push_back(c);
-        return;
-    }
-    
-    if (c == '\n') {
-        genTok();
         return;
     }
     
@@ -769,9 +777,12 @@ void Lexer::lex(std::string str){
         }
         input(str[i], str[i + 1]);
         if (str[i+1] == '\0') {
-            input(' ', ' ');
+            genTok();
+            break;
         }
     }
+    host->location = location;
+    //printf("%d.%d\n", host->location.line, host->location.column);
     host->tokens = (tokens->first());
 }
 

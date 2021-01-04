@@ -554,7 +554,14 @@ Value *PrintStatement::codegen(IRStream &f){
 
 unique_ptr<ArgumentExpr> ArgumentExpr::init(unique_ptr<Expr> bdy){
     auto ptr = make_unique<ArgumentExpr>();
+    if (bdy == nullptr) {
+        ptr->location = SourceLocation();
+        ptr->self = nullptr;
+        ptr->type = TypeData("", "");
+        return ptr;
+    }
     ptr->location = bdy->location;
+    ptr->type = bdy->type;
     ptr->self = move(bdy);
     return ptr;
 }

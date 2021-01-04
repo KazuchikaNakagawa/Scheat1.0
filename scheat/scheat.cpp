@@ -304,6 +304,17 @@ void ScheatLexer::lex(){
 void ScheatLexer::testlex(std::string buf){
     lexer::Lexer lxr(scheato);
     lxr.lex(buf);
+    lxr.getTokens()->enumerate();
+}
+
+void Scheat::complementSettings(){
+    if (outputFilePath == "-") {
+        auto pos = sourceFile.find(".sch");
+        if (pos == string::npos) {
+            scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "");
+        }
+        
+    }
 }
 
 void Scheat::setDebugSetting(bool o){

@@ -97,10 +97,16 @@ static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token 
                 return nullptr;
             }
             auto attptr = classptr->context->findFunc(idtok->value.strValue);
+            if (!attptr) {
+                scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s's %s function is undefined.",
+                                    parentType.name.c_str(),
+                                    idtok->value.strValue.c_str());
+                return nullptr;
+            }
             auto ptr = parseArgumentExpr(tok);
             if (!ptr) {
                 //return nullptr;
-                return FunctionAttributeExpr::init(attptr, idtok->location);
+                return FunctionAttributeExpr::init(attptr, move(ptr), idtok->location);
             }
             if (tok->kind != scheat::TokenKind::tok_paren_r) {
                 scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there are no right parentheses.");
@@ -644,6 +650,12 @@ static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
     if (tok->kind == scheat::TokenKind::tok_this) {
         eatThis(tok);
     }
+    if (ScheatContext::local()->name == "main") {
+        glbl = true;
+    }
+    if (ScheatContext::local()->name == "global") {
+        glbl = true;
+    }
     if (tok->kind == scheat::TokenKind::tok_global) {
         glbl = true;
         eatThis(tok);
@@ -667,6 +679,7 @@ static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
         }
         ptr->type = type;
     }
+    ptr->isGlobal = glbl;
     return ptr;
 }
 

@@ -21,7 +21,6 @@ int main(int argc, const char * argv[]) {
     scheat.outputFilePath = "/Users/kaz04/ScheatDocument/XCODETEST.ll";
     scheat.sourceFile = "/Users/kaz04/ScheatDocument/XCODETEST.scheat";
     scheat.ready();
-    
     ScheatLexer::lex();
     if (scheat.hasProbrem()) {
         return 0;
