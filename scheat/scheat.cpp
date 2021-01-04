@@ -308,10 +308,21 @@ void ScheatLexer::testlex(std::string buf){
 }
 
 void Scheat::complementSettings(){
+    if (sourceFile == "") {
+        scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "to complete settings, at least sourceFile is needed.");
+        return;
+    }
+    
     if (outputFilePath == "-") {
-        auto pos = sourceFile.find(".sch");
+        auto pos = sourceFile.find(".scheat");
         if (pos == string::npos) {
-            scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "");
+            pos = sourceFile.find(".scht");
+            isMain = false;
+        }else{
+            isMain = true;
+        }
+        if (pos == string::npos) {
+            scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "source file must have the extension .scheat or .scht");
         }
         
     }
