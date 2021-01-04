@@ -519,6 +519,9 @@ extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
 }
 
 static unique_ptr<Expr> parseOperatedExpr(Token *&tok){
+    if (tok == nullptr) {
+        return nullptr;
+    }
     // 1. op expr
     unique_ptr<PrimaryExpr> ptr = nullptr;
     
@@ -769,8 +772,10 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
         return nullptr;
     }
     eatThis(tok);
+    
     auto val = parseExpr(tok);
     if (!val) {
+        scheato->FatalError(name->location, __FILE_NAME__, __LINE__, "to declare a variable, there must be a value after 'is' keyword.");
         return nullptr;
     }
     string prefix = "%";
@@ -815,6 +820,9 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
 extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     // statement : this id is expr.
     if (tokens == nullptr) {
+        return nullptr;
+    }
+    if (tokens->kind == scheat::TokenKind::tok_EOF) {
         return nullptr;
     }
     if (tokens->kind == TokenKind::tok_this) {

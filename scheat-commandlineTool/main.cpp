@@ -44,18 +44,21 @@ int main(int argc, const char *argv[]){
         string l;
         cin >> l;
         scheat.setProductName(l);
+        scheat.complementSettings();
+        
         std::cout << "this compiling service is unavailable yet. sorry! :)" << std::endl;
         return 0;
     }
     if (strcmp(argv[1], "-play") == 0) {
+        okok:
         std::cout << "Scheat 2.0.1 beta(C++ Edition)" << std::endl;
         std::cout << "[based on LLVM 10.0.0]" << std::endl;
         //std::cout << "> ";
         Scheat scheat;
         //scheat.allowDeepDebug(true);
         scheat.setDebugSetting(true);
-        scheat.ready();
         while (true) {
+            scheat.ready();
             std::string code;
             cout << "> ";
             std::getline(std::cin, code);
@@ -63,7 +66,16 @@ int main(int argc, const char *argv[]){
                 break;
             }
             ScheatLexer::testlex(code + "\n");
-            
+            if (scheat.hasProbrem()) {
+                cout << "----Scheat has been reset----" << endl;
+                goto okok;
+            }
+            ScheatAnalyzer::parse();
+            if (scheat.hasProbrem()) {
+                cout << "----Scheat has been reset----" << endl;
+                goto okok;
+            }
+            ScheatEncoder::printout();
         }
         return 0;
     }

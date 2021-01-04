@@ -101,7 +101,8 @@ Lexer::Lexer(scheat::_Scheat *host) : location(host->location){
     tokens = nullptr;
     commentDepth = 0;
     state = initState;
-    tokens = host->tokens->last();
+    if (host->tokens != nullptr) tokens = host->tokens->last()->prev;
+    else tokens = nullptr;
     location = host->location;
 }
 
@@ -118,7 +119,16 @@ void Lexer::lex(std::ifstream &stream){
             break;
         }
     }
+    genTok();
+    addEOFToken();
     host->location = location;
+}
+
+void Lexer::addEOFToken(){
+    auto tok = new Token();
+    tok->kind = TokenKind::tok_EOF;
+    tok->location = location;
+    tokens = Token::add(tokens, tok);
 }
 
 void Token::valInt(std::string k){
@@ -462,6 +472,9 @@ void Token::out(){
     if (kind == TokenKind::tok_access) {
         printf(". access token\n");
     }
+    if (kind == TokenKind::tok_EOF) {
+        printf("EOF token\n");
+    }
 }
 
 void Lexer::clear(){
@@ -781,6 +794,8 @@ void Lexer::lex(std::string str){
             break;
         }
     }
+    genTok();
+    addEOFToken();
     host->location = location;
     //printf("%d.%d\n", host->location.line, host->location.column);
     host->tokens = (tokens->first());

@@ -21,6 +21,8 @@ struct SourceLocation {
 
 enum class TokenKind : int {
     
+    tok_EOF,
+    
     val_identifier,
     val_num,
     val_str,

@@ -39,6 +39,7 @@ class Lexer {
     Token *tokens = nullptr;
     void input(int c, int next);
     void genTok();
+    void addEOFToken();
     int commentDepth;
     bool skipFlag;
     bool isPossibleForPPPTok = false;

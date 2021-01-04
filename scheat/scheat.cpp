@@ -197,6 +197,7 @@ _Scheat::_Scheat(Scheat *sch){
     library_search_path = sch->library_search_path;
     delegate = sch->delegate;
     productName = sch->productName;
+    tokens = nullptr;
 }
 
 void Scheat::ready(){

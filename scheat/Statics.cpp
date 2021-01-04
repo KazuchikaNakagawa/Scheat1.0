@@ -60,7 +60,7 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global->stream_body << "declare %Array @Array_init(i64)\n";
     Function *initf = new Function("void", "init");
-    initf->context->stream_entry << "define void @" << scheato->productName << "_init(){\n";
+    initf->context->stream_entry << "define void @" << scheato->sourceFile << "_init(){\n";
     initf->context->stream_entry << "entry:\n";
     initf->context->stream_tail << "ret void\n}\n";
     contextCenter.push_back(initf->context);
