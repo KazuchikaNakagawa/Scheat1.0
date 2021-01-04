@@ -208,6 +208,20 @@ void Scheat::ready(){
     }
 }
 
+void Scheat::addSome(){
+    if (scheato == nullptr) {
+        ready();
+        return;
+    }
+    auto newone = new _Scheat(this);
+    newone->tokens = scheato->tokens;
+    scheato = newone;
+    ScheatContext::Init(scheato);
+    if (isMain) {
+        ScheatContext::AddMain();
+    }
+}
+
 Scheat::Scheat(){
     debug = false;
     deepDebug = false;

@@ -16,7 +16,7 @@ int main(int argc, const char * argv[]) {
     scheat.setDebugSetting(true);
     scheat.allowDeepDebug(true);
     scheat.datalayout = "i32-SCHEAT64";
-    scheat.isMain = true;
+    scheat.isMain = false;
     scheat.setProductName("testProduct");
     scheat.outputFilePath = "/Users/kaz04/ScheatDocument/XCODETEST.ll";
     scheat.sourceFile = "/Users/kaz04/ScheatDocument/XCODETEST.scheat";

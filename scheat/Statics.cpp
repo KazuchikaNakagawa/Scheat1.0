@@ -63,6 +63,7 @@ void ScheatContext::Init(_Scheat *sch){
     initf->context->stream_entry << "define void @" << scheato->sourceFile << "_init(){\n";
     initf->context->stream_entry << "entry:\n";
     initf->context->stream_tail << "ret void\n}\n";
+    push(initf->context);
     contextCenter.push_back(initf->context);
     init = initf->context;
     pushNewNamespace(scheato->productName);

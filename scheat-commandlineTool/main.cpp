@@ -57,8 +57,9 @@ int main(int argc, const char *argv[]){
         Scheat scheat;
         //scheat.allowDeepDebug(true);
         scheat.setDebugSetting(true);
+        scheat.isMain = true;
         while (true) {
-            scheat.ready();
+            scheat.addSome();
             std::string code;
             cout << "> ";
             std::getline(std::cin, code);

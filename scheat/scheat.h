@@ -57,6 +57,7 @@ public:
     void allowDeepDebug(bool b);
     void setProductName(std::string);
     void ready();
+    void addSome();
     Scheat();
     friend class _Scheat;
 };;
