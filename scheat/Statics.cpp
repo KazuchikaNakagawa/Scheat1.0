@@ -20,6 +20,23 @@ namespace scheat {
 
 using namespace scheat;
 
+static string getFileName(string path){
+    string kbuf = "";
+    for (auto c : path) {
+        if (c == '/') {
+            kbuf = "";
+            continue;
+        }
+        
+        if (c == '.') {
+            return kbuf;
+        }
+        
+        kbuf.push_back(c);
+    }
+    return "";
+}
+
 //std::vector<Context *> ScheatContext::contextCenter = {};
 //Context *ScheatContext::global = nullptr;
 Context *ScheatContext::main = nullptr;
@@ -60,14 +77,14 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global->stream_body << "declare %Array @Array_init(i64)\n";
     Function *initf = new Function("void", "init");
-    initf->context->stream_entry << "define void @" << scheato->sourceFile << "_init(){\n";
+    initf->context->stream_entry << "define void @" << getFileName(scheato->sourceFile) << "_init(){\n";
     initf->context->stream_entry << "entry:\n";
     initf->context->stream_tail << "ret void\n}\n";
     push(initf->context);
     contextCenter.push_back(initf->context);
     init = initf->context;
     pushNewNamespace(scheato->productName);
-    ScheatContext::global->addFunction(scheato->productName + "_init", initf);
+    ScheatContext::global->addFunction(getFileName(scheato->sourceFile) + "_init", initf);
     ScheatContext::main = nullptr;
     mTokens = nullptr;
     auto Int = new Class(new TypeData("i32"));

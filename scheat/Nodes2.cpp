@@ -53,6 +53,23 @@ static string strreplace(string &str, string target, string into){
     return result;
 }
 
+static string getFileName(string path){
+    string kbuf = "";
+    for (auto c : path) {
+        if (c == '/') {
+            kbuf = "";
+            continue;
+        }
+        
+        if (c == '.') {
+            return kbuf;
+        }
+        
+        kbuf.push_back(c);
+    }
+    return "";
+}
+
 static TypeData asPointer(TypeData ty){
     return TypeData("the " + ty.name, ty.ir_used + "*");
 }
@@ -465,6 +482,7 @@ Value *AllocationExpr::codegen(IRStream &f){
                             "this expression is void.");
         return nullptr;
     }
+
     auto tp = val->type;
     auto cln = ScheatContext::local()->findClass(tp.name);
     if (!cln) {
@@ -516,11 +534,14 @@ Value *BoolTerm::codegen(IRStream &f){
 }
 
 vector<Value *> ArgumentExpr::codegenAsArray(IRStream &f){
+    if (self == nullptr && !container) {
+        return {};
+    }
     if (container == nullptr) {
         return {self->codegen(f)};
     }
     if (self == nullptr) {
-        return {};
+        return {container->codegen(f)};
     }
     auto arr = container->codegenAsArray(f);
     arr.push_back(self->codegen(f));
