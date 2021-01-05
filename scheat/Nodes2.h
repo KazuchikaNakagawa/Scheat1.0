@@ -256,6 +256,7 @@ public:
     string userdump() override;
     //void addArgument(bool, unique_ptr<Expr>) override{};
     static unique_ptr<VariableTerm> init(Token *, TypeData);
+    Value * codegenAsRef(IRStream &) override;
 };
 
 class FunctionCallTerm : public TopIdentifierExpr {

@@ -82,7 +82,7 @@ public:
     /// basically it won't be used
     std::string codegen(IRStream &);
     Context *context;
-    Function(std::string ,std::string);
+    Function(std::string ,std::string,bool demangle = false);
     string asValue();
 };
 

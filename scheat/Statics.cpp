@@ -115,6 +115,9 @@ void ScheatContext::Init(_Scheat *sch){
     
     ScheatContext::global->addClass("Int", Int);
     auto String = new Class(new TypeData("String", "%String"));
+    auto countFunction = new Function("i32", "String_count", false);
+    countFunction->return_type = TypeData::IntType;
+    String->context->addFunction("count", countFunction);
     
     ScheatContext::global->addClass("String", String);
 }

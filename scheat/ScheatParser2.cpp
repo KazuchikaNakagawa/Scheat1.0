@@ -112,7 +112,8 @@ static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token 
                 scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there are no right parentheses.");
                 return nullptr;
             }
-            
+            eatThis(tok);
+            return FunctionAttributeExpr::init(attptr, move(ptr), idtok->location);
             
         }else if (tok->kind == scheat::TokenKind::tok_with){
             eatThis(tok);

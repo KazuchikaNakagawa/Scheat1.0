@@ -621,6 +621,10 @@ Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
     return nullptr;
 }
 
+Value *VariableTerm::codegenAsRef(IRStream &f){
+    return new Value(value, type.pointer());
+}
+
 Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
     auto v = parent->codegenAsRef(f);
     if (child != nullptr) {

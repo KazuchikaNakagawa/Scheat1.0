@@ -58,8 +58,11 @@ void ScheatContext::exportTo(ofstream &f){
     }
 }
 
-Function::Function(std::string type, std::string nm) : return_type(type){
+Function::Function(std::string type, std::string nm, bool demangle = true) : return_type(type){
     mangledName = "@" + ScheatContext::local()->name + "_" + nm;
+    if (!demangle) {
+        mangledName = "@" + nm;
+    }
     name = nm;
     argTypes = {};
     context = Context::create(nm, ScheatContext::local());
