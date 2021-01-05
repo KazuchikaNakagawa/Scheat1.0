@@ -32,7 +32,7 @@ std::string Function::getMangledName(){
             base = base + "_";
         }
     }
-    return mangledName + base;
+    return base + mangledName;
 }
 
 Operator *Class::findOperator(string key){

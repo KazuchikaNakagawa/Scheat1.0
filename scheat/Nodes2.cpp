@@ -622,7 +622,13 @@ Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
 }
 
 Value *VariableTerm::codegenAsRef(IRStream &f){
-    return new Value(value, type.pointer());
+    auto vp = ScheatContext::local()->findVariable(value);
+    if (!vp) {
+        scheato->FatalError(location, __FILE_NAME__, __LINE__,
+                            "this error should be appeared by analyzer. (by Encoder)");
+        return nullptr;
+    }
+    return new Value(vp->mangledName, type.pointer());
 }
 
 Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){

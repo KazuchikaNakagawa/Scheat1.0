@@ -75,15 +75,27 @@ class Function{
 public:
     
     std::string name;
-    std::string getMangledName();
+    virtual std::string getMangledName();
     TypeData return_type;
     std::vector<TypeData> argTypes;
     std::string lltype();
     /// basically it won't be used
     std::string codegen(IRStream &);
     Context *context;
-    Function(std::string ,std::string,bool demangle = false);
+    Function(std::string ,std::string,bool demangle = true);
     string asValue();
+};
+
+class ExternalFunction : public Function {
+public:
+    string getMangledName() {
+        return "@" + name;
+    }
+    ExternalFunction(TypeData _return_type, string fullName)
+    : Function(_return_type.ir_used, fullName, false)
+    {
+        
+    };
 };
 
 class Variable {
