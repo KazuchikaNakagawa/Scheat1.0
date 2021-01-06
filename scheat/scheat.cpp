@@ -17,6 +17,7 @@
 #include "Lexer.hpp"
 #include "Classes.h"
 #include "ScheatParser2.h"
+#include "ScheatEncoder.h"
 
 using namespace scheat;
 
@@ -367,6 +368,7 @@ void ScheatEncoder::encode(){
         return;
     }
     ScheatContext::exportTo(fp);
+    encoder::LLSCEncoder::encode(scheato);
 }
 
 void ScheatEncoder::printout(){

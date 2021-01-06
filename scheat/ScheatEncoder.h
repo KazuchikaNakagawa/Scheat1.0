@@ -16,11 +16,13 @@ namespace scheat {
 
 namespace encoder {
 
+using namespace std;
 // Low Layer Scheat Compiler
 // Compile scheat to LLVM IR an to object file.
 class LLSCEncoder {
 public:
     static void encode(_Scheat *);
+    static void encode(string);
     static void encodeLL(_Scheat *);
 };
 

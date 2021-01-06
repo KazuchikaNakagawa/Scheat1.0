@@ -9,6 +9,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "scheat.h"
 
 
@@ -90,6 +92,17 @@ int main(int argc, const char *argv[]){
         "-lex:" << std::endl <<
         "   lex texts and show token kind.\n"
         "   option: -f enables you to lex file. Enter file path after -f option.";
+        return 0;
+    }
+    
+    if (strcmp(argv[1], "-ready") == 0) {
+        chdir("/usr/local/lib");
+        int i = mkdir("Scheat", 0777);
+        if (errno == EACCES ) printf("failed to access /usr/local/. try sudo chmod -R 775 /usr/localllib and retry.\n");
+        else if (errno == EEXIST) printf("Scheat was already setup");
+        if (i == 0) {
+            printf("succeeded to get ready.");
+        }
         return 0;
     }
     
