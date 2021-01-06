@@ -54,7 +54,7 @@ std::string Function::lltype(){
     for (int i = 0; i < argTypes.size(); i++) {
         base = base + argTypes[i].mangledName();
         
-        if (i < argTypes.size()) {
+        if (i < argTypes.size() - 1) {
             base = base + ", ";
         }
     }

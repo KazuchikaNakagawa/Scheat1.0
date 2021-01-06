@@ -506,7 +506,7 @@ Value *StringTerm::codegen(IRStream &f){
     strreplace(substr, "\t", "\\09");
     strreplace(substr, "\\t", "\\09");
     strreplace(substr, "\\\"", "\\22");
-    string r = "@";
+    string r = "@str";
     if (ScheatContext::global->strmap.find(substr) == ScheatContext::global->strmap.end()) {
         r = r + to_string(ScheatContext::global->strmap.size());
     }else{
@@ -514,7 +514,7 @@ Value *StringTerm::codegen(IRStream &f){
     }
     auto rn = r;
     int strlength = value.size() - countof(value, '\\') - 2;
-    auto sname =  rn + ".str";
+    auto sname =  rn;
     ScheatContext::global->stream_entry <<
     sname << " = private unnamed_addr constant [" <<
     to_string(strlength) << " x i8] c" << substr << "\n";
@@ -745,10 +745,7 @@ Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
 }
 
 Value *AccessIdentifierExpr::codegen(IRStream &f){
-    string reg = ScheatContext::local()->getRegister();
-    auto v = codegenAsRef(f);
-    f << reg << " = load " << v->type.ir_used << ", " << v->asValue() << "\n";
-    return new Value(reg, v->type);
+    return codegenAsRef(f);
 }
 
 string AccessIdentifierExpr::userdump(){

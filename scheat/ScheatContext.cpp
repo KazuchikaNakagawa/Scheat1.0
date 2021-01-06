@@ -50,7 +50,7 @@ Variable *Context::findVariable(std::string key){
 
 void ScheatContext::exportTo(ofstream &f){
     for (auto con : contextCenter) {
-        f << "; " << con->name << endl;
+        if (con->name != "global") f << "; " << con->name << endl;
         con->stream_entry.exportTo(f);
         con->stream_body.exportTo(f);
         con->stream_tail.exportTo(f);
@@ -97,13 +97,6 @@ bool Context::isExists(std::string key){
 
 void Context::dump(std::ofstream &f){
     
-    // typename std::map<std::string, Class *>::iterator
-    auto iter = begin(classes);
-    while (iter != classes.end()) {
-        auto pair = *iter;
-        pair.second->context->dump(f);
-        iter = std::next(iter);
-    }
     f << "; " << name << "\n";
     stream_entry.exportTo(f);
     stream_body.exportTo(f);

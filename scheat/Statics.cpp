@@ -53,6 +53,7 @@ void ScheatContext::Init(_Scheat *sch){
     global->name = "global";
     localcon.push(ScheatContext::global);
     contextCenter.push_back(ScheatContext::global);
+    global->stream_entry << "; ModuleID = '" << scheato->sourceFile << "'\n";
     global->stream_entry << "source_filename = \"" << scheato->sourceFile << "\"\n";
     global->stream_entry << "target datalayout = \"" << scheato->datalayout << "\"\n";
     global->stream_entry << "target triple = \"" << scheato->target << "\"\n\n";
@@ -73,6 +74,7 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare %String @String_init(i8*)\n";
     global->stream_body << "declare %String @String_add(%String, %String)\n";
     global->stream_body << "declare %String @String_copy(%String)\n";
+    global->stream_body << "declare i32 @String_count(%String*)\n";
     global->stream_body << "declare void @Array_append(%Array*, i8*)\n";
     global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global->stream_body << "declare %Array @Array_init(i64)\n";
@@ -117,6 +119,7 @@ void ScheatContext::Init(_Scheat *sch){
     auto String = new Class(new TypeData("String", "%String"));
     auto countFunction = new ExternalFunction(TypeData::IntType, "String_count");
     countFunction->return_type = TypeData::IntType;
+    countFunction->argTypes.push_back(TypeData::StringType.pointer());
     String->context->addFunction("count", countFunction);
     
     ScheatContext::global->addClass("String", String);

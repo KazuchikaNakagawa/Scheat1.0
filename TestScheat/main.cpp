@@ -15,7 +15,12 @@ int main(int argc, const char * argv[]) {
     Scheat scheat = Scheat();
     scheat.setDebugSetting(true);
     scheat.allowDeepDebug(true);
-    scheat.datalayout = "i32-SCHEAT64";
+    /*
+     target datalayout = "e-m:o-i64:64-f80:128-n8:16:32:64-S128"
+     target triple = "x86_64-apple-macosx10.14.0"
+     */
+    scheat.target = "x86_64-apple-macosx10.15.0";
+    scheat.datalayout = "e-m:o-i64:64-f80:128-n8:16:32:64-S128";
     scheat.isMain = false;
     scheat.setProductName("testProduct");
     scheat.outputFilePath = "/Users/kaz04/ScheatDocument/XCODETEST.ll";

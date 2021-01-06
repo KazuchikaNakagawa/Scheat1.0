@@ -368,7 +368,7 @@ void ScheatEncoder::encode(){
         return;
     }
     ScheatContext::exportTo(fp);
-    encoder::LLSCEncoder::encode(scheato);
+    encoder::LLSCEncoder::encode(scheato->outputFilePath);
 }
 
 void ScheatEncoder::printout(){

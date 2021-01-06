@@ -23,6 +23,7 @@
 #include <llvm/Target/TargetOptions.h>
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/Support/raw_ostream.h>
+#include <system_error>
 
 using namespace scheat;
 using namespace scheat::encoder;
@@ -39,14 +40,17 @@ void LLSCEncoder::encode(string path){
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(path), err, context);
+    cout << err.getLineNo() << "." << err.getColumnNo() << " " << err.getMessage().data() << endl;
     llvm::InitializeAllTargetInfos();
     llvm::InitializeAllTargetInfos();
     llvm::InitializeAllTargetMCs();
     llvm::InitializeAllAsmParsers();
     llvm::InitializeAllAsmPrinters();
     std::string Error;
-    auto Target = llvm::TargetRegistry::lookupTarget(module->getTargetTriple(), Error);
-    
+    auto triple = llvm::sys::getDefaultTargetTriple();
+    module->setTargetTriple(triple);
+    auto Target = llvm::TargetRegistry::lookupTarget(triple, Error);
+
     if (!Target) {
         llvm::errs() << Error;
         scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__,
@@ -55,15 +59,15 @@ void LLSCEncoder::encode(string path){
     }
     auto CPU = "generic";
     auto Features = "";
-    
+
     llvm::TargetOptions opt;
     auto RM = llvm::Optional<llvm::Reloc::Model>();
     auto TheTargetMachine =
-    Target->createTargetMachine(module->getTargetTriple(), CPU, Features, opt, RM);
+    Target->createTargetMachine(triple, CPU, Features, opt, RM);
+
+    //module->setDataLayout(TheTargetMachine->createDataLayout());
     
-    module->setDataLayout(TheTargetMachine->createDataLayout());
-    
-    auto Filename = "output.o";
+    auto Filename = scheato->productName + ".o";
     std::error_code EC;
     llvm::raw_fd_ostream dest(Filename, EC, llvm::sys::fs::OF_None);
     
