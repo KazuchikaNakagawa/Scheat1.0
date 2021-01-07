@@ -14,7 +14,7 @@
 #include "ScheatToken.h"
 #include "scheat.h"
 
-#define SV_P 15
+#define SV_P 17
 namespace scheat {
 class Token;
 class _Scheat;
@@ -68,6 +68,7 @@ public:
     void setDebugSetting(bool o) {
         debug = o;
     };
+    bool getDebugSetting() {return debug;};
     void allowDeepDebug(bool b){
         deepDebug = b;
     };

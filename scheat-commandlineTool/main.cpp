@@ -48,7 +48,16 @@ int main(int argc, const char *argv[]){
         scheat.setProductName(l);
         scheat.complementSettings();
         
-        std::cout << "this compiling service is unavailable yet. sorry! :)" << std::endl;
+        scheat.ready();
+        ScheatLexer::lex();
+        if (scheat.hasProbrem()) {
+            return 0;
+        }
+        ScheatAnalyzer::parse();
+        if (scheat.hasProbrem()) {
+            return 0;
+        }
+        ScheatEncoder::encode();
         return 0;
     }
     if (strcmp(argv[1], "-play") == 0) {

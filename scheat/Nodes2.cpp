@@ -53,23 +53,6 @@ static string strreplace(string &str, string target, string into){
     return result;
 }
 
-static string getFileName(string path){
-    string kbuf = "";
-    for (auto c : path) {
-        if (c == '/') {
-            kbuf = "";
-            continue;
-        }
-        
-        if (c == '.') {
-            return kbuf;
-        }
-        
-        kbuf.push_back(c);
-    }
-    return "";
-}
-
 static TypeData asPointer(TypeData ty){
     return TypeData("the " + ty.name, ty.ir_used + "*");
 }

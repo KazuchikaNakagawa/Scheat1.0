@@ -345,6 +345,7 @@
 		8283093B24FBF990006EFFEA /* libscheat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829849EB24D2DA20004A7A64 /* libscheat.a */; };
 		8289BA00258A3C6900F7DC0B /* ScheatKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8289B9FF258A3C6900F7DC0B /* ScheatKit.cpp */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
+		8292381A25A5A89A002157FC /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8292381925A5A89A002157FC /* Utilities.cpp */; };
 		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
 		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
 		829849E124D1B5A7004A7A64 /* ProjectSpica.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849E024D1B5A7004A7A64 /* ProjectSpica.cpp */; };
@@ -724,6 +725,8 @@
 		8289B9FF258A3C6900F7DC0B /* ScheatKit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatKit.cpp; sourceTree = "<group>"; };
 		8289BA1B258A3C8400F7DC0B /* ScheatLogReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatLogReader.h; sourceTree = "<group>"; };
 		828FFCB724D80E28007BEBFF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		829237EE25A5A74E002157FC /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		8292381925A5A89A002157FC /* Utilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		829849D924D1B5A7004A7A64 /* libspica.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libspica.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpica.hpp; sourceTree = "<group>"; };
 		829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpicaPriv.hpp; sourceTree = "<group>"; };
@@ -1329,6 +1332,7 @@
 				8262653025275F4700E71311 /* ScheatEncoder.h */,
 				826720A524F64ADB00C94D22 /* ScheatNodes.h */,
 				8283093524F93BEE006EFFEA /* CScheat.h */,
+				829237EE25A5A74E002157FC /* Utilities.h */,
 				829849EF24D2DA20004A7A64 /* scheatPriv.hpp */,
 				829849F124D2DA20004A7A64 /* scheat.cpp */,
 				82806DD4250E15DA0010F012 /* Statics.cpp */,
@@ -1344,6 +1348,7 @@
 				8214272625456D530084CBA4 /* ProjectPlebs.h */,
 				8224EB222568D32F00581ABC /* ProjectPlebs.cpp */,
 				82FF1F3E255631A90047DEF4 /* Initializer.cpp */,
+				8292381925A5A89A002157FC /* Utilities.cpp */,
 			);
 			path = scheat;
 			sourceTree = "<group>";
@@ -1965,6 +1970,7 @@
 			files = (
 				82806DD2250E0BA70010F012 /* ScheatBasicStructures.cpp in Sources */,
 				82097C8F25076A31002D048A /* CScheat.cpp in Sources */,
+				8292381A25A5A89A002157FC /* Utilities.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
 				829CD923251F26B600139E5F /* ScheatParser2.cpp in Sources */,
 				82FF1F3F255631A90047DEF4 /* Initializer.cpp in Sources */,

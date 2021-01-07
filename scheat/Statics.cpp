@@ -14,28 +14,11 @@
 #include "ScheatContext.h"
 #include "Classes.h"
 #include "ScheatStatics.h"
+#include "Utilities.h"
 
 namespace scheat {
 
-
 using namespace scheat;
-
-static string getFileName(string path){
-    string kbuf = "";
-    for (auto c : path) {
-        if (c == '/') {
-            kbuf = "";
-            continue;
-        }
-        
-        if (c == '.') {
-            return kbuf;
-        }
-        
-        kbuf.push_back(c);
-    }
-    return "";
-}
 
 //std::vector<Context *> ScheatContext::contextCenter = {};
 //Context *ScheatContext::global = nullptr;

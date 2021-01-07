@@ -7,6 +7,7 @@
 
 #include "ScheatEncoder.h"
 #include "ScheatStatics.h"
+#include "Utilities.h"
 #include <fstream>
 #include <llvm/IR/Module.h>
 #include <llvm/Linker/Linker.h>
@@ -40,9 +41,9 @@ void LLSCEncoder::encode(string path){
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(path), err, context);
-    cout << err.getLineNo() << "." << err.getColumnNo() << " " << err.getMessage().data() << endl;
+    //cout << err.getLineNo() << "." << err.getColumnNo() << " " << err.getMessage().data() << endl;
     llvm::InitializeAllTargetInfos();
-    llvm::InitializeAllTargetInfos();
+    llvm::InitializeAllTargets();
     llvm::InitializeAllTargetMCs();
     llvm::InitializeAllAsmParsers();
     llvm::InitializeAllAsmPrinters();
@@ -57,6 +58,7 @@ void LLSCEncoder::encode(string path){
                       "target is unclear.");
         return;
     }
+    
     auto CPU = "generic";
     auto Features = "";
 
@@ -86,8 +88,11 @@ void LLSCEncoder::encode(string path){
     
     pass.run(*module);
     dest.flush();
-    
-    remove(path.c_str());
+    scheato->Log(SourceLocation(), __FILE_NAME__, __LINE__, "file written is %s", Filename.c_str());
+    if (!scheato->getDebugSetting()) {
+        remove(path.c_str());
+    }
+    //
 }
 
 void LLSCEncoder::encode(_Scheat *o){
