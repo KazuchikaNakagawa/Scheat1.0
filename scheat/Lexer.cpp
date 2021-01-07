@@ -333,6 +333,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "if") {
+        tok->kind = TokenKind::tok_if;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "import") {
         tok->kind = TokenKind::tok_import;
         tadd;

@@ -529,6 +529,13 @@ public:
     Statement(unique_ptr<Statement> stn){
         stmt = move(stn);
     }
+    static unique_ptr<Statement> init(unique_ptr<Statement> s,
+                                      unique_ptr<StatementNode> n){
+        auto ptr = make_unique<Statement>();
+        ptr->statement = move(n);
+        ptr->stmt = move(s);
+        return ptr;
+    };
 };
 
 // statements : statement
@@ -583,6 +590,15 @@ public:
     }
     
     Value * codegen(IRStream &) override;
+    static unique_ptr<IfStatement>
+    init(unique_ptr<Expr> b, unique_ptr<Statement> t, unique_ptr<Statement> e){
+        auto ptr = make_unique<IfStatement>();
+        ptr->location = b->location;
+        ptr->condition = move(b);
+        ptr->thenS = move(t);
+        ptr->elseS = move(e);
+        return ptr;
+    }
 };
 
 class PrintStatement : public StatementNode {

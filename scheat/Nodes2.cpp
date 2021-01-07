@@ -205,8 +205,9 @@ Value *IfStatement::codegen(IRStream &f){
     thenS->codegen(f);
     f << "br label %" << labels.first + "_end\n";
     f << labels.second << ":\n";
-    elseS->codegen(f);
-    f << labels.second << labels.first + "_end\n";
+    
+    if (elseS != nullptr) elseS->codegen(f);
+    f << "br label %" << labels.first + "_end\n";
     f << labels.first + "_end:\n";
     return nullptr;
 }

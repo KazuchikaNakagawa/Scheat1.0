@@ -719,11 +719,7 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
             scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__, "the end of sentence must be period or comma in Scheat.");
             return nullptr;
         }
-        auto k = make_unique<Statement>(move(sts));
-        k->statement = nullptr;
-        sts = move(k);
-        // DEFINE THIS
-        // add(Statement, Statement)
+        sts = Statement::init(move(sts), move(s));
     }
     return sts;
 }
@@ -776,8 +772,8 @@ parseIfStatement(Token *&tok){
     if (!s) {
         return nullptr;
     }
-    
-    return nullptr;
+    tok = tok->prev;
+    return IfStatement::init(move(expr), move(s), nullptr);
 }
 
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
@@ -866,7 +862,7 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
         return parsePrintStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::tok_if) {
-        return nullptr;
+        return parseIfStatement(tokens);
     }
     return nullptr;
 }
