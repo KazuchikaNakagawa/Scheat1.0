@@ -22,6 +22,7 @@ using namespace scheat;
 
 TypeData TypeData::IntType = TypeData("Int", "i32");
 TypeData TypeData::StringType = TypeData("String", "%String");
+TypeData TypeData::BoolType = TypeData("Bool", "i1");
 
 std::string Function::getMangledName(){
     std::string base = "@" + return_type.mangledName() + "_";

@@ -38,7 +38,7 @@ public:
         }
     }
     void operator=(Some s){
-        delete &_w;
+        //delete &_w;
         state = nil;
     }
     Wrapped operator!(){

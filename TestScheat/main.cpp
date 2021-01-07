@@ -35,7 +35,7 @@ int main(int argc, const char * argv[]) {
         return 0;
     }
     ScheatEncoder::printout();
-    ScheatEncoder::encode();
+    //ScheatEncoder::encode();
     return 0;
 }
 

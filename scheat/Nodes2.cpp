@@ -215,10 +215,22 @@ Value *InfixOperatorExpr::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);
     if (l->type == TypeData::IntType &&
-        r->type == TypeData::IntType) {
+        r->type == TypeData::IntType && op->return_type == TypeData::IntType) {
         auto reg = ScheatContext::local()->getRegister();
         f << reg << " = " << op->func_name << " nsw i32 " << l->value << ", " << r->value << "\n";
         return new Value(reg, TypeData::IntType);
+    }
+    if (l->type == TypeData::IntType
+        && r->type == TypeData::IntType
+        && op->return_type == TypeData::BoolType) {
+        auto reg = ScheatContext::local()->getRegister();
+        string eqopt = "";
+        if (op->value == "==") {
+            eqopt = "eq";
+        }
+        
+        f << reg << " = icmp " << eqopt << " " << l->asValue() << ", " << r->value << "\n";
+        return new Value(reg, TypeData::BoolType);
     }
     if (op->return_type.name == "Void") {
         f << "call void(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
@@ -786,6 +798,7 @@ unique_ptr<DeclareVariableStatement>
 DeclareVariableStatement::init(unique_ptr<NewIdentifierExpr> name, unique_ptr<Expr> expr, bool pub, bool con, bool nul){
     auto n = make_unique<DeclareVariableStatement>();
     n->name = name->value;
+    n->type = *name->type;
     n->isConstant = con;
     n->isNullable = nul;
     n->isPublic = pub;
@@ -842,6 +855,21 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             ff->context->stream_body << "store %String " << v->value << ", %String* " << name << "\n";
             ScheatContext::pop();
             return nullptr;
+        }else if (value->type.name == "Bool") {
+            ScheatContext::global->stream_entry << name << " = global i1 0";
+            ScheatContext::push(ScheatContext::init);
+            auto v = value->codegen(ScheatContext::local()->stream_body);
+            if (!v) {
+                scheato->FatalError(location, __FILE_NAME__, __LINE__, "expression is void and failed to initialize.");
+                return nullptr;
+            }
+            ScheatContext::local()->stream_body << "store " << v->asValue() << ", i1* " << name << "\n";
+            return nullptr;
+        }else{
+            ScheatContext::global->stream_entry << name << " = global zeroinitializer " << type.ir_used << "*\n";
+            auto v = value->codegen(f);
+            ScheatContext::init->stream_body << "store " << v->asValue() << ", " << type.ir_used << "* " << name << "\n";
+            return nullptr;
         }
     }else{
         // it is local variable
@@ -862,6 +890,14 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
                 return nullptr;
             }
             f << "store %String " << v->value << ", %String* " << name << "\n";
+            return nullptr;
+//        }else if (value->type.name == "Bool") {
+//            f << name << " = alloca i1\n";
+            
+        }else{
+            ScheatContext::global->stream_entry << name << " = alloca " << type.ir_used << "*\n";
+            auto v = value->codegen(f);
+            ScheatContext::init->stream_body << "store " << v->asValue() << ", " << type.ir_used << "* " << name << "\n";
             return nullptr;
         }
         

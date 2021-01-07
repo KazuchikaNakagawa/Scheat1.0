@@ -98,6 +98,14 @@ void ScheatContext::Init(_Scheat *sch){
     opmul->rhs_type = &TypeData::IntType;
     Int->operators["*"] = opmul;
     
+    auto opeq = new Operator("==", "eqeq");
+    opeq->position = infix;
+    opeq->precidence = secondary;
+    opeq->return_type = TypeData::BoolType;
+    opeq->lhs_type = &TypeData::IntType;
+    opeq->rhs_type = &TypeData::IntType;
+    Int->operators["=="] = opeq;
+    
     ScheatContext::global->addClass("Int", Int);
     auto String = new Class(new TypeData("String", "%String"));
     auto countFunction = new ExternalFunction(TypeData::IntType, "String_count");
@@ -106,6 +114,10 @@ void ScheatContext::Init(_Scheat *sch){
     String->context->addFunction("count", countFunction);
     
     ScheatContext::global->addClass("String", String);
+    
+    auto Bool = new Class(&TypeData::BoolType);
+    Bool->context->name = "Bool";
+    
 }
 
 Context *ScheatContext::local(){

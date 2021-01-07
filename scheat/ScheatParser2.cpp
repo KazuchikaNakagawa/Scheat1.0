@@ -644,6 +644,7 @@ extern void parser2::parse(_Scheat *sch,Token *tokens){
         stmts = make_unique<Statements>(move(stmts), move(s));
         
     }
+    //auto stream = ScheatContext::local();
     stmts->codegen(ScheatContext::local()->stream_body);
     return;
 };
@@ -754,6 +755,31 @@ static unique_ptr<PrintStatement> parsePrintStatement(Token *&tok){
     return PrintStatement::init(move(ptr));
 }
 
+static unique_ptr<IfStatement>
+parseIfStatement(Token *&tok){
+    eatThis(tok);
+    auto expr = parseExpr(tok);
+    if (!expr) {
+        return nullptr;
+    }
+    if (expr->type.ir_used != "i1") {
+        scheato->FatalError(expr->location, __FILE_NAME__, __LINE__, "no boolean expression after if");
+        return nullptr;
+    }
+    if (tok->kind != scheat::TokenKind::tok_comma) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "no comma after if clause.");
+        return nullptr;
+    }else{
+        eatThis(tok);
+    }
+    auto s = parseStatement(tok);
+    if (!s) {
+        return nullptr;
+    }
+    
+    return nullptr;
+}
+
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
     //eatThis(tok);
     if (tok->kind != scheat::TokenKind::val_identifier) {
@@ -809,6 +835,10 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
         ScheatContext::local()->addVariable(name_raw, var);
     }
     
+    if (!name->type) {
+        name->type = &val->type;
+    }
+    
     auto stmtptr = DeclareVariableStatement::init(move(name), move(val));
     if (prefix == "@") {
         stmtptr->isGlobal = true;
@@ -834,6 +864,9 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     }
     if (tokens->kind == scheat::TokenKind::embbed_func_print) {
         return parsePrintStatement(tokens);
+    }
+    if (tokens->kind == scheat::TokenKind::tok_if) {
+        return nullptr;
     }
     return nullptr;
 }

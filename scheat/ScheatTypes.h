@@ -59,6 +59,7 @@ public:
     
     static TypeData IntType;
     static TypeData StringType;
+    static TypeData BoolType;
 };
 }
 
