@@ -105,7 +105,7 @@ void LLSCEncoder::encode(_Scheat *o){
     llvm::SMDiagnostic err;
     unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(o->outputFilePath + ".ll"), err, context);
     llvm::InitializeAllTargetInfos();
-    llvm::InitializeAllTargetInfos();
+    llvm::InitializeAllTargets();
     llvm::InitializeAllTargetMCs();
     llvm::InitializeAllAsmParsers();
     llvm::InitializeAllAsmPrinters();
