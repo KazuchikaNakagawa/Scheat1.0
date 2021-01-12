@@ -24,6 +24,7 @@
 #include <llvm/Target/TargetOptions.h>
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/Support/raw_ostream.h>
+#include <llvm/LinkAllIR.h>
 #include <system_error>
 
 using namespace scheat;
@@ -40,8 +41,12 @@ void LLSCEncoder::encodeLL(_Scheat *o){
 void LLSCEncoder::encode(string path){
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
-    unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(path), err, context);
-    //cout << err.getLineNo() << "." << err.getColumnNo() << " " << err.getMessage().data() << endl;
+    unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(path + ".ll"), err, context);
+    if (!module) {
+        cout << err.getLineNo() << "." << err.getColumnNo() << " " << err.getMessage().data() << endl;
+        return;
+    }
+    //
     llvm::InitializeAllTargetInfos();
     llvm::InitializeAllTargets();
     llvm::InitializeAllTargetMCs();
@@ -50,6 +55,7 @@ void LLSCEncoder::encode(string path){
     std::string Error;
     auto triple = llvm::sys::getDefaultTargetTriple();
     module->setTargetTriple(triple);
+    //module->dump();
     auto Target = llvm::TargetRegistry::lookupTarget(triple, Error);
 
     if (!Target) {
@@ -67,7 +73,7 @@ void LLSCEncoder::encode(string path){
     auto TheTargetMachine =
     Target->createTargetMachine(triple, CPU, Features, opt, RM);
 
-    //module->setDataLayout(TheTargetMachine->createDataLayout());
+    module->setDataLayout(TheTargetMachine->createDataLayout());
     
     auto Filename = scheato->productName + ".o";
     std::error_code EC;
@@ -89,12 +95,19 @@ void LLSCEncoder::encode(string path){
     pass.run(*module);
     dest.flush();
     scheato->Log(SourceLocation(), __FILE_NAME__, __LINE__, "file written is %s", Filename.c_str());
-    if (!scheato->getDebugSetting()) {
-        remove(path.c_str());
+    if (scheato->deletesLLFile()) {
+        remove((path + ".ll").c_str());
+        //cout << path << ".ll is deleted" << endl;
     }
+    
+//    string op = string("ld -o ")+ scheato->productName + " /usr/local/lib/Scheat/libFoundation.a /usr/local/lib/Scheat/c++/v1/cstdio ";
+//    op += Filename + "\n";
+//    cout << op << endl;
+//    system(op.c_str());
     //
 }
 
+__deprecated
 void LLSCEncoder::encode(_Scheat *o){
     ofstream f(o->outputFilePath + ".ll");
     for (auto cont : ScheatContext::contextCenter) {
@@ -149,5 +162,6 @@ void LLSCEncoder::encode(_Scheat *o){
     dest.flush();
     
     remove((o->outputFilePath + ".ll").c_str());
+    
 }
 

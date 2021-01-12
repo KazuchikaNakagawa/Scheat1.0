@@ -45,7 +45,7 @@ class _Scheat {
     bool debug;
     bool deepDebug;
     bool hasError;
-    
+    bool delLL;
     
 public:
     /// returns true if this fails to compile.
@@ -68,6 +68,7 @@ public:
     void setDebugSetting(bool o) {
         debug = o;
     };
+    bool deletesLLFile() { return delLL; };
     bool getDebugSetting() {return debug;};
     void allowDeepDebug(bool b){
         deepDebug = b;

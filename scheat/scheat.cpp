@@ -199,6 +199,7 @@ _Scheat::_Scheat(Scheat *sch){
     library_search_path = sch->library_search_path;
     delegate = sch->delegate;
     productName = sch->productName;
+    delLL = sch->delLL;
     tokens = nullptr;
 }
 
@@ -331,10 +332,15 @@ void Scheat::complementSettings(){
     }
     
     if (outputFilePath == "-") {
-        outputFilePath = getFileName(sourceFile) + ".ll";
-        
+        outputFilePath = getFileName(sourceFile);
+        delLL = true;
+    }else{
+        delLL = false;
     }
     
+    if (sourceFile.find(".scheat") != string::npos) {
+        isMain = true;
+    }
 }
 
 void Scheat::setDebugSetting(bool o){
@@ -355,7 +361,7 @@ void ScheatAnalyzer::parse(){
 }
 
 void ScheatEncoder::encode(){
-    ofstream fp(scheato->outputFilePath);
+    ofstream fp(scheato->outputFilePath + ".ll");
     if (!fp.is_open()) {
         scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__, "%s could not  be opened.", scheato->outputFilePath.c_str());
         return;

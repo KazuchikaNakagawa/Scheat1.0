@@ -52,6 +52,7 @@ public:
     std::string header_search_path;
     std::string library_search_path;
     ScheatDelegate *delegate = nullptr;
+    bool delLL = false;
     void complementSettings();
     void setDebugSetting(bool o) ;
     void allowDeepDebug(bool b);

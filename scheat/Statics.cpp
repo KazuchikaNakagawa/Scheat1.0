@@ -15,6 +15,24 @@
 #include "Classes.h"
 #include "ScheatStatics.h"
 #include "Utilities.h"
+#include <llvm/Support/Host.h>
+#include <llvm/IR/Module.h>
+#include <llvm/Linker/Linker.h>
+#include <llvm/IRReader/IRReader.h>
+#include <llvm/Support/SourceMgr.h>
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include <llvm/ExecutionEngine/GenericValue.h>
+#include <llvm/Support/FileSystem.h>
+#include <llvm/Support/Host.h>
+#include <llvm/Support/raw_ostream.h>
+#include <llvm/Support/TargetRegistry.h>
+#include <llvm/Support/TargetSelect.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/Target/TargetOptions.h>
+#include <llvm/IR/LegacyPassManager.h>
+#include <llvm/Support/raw_ostream.h>
+#include <llvm/LinkAllIR.h>
+#include <system_error>
 
 namespace scheat {
 
@@ -35,11 +53,29 @@ void ScheatContext::Init(_Scheat *sch){
     global = new Context();
     global->name = "global";
     localcon.push(ScheatContext::global);
+    llvm::InitializeAllTargetInfos();
+    llvm::InitializeAllTargets();
+    llvm::InitializeAllTargetMCs();
+    llvm::InitializeAllAsmParsers();
+    llvm::InitializeAllAsmPrinters();
+    std::string Error;
+    auto triple = llvm::sys::getDefaultTargetTriple();
+    auto Target = llvm::TargetRegistry::lookupTarget(triple, Error);
+    
+    sch->datalayout = "e-m:o-i64:64-f80:128-n8:16:32:64-S128";
+    if (!Target) {
+        llvm::errs() << Error;
+        scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__,
+                            "target is unclear.");
+        
+    }else{
+        
+    }
     contextCenter.push_back(ScheatContext::global);
     global->stream_entry << "; ModuleID = '" << scheato->sourceFile << "'\n";
     global->stream_entry << "source_filename = \"" << scheato->sourceFile << "\"\n";
     global->stream_entry << "target datalayout = \"" << scheato->datalayout << "\"\n";
-    global->stream_entry << "target triple = \"" << scheato->target << "\"\n\n";
+    global->stream_entry << "target triple = \"" << triple << "\"\n\n";
     global->stream_body << "%ScheatShortConstString = type{ i8, [7 x i8] }\n";
     global->stream_body << "%Array = type{ i32, i64, i8* }\n";
     global->stream_body << "%union_buf = type{ %ScheatShortConstString }\n";
@@ -47,14 +83,14 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare void @print_return()\n";
     global->stream_body << "declare void @print_i32(i32)\n";
     global->stream_body << "declare void @print_i8x(i8*)\n";
-    global->stream_body << "declare void @printn()\n";
+    //global->stream_body << "declare void @_print_return()\n";
     global->stream_body << "declare void @print_i1(i1)\n";
     global->stream_body << "declare i8* @ScheatPointer_alloc(i64, void(i8*)*)\n";
     global->stream_body << "declare void @ScheatPointer_copy(i8*)\n";
     global->stream_body << "declare void @ScheatPointer_unref(i8*)\n";
     global->stream_body << "declare void @ScheatPointer_release(i8*)\n";
     global->stream_body << "declare void @print_String(%String)\n";
-    global->stream_body << "declare %String @String_init(i8*)\n";
+    global->stream_body << "declare %String @String_init(i8* nocapture readonly)\n";
     global->stream_body << "declare %String @String_add(%String, %String)\n";
     global->stream_body << "declare %String @String_copy(%String)\n";
     global->stream_body << "declare i32 @String_count(%String*)\n";
@@ -147,23 +183,23 @@ void ScheatContext::AddMain(){
     mainf->codegen(ScheatContext::main->stream_entry);
     ScheatContext::push(ScheatContext::main);
     ScheatContext::main->stream_entry << "entry:\n";
-    ScheatContext::main->stream_entry << "call void() @" << scheato->productName + "_init()\n";
-    auto nargv = new Variable("argv", TypeData("Array of String", "%Array"));
-    ScheatContext::main->addVariable("argv", nargv);
-    ScheatContext::main->stream_body << "%argv = alloca %Array\n";
-    ScheatContext::main->stream_body << "%far = call %Array(i64) @Array_init(i64 8)\n";
-    ScheatContext::main->stream_body << "store %Array %far, %Array* %argv\n";
-    ScheatContext::main->stream_body << "%counter = i32 0\n";
-    ScheatContext::main->stream_body << "ready_condition:\n";
-    ScheatContext::main->stream_body << "%limit = sub nsw i32 %0, 1\n";
-    ScheatContext::main->stream_body << "%cond = icmp ne i32 %limit, %counter\n";
-    ScheatContext::main->stream_body << "br i1 %cond, label %ready_body, label %ready_end\n";
-    ScheatContext::main->stream_body << "ready_body:\n";
-    ScheatContext::main->stream_body << "%str_element = i8* getelementptr inbounds i8** %1, i32 0, i32 %counter\n";
-    ScheatContext::main->stream_body << "call void(%Array*, i8*) @Array_append(%Array* %argv, i8* %str_element)\n";
-    ScheatContext::main->stream_body << "%str_element = add nsw i32 %counter, 1\n";
-    ScheatContext::main->stream_body << "br label %ready_condition\n";
-    ScheatContext::main->stream_body << "ready_end:\n";
+    ScheatContext::main->stream_entry << "call void @" << getFileName(scheato->sourceFile) + "_init()\n";
+//    auto nargv = new Variable("argv", TypeData("Array of String", "%Array"));
+//    ScheatContext::main->addVariable("argv", nargv);
+//    ScheatContext::main->stream_body << "%argv = alloca %Array\n";
+//    ScheatContext::main->stream_body << "%far = call %Array(i64) @Array_init(i64 8)\n";
+//    ScheatContext::main->stream_body << "store %Array %far, %Array* %argv\n";
+//    ScheatContext::main->stream_body << "%counter = i32 0\n";
+//    ScheatContext::main->stream_body << "ready_condition:\n";
+//    ScheatContext::main->stream_body << "%limit = sub nsw i32 %0, 1\n";
+//    ScheatContext::main->stream_body << "%cond = icmp ne i32 %limit, %counter\n";
+//    ScheatContext::main->stream_body << "br i1 %cond, label %ready_body, label %ready_end\n";
+//    ScheatContext::main->stream_body << "ready_body:\n";
+//    ScheatContext::main->stream_body << "%str_element = i8* getelementptr inbounds i8** %1, i32 0, i32 %counter\n";
+//    ScheatContext::main->stream_body << "call void(%Array*, i8*) @Array_append(%Array* %argv, i8* %str_element)\n";
+//    ScheatContext::main->stream_body << "%str_element = add nsw i32 %counter, 1\n";
+//    ScheatContext::main->stream_body << "br label %ready_condition\n";
+//    ScheatContext::main->stream_body << "ready_end:\n";
     //ScheatContext::main->stream_body << "%argc = alloca i32\n";
     //ScheatContext::main->stream_body << "%argv = alloca i8**\n";
     //ScheatContext::main->stream_body << "store i32 %0, i32* %argc\n";

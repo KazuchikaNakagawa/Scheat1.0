@@ -194,9 +194,12 @@ void print_i1(bool b){
 }
 
 void print_String(String str){
+    printf("areare\n");
     if (ScheatString_isPtr(&str)) {
+        printf("pointer side");
         printf("%s", str.buf.char_ptr);
     }else{
+        printf("const pointer side");
         printf("%s", str.buf.const_chars.const_char);
     }
 }
@@ -215,9 +218,13 @@ void *Array_at(Array *arr, int index){
     return (void *)((unsigned long long)(arr->begPtr) + (index * arr->elemSize));
 }
 
-String String_init(char *p){
+String String_init(const char *p){
+    printf("source string: %s\n", p);
     String s = String();
-    s.buf.char_ptr = p;
+    auto n = strlen(p);
+    s.buf.char_ptr = (char *)ScheatPointer_alloc(8 * n, nullptr);
+    sprintf(s.buf.char_ptr, "%s", p);
+    printf("CHARACTER POINTER WAS SET. %s\n" , s.buf.char_ptr);
     return s;
 }
 
@@ -229,4 +236,8 @@ void *Dictionary_search(Dictionary *dict, void* key){
         }
     }
     return nullptr;
+}
+
+void printn(){
+    printf("\n");
 }

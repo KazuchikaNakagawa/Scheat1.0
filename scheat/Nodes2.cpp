@@ -8,6 +8,7 @@
 #include "Nodes2.h"
 #include "ScheatStatics.h"
 #include <regex>
+#include "Utilities.h"
 //#include <dlfcn.h>
 using namespace scheat;
 using namespace scheat::nodes2;
@@ -487,7 +488,7 @@ Value *AllocationExpr::codegen(IRStream &f){
         return nullptr;
     }
     auto r = ScheatContext::local()->getRegister();
-    f << r << " = call i8*(i64, void(i8*)*) @ScheatPointer_alloc(" << to_string(cln->size) << ", " << ((cln->destructor != nullptr) ? cln->destructor->asValue() : "void(i8*)* null") << ")\n";
+    f << r << " = call i8*(i64, void(i8*)*) @_ScheatPointer_alloc(" << to_string(cln->size) << ", " << ((cln->destructor != nullptr) ? cln->destructor->asValue() : "void(i8*)* null") << ")\n";
     f << "store " << val->asValue() << ", " << val->type.ir_used + "*" << r << "\n";
     return new Value(r, cln->type->pointer());
 }
@@ -511,10 +512,14 @@ Value *StringTerm::codegen(IRStream &f){
     auto rn = r;
     int strlength = value.size() - countof(value, '\\') - 2;
     auto sname =  rn;
+    sname.insert(1, "_");
     ScheatContext::global->stream_entry <<
     sname << " = private unnamed_addr constant [" <<
     to_string(strlength) << " x i8] c" << substr << "\n";
-    string v = "call %String(i8*) @String_init(i8* getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i32 0, i32 0))";
+    // 一度ロードして使わなくてはならない
+    ScheatContext::global->stream_entry <<
+    rn << " = global i8* getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i64 0, i64 0)\n";
+    string v = "call %String @String_init(i8* " + rn + ")";
     string rr = ScheatContext::local()->getRegister();
     ScheatContext::local()->stream_body << rr << " = " << v << "\n";
     return new Value(rr, TypeData::StringType);
@@ -547,9 +552,9 @@ vector<Value *> ArgumentExpr::codegenAsArray(IRStream &f){
 Value *PrintStatement::codegen(IRStream &f){
     for (auto v : arg->codegenAsArray(f)) {
         if (v->type.name == TypeData::IntType.name) {
-            f << "call void(i32) @print_i32(" << v->asValue() << ")\n";
+            f << "call void @print_i32(" << v->asValue() << ")\n";
         }else if (v->type.name == TypeData::StringType.name){
-            f << "call void(%String) @print_String(" << v->asValue() << ")\n";
+            f << "call void @print_String(" << v->asValue() << ")\n";
         }else{
             auto clasp = ScheatContext::global->findClass(v->type.name);
             if (!clasp) {
@@ -565,7 +570,7 @@ Value *PrintStatement::codegen(IRStream &f){
             f << "call void(" << v->type.mangledName() << ")" << func->getMangledName() << "(" << v->asValue() << ")\n";
         }
     }
-    f << "call void() @printn()\n";
+    f << "call void @print_return()\n";
     return nullptr;
 }
 
@@ -827,7 +832,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
     if (isGlobal) {
         if (value->type.name == "Int") {
             ScheatContext::global->stream_body << name << " = global i32 0\n";
-            string k = scheato->productName + "_init";
+            string k = getFileName(scheato->sourceFile) + "_init";
             auto ff = ScheatContext::global->findFunc(k);
             if (!ff) {
                 scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
@@ -842,10 +847,10 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             ff->context->stream_body << "store i32 " << v->value << ", i32* " << name << "\n";
             return nullptr;
         }else if (value->type.name == "String"){
-            ScheatContext::global->stream_entry << name << " = global zeroinitializer %String*\n";
-            auto ff = ScheatContext::global->findFunc(scheato->productName + "_init");
+            ScheatContext::global->stream_entry << name << " = global %String zeroinitializer\n";
+            auto ff = ScheatContext::global->findFunc(getFileName(scheato->sourceFile) + "_init");
             if (!ff) {
-                scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
+                scheato->FatalError(location, __FILE_NAME__, __LINE__, "_init function is not defined");
                 return nullptr;
             }
             ScheatContext::push(ff->context);
@@ -867,7 +872,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             ScheatContext::local()->stream_body << "store " << v->asValue() << ", i1* " << name << "\n";
             return nullptr;
         }else{
-            ScheatContext::global->stream_entry << name << " = global zeroinitializer " << type.ir_used << "*\n";
+            ScheatContext::global->stream_entry << name << " = global  " << type.ir_used << " zeroinitializer\n";
             auto v = value->codegen(f);
             ScheatContext::init->stream_body << "store " << v->asValue() << ", " << type.ir_used << "* " << name << "\n";
             return nullptr;

@@ -24,9 +24,11 @@ extern "C" void print_i32(int d);
 
 extern "C" void print_i8x(char *s);
 
-extern "C" void print_return();
+extern "C" void print_return(void);
 
 extern "C" void print_i1(bool b);
+
+extern "C" void printn(void);
 
 struct ScheatShortConstString {
     uint8_t flag;
@@ -42,7 +44,7 @@ extern "C" struct String{
 
 extern "C" void print_String(String);
 
-extern "C" String String_init(char *);
+extern "C" String String_init(const char *);
 
 extern "C" bool ScheatString_isPtr(String *);
 

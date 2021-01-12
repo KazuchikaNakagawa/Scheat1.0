@@ -17,18 +17,6 @@ union K {
 
 int main(int argc, const char * argv[]) {
     // insert code here...
-    Array arr = Array_init(sizeof(bool));
-    bool c = true;
-    Array_append(&arr, &c);
-    c = false;
-    Array_append(&arr, &c);
-    c = true;
-    Array_append(&arr, &c);
-    c = false;
-    Array_append(&arr, &c);
-    for (int i = 0; i < arr.count; i++) {
-        auto p = *(bool *)Array_at(&arr, i);
-        printf("%d", p);
-    }
+    print_String(String_init("ahsjchkf"));
     return 0;
 }
