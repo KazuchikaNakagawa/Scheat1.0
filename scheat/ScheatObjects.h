@@ -14,7 +14,7 @@
 #include "ScheatToken.h"
 #include "scheat.h"
 
-#define SV_P 17
+#define SV_P 18
 namespace scheat {
 class Token;
 class _Scheat;

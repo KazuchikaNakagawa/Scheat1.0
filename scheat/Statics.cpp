@@ -78,7 +78,7 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_entry << "target triple = \"" << triple << "\"\n\n";
     global->stream_body << "%ScheatShortConstString = type{ i8, [7 x i8] }\n";
     global->stream_body << "%Array = type{ i32, i64, i8* }\n";
-    global->stream_body << "%union_buf = type{ %ScheatShortConstString }\n";
+    global->stream_body << "%union_buf = type{ i8* }\n";
     global->stream_body << "%String = type{ %union_buf }\n";
     global->stream_body << "declare void @print_return()\n";
     global->stream_body << "declare void @print_i32(i32)\n";
@@ -90,7 +90,7 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare void @ScheatPointer_unref(i8*)\n";
     global->stream_body << "declare void @ScheatPointer_release(i8*)\n";
     global->stream_body << "declare void @print_String(%String)\n";
-    global->stream_body << "declare %String @String_init(i8* nocapture readonly)\n";
+    global->stream_body << "declare %String @String_init(i8*)\n";
     global->stream_body << "declare %String @String_add(%String, %String)\n";
     global->stream_body << "declare %String @String_copy(%String)\n";
     global->stream_body << "declare i32 @String_count(%String*)\n";

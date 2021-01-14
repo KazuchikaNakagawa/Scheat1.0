@@ -119,7 +119,7 @@ String ScheatString_copy(String *ss){
     if (ScheatString_isPtr(ss)) {
         sk.buf.char_ptr = (char *)ScheatARC::shared().copy((void *)(ss->buf.char_ptr));
     }else{
-        sk.buf.char_ptr = strcpy(sk.buf.char_ptr, ss->buf.const_chars.const_char);
+        //sk.buf.char_ptr = strcpy(sk.buf.char_ptr, ss->buf.const_chars.const_char);
         ScheatARC::shared().subscribe(sk.buf.char_ptr);
     }
     return sk;
@@ -136,39 +136,9 @@ Array Array_init(uint64_t size){
 
 String ScheatString_add(String lhs, String rhs){
     String str;
-    unsigned long ll = 0;
-    unsigned long rl = 0;
-    if (ScheatString_isPtr(&lhs)) {
-        ll = strlen(lhs.buf.char_ptr);
-    }else{
-        ll = strlen(lhs.buf.const_chars.const_char);
-    }
-    
-    if (ScheatString_isPtr(&rhs)) {
-        rl = strlen(rhs.buf.char_ptr);
-    }else{
-        rl = strlen(rhs.buf.const_chars.const_char);
-    }
-    
-    if (ll + rl < 8) {
-        memset(str.buf.const_chars.const_char, 0, sizeof(str.buf.const_chars.const_char));
-        str.buf.char_ptr = str.buf.const_chars.const_char;
-    }else{
-        str.buf.char_ptr = (char *)ScheatARC::shared().create(8 * (ll + rl + 1), nullptr);
-        memset(str.buf.char_ptr, 0, sizeof(8 * (ll + rl + 1)));
-    }
-    
-    if (ScheatString_isPtr(&lhs)) {
-        sprintf(str.buf.char_ptr, "%s", lhs.buf.char_ptr);
-    }else{
-        sprintf(str.buf.char_ptr, "%s", lhs.buf.const_chars.const_char);
-    }
-    
-    if (ScheatString_isPtr(&rhs)) {
-        sprintf(str.buf.char_ptr, "%s%s", str.buf.char_ptr, rhs.buf.char_ptr);
-    }else{
-        sprintf(str.buf.char_ptr, "%s%s", str.buf.char_ptr, rhs.buf.const_chars.const_char);
-    }
+    unsigned long ll = strlen(lhs.buf.char_ptr);
+    unsigned long rl = strlen(rhs.buf.char_ptr);
+    lhs.buf.char_ptr = (char *)realloc(lhs.buf.char_ptr, 8 * (ll+rl));
     
     return str;
 }
@@ -194,13 +164,13 @@ void print_i1(bool b){
 }
 
 void print_String(String str){
-    printf("areare\n");
+    //printf("areare\n");
     if (ScheatString_isPtr(&str)) {
-        printf("pointer side");
+        //printf("pointer side");
         printf("%s", str.buf.char_ptr);
     }else{
-        printf("const pointer side");
-        printf("%s", str.buf.const_chars.const_char);
+        //printf("const pointer side");
+        //printf("%s", str.buf.const_chars.const_char);
     }
 }
 
@@ -218,13 +188,18 @@ void *Array_at(Array *arr, int index){
     return (void *)((unsigned long long)(arr->begPtr) + (index * arr->elemSize));
 }
 
-String String_init(const char *p){
-    printf("source string: %s\n", p);
+String String_init(char *p){
+    if (!p) {
+        printf("cannot initialize String with nullpointer");
+        exit(0);
+    }
+    //printf("source string: %s\n", p);
     String s = String();
     auto n = strlen(p);
     s.buf.char_ptr = (char *)ScheatPointer_alloc(8 * n, nullptr);
     sprintf(s.buf.char_ptr, "%s", p);
-    printf("CHARACTER POINTER WAS SET. %s\n" , s.buf.char_ptr);
+    ScheatARC::shared().subscribe(s.buf.char_ptr);
+    //printf("CHARACTER POINTER WAS SET. %s\n" , s.buf.char_ptr);
     return s;
 }
 

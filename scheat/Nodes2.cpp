@@ -337,14 +337,27 @@ unique_ptr<InfixOperatorTerm> InfixOperatorTerm::init(unique_ptr<Term> term, Ope
 Value *InfixOperatorPrimaryExpr::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);
+    
+    if (l->type == TypeData::IntType) {
+        auto reg = ScheatContext::local()->getRegister();
+        
+        if (op->value == "*") {
+            f << reg << " = mul nsw " << l->asValue() << ", " << r->value << "\n";
+            return new Value(reg, TypeData::IntType);
+        }else if (op->value == "/"){
+            f << reg << " = fdiv nsw " << l->asValue() << ", " << r->asValue() << "\n";
+            return new Value(reg, TypeData::IntType);
+        }
+    }
+    
     if (op->return_type.name == "Void") {
-        f << "call void (" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << "\n";
+        f << "call void" << " " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << "\n";
         delete l;
         delete r;
         return nullptr;
     }else{
         auto reg = ScheatContext::local()->getRegister();
-        f << reg << " = call " << op->return_type.ir_used << "(" << l->type.ir_used << ", " << r->type.ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
+        f << reg << " = call " << op->return_type.ir_used << " " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
         return new Value(reg, op->return_type);
@@ -519,7 +532,9 @@ Value *StringTerm::codegen(IRStream &f){
     // 一度ロードして使わなくてはならない
     ScheatContext::global->stream_entry <<
     rn << " = global i8* getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i64 0, i64 0)\n";
-    string v = "call %String @String_init(i8* " + rn + ")";
+    string reg = ScheatContext::local()->getRegister();
+    f << reg << " = load i8*, i8** " << rn << "\n";
+    string v = "call %String @String_init(i8* " + reg + ")";
     string rr = ScheatContext::local()->getRegister();
     ScheatContext::local()->stream_body << rr << " = " << v << "\n";
     return new Value(rr, TypeData::StringType);
@@ -847,7 +862,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             ff->context->stream_body << "store i32 " << v->value << ", i32* " << name << "\n";
             return nullptr;
         }else if (value->type.name == "String"){
-            ScheatContext::global->stream_entry << name << " = global %String zeroinitializer\n";
+            ScheatContext::global->stream_entry << name << " = common global %String zeroinitializer\n";
             auto ff = ScheatContext::global->findFunc(getFileName(scheato->sourceFile) + "_init");
             if (!ff) {
                 scheato->FatalError(location, __FILE_NAME__, __LINE__, "_init function is not defined");
@@ -872,7 +887,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             ScheatContext::local()->stream_body << "store " << v->asValue() << ", i1* " << name << "\n";
             return nullptr;
         }else{
-            ScheatContext::global->stream_entry << name << " = global  " << type.ir_used << " zeroinitializer\n";
+            ScheatContext::global->stream_entry << name << " = common global  " << type.ir_used << " zeroinitializer\n";
             auto v = value->codegen(f);
             ScheatContext::init->stream_body << "store " << v->asValue() << ", " << type.ir_used << "* " << name << "\n";
             return nullptr;

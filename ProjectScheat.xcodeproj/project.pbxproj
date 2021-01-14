@@ -399,6 +399,7 @@
 		82E5E29125A9E01600B3316C /* libLLVMXCoreDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E09725A9D54200B3316C /* libLLVMXCoreDisassembler.a */; };
 		82E5E29225A9E01600B3316C /* libLLVMXCoreInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E0B925A9D54400B3316C /* libLLVMXCoreInfo.a */; };
 		82E5E29325A9E01600B3316C /* libLLVMXRay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E07525A9D54100B3316C /* libLLVMXRay.a */; };
+		82E5E2DB25B07FC200B3316C /* ScheatMake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82E5E2D925B07FC200B3316C /* ScheatMake.cpp */; };
 		82E6975024D32ACB00F13264 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974F24D32ACB00F13264 /* libxml2.tbd */; };
 		82E6975124D32B5500F13264 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974C24D321B400F13264 /* libncurses.tbd */; };
 		82E6975424D32B5500F13264 /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975224D32B5500F13264 /* libncurses.5.tbd */; };
@@ -782,6 +783,8 @@
 		82E5E0F525A9D54600B3316C /* libLLVMAMDGPUAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAMDGPUAsmParser.a; path = ../../../../usr/local/Cellar/llvm/11.0.0_1/lib/libLLVMAMDGPUAsmParser.a; sourceTree = "<group>"; };
 		82E5E0F625A9D54600B3316C /* libLLVMObject.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMObject.a; path = ../../../../usr/local/Cellar/llvm/11.0.0_1/lib/libLLVMObject.a; sourceTree = "<group>"; };
 		82E5E0F725A9D54600B3316C /* libLLVMScalarOpts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMScalarOpts.a; path = ../../../../usr/local/Cellar/llvm/11.0.0_1/lib/libLLVMScalarOpts.a; sourceTree = "<group>"; };
+		82E5E2D925B07FC200B3316C /* ScheatMake.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatMake.cpp; sourceTree = "<group>"; };
+		82E5E2DA25B07FC200B3316C /* ScheatMake.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatMake.hpp; sourceTree = "<group>"; };
 		82E6974C24D321B400F13264 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
 		82E6974E24D324B600F13264 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		82E6974F24D32ACB00F13264 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -1307,6 +1310,8 @@
 			isa = PBXGroup;
 			children = (
 				828FFCB724D80E28007BEBFF /* main.cpp */,
+				82E5E2D925B07FC200B3316C /* ScheatMake.cpp */,
+				82E5E2DA25B07FC200B3316C /* ScheatMake.hpp */,
 			);
 			path = "scheat-commandlineTool";
 			sourceTree = "<group>";
@@ -1317,7 +1322,6 @@
 				8289B9FD258A3C0C00F7DC0B /* ScheatDriver */,
 				82041407252365D10073CB03 /* ScheatHelp */,
 				820413C6251F7BBC0073CB03 /* FoundationTest */,
-				82984A0324D2E070004A7A64 /* Frameworks */,
 				826720D424F7D4F600C94D22 /* ScheatFoundation */,
 				82AEB66B24DC3E0100889AC3 /* ScheatIR */,
 				828FFCB624D80DFF007BEBFF /* scheat-commandlineTool */,
@@ -1327,6 +1331,7 @@
 				8225412924E175F700DBF05C /* ScheatRun */,
 				82D6F4D124F3EE240003D0EA /* ScheatARC */,
 				826720E024F7F4C900C94D22 /* ScheatARCTest */,
+				82984A0324D2E070004A7A64 /* Frameworks */,
 				829849DA24D1B5A7004A7A64 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -2090,6 +2095,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */,
+				82E5E2DB25B07FC200B3316C /* ScheatMake.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

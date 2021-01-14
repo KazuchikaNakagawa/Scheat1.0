@@ -37,14 +37,14 @@ struct ScheatShortConstString {
 
 extern "C" struct String{
     union{
-        ScheatShortConstString const_chars;
+        
         char *char_ptr;
     } buf;
 };
 
 extern "C" void print_String(String);
 
-extern "C" String String_init(const char *);
+extern "C" String String_init(char *);
 
 extern "C" bool ScheatString_isPtr(String *);
 
