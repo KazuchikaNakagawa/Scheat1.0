@@ -60,8 +60,8 @@ public:
     std::string outputFilePath;
     std::string target;
     std::string datalayout;
-    std::string header_search_path;
-    std::string library_search_path;
+    vector<std::string> header_search_path;
+    vector<std::string> library_search_path;
     std::string loggingFile = "";
     std::string productName;
     ScheatDelegate *delegate = nullptr;

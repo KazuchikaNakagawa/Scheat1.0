@@ -14,6 +14,11 @@
 			<key>orderHint</key>
 			<integer>12</integer>
 		</dict>
+		<key>CLParserTest.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>Foundation copy.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>

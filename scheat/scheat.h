@@ -16,7 +16,7 @@ namespace scheat{
 struct SourceLocation;
 
 class _Scheat;
-
+using namespace std;
 class ScheatDelegate {
 public:
     
@@ -49,8 +49,8 @@ public:
     std::string outputFilePath;
     std::string target;
     std::string datalayout;
-    std::string header_search_path;
-    std::string library_search_path;
+    vector<std::string> header_search_path;
+    vector<std::string> library_search_path;
     ScheatDelegate *delegate = nullptr;
     bool delLL = false;
     void complementSettings();

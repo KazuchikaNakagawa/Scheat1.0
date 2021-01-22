@@ -400,6 +400,9 @@
 		82E5E29225A9E01600B3316C /* libLLVMXCoreInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E0B925A9D54400B3316C /* libLLVMXCoreInfo.a */; };
 		82E5E29325A9E01600B3316C /* libLLVMXRay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E07525A9D54100B3316C /* libLLVMXRay.a */; };
 		82E5E2DB25B07FC200B3316C /* ScheatMake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82E5E2D925B07FC200B3316C /* ScheatMake.cpp */; };
+		82E5E2EC25B16CF200B3316C /* CommandLineOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82E5E2EA25B16CF200B3316C /* CommandLineOptions.cpp */; };
+		82E5E31625B5834B00B3316C /* CLParserTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82E5E31525B5834B00B3316C /* CLParserTest.cpp */; };
+		82E5E34425B591B700B3316C /* CommandLineOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82E5E2EA25B16CF200B3316C /* CommandLineOptions.cpp */; };
 		82E6975024D32ACB00F13264 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974F24D32ACB00F13264 /* libxml2.tbd */; };
 		82E6975124D32B5500F13264 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974C24D321B400F13264 /* libncurses.tbd */; };
 		82E6975424D32B5500F13264 /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975224D32B5500F13264 /* libncurses.5.tbd */; };
@@ -545,6 +548,15 @@
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		82A1A23724D80AFE009C2E5F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		82E5E2FD25B5832B00B3316C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -785,6 +797,10 @@
 		82E5E0F725A9D54600B3316C /* libLLVMScalarOpts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMScalarOpts.a; path = ../../../../usr/local/Cellar/llvm/11.0.0_1/lib/libLLVMScalarOpts.a; sourceTree = "<group>"; };
 		82E5E2D925B07FC200B3316C /* ScheatMake.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatMake.cpp; sourceTree = "<group>"; };
 		82E5E2DA25B07FC200B3316C /* ScheatMake.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatMake.hpp; sourceTree = "<group>"; };
+		82E5E2EA25B16CF200B3316C /* CommandLineOptions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CommandLineOptions.cpp; sourceTree = "<group>"; };
+		82E5E2EB25B16CF200B3316C /* CommandLineOptions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CommandLineOptions.hpp; sourceTree = "<group>"; };
+		82E5E2FF25B5832B00B3316C /* CLParserTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CLParserTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		82E5E31525B5834B00B3316C /* CLParserTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CLParserTest.cpp; sourceTree = "<group>"; };
 		82E6974C24D321B400F13264 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
 		82E6974E24D324B600F13264 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		82E6974F24D32ACB00F13264 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -1247,6 +1263,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82E5E2FC25B5832B00B3316C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1312,6 +1335,9 @@
 				828FFCB724D80E28007BEBFF /* main.cpp */,
 				82E5E2D925B07FC200B3316C /* ScheatMake.cpp */,
 				82E5E2DA25B07FC200B3316C /* ScheatMake.hpp */,
+				82E5E2EA25B16CF200B3316C /* CommandLineOptions.cpp */,
+				82E5E2EB25B16CF200B3316C /* CommandLineOptions.hpp */,
+				82E5E31525B5834B00B3316C /* CLParserTest.cpp */,
 			);
 			path = "scheat-commandlineTool";
 			sourceTree = "<group>";
@@ -1352,6 +1378,7 @@
 				820413F62523659B0073CB03 /* libScheatHelp.a */,
 				8289B9EC258A3BF900F7DC0B /* libScheatDriver.a */,
 				8227D74C25A9868500BCB932 /* libScheatFoundation.dylib */,
+				82E5E2FF25B5832B00B3316C /* CLParserTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1922,6 +1949,23 @@
 			productReference = 82D6F4D024F3EE240003D0EA /* libScheatARC.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		82E5E2FE25B5832B00B3316C /* CLParserTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82E5E30325B5832B00B3316C /* Build configuration list for PBXNativeTarget "CLParserTest" */;
+			buildPhases = (
+				82E5E2FB25B5832B00B3316C /* Sources */,
+				82E5E2FC25B5832B00B3316C /* Frameworks */,
+				82E5E2FD25B5832B00B3316C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CLParserTest;
+			productName = CLParserTest;
+			productReference = 82E5E2FF25B5832B00B3316C /* CLParserTest */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1966,6 +2010,9 @@
 					82D6F4CF24F3EE240003D0EA = {
 						CreatedOnToolsVersion = 12.0;
 					};
+					82E5E2FE25B5832B00B3316C = {
+						CreatedOnToolsVersion = 12.3;
+					};
 				};
 			};
 			buildConfigurationList = 829849D424D1B5A7004A7A64 /* Build configuration list for PBXProject "ProjectScheat" */;
@@ -1995,6 +2042,7 @@
 				820413F52523659B0073CB03 /* ScheatHelp */,
 				8289B9EB258A3BF900F7DC0B /* ScheatDriver */,
 				8227D74B25A9868500BCB932 /* ScheatFoundation */,
+				82E5E2FE25B5832B00B3316C /* CLParserTest */,
 			);
 		};
 /* End PBXProject section */
@@ -2094,6 +2142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82E5E2EC25B16CF200B3316C /* CommandLineOptions.cpp in Sources */,
 				828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */,
 				82E5E2DB25B07FC200B3316C /* ScheatMake.cpp in Sources */,
 			);
@@ -2112,6 +2161,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				82D6F4D724F3EE240003D0EA /* ScheatARC.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82E5E2FB25B5832B00B3316C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82E5E34425B591B700B3316C /* CommandLineOptions.cpp in Sources */,
+				82E5E31625B5834B00B3316C /* CLParserTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2973,6 +3031,50 @@
 			};
 			name = Release;
 		};
+		82E5E30425B5832B00B3316C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		82E5E30525B5832B00B3316C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3107,6 +3209,15 @@
 			buildConfigurations = (
 				82D6F4D824F3EE240003D0EA /* Debug */,
 				82D6F4D924F3EE240003D0EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82E5E30325B5832B00B3316C /* Build configuration list for PBXNativeTarget "CLParserTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82E5E30425B5832B00B3316C /* Debug */,
+				82E5E30525B5832B00B3316C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
