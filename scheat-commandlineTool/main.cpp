@@ -18,6 +18,63 @@
 using namespace std;
 using namespace scheat;
 using namespace commandLine;
+
+static void compileScheat(OptionStream &options, Option *source){
+    
+    Scheat scheat;
+    scheat.sourceFile = string(source->value[0].data.svalue);
+    
+    auto header = options.getOption("-L", type_array);
+    if (!header) {
+        
+    }else{
+        
+        copy(scheat.header_search_path.begin(), scheat.header_search_path.end(), header->value);
+    }
+    
+    auto outputName = options.getOption("-o", type_string);
+    if (!outputName) {
+        
+    }else{
+        scheat.outputFilePath = outputName->value[0].data.svalue;
+    }
+    
+    scheat.complementSettings();
+    
+    scheat.ready();
+}
+
+static void playScheat(){
+okok:
+    std::cout << "Scheat 2.0.1 beta(C++ Edition)" << std::endl;
+    std::cout << "[based on LLVM 11]" << std::endl;
+    //std::cout << "> ";
+    Scheat scheat;
+    //scheat.allowDeepDebug(true);
+    scheat.setDebugSetting(true);
+    scheat.isMain = true;
+    while (true) {
+        scheat.addSome();
+        std::string code;
+        cout << "> ";
+        std::getline(std::cin, code);
+        if (code == "\\q") {
+            break;
+        }
+        ScheatLexer::testlex(code + "\n");
+        if (scheat.hasProbrem()) {
+            cout << "----Scheat has been reset----" << endl;
+            goto okok;
+        }
+        ScheatAnalyzer::parse();
+        if (scheat.hasProbrem()) {
+            cout << "----Scheat has been reset----" << endl;
+            goto okok;
+        }
+        ScheatEncoder::printout();
+    }
+}
+
 int main(int argc, const char *argv[]){
     // std::cout << argc << std::endl;
     
@@ -28,16 +85,17 @@ int main(int argc, const char *argv[]){
     if (!source && options.isIncluded("-build")) {
         printf("Illegal command options. To show helps, try scheat -help\n");
         return 0;
+    }else{
+        compileScheat(options, source);
     }
     
-    Scheat scheat;
-    scheat.sourceFile = string(source->value[0].data.svalue);
-    
-    auto header = options.getOption("-L", type_string);
-    if (!header) {
+    auto play = options.isIncluded("-play");
+    if (!play && options.isIncluded("-play")) {
+        printf("Illegal command options. To show helps, try scheat -help\n");
         return 0;
+    }else{
+        
     }
-    scheat.header_search_path.push_back(header->value[0].data.svalue);
     
     return 0;
     /*
