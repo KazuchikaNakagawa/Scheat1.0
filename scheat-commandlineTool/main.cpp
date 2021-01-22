@@ -12,13 +12,35 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "scheat.h"
+#include "CommandLineOptions.hpp"
 
 
 using namespace std;
 using namespace scheat;
+using namespace commandLine;
 int main(int argc, const char *argv[]){
     // std::cout << argc << std::endl;
     
+    OptionStream options(argc, argv);
+    options.parse();
+    
+    auto source = options.getOption("-build", type_string);
+    if (!source && options.isIncluded("-build")) {
+        printf("Illegal command options. To show helps, try scheat -help\n");
+        return 0;
+    }
+    
+    Scheat scheat;
+    scheat.sourceFile = string(source->value[0].data.svalue);
+    
+    auto header = options.getOption("-L", type_string);
+    if (!header) {
+        return 0;
+    }
+    scheat.header_search_path.push_back(header->value[0].data.svalue);
+    
+    return 0;
+    /*
     if (argc == 1) {
         scheat::_Scheat s;
         printf("\033[1mScheat Compiler(C++ Edition)\033[m\n    Scheat's main compiler.\n");
@@ -146,11 +168,11 @@ int main(int argc, const char *argv[]){
         }else if (argc == 3){
             std::cout << "this option was obsoluted..." << std::endl;
             return 0;
-        }/*else if (argc == 4 && (strcmp(argv[2], "-f") == 0)){
+        }else if (argc == 4 && (strcmp(argv[2], "-f") == 0)){
             //
             std::ifstream ifs(argv[3]);
             lexer.lex(ifs);
-        }*/
+        }
         if (strcmp(argv[1], "-ll") == 0) {
             string basePath(argv[2]);
             string inFilePath = basePath + ".scheat";
@@ -175,5 +197,6 @@ int main(int argc, const char *argv[]){
         return 0;
     }
     printf("Illegal command options. To show helps, try scheat -help\n");
+*/
     return 0;
 }
