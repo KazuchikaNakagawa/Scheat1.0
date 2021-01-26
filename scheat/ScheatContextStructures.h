@@ -86,6 +86,7 @@ public:
     string asValue();
 };
 
+// Grammar: enable to <function name>
 class ExternalFunction : public Function {
 public:
     string getMangledName() {
