@@ -13,6 +13,7 @@ OptionStream::OptionStream(int argc, const char *argv[]){
     for (int i = 0; i < argc; i++) {
         string k(argv[i]);
         buffer.append(k);
+        buffer.append(" ");
     }
 }
 

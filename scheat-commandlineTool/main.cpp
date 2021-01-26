@@ -28,8 +28,10 @@ static void compileScheat(OptionStream &options, Option *source){
     if (!header) {
         
     }else{
-        
-        copy(scheat.header_search_path.begin(), scheat.header_search_path.end(), header->value);
+        for (auto s : header->value) {
+            scheat.header_search_path.push_back(s.data.svalue);
+        }
+        //copy(scheat.header_search_path.begin(), scheat.header_search_path.end(), header->value);
     }
     
     auto outputName = options.getOption("-o", type_string);
@@ -37,11 +39,25 @@ static void compileScheat(OptionStream &options, Option *source){
         
     }else{
         scheat.outputFilePath = outputName->value[0].data.svalue;
+        scheat.setProductName(scheat.outputFilePath);
     }
     
     scheat.complementSettings();
     
     scheat.ready();
+    ScheatLexer::lex();
+    if (scheat.hasProbrem()) {
+        return;
+    }
+    //printf("lexing ended successfully.");
+    ScheatAnalyzer::parse();
+    if (scheat.hasProbrem()) {
+        return;
+    }
+    //printf("analyzing ended sucessfully.");
+    ScheatEncoder::encode();
+    //printf("encoding ended.");
+    return;
 }
 
 static void playScheat(){
@@ -75,6 +91,19 @@ okok:
     }
 }
 
+static void scheat_showHelp(){
+    std::cout <<
+    "-build <source file> (-o <output file>) (-L library search path) (-c):" << std::endl <<
+    "   build Scheat source code into .o or .a file." << std::endl <<
+    "   to build .a file(static library), give .scht file to 'main source'.\n" <<
+    "-play:" << std::endl <<
+    "   execute Scheat like a shell.\n" <<
+    "-lex:" << std::endl <<
+    "   lex texts and show token kind.\n"
+    "   option: -f enables you to lex file. Enter file path after -f option."
+    << endl;
+}
+
 int main(int argc, const char *argv[]){
     // std::cout << argc << std::endl;
     
@@ -85,7 +114,7 @@ int main(int argc, const char *argv[]){
     if (!source && options.isIncluded("-build")) {
         printf("Illegal command options. To show helps, try scheat -help\n");
         return 0;
-    }else{
+    }else if (source){
         compileScheat(options, source);
     }
     
@@ -93,8 +122,13 @@ int main(int argc, const char *argv[]){
     if (!play && options.isIncluded("-play")) {
         printf("Illegal command options. To show helps, try scheat -help\n");
         return 0;
-    }else{
-        
+    }else if (play){
+        playScheat();
+    }
+    
+    auto helpOption = options.getOption("-help", type_no_args);
+    if (helpOption) {
+        scheat_showHelp();
     }
     
     return 0;

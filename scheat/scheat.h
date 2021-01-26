@@ -51,6 +51,7 @@ public:
     std::string datalayout;
     vector<std::string> header_search_path;
     vector<std::string> library_search_path;
+    vector<string> linkPaths = {};
     ScheatDelegate *delegate = nullptr;
     bool delLL = false;
     void complementSettings();

@@ -338,6 +338,10 @@ void Scheat::complementSettings(){
         delLL = false;
     }
     
+    if (productName == "") {
+        productName = outputFilePath;
+    }
+    
     if (sourceFile.find(".scheat") != string::npos) {
         isMain = true;
     }

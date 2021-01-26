@@ -40,6 +40,7 @@ void LLSCEncoder::encodeLL(_Scheat *o){
 }
 
 void LLSCEncoder::encode(string path){
+    
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     unique_ptr<llvm::Module> module = llvm::parseIRFile(llvm::StringRef(path + ".ll"), err, context);
