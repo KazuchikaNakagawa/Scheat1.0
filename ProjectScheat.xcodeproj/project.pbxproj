@@ -61,9 +61,6 @@
 		8289BA00258A3C6900F7DC0B /* ScheatKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8289B9FF258A3C6900F7DC0B /* ScheatKit.cpp */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		8292381A25A5A89A002157FC /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8292381925A5A89A002157FC /* Utilities.cpp */; };
-		829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */; };
-		829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */; };
-		829849E124D1B5A7004A7A64 /* ProjectSpica.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849E024D1B5A7004A7A64 /* ProjectSpica.cpp */; };
 		829849EE24D2DA20004A7A64 /* scheat.h in Headers */ = {isa = PBXBuildFile; fileRef = 829849ED24D2DA20004A7A64 /* scheat.h */; };
 		829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849EF24D2DA20004A7A64 /* scheatPriv.hpp */; };
 		829849F224D2DA20004A7A64 /* scheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849F124D2DA20004A7A64 /* scheat.cpp */; };
@@ -617,9 +614,6 @@
 		829237EE25A5A74E002157FC /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		8292381925A5A89A002157FC /* Utilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		829849D924D1B5A7004A7A64 /* libspica.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libspica.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpica.hpp; sourceTree = "<group>"; };
-		829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProjectSpicaPriv.hpp; sourceTree = "<group>"; };
-		829849E024D1B5A7004A7A64 /* ProjectSpica.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectSpica.cpp; sourceTree = "<group>"; };
 		829849EB24D2DA20004A7A64 /* libscheat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libscheat.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849ED24D2DA20004A7A64 /* scheat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scheat.h; sourceTree = "<group>"; };
 		829849EF24D2DA20004A7A64 /* scheatPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scheatPriv.hpp; sourceTree = "<group>"; };
@@ -1351,7 +1345,6 @@
 				826720D424F7D4F600C94D22 /* ScheatFoundation */,
 				82AEB66B24DC3E0100889AC3 /* ScheatIR */,
 				828FFCB624D80DFF007BEBFF /* scheat-commandlineTool */,
-				829849DB24D1B5A7004A7A64 /* ProjectSpica */,
 				829849EC24D2DA20004A7A64 /* scheat */,
 				829849FB24D2DFA4004A7A64 /* TestScheat */,
 				8225412924E175F700DBF05C /* ScheatRun */,
@@ -1381,16 +1374,6 @@
 				82E5E2FF25B5832B00B3316C /* CLParserTest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		829849DB24D1B5A7004A7A64 /* ProjectSpica */ = {
-			isa = PBXGroup;
-			children = (
-				829849DC24D1B5A7004A7A64 /* ProjectSpica.hpp */,
-				829849DE24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp */,
-				829849E024D1B5A7004A7A64 /* ProjectSpica.cpp */,
-			);
-			path = ProjectSpica;
 			sourceTree = "<group>";
 		};
 		829849EC24D2DA20004A7A64 /* scheat */ = {
@@ -1686,8 +1669,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				829849DF24D1B5A7004A7A64 /* ProjectSpicaPriv.hpp in Headers */,
-				829849DD24D1B5A7004A7A64 /* ProjectSpica.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2107,7 +2088,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				829849E124D1B5A7004A7A64 /* ProjectSpica.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
