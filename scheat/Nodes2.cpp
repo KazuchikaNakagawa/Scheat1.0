@@ -838,6 +838,23 @@ Value *Statements::codegen(IRStream &f){
     return nullptr;
 }
 
+unique_ptr<ReassignStatement>
+ReassignStatement::init(unique_ptr<IdentifierExpr> id, unique_ptr<Expr> v){
+    auto ptr = make_unique<ReassignStatement>();
+    ptr->location = id->location;
+    ptr->type = id->type;
+    ptr->value = move(v);
+    ptr->variable = move(id);
+    return ptr;
+}
+
+Value *ReassignStatement::codegen(IRStream &f){
+    auto lv = variable->codegen(f);
+    auto rv = value->codegen(f);
+    f << "store " << rv->asValue() << ", " << lv->asValue() << "\n";
+    return nullptr;
+}
+
 Value *DeclareVariableStatement::codegen(IRStream &f){
     
     if (scheato->hasProbrem()) {

@@ -844,6 +844,20 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
     return stmtptr;
 }
 
+static unique_ptr<ReassignStatement>
+parseReassignStatement(Token *&tok){
+    auto idexpr = parseIdentifierExpr(tok);
+    if (!idexpr) {
+        return nullptr;
+    }
+    auto ltype = idexpr->type;
+    auto value = parseExpr(tok);
+    if (!value) {
+        
+    }
+    return nullptr;
+}
+
 extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     // statement : this id is expr.
     if (tokens == nullptr) {
@@ -858,11 +872,17 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     if (tokens->kind == scheat::TokenKind::val_identifier) {
         // return parseFunctionCallStatement(tokens);
     }
+    if (tokens->kind == scheat::TokenKind::tok_the) {
+        
+    }
     if (tokens->kind == scheat::TokenKind::embbed_func_print) {
         return parsePrintStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::tok_if) {
         return parseIfStatement(tokens);
     }
+    
+    scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__,
+                        "Syntax Error: Invalid syntax.");
     return nullptr;
 }

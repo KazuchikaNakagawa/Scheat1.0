@@ -107,7 +107,7 @@ public:
         tok_symbol,
         tok_bool,
         tok_double,
-        tok_option,
+        tok_option
     } kind;
     Data data;
     Token() { kind = tok_symbol;
@@ -118,7 +118,11 @@ public:
                 this->data.ivalue = t.data.ivalue;
                 break;
             case tok_symbol:
-                this->data.svalue = t.data.svalue;
+                this->data.svalue = (char *)malloc(
+                                                   sizeof(char) *
+                                                   strlen(t.data.svalue) + 1
+                                                   );
+                strcpy(data.svalue, t.data.svalue);
                 break;
             case tok_bool:
                 this->data.bvalue = t.data.bvalue;
@@ -126,10 +130,15 @@ public:
                 this->data.dvalue = t.data.dvalue;
                 break;
             case tok_option:
-                this->data.svalue = t.data.svalue;
+                this->data.svalue = (char *)malloc(
+                                                   sizeof(char) *
+                                                   strlen(t.data.svalue) + 1
+                                                   );
+                strcpy(data.svalue, t.data.svalue);
                 break;
         }
     };
+    
     Token(Token &&t){
         this->kind = t.kind;
         switch (t.kind) {
@@ -137,7 +146,11 @@ public:
                 this->data.ivalue = t.data.ivalue;
                 break;
             case tok_symbol:
-                this->data.svalue = t.data.svalue;
+                this->data.svalue = (char *)malloc(
+                                                   sizeof(char) *
+                                                   strlen(t.data.svalue) + 1
+                                                   );
+                strcpy(data.svalue, t.data.svalue);
                 break;
             case tok_bool:
                 this->data.bvalue = t.data.bvalue;
@@ -145,7 +158,11 @@ public:
                 this->data.dvalue = t.data.dvalue;
                 break;
             case tok_option:
-                this->data.svalue = t.data.svalue;
+                this->data.svalue = (char *)malloc(
+                                                   sizeof(char) *
+                                                   strlen(t.data.svalue) + 1
+                                                   );
+                strcpy(data.svalue, t.data.svalue);
                 break;
         }
     };
@@ -174,6 +191,7 @@ public:
     Option *getOption(string, Type);
     vector<Argument> getArguments();
     bool isIncluded(string);
+    void printBuffer(){ cout << buffer << endl; };
 };
 
 }

@@ -199,6 +199,7 @@ _Scheat::_Scheat(Scheat *sch){
     library_search_path = sch->library_search_path;
     delegate = sch->delegate;
     productName = sch->productName;
+    onlyAssembles = sch->onlyAssemble;
     delLL = sch->delLL;
     tokens = nullptr;
 }
@@ -331,12 +332,12 @@ void Scheat::complementSettings(){
         return;
     }
     
-    if (outputFilePath == "-") {
-        outputFilePath = getFileName(sourceFile);
-        delLL = true;
-    }else{
-        delLL = false;
-    }
+//    if (outputFilePath == "-") {
+//        outputFilePath = getFileName(sourceFile);
+//        delLL = true;
+//    }else{
+//        delLL = false;
+//    }
     
     if (productName == "") {
         productName = outputFilePath;

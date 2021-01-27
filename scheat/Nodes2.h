@@ -601,6 +601,18 @@ public:
     }
 };
 
+class ReassignStatement : public StatementNode {
+public:
+    unique_ptr<IdentifierExpr> variable;
+    unique_ptr<Expr> value;
+    static unique_ptr<ReassignStatement>
+    init(unique_ptr<IdentifierExpr>, unique_ptr<Expr>);
+    Value * codegen(IRStream &) override;
+    string userdump() override{
+        return "assign(" + variable->userdump() + ", " + value->userdump() + ")";
+    }
+};
+
 class PrintStatement : public StatementNode {
 public:
     unique_ptr<ArgumentExpr> arg;

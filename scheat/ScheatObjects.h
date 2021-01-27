@@ -46,7 +46,7 @@ class _Scheat {
     bool deepDebug;
     bool hasError;
     bool delLL;
-    
+    bool onlyAssembles = false;
 public:
     /// returns true if this fails to compile.
     /// this is regarded as a flag.
@@ -73,6 +73,7 @@ public:
     void allowDeepDebug(bool b){
         deepDebug = b;
     };
+    bool onlyAsm() {return onlyAssembles;};
     template<class Lxr = ScheatLexer> void lex(){
         if (is_base_of<Lxr, ScheatLexer>::value){
             Lxr::lex(this);

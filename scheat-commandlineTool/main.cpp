@@ -15,12 +15,15 @@
 #include "CommandLineOptions.hpp"
 
 
+#define OUT(t) {printf("%s\n", t);}
+#define TEST(action) { action; }
+
 using namespace std;
 using namespace scheat;
 using namespace commandLine;
 
 static void compileScheat(OptionStream &options, Option *source){
-    
+    //printf("compile: make .scheat file into object file.\n");
     Scheat scheat;
     scheat.sourceFile = string(source->value[0].data.svalue);
     
@@ -38,8 +41,20 @@ static void compileScheat(OptionStream &options, Option *source){
     if (!outputName) {
         
     }else{
+        
         scheat.outputFilePath = outputName->value[0].data.svalue;
         scheat.setProductName(scheat.outputFilePath);
+        //printf("output file is set: %s\n", scheat.outputFilePath.c_str());
+    }
+    
+    auto delOption = options.getOption("-ll", type_no_args);
+    if (delOption) {
+        scheat.delLL = false;
+    }
+    
+    auto asmOption = options.getOption("-c", type_no_args);
+    if (asmOption) {
+        scheat.onlyAssemble = true;
     }
     
     scheat.complementSettings();
@@ -60,10 +75,14 @@ static void compileScheat(OptionStream &options, Option *source){
     return;
 }
 
+static void introduceSelf(){
+    std::cout << "Scheat 1.0" << std::endl;
+    std::cout << "[based on LLVM 11/clang]" << std::endl;
+}
+
 static void playScheat(){
 okok:
-    std::cout << "Scheat 2.0.1 beta(C++ Edition)" << std::endl;
-    std::cout << "[based on LLVM 11]" << std::endl;
+    introduceSelf();
     //std::cout << "> ";
     Scheat scheat;
     //scheat.allowDeepDebug(true);
@@ -116,6 +135,10 @@ int main(int argc, const char *argv[]){
         return 0;
     }else if (source){
         compileScheat(options, source);
+        return 0;
+    }else{
+        //OUT("no build options");
+        //TEST(options.printBuffer());
     }
     
     auto play = options.isIncluded("-play");
@@ -124,12 +147,17 @@ int main(int argc, const char *argv[]){
         return 0;
     }else if (play){
         playScheat();
+        return 0;
     }
     
     auto helpOption = options.getOption("-help", type_no_args);
     if (helpOption) {
         scheat_showHelp();
+        return 0;
     }
+    
+    introduceSelf();
+    
     
     return 0;
     /*

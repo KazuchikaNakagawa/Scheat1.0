@@ -53,7 +53,8 @@ public:
     vector<std::string> library_search_path;
     vector<string> linkPaths = {};
     ScheatDelegate *delegate = nullptr;
-    bool delLL = false;
+    bool delLL = true;
+    bool onlyAssemble = false;
     void complementSettings();
     void setDebugSetting(bool o) ;
     void allowDeepDebug(bool b);

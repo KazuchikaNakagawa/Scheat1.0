@@ -27,6 +27,7 @@
 #include <llvm/LinkAllIR.h>
 #include <system_error>
 #include <sstream>
+#include <unistd.h>
 
 using namespace scheat;
 using namespace scheat::encoder;
@@ -106,12 +107,20 @@ void LLSCEncoder::encode(string path){
 
      */
     
-    ostringstream ss;
-    ss << "ld -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -platform_version macos 10.15.4 10.15.4 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o ";
-    ss << scheato->productName << " " << scheato->outputFilePath << ".o -L/usr/local/lib/Scheat -L/Library/Developer/CommandLineTools/usr/lib/clang/11.0.3/lib/darwin/ -lFoundation -lc++ -lSystem -lclang_rt.osx";
-    //cout << ss.str() << endl;
-    system(ss.str().c_str());
-    if (ScheatContext::main != nullptr) system(scheato->productName.c_str());
+    if (scheato->onlyAsm()) {
+        return;
+    }else{
+        ostringstream ss;
+        ss << "ld -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -platform_version macos 10.15.4 10.15.4 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o ";
+        ss << scheato->productName << " " << scheato->outputFilePath << ".o -L/usr/local/lib/Scheat -L/Library/Developer/CommandLineTools/usr/lib/clang/11.0.3/lib/darwin/ -lFoundation -lc++ -lSystem -lclang_rt.osx";
+        //cout << ss.str() << endl;
+        system(ss.str().c_str());
+        remove((path + ".o").c_str());
+        
+        char name[200];
+        string opath = string(getcwd(name, 200)) + "/" + path;
+        system(opath.c_str());
+    }
     
 //    string op = string("ld -o ")+ scheato->productName + " /usr/local/lib/Scheat/libFoundation.a /usr/local/lib/Scheat/c++/v1/cstdio ";
 //    op += Filename + "\n";

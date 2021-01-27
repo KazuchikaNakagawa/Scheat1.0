@@ -30,11 +30,14 @@ Option *OptionStream::getOption(OptionKey key){
     int index = 0;
     for (auto token : tokens) {
         index++;
-        if (token.kind != Token::tok_option) {
+        if (token.kind != Token::tok_option && token.kind != Token::tok_symbol) {
+            
             continue;
         }
-        if (token.data.svalue == key.name) {
+        //printf("check if '%s' == '%s'\n", key.name.c_str(), token.data.svalue);
+        if (string(token.data.svalue) == key.name) {
             optname = token.data.svalue;
+            //printf("option was found.\n");
             break;
         }
     }
@@ -105,13 +108,20 @@ bool OptionStream::isIncluded(string key){
 #define clear { cbuf = ""; state = state_none; }
 void OptionStream::genTok(string &cbuf){
     Token empty;
+    
+    //printf("tok by '%s'\n", cbuf.c_str());
+    //printf("state is %d\n", state);
+    
     if (cbuf.empty()) {
+        clear
         return;
     }
     
+    cbuf += "\0";
+    
     if (state == state_option) {
         empty.kind = Token::tok_option;
-        empty.data.svalue = (char *)malloc(sizeof(char) * cbuf.size());
+        empty.data.svalue = (char *)malloc(sizeof(char) * cbuf.size() + 1);
         strcpy(empty.data.svalue, cbuf.c_str());
         tokens.push_back(empty);
         clear
@@ -135,7 +145,7 @@ void OptionStream::genTok(string &cbuf){
         return;
     }else{
         empty.kind = Token::tok_symbol;
-        empty.data.svalue = (char *)malloc(sizeof(char) * cbuf.size());
+        empty.data.svalue = (char *)malloc(sizeof(char) * cbuf.size() + 1);
         strcpy(empty.data.svalue, cbuf.c_str());
         tokens.push_back(empty);
         clear
@@ -173,9 +183,13 @@ void OptionStream::parse(){
         }
         
         if (c == '-') {
+            if (state == state_none) {
+                genTok(cbuf);
+            }
             cbuf.push_back(c);
             if (state == state_none) {
                 state = state_option;
+                //printf("- detected\n");
             }
             continue;
         }
