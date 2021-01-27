@@ -55,7 +55,7 @@ static string strreplace(string &str, string target, string into){
 }
 
 static TypeData asPointer(TypeData ty){
-    return TypeData("the " + ty.name, ty.ir_used + "*");
+    return ty.pointer();
 }
 
 
@@ -519,6 +519,7 @@ Value *StringTerm::codegen(IRStream &f){
     string r = "@str";
     if (ScheatContext::global->strmap.find(substr) == ScheatContext::global->strmap.end()) {
         r = r + to_string(ScheatContext::global->strmap.size());
+        ScheatContext::global->strmap[substr] = true;
     }else{
         r = r + to_string(ScheatContext::global->strmap[substr]);
     }
@@ -666,7 +667,7 @@ Value *TheIdentifierExpr::codegenAsRef(IRStream &f){
 unique_ptr<TheIdentifierExpr> TheIdentifierExpr::init(Token *the_tok, unique_ptr<IdentifierExpr> ex){
     auto ptr = make_unique<TheIdentifierExpr>();
     ptr->location = the_tok->location;
-    ptr->type = TypeData("the " + ex->type.name, ex->type.ir_used + "*");
+    ptr->type = ex->type.pointer();
     ptr->expr = move(ex);
     return ptr;
 }

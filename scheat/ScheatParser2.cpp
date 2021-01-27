@@ -222,8 +222,12 @@ unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
         auto saved = tok;
         eatThis(tok);
         auto ptr = parseIdentifierExpr(tok);
+        if (!ptr) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "identifier after 'the' is unclear.");
+            return nullptr;
+        }
         auto ret = TheIdentifierExpr::init(saved, move(ptr));
-        return ptr;
+        return ret;
     }
 //
     auto ptr = parseFirstIdentifierExpr(tok);
@@ -846,16 +850,56 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
 
 static unique_ptr<ReassignStatement>
 parseReassignStatement(Token *&tok){
+    
+    //printf("yobareteru\n");
     auto idexpr = parseIdentifierExpr(tok);
     if (!idexpr) {
+        //printf("koko akasii?");
         return nullptr;
     }
+    
+    if (tok->kind != scheat::TokenKind::tok_is) {
+        scheato->FatalError(tok->location,
+                            __FILE_NAME__,
+                            __LINE__,
+                            "reassign statement needs 'is' keyword between name and value.");
+        return nullptr;
+    }else{
+        eatThis(tok);
+    }
+    
     auto ltype = idexpr->type;
     auto value = parseExpr(tok);
     if (!value) {
-        
+        return nullptr;
+    }
+    auto rtype = value->type;
+    //cout << "l ha " << ltype.name << " nandakedo r ha "<< rtype.name << " dayo\n";
+    if (ltype == rtype.pointer()) {
+        return ReassignStatement::init(move(idexpr), move(value));
+    }else{
+        scheato->FatalError(idexpr->location, __FILE_NAME__, __LINE__,
+                            "variable %s is defined as %s type but assigned %s type.", idexpr->userdump().c_str(),
+                            ltype.name.c_str(),
+                            rtype.name.c_str());
+        return nullptr;
     }
     return nullptr;
+}
+
+bool isIncluded(TokenKind k, Token *tokens){
+    auto tk = tokens;
+    while (tk->kind != scheat::TokenKind::tok_EOF) {
+        if (tk->kind == k) {
+            return true;
+        }
+        if (tk->kind == scheat::TokenKind::tok_period) {
+            return false;
+        }
+        tk = tk->next;
+        
+    }
+    return false;
 }
 
 extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
@@ -872,9 +916,10 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     if (tokens->kind == scheat::TokenKind::val_identifier) {
         // return parseFunctionCallStatement(tokens);
     }
-    if (tokens->kind == scheat::TokenKind::tok_the) {
-        
+    if (isIncluded(scheat::TokenKind::tok_is, tokens)) {
+        return parseReassignStatement(tokens);
     }
+    
     if (tokens->kind == scheat::TokenKind::embbed_func_print) {
         return parsePrintStatement(tokens);
     }

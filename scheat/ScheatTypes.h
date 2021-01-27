@@ -54,6 +54,10 @@ public:
     TypeData(std::string a, std::string ir) : name(a), ir_used(ir) {};
     
     TypeData pointer(){
+        //printf("pointer of %s\n", name.c_str());
+        if (name.find("the ") != std::string::npos) {
+            return TypeData(name + "*", ir_used + "*");
+        }
         return TypeData("the " + name, ir_used + "*");
     };
     
