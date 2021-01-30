@@ -61,7 +61,7 @@ public:
     std::string target;
     std::string datalayout;
     vector<std::string> header_search_path;
-    vector<std::string> library_search_path;
+    vector<std::string> library_names;
     std::string loggingFile = "";
     std::string productName;
     ScheatDelegate *delegate = nullptr;

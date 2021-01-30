@@ -474,6 +474,20 @@ public:
     static unique_ptr<CastExpr> init(TypeData, unique_ptr<Expr>);
 };
 
+class LoadExpr : public Expr {
+public:
+    unique_ptr<Expr> expr;
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    static unique_ptr<LoadExpr> init(TypeData tp, unique_ptr<Expr> ptr){
+        auto l = make_unique<LoadExpr>();
+        l->location = ptr->location;
+        l->expr = move(ptr);
+        l->type = tp;
+        return l;
+    };
+};
+
 class AllocationExpr : public Expr {
 public:
     unique_ptr<Expr> expr;

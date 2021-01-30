@@ -196,7 +196,7 @@ _Scheat::_Scheat(Scheat *sch){
     target = sch->target;
     datalayout = sch->datalayout;
     header_search_path = sch->header_search_path;
-    library_search_path = sch->library_search_path;
+    library_names = sch->library_search_path;
     delegate = sch->delegate;
     productName = sch->productName;
     onlyAssembles = sch->onlyAssemble;

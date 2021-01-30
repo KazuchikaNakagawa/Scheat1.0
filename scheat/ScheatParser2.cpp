@@ -598,9 +598,21 @@ infix_postfix:
     return nullptr;
 }
 
+static unique_ptr<LoadExpr> parseLoadExpr(Token *&tok){
+    eatThis(tok);
+    auto p = parseExpr(tok);
+    if (!p) {
+        return nullptr;
+    }
+    return LoadExpr::init(p->type.loaded(), move(p));
+}
+
 extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
     // expr : operatedExpr t_of id
     //      | the expr
+    if (tok->kind == TokenKind::tok_loaded) {
+        return parseLoadExpr(tok);
+    }
     auto ptr = parseOperatedExpr(tok);
     if (!ptr) {
         return nullptr;

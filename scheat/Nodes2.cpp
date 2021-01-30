@@ -100,6 +100,19 @@ unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func
     return ptr;
 }
 
+Value *LoadExpr::codegen(IRStream &f){
+    string r = ScheatContext::local()->getRegister();
+    auto v = expr->codegen(f);
+    f << r << " = load " << v->type.ir_used << ", " << v->asValue() << "\n";
+    auto ty = v->type;
+    delete v;
+    return new Value(r, ty);
+}
+
+string LoadExpr::userdump(){
+    return "get(" + expr->userdump() + ")";
+}
+
 Value *VariableAttributeExpr::codegenAsRef(IRStream &f){
     
     return nullptr;
@@ -575,7 +588,7 @@ Value *PrintStatement::codegen(IRStream &f){
             auto clasp = ScheatContext::global->findClass(v->type.name);
             if (!clasp) {
                 scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__,
-                                    "%s is unknown.", v->type.name.c_str());
+                                    "%s is not printable.", v->type.name.c_str());
                 return nullptr;
             }
             auto func = clasp->context->findFunc("print");
@@ -693,7 +706,7 @@ void NewIdentifierExpr::setType(TypeData typ){
 };
 
 string CastExpr::userdump(){
-    return type.name + " *" + expr->userdump();
+    return type.name + " of " + expr->userdump();
 }
 
 unique_ptr<CastExpr> CastExpr::init(TypeData type, unique_ptr<Expr> ptr){

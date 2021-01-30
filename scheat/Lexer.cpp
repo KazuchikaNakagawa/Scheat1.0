@@ -277,6 +277,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "loaded" || buf == "at") {
+        tok->kind = TokenKind::tok_loaded;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "is" || buf == "are") {
         tok->kind = TokenKind::tok_is;
         tadd;

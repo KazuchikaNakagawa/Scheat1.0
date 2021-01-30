@@ -61,6 +61,28 @@ public:
         return TypeData("the " + name, ir_used + "*");
     };
     
+    TypeData loaded(){
+        auto k = name.find("*");
+        if ( k != std::string::npos) {
+            std::string cpy = name;
+            cpy.erase(k);
+            std::string cpy_i = ir_used;
+            cpy_i.erase(cpy.find("*"));
+            return TypeData(cpy, cpy_i);
+        }
+        k = name.find("the ");
+        if (k != std::string::npos){
+            std::string cpy = name;
+            for (int i = 0; i < 4; i++) {
+                cpy.erase(cpy.begin());
+            }
+            std::string cpy_i = ir_used;
+            cpy_i.erase(cpy.find("*"));
+            return TypeData(cpy,cpy_i);
+        }
+        return *this;
+    }
+    
     static TypeData IntType;
     static TypeData StringType;
     static TypeData BoolType;

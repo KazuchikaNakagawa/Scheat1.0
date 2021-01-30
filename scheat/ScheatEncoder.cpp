@@ -113,6 +113,13 @@ void LLSCEncoder::encode(string path){
         ostringstream ss;
         ss << "ld -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -platform_version macos 10.15.4 10.15.4 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -o ";
         ss << scheato->productName << " " << scheato->outputFilePath << ".o -L/usr/local/lib/Scheat -L/Library/Developer/CommandLineTools/usr/lib/clang/11.0.3/lib/darwin/ -lFoundation -lc++ -lSystem -lclang_rt.osx";
+        for (auto libp : scheato->header_search_path) {
+            ss << " -L" << libp;
+        }
+        
+        for (auto ap : scheato->library_names) {
+            ss << " -l" << ap;
+        }
         //cout << ss.str() << endl;
         system(ss.str().c_str());
         remove((path + ".o").c_str());

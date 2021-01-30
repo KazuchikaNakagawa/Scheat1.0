@@ -158,6 +158,7 @@ int main(int argc, const char *argv[]){
     
     introduceSelf();
     
+    cout << "if you don't know how to use, try -help" << endl;
     
     return 0;
     /*
