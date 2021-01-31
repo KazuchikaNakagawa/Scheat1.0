@@ -103,10 +103,9 @@ unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func
 Value *LoadExpr::codegen(IRStream &f){
     string r = ScheatContext::local()->getRegister();
     auto v = expr->codegen(f);
-    f << r << " = load " << v->type.ir_used << ", " << v->asValue() << "\n";
-    auto ty = v->type;
+    f << r << " = load " << type.ir_used << ", " << v->asValue() << "\n";
     delete v;
-    return new Value(r, ty);
+    return new Value(r, type);
 }
 
 string LoadExpr::userdump(){

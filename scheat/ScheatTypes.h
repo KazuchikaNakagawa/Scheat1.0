@@ -77,7 +77,7 @@ public:
                 cpy.erase(cpy.begin());
             }
             std::string cpy_i = ir_used;
-            cpy_i.erase(cpy.find("*"));
+            cpy_i.erase(cpy_i.find("*"));
             return TypeData(cpy,cpy_i);
         }
         return *this;

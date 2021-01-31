@@ -406,6 +406,10 @@ void Token::out(){
         printf("integer token ->%d\n", value.intValue);
         return;
     }
+    if (kind == TokenKind::tok_loaded) {
+        printf("load token\n");
+        return;
+    }
     if (kind == TokenKind::val_str) {
         printf("string token ->%s\n", value.strValue.c_str());
         return;
