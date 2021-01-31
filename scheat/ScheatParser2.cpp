@@ -318,6 +318,7 @@ static unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
     if (tok->kind != scheat::TokenKind::tok_comma) {
         return ptr;
     }
+    eatThis(tok);
     while (true) {
         auto expr = parseExpr(tok);
         if (!expr) {

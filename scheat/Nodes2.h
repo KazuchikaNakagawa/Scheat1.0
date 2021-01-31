@@ -615,6 +615,22 @@ public:
     }
 };
 
+class ForStatement : public StatementNode {
+public:
+    unique_ptr<Expr> count;
+    unique_ptr<Statement> body;
+    string userdump() override;
+    Value * codegen(IRStream &) override;
+    static unique_ptr<ForStatement>
+    init(unique_ptr<Expr> intExpr, unique_ptr<Statement> statement){
+        auto ptr = make_unique<ForStatement>();
+        ptr->location = intExpr->location;
+        ptr->count = move(intExpr);
+        ptr->body = move(statement);
+        return ptr;
+    };
+};
+
 class ReassignStatement : public StatementNode {
 public:
     unique_ptr<IdentifierExpr> variable;

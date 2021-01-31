@@ -19,7 +19,7 @@ using namespace std;
 
 class Context {
     unsigned int rnum;
-    unsigned int ifnum = 0;
+    unsigned int labelcount = 0;
     std::map<std::string, Variable *> variables;
     std::map<std::string, Function *> funcs;
     std::map<std::string , Class *> classes;
@@ -30,6 +30,7 @@ class Context {
         base = parents;
         this->name = name;
     }
+    stack<string> scopeStacks;
 public:
     map<string, int> strmap = {};
     IRStream stream_entry;
@@ -37,6 +38,13 @@ public:
     IRStream stream_tail;
     std::string name;
     Context *base;
+    void entryScope(string s){
+        scopeStacks.push(s);
+    }
+    void leave(){
+        scopeStacks.pop();
+    }
+    string getNowScope() { return scopeStacks.top(); };
     Variable *findVariable(std::string);
     Class *findClass(std::string);
     Function *findFunc(std::string);
@@ -52,9 +60,9 @@ public:
     
     Context(const Context &con) = default;
     
-    pair<string, string> getIfLabel(){
-        ifnum++;
-        return make_pair("if" + to_string(ifnum), "else" + to_string(ifnum));
+    string getLabel(){
+        labelcount++;
+        return "scope" + to_string(labelcount);
     }
     
     void addFunction(std::string, Function *);

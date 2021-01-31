@@ -375,6 +375,19 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "for") {
+        tok->kind = TokenKind::tok_for;
+        tadd;
+        clear();
+        return;
+    }
+    
+    if (buf == "times") {
+        tok->kind = TokenKind::tok_times;
+        tadd;
+        return;
+    }
+    
     if (buf == "with") {
         tok->kind = TokenKind::tok_with;
         tadd;

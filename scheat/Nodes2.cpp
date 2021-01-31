@@ -108,6 +108,26 @@ Value *LoadExpr::codegen(IRStream &f){
     return new Value(r, type);
 }
 
+Value * ForStatement::codegen(IRStream &f){
+    auto v = this->count->codegen(f);
+    auto lbl = ScheatContext::local()->getLabel();
+    auto condreg = "%" + lbl + "i";
+    f << condreg << " = alloca i32\n";
+    f << lbl << "for:\n";
+    auto r = ScheatContext::local()->getRegister();
+    f << r << " = load i32, i32* " << condreg << "\n";
+    auto re = ScheatContext::local()->getRegister();
+    f << re << " = icmp slt " << r << ", " << v->value << "\n";
+    f << "br i1 " << re << ", label %" << lbl + "body, label %" << lbl + "for_end\n";
+    f << lbl + "body:\n" ;
+    ScheatContext::local()->entryScope(lbl + "for");
+    body->codegen(f);
+    ScheatContext::local()->leave();
+    f << "br label %" << lbl + "for:\n";
+    f << lbl + "for_end:\n";
+    return nullptr;
+}
+
 string LoadExpr::userdump(){
     return "get(" + expr->userdump() + ")";
 }
@@ -212,16 +232,16 @@ Value *FunctionCallTerm::codegen(IRStream &f){
 
 Value *IfStatement::codegen(IRStream &f){
     auto condv = condition->codegen(f);
-    auto labels = ScheatContext::local()->getIfLabel();
-    f << "br " << condv->asValue() << ", label %" << labels.first << ", label %" << labels.second << "\n";
-    f << labels.first << ":\n";
+    auto labels = ScheatContext::local()->getLabel();
+    f << "br " << condv->asValue() << ", label %" << labels + "if" << ", label %" << labels + "else" << "\n";
+    f << labels + "if" << ":\n";
     thenS->codegen(f);
-    f << "br label %" << labels.first + "_end\n";
-    f << labels.second << ":\n";
+    f << "br label %" << labels + "if" + "_end\n";
+    f << labels + "else" << ":\n";
     
     if (elseS != nullptr) elseS->codegen(f);
-    f << "br label %" << labels.first + "_end\n";
-    f << labels.first + "_end:\n";
+    f << "br label %" << labels + "if" + "_end\n";
+    f << labels + "if" + "_end:\n";
     return nullptr;
 }
 
