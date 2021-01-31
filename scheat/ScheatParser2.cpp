@@ -170,7 +170,8 @@ int hasProperty(TypeData type, string k){
 
 static unique_ptr<IdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
     if (tok->kind != scheat::TokenKind::val_identifier) {
-        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "?????");
+        tok->out();
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "it is not suitable for expression. you may solve this by writing a parentheses of arguments.");
         return nullptr;
     }
     auto idtok = tok;
@@ -793,6 +794,38 @@ parseIfStatement(Token *&tok){
     return IfStatement::init(move(expr), move(s), nullptr);
 }
 
+static unique_ptr<ForStatement>
+parseForStatement(Token *&tok){
+    eatThis(tok);
+    auto i = parseExpr(tok);
+    if (!i) {
+        return nullptr;
+    }
+    if (i->type.ir_used != "i32") {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "for statement needs integer value after 'for' keyword.");
+        return nullptr;
+    }
+    if (tok->kind != scheat::TokenKind::tok_times) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "for statement needs 'times' keyword after integer value.");
+        return nullptr;
+    }
+    eatThis(tok);
+    if (tok->kind != scheat::TokenKind::tok_comma) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "for statement needs ',' after 'times' keyword.");
+        return nullptr;
+    }
+    eatThis(tok);
+    auto ss = parseStatement(tok);
+    if (!ss) {
+        return nullptr;
+    }
+    tok = tok->prev;
+    return ForStatement::init(move(i), move(ss));
+}
+
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
     //eatThis(tok);
     if (tok->kind != scheat::TokenKind::val_identifier) {
@@ -938,6 +971,9 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     }
     if (tokens->kind == scheat::TokenKind::tok_if) {
         return parseIfStatement(tokens);
+    }
+    if (tokens->kind == scheat::TokenKind::tok_for) {
+        return parseForStatement(tokens);
     }
     
     scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__,

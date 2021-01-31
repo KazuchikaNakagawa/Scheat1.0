@@ -113,17 +113,24 @@ Value * ForStatement::codegen(IRStream &f){
     auto lbl = ScheatContext::local()->getLabel();
     auto condreg = "%" + lbl + "i";
     f << condreg << " = alloca i32\n";
+    f << "store i32 0, i32* " << condreg << "\n";
+    f << "br label %" << lbl << "for\n";
     f << lbl << "for:\n";
     auto r = ScheatContext::local()->getRegister();
     f << r << " = load i32, i32* " << condreg << "\n";
     auto re = ScheatContext::local()->getRegister();
-    f << re << " = icmp slt " << r << ", " << v->value << "\n";
+    f << re << " = icmp slt i32 " << r << ", " << v->value << "\n";
     f << "br i1 " << re << ", label %" << lbl + "body, label %" << lbl + "for_end\n";
     f << lbl + "body:\n" ;
     ScheatContext::local()->entryScope(lbl + "for");
     body->codegen(f);
     ScheatContext::local()->leave();
-    f << "br label %" << lbl + "for:\n";
+    auto r1 = ScheatContext::local()->getRegister();
+    auto r2 = ScheatContext::local()->getRegister();
+    f << r1 << " = load i32, i32* " << condreg << "\n";
+    f << r2 << " = add nsw i32 1, " << r1 << "\n";
+    f << "store i32 " << r2 << ", i32* " << condreg << "\n";
+    f << "br label %" << lbl + "for\n";
     f << lbl + "for_end:\n";
     return nullptr;
 }

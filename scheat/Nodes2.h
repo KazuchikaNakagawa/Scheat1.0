@@ -619,7 +619,9 @@ class ForStatement : public StatementNode {
 public:
     unique_ptr<Expr> count;
     unique_ptr<Statement> body;
-    string userdump() override;
+    string userdump() override{
+        return "for (" + count->userdump() + "):" + body->userdump();
+    };
     Value * codegen(IRStream &) override;
     static unique_ptr<ForStatement>
     init(unique_ptr<Expr> intExpr, unique_ptr<Statement> statement){

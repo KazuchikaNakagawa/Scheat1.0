@@ -57,6 +57,12 @@ static void compileScheat(OptionStream &options, Option *source){
         scheat.onlyAssemble = true;
     }
     
+    auto deepLogOption = options.getOption("-Log", type_no_args);
+    if (deepLogOption) {
+        scheat.setDebugSetting(true);
+        scheat.allowDeepDebug(true);
+    }
+    
     scheat.complementSettings();
     
     scheat.ready();

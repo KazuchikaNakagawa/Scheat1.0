@@ -385,6 +385,7 @@ void Lexer::genTok(){
     if (buf == "times") {
         tok->kind = TokenKind::tok_times;
         tadd;
+        clear();
         return;
     }
     
@@ -412,100 +413,119 @@ void Lexer::genTok(){
 
 void Token::out(){
     printf("line: %d, column: %d    ", location.line, location.column);
-    if (kind == TokenKind::tok_range) {
-        printf("... token\n");
+    
+    switch (kind) {
+        case TokenKind::tok_EOF:
+            printf("EOF token\n");
+            break;
+        case TokenKind::val_identifier:
+            printf("identifier token %s\n", value.strValue.c_str());
+            break;
+        case TokenKind::val_num:
+            printf("integer token %d\n", value.intValue);
+            break;
+        case TokenKind::val_str:
+            printf("string token ->%s\n", value.strValue.c_str());
+            break;
+        case TokenKind::val_double:
+            printf("float-point token ->%lf\n", value.doubleValue);
+            break;
+        case TokenKind::val_bool:
+            printf(value.boolValue ? ("boolean token -> true\n"):("boolean token ->false\n"));
+            break;
+        case TokenKind::val_operator:
+            printf("operator token ->%s ", value.strValue.c_str());
+            printf("encoded ->%s\n", this->encodeOperator().c_str());
+            break;
+        case TokenKind::tok_this:
+            printf("this token\n");
+            break;
+        case TokenKind::tok_the:
+            printf("the token\n");
+            break;
+        case TokenKind::tok_is:
+            printf("is token\n");
+            break;
+        case TokenKind::tok_of:
+            printf("of token\n");
+            break;
+        case TokenKind::tok_period:
+            printf(". token\n");
+            break;
+        case TokenKind::tok_comma:
+            printf(", token\n");
+            break;
+        case TokenKind::tok_range:
+            printf("... token\n");
+            break;
+        case TokenKind::tok_if:
+            printf("if token\n");
+            break;
+        case TokenKind::tok_for:
+            printf("for token\n");
+            break;
+            
+        case TokenKind::tok_times:
+            printf("times token\n");
+            break;
+        case TokenKind::tok_do:
+            printf("do token\n");
+            break;
+        case TokenKind::tok_paren_l:
+            printf("( token\n");
+            break;
+        case TokenKind::tok_paren_r:
+            printf(") token\n");
+            break;
+        case TokenKind::tok_brace_l:
+            printf("{ token\n");
+            break;
+        case TokenKind::tok_brace_r:
+            printf("} token\n");
+            break;
+        case TokenKind::tok_access:
+            printf("access token(obsoluted.)\n");
+            break;
+        case TokenKind::tok_external:
+            printf("external token\n");
+            break;
+        case TokenKind::tok_import:
+            printf("import token\n");
+            break;
+        case TokenKind::tok_export:
+            printf("export token\n");
+            break;
+        case TokenKind::tok_to:
+            printf("to token\n");
+            break;
+        case TokenKind::tok_with:
+            printf("with token\n");
+            break;
+        case TokenKind::tok_loaded:
+            printf("loaded token\n");
+            break;
+        case TokenKind::tok_local:
+            printf("local token\n");
+            break;
+        case TokenKind::tok_global:
+            printf("global token\n");
+            break;
+        case TokenKind::embbed_func_print:
+            printf("print token\n");
+            break;
+        case TokenKind::embbed_func_import:
+            printf("import token\n");
+            break;
+        case TokenKind::embbed_func_free:
+            printf("free token\n");
+            break;
+        case TokenKind::embbed_func_assemble:
+            printf("assemble token\n");
+            break;
     }
-    if (kind == TokenKind::val_num) {
-        printf("integer token ->%d\n", value.intValue);
-        return;
-    }
-    if (kind == TokenKind::tok_loaded) {
-        printf("load token\n");
-        return;
-    }
-    if (kind == TokenKind::val_str) {
-        printf("string token ->%s\n", value.strValue.c_str());
-        return;
-    }
-    if (kind == TokenKind::val_operator) {
-        printf("operator token ->%s\n", value.strValue.c_str());
-        printf("encoded ->%s\n", this->encodeOperator().c_str());
-        return;
-    }
-    if (kind == TokenKind::val_double) {
-        printf("float-point token ->%lf\n", value.doubleValue);
-        return;
-    }
-    if (kind == TokenKind::val_bool) {
-        if (value.boolValue) {
-            printf("bool token ->true\n");
-        }else{
-            printf("bool token ->false\n");
-        }
-        return;
-    }
-    if (kind == TokenKind::val_identifier) {
-        printf("id token ->%s\n", value.strValue.c_str());
-        return;
-    }
-    if (kind == TokenKind::tok_this) {
-        printf("this token\n");
-        return;
-    }
-    if (kind == TokenKind::tok_is) {
-        printf("is token\n");
-        return;
-    }
-    if (kind == TokenKind::tok_the) {
-        printf("that token\n");
-        return;
-    }
-    if (kind == TokenKind::tok_external) {
-        printf("remember token\n");
-        return;
-    }
-    if (kind == TokenKind::tok_period) {
-        printf(". token\n");
-    }
-    if (kind == TokenKind::tok_comma) {
-        printf(", token\n");
-    }
-    if (kind == TokenKind::tok_paren_l) {
-        printf("( token\n");
-    }
-    if (kind == TokenKind::tok_paren_r) {
-        printf(") token\n");
-    }
-    if (kind == TokenKind::embbed_func_print) {
-        printf("print token\n");
-    }
-    if (kind == TokenKind::tok_do) {
-        printf("do|does token\n");
-    }
-    if (kind == TokenKind::tok_import) {
-        printf("import token\n");
-    }
-    if (kind == TokenKind::tok_with) {
-        printf("with token\n");
-    }
-    if (kind == TokenKind::tok_of) {
-        printf("of token\n");
-    }
-    if (kind == TokenKind::tok_export) {
-        printf("export token\n");
-    }
-    if (kind == TokenKind::tok_brace_l) {
-        printf("{ token\n");
-    }
-    if (kind == TokenKind::tok_brace_r) {
-        printf("} token\n");
-    }
-    if (kind == TokenKind::tok_access) {
-        printf(". access token\n");
-    }
-    if (kind == TokenKind::tok_EOF) {
-        printf("EOF token\n");
-    }
+    
+    printf("unknown token\n");
+    
 }
 
 void Lexer::clear(){
