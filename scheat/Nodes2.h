@@ -531,10 +531,13 @@ public:
     Token *perTok;
     unique_ptr<Statement> stmt;
     Value * codegen(IRStream &f) override {
-        statement->codegen(f);
         if (stmt != nullptr) {
             stmt->codegen(f);
         }
+        if (statement) {
+            statement->codegen(f);
+        }
+        
         return nullptr;
         
     };

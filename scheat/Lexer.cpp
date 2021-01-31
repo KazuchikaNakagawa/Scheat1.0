@@ -284,7 +284,7 @@ void Lexer::genTok(){
         return;
     }
     
-    if (buf == "is" || buf == "are") {
+    if (buf == "is" || buf == "are" || buf == "shows" || buf == "show" || buf == "become" || buf == "becomes") {
         tok->kind = TokenKind::tok_is;
         tadd;
         clear();
@@ -524,7 +524,7 @@ void Token::out(){
             break;
     }
     
-    printf("unknown token\n");
+    //printf("unknown token\n");
     
 }
 

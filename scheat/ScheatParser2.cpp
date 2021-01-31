@@ -723,9 +723,11 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
         return nullptr;
     }
     eatThis(tokens);
+    auto j = move(sts->statement);
+    sts = Statement::init(move(sts), move(j));
     unique_ptr<StatementNode> s = nullptr;
     while (s = parseStatement_single(tokens) , s != nullptr) {
-        sts->statement = move(s);
+        sts = Statement::init(move(sts), move(s));
         if (tokens->kind == TokenKind::tok_period) {
             sts->perTok = tokens;
             eatThis(tokens);
@@ -737,7 +739,7 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
             scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__, "the end of sentence must be period or comma in Scheat.");
             return nullptr;
         }
-        sts = Statement::init(move(sts), move(s));
+        
     }
     return sts;
 }
@@ -754,6 +756,10 @@ static unique_ptr<PrintStatement> parsePrintStatement(Token *&tok){
     }
     if (tok->kind == scheat::TokenKind::tok_paren_l) {
         eatThis(tok);
+    }else{
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "there must be a '(' after 'print'");
+        return nullptr;
     }
     auto ptr = parseArgumentExpr(tok);
     if (tok == nullptr) {
@@ -762,6 +768,10 @@ static unique_ptr<PrintStatement> parsePrintStatement(Token *&tok){
     }
     if (tok->kind == scheat::TokenKind::tok_paren_r) {
         eatThis(tok);
+    }else{
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "parentheses are not closed.");
+        return nullptr;
     }
     if (!ptr) {
         return nullptr;
@@ -791,6 +801,7 @@ parseIfStatement(Token *&tok){
         return nullptr;
     }
     tok = tok->prev;
+    tok->kind = scheat::TokenKind::tok_comma;
     return IfStatement::init(move(expr), move(s), nullptr);
 }
 
@@ -962,10 +973,6 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     if (tokens->kind == scheat::TokenKind::val_identifier) {
         // return parseFunctionCallStatement(tokens);
     }
-    if (isIncluded(scheat::TokenKind::tok_is, tokens)) {
-        return parseReassignStatement(tokens);
-    }
-    
     if (tokens->kind == scheat::TokenKind::embbed_func_print) {
         return parsePrintStatement(tokens);
     }
@@ -974,6 +981,20 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     }
     if (tokens->kind == scheat::TokenKind::tok_for) {
         return parseForStatement(tokens);
+    }
+    
+    if (tokens->kind == scheat::TokenKind::tok_do) {
+        eatThis(tokens);
+        if (tokens->kind == scheat::TokenKind::tok_for) {
+            return parseForStatement(tokens);
+        }
+    }
+    
+    
+    
+    
+    if (isIncluded(scheat::TokenKind::tok_is, tokens)) {
+        return parseReassignStatement(tokens);
     }
     
     scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__,
