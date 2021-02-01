@@ -106,6 +106,9 @@ okok:
         if (code == "\\q") {
             break;
         }
+        if (cin.eof()) {
+            break;
+        }
         ScheatLexer::testlex(code + "\n");
         if (scheat.hasProbrem()) {
             cout << "----Scheat has been reset----" << endl;

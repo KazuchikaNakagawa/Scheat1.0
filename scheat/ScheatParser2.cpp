@@ -810,7 +810,7 @@ parseIfStatement(Token *&tok){
     }
     tok = tok->prev;
     tok->kind = scheat::TokenKind::tok_comma;
-    return IfStatement::inict(move(expr), move(s), move(elseS));
+    return IfStatement::init(move(expr), move(s), move(elseS));
 }
 
 static unique_ptr<ForStatement>
