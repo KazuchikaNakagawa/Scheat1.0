@@ -339,6 +339,10 @@ void Scheat::complementSettings(){
 //        delLL = false;
 //    }
     
+    if (outputFilePath == "") {
+        outputFilePath = getFileName(sourceFile);
+    }
+    
     if (productName == "") {
         productName = outputFilePath;
     }

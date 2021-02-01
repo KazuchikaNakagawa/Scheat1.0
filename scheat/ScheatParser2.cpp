@@ -800,9 +800,17 @@ parseIfStatement(Token *&tok){
     if (!s) {
         return nullptr;
     }
+    unique_ptr<Statement> elseS = nullptr;
+    if (tok->kind == scheat::TokenKind::tok_or) {
+        eatThis(tok);
+        elseS = parseStatement(tok);
+        if (!elseS) {
+            return nullptr;
+        }
+    }
     tok = tok->prev;
     tok->kind = scheat::TokenKind::tok_comma;
-    return IfStatement::init(move(expr), move(s), nullptr);
+    return IfStatement::inict(move(expr), move(s), move(elseS));
 }
 
 static unique_ptr<ForStatement>

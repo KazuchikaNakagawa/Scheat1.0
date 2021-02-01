@@ -22,8 +22,7 @@ int main(int argc, const char * argv[]) {
 //    scheat.target = "x86_64-apple-macosx10.15.0";
 //    scheat.datalayout = "e-m:o-i64:64-f80:128-n8:16:32:64-S128";
     scheat.isMain = true;
-    scheat.setProductName("HelloWorld");
-    scheat.outputFilePath = "HW";
+    
     scheat.sourceFile = "/Users/kaz04/ScheatDocument/XCODETEST.scheat";
     scheat.complementSettings();
     scheat.ready();

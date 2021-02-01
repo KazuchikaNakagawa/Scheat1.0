@@ -27,6 +27,10 @@ static void compileScheat(OptionStream &options, Option *source){
     Scheat scheat;
     scheat.sourceFile = string(source->value[0].data.svalue);
     
+    if (scheat.sourceFile.find(".scheat") != string::npos) {
+        scheat.isMain = true;
+    }
+    
     auto header = options.getOption("-L", type_array);
     if (!header) {
         
