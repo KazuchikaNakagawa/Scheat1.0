@@ -135,6 +135,21 @@ Value * ForStatement::codegen(IRStream &f){
     return nullptr;
 }
 
+Value * WhileStatement::codegen(IRStream &f){
+    auto lbl = ScheatContext::local()->getLabel();
+    f << "br label %" << lbl << "while\n";
+    f << lbl << "while:\n";
+    auto re = condition->codegen(f);
+    f << "br i1 " << re->value << ", label %" << lbl + "body, label %" << lbl + "while_end\n";
+    f << lbl + "body:\n" ;
+    ScheatContext::local()->entryScope(lbl + "while");
+    body->codegen(f);
+    ScheatContext::local()->leave();
+    f << "br label %" << lbl + "while\n";
+    f << lbl + "while_end:\n";
+    return nullptr;
+}
+
 string LoadExpr::userdump(){
     return "get(" + expr->userdump() + ")";
 }

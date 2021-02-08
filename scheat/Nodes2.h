@@ -636,6 +636,25 @@ public:
     };
 };
 
+class WhileStatement : public StatementNode {
+public:
+    unique_ptr<Expr> condition;
+    unique_ptr<Statement> body;
+    string userdump() override{
+        return "while (" + condition->userdump() + ") {" + body->userdump() + "}";
+    }
+    Value * codegen(IRStream &) override;
+    static
+    unique_ptr<WhileStatement> init(unique_ptr<Expr> b,
+                                    unique_ptr<Statement> s){
+        auto ptr = make_unique<WhileStatement>();
+        ptr->location = b->location;
+        ptr->condition = move(b);
+        ptr->body = move(s);
+        return ptr;
+    }
+};
+
 class ReassignStatement : public StatementNode {
 public:
     unique_ptr<IdentifierExpr> variable;

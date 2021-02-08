@@ -845,6 +845,36 @@ parseForStatement(Token *&tok){
     return ForStatement::init(move(i), move(ss));
 }
 
+static unique_ptr<WhileStatement>
+parseWhileStatement(Token *&tok){
+    eatThis(tok);
+    auto cond = parseExpr(tok);
+    if (!cond) {
+        return nullptr;
+    }
+    if (cond->type.ir_used != "i1") {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "there must be boolean value after 'while' keyword.");
+        return nullptr;
+    }
+    if (tok->kind !=scheat::TokenKind::tok_comma) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "there must be , value after boolean value.");
+        return nullptr;
+    }else{
+        eatThis(tok);
+    }
+    
+    auto statement = parseStatement(tok);
+    
+    if (!statement) {
+        return nullptr;
+    }
+    
+    
+    return WhileStatement::init(move(cond), move(statement));
+}
+
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
     //eatThis(tok);
     if (tok->kind != scheat::TokenKind::val_identifier) {
@@ -990,6 +1020,10 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     if (tokens->kind == scheat::TokenKind::tok_for) {
         return parseForStatement(tokens);
     }
+    
+//    if (tokens->kind == tok_while) {
+//
+//    }
     
     if (tokens->kind == scheat::TokenKind::tok_do) {
         eatThis(tokens);
