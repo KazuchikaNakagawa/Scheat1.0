@@ -42,6 +42,10 @@ extern "C" struct String{
     } buf;
 };
 
+extern "C" int inputInt();
+
+extern "C" String inputString();
+
 extern "C" void print_String(String);
 
 extern "C" String String_init(char *);

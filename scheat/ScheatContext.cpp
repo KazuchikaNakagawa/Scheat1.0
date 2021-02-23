@@ -72,7 +72,17 @@ void Context::addFunction(std::string key, Function *value){
     funcs[key] = value;
 }
 
-Function *Context::findFunc(std::string key){
+Function *Context::findFunc(std::string key, vector<TypeData> ts){
+    auto ptr = funcs.find(key);
+    if (ptr == funcs.end()) {
+        if (base == nullptr) {
+            return nullptr;
+        }
+        return base->findFunc(key, ts);
+    }
+    if (!(*ptr).second->ifTypesAdjust(ts)) {
+        return nullptr;
+    }
     return funcs[key];
 }
 

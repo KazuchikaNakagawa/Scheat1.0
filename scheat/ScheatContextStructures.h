@@ -84,6 +84,17 @@ public:
     Context *context;
     Function(std::string ,std::string,bool demangle = true);
     string asValue();
+    
+    bool ifTypesAdjust(vector<TypeData> argTy){
+        for (int i = 0; i < argTypes.size(); i++) {
+            if (argTypes[i].ir_used != argTy[i].ir_used) {
+                return false;
+            }
+            
+        }
+        return true;
+    }
+    
 };
 
 // Grammar: enable to <function name>

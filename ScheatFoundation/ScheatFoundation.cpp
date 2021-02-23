@@ -107,6 +107,18 @@ bool ScheatString_isPtr(String *v){
     return bs[0] == 0;
 };
 
+int inputInt(){
+    int i = 0;
+    scanf("%d", &i);
+    return i;
+}
+
+String inputString(){
+    char buf[MAX_INPUT];
+    scanf("%s", buf);
+    return String_init(buf);
+}
+
 String ScheatString_assign(String *v){
     if (ScheatString_isPtr(v)) {
         ScheatARC::shared().copy(v->buf.char_ptr);

@@ -328,7 +328,7 @@ void ScheatLexer::testlex(std::string buf){
 
 void Scheat::complementSettings(){
     if (sourceFile == "") {
-        scheato->Warning(SourceLocation(), __FILE_NAME__, __LINE__, "to complete settings, at least sourceFile is needed.");
+        printf("to complete settings, at least sourceFile is needed.");
         return;
     }
     

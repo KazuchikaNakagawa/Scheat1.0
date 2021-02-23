@@ -44,10 +44,11 @@ public:
     void leave(){
         scopeStacks.pop();
     }
+    TypeData *type = nullptr;
     string getNowScope() { return scopeStacks.top(); };
     Variable *findVariable(std::string);
     Class *findClass(std::string);
-    Function *findFunc(std::string);
+    Function *findFunc(std::string, vector<TypeData>);
     bool isExists(std::string);
     std::string getRegister();
     Context(){

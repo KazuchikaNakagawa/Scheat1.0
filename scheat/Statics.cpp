@@ -97,6 +97,8 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare void @Array_append(%Array*, i8*)\n";
     global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global->stream_body << "declare %Array @Array_init(i64)\n";
+    ScheatContext::global->stream_body << "declare %String @inputString()\n";
+    ScheatContext::global->stream_body << "declare i32 @inputInt()\n";
     Function *initf = new Function("void", "init");
     initf->context->stream_entry << "define void @" << getFileName(scheato->sourceFile) << "_init(){\n";
     initf->context->stream_entry << "entry:\n";
@@ -108,6 +110,12 @@ void ScheatContext::Init(_Scheat *sch){
     ScheatContext::global->addFunction(getFileName(scheato->sourceFile) + "_init", initf);
     ScheatContext::main = nullptr;
     mTokens = nullptr;
+    Function *inputf_int = new Function("i32", "inputInt");
+    inputf_int->return_type = TypeData::IntType;
+    ScheatContext::global->addFunction("inputInt_", inputf_int);
+    Function *inputf_str = new Function("%String", "inputString");
+    inputf_str->return_type = TypeData::StringType;
+    ScheatContext::global->addFunction("inputString_", inputf_str);
     auto Int = new Class(new TypeData("i32"));
     Int->context->name = "Int";
     auto opadd = new Operator("+", "add");

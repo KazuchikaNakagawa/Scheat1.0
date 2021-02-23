@@ -263,17 +263,18 @@ class FunctionCallTerm : public TopIdentifierExpr {
 public:
     Function *func;
     string value;
-    vector<unique_ptr<Expr>> args {};
+    
+    unique_ptr<ArgumentExpr> args;
     Value * codegen(IRStream &) override;
     string userdump() override;
-    void addArgument(bool insertToTop, unique_ptr<Expr> arg) {
-        if (insertToTop) {
-            args.insert(args.begin(), move(arg));
-        }else{
-            args.push_back(move(arg));
-        }
-    };
-    static unique_ptr<FunctionCallTerm> init(Token *, Function *);
+//    void addArgument(bool insertToTop, unique_ptr<ArgumentExpr> arg) {
+//        if (insertToTop) {
+//            args.insert(args.begin(), move(arg));
+//        }else{
+//            args.push_back(move(arg));
+//        }
+//    };
+    static unique_ptr<FunctionCallTerm> init(Token *, Function *, unique_ptr<ArgumentExpr>);
 };
 
 
@@ -389,8 +390,17 @@ public:
         return container->userdump() + ", " + self->userdump();
     };
     vector<Value *> codegenAsArray(IRStream &);
+    vector<TypeData> getTypes();
     static unique_ptr<ArgumentExpr> init(unique_ptr<Expr>);
     static unique_ptr<ArgumentExpr> addArg(unique_ptr<ArgumentExpr>, unique_ptr<Expr>);
+    string demangled(){
+        string buf = "_";
+        auto arr = getTypes();
+        for (auto t : arr) {
+            buf += t.ir_used + "_";
+        }
+        return buf;
+    }
 };
 
 // primary : term
@@ -474,7 +484,7 @@ public:
     static unique_ptr<CastExpr> init(TypeData, unique_ptr<Expr>);
 };
 
-class LoadExpr : public Expr {
+class LoadExpr : public IdentifierExpr {
 public:
     unique_ptr<Expr> expr;
     Value * codegen(IRStream &) override;
@@ -594,6 +604,23 @@ public:
     static unique_ptr<DeclareVariableStatement>
     init(unique_ptr<NewIdentifierExpr>, unique_ptr<Expr>,bool pub = true, bool con = false, bool nul = false);
     Value * codegen(IRStream &) override;
+};
+
+class DeclareFunctionStatement : public StatementNode {
+public:
+    string name;
+    vector<TypeData> argTypes;
+    vector<string> argNames;
+    Context *context;
+    unique_ptr<Statement> body;
+    Value * codegen(IRStream &) override;
+    static unique_ptr<DeclareFunctionStatement> init(unique_ptr<Statement> s, Context *context){
+        auto ptr = make_unique<DeclareFunctionStatement>();
+        ptr->body = move(s);
+        ptr->context = context;
+        ptr->location = ptr->body->location;
+        return ptr;
+    };
 };
 
 class IfStatement : public StatementNode {

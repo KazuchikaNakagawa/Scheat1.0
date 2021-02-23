@@ -96,18 +96,23 @@ static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token 
                 scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "type %s is undefined.", parentType.name.c_str());
                 return nullptr;
             }
-            auto attptr = classptr->context->findFunc(idtok->value.strValue);
+            
+            string fname = idtok->value.strValue;
+            
+            auto ptr = parseArgumentExpr(tok);
+            if (!ptr) {
+                return nullptr;
+                //return FunctionAttributeExpr::init(attptr, move(ptr), idtok->location);
+            }
+            
+            auto attptr = classptr->context->findFunc(idtok->value.strValue, ptr->getTypes());
             if (!attptr) {
                 scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s's %s function is undefined.",
                                     parentType.name.c_str(),
                                     idtok->value.strValue.c_str());
                 return nullptr;
             }
-            auto ptr = parseArgumentExpr(tok);
-            if (!ptr) {
-                //return nullptr;
-                return FunctionAttributeExpr::init(attptr, move(ptr), idtok->location);
-            }
+            
             if (tok->kind != scheat::TokenKind::tok_paren_r) {
                 scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there are no right parentheses.");
                 return nullptr;
@@ -181,26 +186,24 @@ static unique_ptr<IdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
     }
     if (tok->kind == scheat::TokenKind::tok_paren_l) {
         eatThis(tok);
-        auto func = ScheatContext::global->findFunc(idtok->value.strValue);
-        auto funcnode = FunctionCallTerm::init(idtok, func);
-        if (!func) {
-            scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s is undefined. Make sure if it is function.", idtok->value.strValue.c_str());
+        auto fname = idtok->value.strValue;
+        auto ktok = idtok;
+        auto args = parseArgumentExpr(tok);
+        if (!args) {
             return nullptr;
         }
-        while (tok->kind != scheat::TokenKind::tok_paren_r) {
-            auto ptr = parseExpr(tok);
-            if (!ptr) {
-                return nullptr;
-            }
-            funcnode->args.push_back(move(ptr));
-            if (tok->kind == scheat::TokenKind::tok_comma) {
-                eatThis(tok);
-            }else{
-                break;
-            }
+        if (tok->kind != scheat::TokenKind::tok_paren_r) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there must be ) after arguments.");
+            return nullptr;
         }
         eatThis(tok);
-        return funcnode;
+        auto funcptr = ScheatContext::local()->findFunc(fname + args->demangled(), args->getTypes());
+        if (!funcptr) {
+            scheato->FatalError(ktok->location, __FILE_NAME__, __LINE__, "there are no function such a type");
+            return nullptr;
+        }
+        return FunctionCallTerm::init(ktok, funcptr, move(args));
+        
     }else{
         auto var = ScheatContext::local()->findVariable(idtok->value.strValue);
         if (!var) {
@@ -228,6 +231,19 @@ unique_ptr<IdentifierExpr> parseIdentifierExpr(Token *&tok){
             return nullptr;
         }
         auto ret = TheIdentifierExpr::init(saved, move(ptr));
+        return ret;
+    }
+    
+    if (tok->kind == scheat::TokenKind::tok_loaded) {
+        //auto saved = tok;
+        eatThis(tok);
+        
+        auto ptr = parseIdentifierExpr(tok);
+        if (!ptr) {
+            return nullptr;
+        }
+        
+        auto ret = LoadExpr::init(ptr->type, move(ptr));
         return ret;
     }
 //
@@ -405,7 +421,9 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
         eatThis(tok);
     }
     
-    else if (tok->kind == TokenKind::val_identifier || tok->kind == TokenKind::tok_the) {
+    else if (tok->kind == TokenKind::val_identifier
+             || tok->kind == TokenKind::tok_the
+             || tok->kind == TokenKind::tok_loaded) {
         ptr = parseIdentifierExpr(tok);
         //eatThis(tok);
     }
@@ -745,7 +763,11 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
 }
 
 static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
-    
+    auto p = parseIdentifierExpr(tok);
+    if ((p->type.ir_used) != "void") {
+        scheato->Warning(p->location, __FILE_NAME__, __LINE__,
+                         "trashed the result of function.");
+    }
     return nullptr;
 }
 
@@ -1009,7 +1031,7 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
         return parseDeclareVariableStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::val_identifier) {
-        // return parseFunctionCallStatement(tokens);
+        return parseFunctionCallStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::embbed_func_print) {
         return parsePrintStatement(tokens);

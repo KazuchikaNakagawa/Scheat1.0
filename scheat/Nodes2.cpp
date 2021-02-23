@@ -91,12 +91,13 @@ string FunctionCallTerm::userdump(){
     return func->getMangledName();
 }
 
-unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func){
+unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func, unique_ptr<ArgumentExpr> a){
     auto ptr = make_unique<FunctionCallTerm>();
     ptr->func = func;
     ptr->value = token->value.strValue;
-    ptr->args.clear();
+    ptr->args = move(a);
     ptr->value = "FUNCTION";
+    ptr->type = func->return_type;
     return ptr;
 }
 
@@ -226,23 +227,18 @@ Value *PostfixOperatorPrimaryExpr::codegen(IRStream &f){
 
 Value *FunctionCallTerm::codegen(IRStream &f){
     if (func->return_type.name == "Void") {
-        vector<Value *> arges_val = {};
-        for (int i = 0; i < args.size(); i++) {
-            arges_val.push_back(args[i]->codegen(f));
-        }
-        f << "call " << func->lltype() << " " << func->getMangledName() << "(";
+        vector<Value *> arges_val = args->codegenAsArray(f);
+        
+        f << "call " << func->lltype() << " @" << func->name << "(";
         for (auto ptr : arges_val) {
             f << ptr->asValue();
         }
         f << ")\n";
         return nullptr;
     }else{
-        vector<Value *> arges_val = {};
-        for (int i = 0; i < args.size(); i++) {
-            arges_val.push_back(args[i]->codegen(f));
-        }
+        vector<Value *> arges_val = args->codegenAsArray(f);
         auto reg = ScheatContext::local()->getRegister();
-        f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
+        f << reg << " = call " << func->lltype() << " @" << func->name << "(";
         for (auto ptr : arges_val) {
             f << ptr->asValue();
         }
@@ -595,6 +591,36 @@ Value *StringTerm::codegen(IRStream &f){
     return new Value(rr, TypeData::StringType);
 }
 
+vector<TypeData> ArgumentExpr::getTypes(){
+    if (!container && !self) {
+        return {};
+    }
+    if (!container) {
+        return {type};
+    }
+    auto c = container->getTypes();
+    c.insert(c.begin(), type);
+    return c;
+}
+
+
+
+Value *DeclareFunctionStatement::codegen(IRStream &f){
+    context->stream_entry << "define " << (!context->type ? context->type->ir_used : "void") << " @" << name << "(";
+    for (int i = 0; i < argTypes.size(); i++) {
+        context->stream_entry << argTypes[i].ir_used << " %arg" << to_string(i);
+        if (i != argTypes.size() - 1) {
+            context->stream_entry << ", ";
+        }
+        context->stream_body << "%" << argNames[i] << " = alloca " << argTypes[i].ir_used << "\n";
+        context->stream_body << "store " << argTypes[i].ir_used << " %arg" << to_string(i) << ", " << argTypes[i].ir_used << "* %" << argNames[i] << "\n";
+    }
+    context->stream_entry << "){\nentry:\n";
+    body->codegen(context->stream_body);
+    context->stream_entry << "}\n";
+    return nullptr;
+}
+
 Value *BoolTerm::codegen(IRStream &f){
     if (value) {
         return new Value(to_string(1),type);
@@ -632,7 +658,7 @@ Value *PrintStatement::codegen(IRStream &f){
                                     "%s is not printable.", v->type.name.c_str());
                 return nullptr;
             }
-            auto func = clasp->context->findFunc("print");
+            auto func = clasp->context->findFunc("print_" + v->type.ir_used, {v->type});
             if (!func) {
                 scheato->FatalError(SourceLocation(), __FILE_NAME__, __LINE__,
                                     "this object can't print.");
@@ -792,7 +818,7 @@ Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
                             type->name.c_str());
         return nullptr;
     }
-    auto func = classptr->context->findFunc(type->name + "_init");
+    auto func = classptr->context->findFunc(type->name + "_init_" + type->ir_used, {*type});
     if (!func) {
         scheato->FatalError(location, __FILE_NAME__, __LINE__, "%s is not suitable object for Scheat. To use this here, you need to define %s_init function.",
                             type->name.c_str(),
@@ -920,22 +946,22 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
         if (value->type.name == "Int") {
             ScheatContext::global->stream_body << name << " = global i32 0\n";
             string k = getFileName(scheato->sourceFile) + "_init";
-            auto ff = ScheatContext::global->findFunc(k);
+            auto ff = ScheatContext::global->findFunc(k, {});
             if (!ff) {
                 scheato->DevLog(location, __FILE_NAME__, __LINE__, "_init function is not defined");
                 return nullptr;
             }
-            auto v = value->codegen(ff->context->stream_body);
+            auto v = value->codegen(f);
             
             if (!v) {
                 return nullptr;
             }
             
-            ff->context->stream_body << "store i32 " << v->value << ", i32* " << name << "\n";
+            f << "store i32 " << v->value << ", i32* " << name << "\n";
             return nullptr;
         }else if (value->type.name == "String"){
             ScheatContext::global->stream_entry << name << " = common global %String zeroinitializer\n";
-            auto ff = ScheatContext::global->findFunc(getFileName(scheato->sourceFile) + "_init");
+            auto ff = ScheatContext::global->findFunc(getFileName(scheato->sourceFile) + "_init", {});
             if (!ff) {
                 scheato->FatalError(location, __FILE_NAME__, __LINE__, "_init function is not defined");
                 return nullptr;
