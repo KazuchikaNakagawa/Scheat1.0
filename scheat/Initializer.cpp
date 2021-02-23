@@ -36,7 +36,8 @@ void scheat::InitializeGlobals(){
     ScheatContext::global->stream_body << "declare void @ScheatPointer_unref(i8*)\n";
     ScheatContext::global->stream_body << "declare void @ScheatPointer_release(i8*)\n";
     ScheatContext::global->stream_body << "declare void @print_String(%String*)\n";
-    ScheatContext::global->stream_body << "declare %String @String_init(i8*)\n";
+    ScheatContext::global->stream_body << "declare %String @String_init_pi8(i8*)\n";
+    ScheatContext::global->stream_body << "declare %String @String_init()\n";
     ScheatContext::global->stream_body << "declare %String* @String_add(%String*, %String*)\n";
     ScheatContext::global->stream_body << "declare %String* @String_copy(%String*)\n";
     ScheatContext::global->stream_body << "declare void @Array_append(%Array*, i8*)\n";

@@ -38,6 +38,18 @@ public:
     };
 };
 
+void String_deinit(void*p){
+    auto s = (String *)p;
+    ScheatARC::shared().unref(s->buf.char_ptr);
+}
+
+String String_init(){
+    String s;
+    s.buf.char_ptr = (char *)ScheatARC::shared().create(sizeof(char), String_deinit);
+    sprintf(s.buf.char_ptr, "");
+    return s;
+}
+
 void *ScheatARC::create(uint64_t size, void(*fp)(void*)){
     void *ptr = malloc(size);
     
@@ -115,8 +127,8 @@ int inputInt(){
 
 String inputString(){
     char buf[MAX_INPUT];
-    scanf("%s", buf);
-    return String_init(buf);
+    scanf("%[^\n]", buf);
+    return String_init_pi8(buf);
 }
 
 String ScheatString_assign(String *v){
@@ -200,7 +212,7 @@ void *Array_at(Array *arr, int index){
     return (void *)((unsigned long long)(arr->begPtr) + (index * arr->elemSize));
 }
 
-String String_init(char *p){
+String String_init_pi8(char *p){
     if (!p) {
         printf("cannot initialize String with nullpointer");
         exit(0);

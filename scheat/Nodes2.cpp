@@ -585,7 +585,7 @@ Value *StringTerm::codegen(IRStream &f){
     rn << " = global i8* getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i64 0, i64 0)\n";
     string reg = ScheatContext::local()->getRegister();
     f << reg << " = load i8*, i8** " << rn << "\n";
-    string v = "call %String @String_init(i8* " + reg + ")";
+    string v = "call %String @String_init_pi8(i8* " + reg + ")";
     string rr = ScheatContext::local()->getRegister();
     ScheatContext::local()->stream_body << rr << " = " << v << "\n";
     return new Value(rr, TypeData::StringType);
@@ -967,12 +967,16 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
                 return nullptr;
             }
             ScheatContext::push(ff->context);
-            auto v = value->codegen(ff->context->stream_body);
+            string r = ScheatContext::local()->getRegister();
+            ff->context->stream_body << r << " = call %String @String_init()\n";
+            ff->context->stream_body << "store %String " << r << ", %String* " << name << "\n";
+            
+            ScheatContext::pop();
+            auto v = value->codegen(f);
             if (!v) {
                 return nullptr;
             }
-            ff->context->stream_body << "store %String " << v->value << ", %String* " << name << "\n";
-            ScheatContext::pop();
+            f << "store %String " << v->value << ", %String* " << name << "\n";
             return nullptr;
         }else if (value->type.name == "Bool") {
             ScheatContext::global->stream_entry << name << " = global i1 0";

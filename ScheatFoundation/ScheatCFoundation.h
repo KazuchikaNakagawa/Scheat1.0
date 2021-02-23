@@ -48,7 +48,9 @@ extern "C" String inputString();
 
 extern "C" void print_String(String);
 
-extern "C" String String_init(char *);
+extern "C" String String_init_pi8(char *);
+
+extern "C" String String_init();
 
 extern "C" bool ScheatString_isPtr(String *);
 

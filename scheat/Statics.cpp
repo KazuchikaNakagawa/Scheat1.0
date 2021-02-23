@@ -90,7 +90,8 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare void @ScheatPointer_unref(i8*)\n";
     global->stream_body << "declare void @ScheatPointer_release(i8*)\n";
     global->stream_body << "declare void @print_String(%String)\n";
-    global->stream_body << "declare %String @String_init(i8*)\n";
+    global->stream_body << "declare %String @String_init_pi8(i8*)\n";
+    global->stream_body << "declare %String @String_init()\n";
     global->stream_body << "declare %String @String_add(%String, %String)\n";
     global->stream_body << "declare %String @String_copy(%String)\n";
     global->stream_body << "declare i32 @String_count(%String*)\n";
