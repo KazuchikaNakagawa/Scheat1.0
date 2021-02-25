@@ -29,7 +29,7 @@ string Context::getRegister(){
 
 Context *Context::create(std::string name, Context *parents){
     Context *cnt = new Context(name, parents);
-    if (parents == nullptr) {
+    if (!parents) {
         ScheatContext::contextCenter.push_back(cnt);
     }
     return cnt;
@@ -51,14 +51,12 @@ Variable *Context::findVariable(std::string key){
 void ScheatContext::exportTo(ofstream &f){
     for (auto con : contextCenter) {
         if (con->name != "global") f << "; " << con->name << endl;
-        con->stream_entry.exportTo(f);
-        con->stream_body.exportTo(f);
-        con->stream_tail.exportTo(f);
+        con->dump(f);
         f << endl;
     }
 }
 
-Function::Function(std::string type, std::string nm, bool demangle) : return_type(type){
+Function::Function(TypeData type, std::string nm, bool demangle) : return_type(type){
     mangledName = ScheatContext::local()->name + "_" + nm;
     if (!demangle) {
         mangledName = nm;
@@ -74,7 +72,7 @@ void Context::addFunction(std::string key, Function *value){
 
 Function *Context::findFunc(std::string key, vector<TypeData> ts){
     auto ptr = funcs.find(key);
-    if (ptr == funcs.end()) {
+    if (ptr == this->funcs.end()) {
         if (base == nullptr) {
             return nullptr;
         }
@@ -112,14 +110,8 @@ void Context::dump(std::ofstream &f){
     stream_body.exportTo(f);
     stream_tail.exportTo(f);
     
-    auto iter_f = begin(funcs);
-    while (iter_f != funcs.end()) {
-        auto pair = *iter_f;
+    for (auto pair : funcs) {
         pair.second->context->dump(f);
-    }
-    
-    for (auto p = funcs.begin(); p != funcs.end(); p = std::next(p)) {
-        (*p).second->context->dump(f);
     }
     
 }

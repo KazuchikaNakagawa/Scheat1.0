@@ -226,9 +226,12 @@ Value *PostfixOperatorPrimaryExpr::codegen(IRStream &f){
 }
 
 Value *FunctionCallTerm::codegen(IRStream &f){
-    if (func->return_type.name == "Void") {
+    if (func->return_type.ir_used == "void") {
+        ScheatContext::push(func->context);
+        
         vector<Value *> arges_val = args->codegenAsArray(f);
         
+        ScheatContext::pop();
         f << "call " << func->lltype() << " @" << func->name << "(";
         for (auto ptr : arges_val) {
             f << ptr->asValue();
@@ -606,7 +609,7 @@ vector<TypeData> ArgumentExpr::getTypes(){
 
 
 Value *DeclareFunctionStatement::codegen(IRStream &f){
-    context->stream_entry << "define " << (!context->type ? context->type->ir_used : "void") << " @" << name << "(";
+    context->stream_entry << "define " << (context->type ? context->type->ir_used : "void") << " @" << name->name << "(";
     for (int i = 0; i < argTypes.size(); i++) {
         context->stream_entry << argTypes[i].ir_used << " %arg" << to_string(i);
         if (i != argTypes.size() - 1) {
@@ -616,8 +619,11 @@ Value *DeclareFunctionStatement::codegen(IRStream &f){
         context->stream_body << "store " << argTypes[i].ir_used << " %arg" << to_string(i) << ", " << argTypes[i].ir_used << "* %" << argNames[i] << "\n";
     }
     context->stream_entry << "){\nentry:\n";
+    ScheatContext::push(context);
     body->codegen(context->stream_body);
-    context->stream_entry << "}\n";
+    ScheatContext::pop();
+    context->stream_body << "ret " << (context->type ? context->type->ir_used : "void") << "\n";
+    context->stream_tail << "}\n";
     return nullptr;
 }
 

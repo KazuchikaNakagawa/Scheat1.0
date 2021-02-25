@@ -382,6 +382,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "done") {
+        tok->kind = TokenKind::tok_done;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "for") {
         tok->kind = TokenKind::tok_for;
         tadd;
@@ -477,6 +484,9 @@ void Token::out(){
             break;
         case TokenKind::tok_do:
             printf("do token\n");
+            break;
+        case TokenKind::tok_done:
+            printf("done token\n");
             break;
         case TokenKind::tok_or:
             printf("or token\n");

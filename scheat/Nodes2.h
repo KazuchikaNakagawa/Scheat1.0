@@ -608,19 +608,43 @@ public:
 
 class DeclareFunctionStatement : public StatementNode {
 public:
-    string name;
+    Function* name;
     vector<TypeData> argTypes;
     vector<string> argNames;
     Context *context;
     unique_ptr<Statement> body;
     Value * codegen(IRStream &) override;
-    static unique_ptr<DeclareFunctionStatement> init(unique_ptr<Statement> s, Context *context){
+    static unique_ptr<DeclareFunctionStatement> init(Function *func, unique_ptr<Statement> s, Context *context){
         auto ptr = make_unique<DeclareFunctionStatement>();
+        ptr->name = func;
         ptr->body = move(s);
         ptr->context = context;
         ptr->location = ptr->body->location;
         return ptr;
     };
+};
+
+class FunctionCallStatement : public StatementNode {
+public:
+    unique_ptr<Expr> callee;
+    Value * codegen(IRStream &f) override{
+        return callee->codegen(f);
+    }
+    string userdump() override{
+        return "call " + callee->userdump();
+    }
+    static unique_ptr<FunctionCallStatement>
+    init(unique_ptr<Expr> p){
+        auto ptr = make_unique<FunctionCallStatement>();
+        ptr->callee = move(p);
+        return ptr;
+    }
+};
+
+class DoneStatement : public StatementNode {
+public:
+    Value * codegen(IRStream &) override{ return nullptr; };
+    string userdump() override { return ""; };
 };
 
 class IfStatement : public StatementNode {

@@ -27,7 +27,13 @@ public:
         return this->name != rhs->name
         || this->mangledName() != rhs->mangledName();
     }
-    std::string mangledName() const{ return ir_used; };
+    std::string mangledName(){
+        if (ir_used.find("*") != std::string::npos){
+            return "p" + loaded().mangledName();
+        }
+        return ir_used;
+    };
+    
     TypeData(std::string nm){
         name = nm;
         
@@ -36,10 +42,15 @@ public:
         strcpy(n_b, nm.c_str());
         if (nm == "double") {
             ir_used = "double";
+            free(n_b);
             return;
         }
         else if (sscanf(n_b, "i%d", &i) == 1) {
             ir_used = nm;
+            free(n_b);
+            return;
+        }else if (nm == "void"){
+            ir_used = "void";
             free(n_b);
             return;
         }else{
@@ -67,7 +78,7 @@ public:
             std::string cpy = name;
             cpy.erase(k);
             std::string cpy_i = ir_used;
-            cpy_i.erase(cpy.find("*"));
+            cpy_i.erase(cpy_i.find("*"));
             return TypeData(cpy, cpy_i);
         }
         k = name.find("the ");

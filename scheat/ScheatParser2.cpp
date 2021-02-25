@@ -293,6 +293,7 @@ static TypeData *parseTypeExpr(Token *&tok){
                                 tok->value.strValue.c_str());
             return nullptr;
         }
+        eatThis(tok);
         return classptr->type;
     }
     scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
@@ -768,7 +769,7 @@ static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
         scheato->Warning(p->location, __FILE_NAME__, __LINE__,
                          "trashed the result of function.");
     }
-    return nullptr;
+    return FunctionCallStatement::init(move(p));
 }
 
 static unique_ptr<PrintStatement> parsePrintStatement(Token *&tok){
@@ -895,6 +896,127 @@ parseWhileStatement(Token *&tok){
     
     
     return WhileStatement::init(move(cond), move(statement));
+}
+
+static unique_ptr<DeclareFunctionStatement>
+parseDeclareFunctionStatement(Token *&tok){
+    // eat 'to' token
+    eatThis(tok);
+    
+    if (tok->kind != scheat::TokenKind::val_identifier) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "no identifier after 'to' keyword");
+        return nullptr;
+    }
+    
+    Token *name = tok;
+    
+    eatThis(tok);
+    
+    if (tok->kind == scheat::TokenKind::tok_with) {
+        eatThis(tok);
+    }
+    
+    if (tok->kind == scheat::TokenKind::tok_paren_l) {
+        eatThis(tok);
+    }
+    
+    auto context = ScheatContext::global->create(name->value.strValue
+                                                 , ScheatContext::local());
+    
+    vector<string> argNames;
+    vector<TypeData> argTypes;
+    
+    while ( tok ) {
+        if (!tok->next) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there are no right parentheses in function.");
+            return nullptr;
+        }
+        if (tok->kind == scheat::TokenKind::tok_paren_r) {
+            eatThis(tok);
+            break;
+        }
+        
+        if (tok->kind != scheat::TokenKind::val_identifier) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be sonstitute <name> of <type>");
+            return nullptr;
+        }
+        
+        auto argName = tok->value.strValue;
+        
+        eatThis(tok);
+        
+        if (tok->kind != scheat::TokenKind::tok_of) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be sonstitute <name> of <type>");
+            return nullptr;
+        }
+        
+        eatThis(tok);
+        
+        auto type = parseTypeExpr(tok);
+        if (!type) {
+            if (tok->kind != scheat::TokenKind::tok_of) {
+                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be sonstitute <name> of <type>");
+                return nullptr;
+            }
+        }
+        
+        context->addVariable(argName, new Variable("%" + argName, *type));
+        
+        argNames.push_back(argName);
+        argTypes.push_back(*type);
+        
+    }
+    
+    if (tok->kind == scheat::TokenKind::tok_comma) {
+        eatThis(tok);
+    }
+    
+    ScheatContext::push(context);
+    
+    auto statement = parseStatement(tok);
+    tok = tok->prev;
+    
+    if (!statement) {
+        return nullptr;
+    }
+    
+    auto ptr = DeclareFunctionStatement::init(nullptr, move(statement), context);
+    
+    string buf = name->value.strValue + "_";
+    for (auto ty : argTypes) {
+        buf += ty.mangledName() + "_";
+    }
+    
+    auto func = ScheatContext::local()->findFunc(name->value.strValue, ptr->argTypes);
+    
+    if (func) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "same function already exists");
+        return nullptr;
+    }
+    
+    string type_ir_used = "void";
+    
+    if (context->type) {
+        type_ir_used = context->type->ir_used;
+    }
+    
+    ScheatContext::pop();
+    
+    func = new Function(type_ir_used, buf);
+    
+    func->argTypes = argTypes;
+    func->context = context;
+    
+    ptr->name = func;
+    ptr->context = context;
+    ptr->argNames = argNames;
+    ptr->argTypes = argTypes;
+    
+    ScheatContext::local()->addFunction(buf, func);
+    
+    return ptr;
 }
 
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
@@ -1043,6 +1165,10 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
         return parseForStatement(tokens);
     }
     
+    if (tokens->kind == scheat::TokenKind::tok_to) {
+        return parseDeclareFunctionStatement(tokens);
+    }
+    
 //    if (tokens->kind == tok_while) {
 //
 //    }
@@ -1054,7 +1180,10 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
         }
     }
     
-    
+    if (tokens->kind == scheat::TokenKind::tok_done) {
+        eatThis(tokens);
+        return make_unique<DoneStatement>();
+    }
     
     
     if (isIncluded(scheat::TokenKind::tok_is, tokens)) {

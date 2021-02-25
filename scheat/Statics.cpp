@@ -100,24 +100,24 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare %Array @Array_init(i64)\n";
     ScheatContext::global->stream_body << "declare %String @inputString()\n";
     ScheatContext::global->stream_body << "declare i32 @inputInt()\n";
-    Function *initf = new Function("void", "init");
+    Function *initf = new Function(TypeData("Void", "void"), "init");
     initf->context->stream_entry << "define void @" << getFileName(scheato->sourceFile) << "_init(){\n";
     initf->context->stream_entry << "entry:\n";
     initf->context->stream_tail << "ret void\n}\n";
     push(initf->context);
-    contextCenter.push_back(initf->context);
+    //contextCenter.push_back(initf->context);
     init = initf->context;
     pushNewNamespace(scheato->productName);
     ScheatContext::global->addFunction(getFileName(scheato->sourceFile) + "_init", initf);
     ScheatContext::main = nullptr;
     mTokens = nullptr;
-    Function *inputf_int = new Function("i32", "inputInt");
+    Function *inputf_int = new Function(TypeData::IntType, "inputInt");
     inputf_int->return_type = TypeData::IntType;
     ScheatContext::global->addFunction("inputInt_", inputf_int);
-    Function *inputf_str = new Function("%String", "inputString");
+    Function *inputf_str = new Function(TypeData::StringType, "inputString");
     inputf_str->return_type = TypeData::StringType;
     ScheatContext::global->addFunction("inputString_", inputf_str);
-    auto Int = new Class(new TypeData("i32"));
+    auto Int = new Class(&TypeData::IntType);
     Int->context->name = "Int";
     auto opadd = new Operator("+", "add");
     opadd->position = infix;
@@ -179,7 +179,7 @@ void ScheatContext::printout(){
 }
 
 void ScheatContext::AddMain(){
-    Function *mainf = new Function("i32", "main");
+    Function *mainf = new Function(TypeData::IntType, "main");
     mainf->argTypes.push_back(TypeData("i32"));
     mainf->argTypes.push_back(TypeData("i8**"));
     mainf->return_type = TypeData("i32");
