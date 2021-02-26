@@ -832,10 +832,10 @@ parseIfStatement(Token *&tok){
             return nullptr;
         }
     }
-    if (tok->kind != scheat::TokenKind::tok_period) {
-        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
-                            "the end of a statement must be period.");
-        return nullptr;
+    if (tok->kind == scheat::TokenKind::tok_EOF) {
+        tok = tok->prev;
+        tok->kind = scheat::TokenKind::tok_period;
+        return IfStatement::init(move(expr), move(s), move(elseS));
     }
     
     tok = tok->prev;
@@ -867,19 +867,27 @@ parseForStatement(Token *&tok){
         return nullptr;
     }
     eatThis(tok);
+    
+    auto scope = ScheatContext::local()->getLabel();
+    auto scopename = scope + "for";
+    
+    ScheatContext::local()->entryScope(scopename);
+    
     auto ss = parseStatement(tok);
+    
+    ScheatContext::local()->leave();
     if (!ss) {
         return nullptr;
     }
     
     if (tok->kind == scheat::TokenKind::tok_EOF) {
         tok = tok->prev;
-        return ForStatement::init(move(i), move(ss));
+        return ForStatement::init(move(i), move(ss),scope);
     }
     
     tok = tok->prev;
     tok->kind = scheat::TokenKind::tok_comma;
-    return ForStatement::init(move(i), move(ss));
+    return ForStatement::init(move(i), move(ss), scope);
 }
 
 static unique_ptr<WhileStatement>
@@ -902,19 +910,24 @@ parseWhileStatement(Token *&tok){
         eatThis(tok);
     }
     
+    auto scope = ScheatContext::local()->getLabel();
+    auto scopeName = scope + "while";
+    ScheatContext::local()->entryScope(scopeName);
+    
     auto statement = parseStatement(tok);
     
+    ScheatContext::local()->leave();
     if (!statement) {
         return nullptr;
     }
     
     if (tok->kind == scheat::TokenKind::tok_EOF) {
         tok = tok->prev;
-        return WhileStatement::init(move(cond), move(statement));
+        return WhileStatement::init(move(cond), move(statement), scope);
     }
     tok = tok->prev;
     tok->kind = scheat::TokenKind::tok_comma;
-    return WhileStatement::init(move(cond), move(statement));
+    return WhileStatement::init(move(cond), move(statement), scope);
 }
 
 static unique_ptr<DeclareFunctionStatement>
@@ -1051,6 +1064,20 @@ parseDeclareFunctionStatement(Token *&tok){
     ScheatContext::local()->addFunction(buf, func);
     
     return ptr;
+}
+
+static unique_ptr<BreakStatement>
+parseBreakStatement(Token *&tok){
+    
+    auto scope = ScheatContext::local()->getNowScope();
+    if (scope.empty()) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "break statement can be used in only loop statements.");
+        return nullptr;
+    }
+    auto location = tok->location;
+    eatThis(tok);
+    return BreakStatement::init(location, scope);
 }
 
 static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token *&tok){
@@ -1240,6 +1267,10 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
         if (tokens->kind == scheat::TokenKind::tok_for) {
             return parseForStatement(tokens);
         }
+    }
+    
+    if (tokens->kind == scheat::TokenKind::tok_break) {
+        return parseBreakStatement(tokens);
     }
     
     if (tokens->kind == scheat::TokenKind::tok_done) {

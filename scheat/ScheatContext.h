@@ -57,6 +57,7 @@ public:
         rnum = 0;
         base = nullptr;
         name = "";
+        scopeStacks.push("");
     }
     
     Context(const Context &con) = default;

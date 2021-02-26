@@ -277,6 +277,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "break") {
+        tok->kind = TokenKind::tok_break;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "loaded" || buf == "at") {
         tok->kind = TokenKind::tok_loaded;
         tadd;
@@ -538,6 +545,9 @@ void Token::out(){
             break;
         case TokenKind::tok_return:
             printf("return token\n");
+            break;
+        case TokenKind::tok_break:
+            printf("break token\n");
             break;
         case TokenKind::tok_local:
             printf("local token\n");

@@ -111,7 +111,7 @@ Value *LoadExpr::codegen(IRStream &f){
 
 Value * ForStatement::codegen(IRStream &f){
     auto v = this->count->codegen(f);
-    auto lbl = ScheatContext::local()->getLabel();
+    auto lbl = scopeName;
     auto condreg = "%" + lbl + "i";
     f << condreg << " = alloca i32\n";
     f << "store i32 0, i32* " << condreg << "\n";
@@ -137,7 +137,7 @@ Value * ForStatement::codegen(IRStream &f){
 }
 
 Value * WhileStatement::codegen(IRStream &f){
-    auto lbl = ScheatContext::local()->getLabel();
+    auto lbl = scopeName;
     f << "br label %" << lbl << "while\n";
     f << lbl << "while:\n";
     auto re = condition->codegen(f);
@@ -222,6 +222,28 @@ Value *PostfixOperatorPrimaryExpr::codegen(IRStream &f){
         delete lv;
         return new Value(reg, op->return_type);
     }
+    return nullptr;
+}
+
+Value *BreakStatement::codegen(IRStream &f){
+//    auto scope = ScheatContext::local()->getNowScope();
+//    if (scope.empty()) {
+//        scheato->FatalError(location, __FILE_NAME__, __LINE__,
+//                            "Compiler seem not tobe working well.");
+//        return nullptr;
+//    }
+    f << "br label %" << scope + "_end\n";
+    return nullptr;
+}
+
+Value *ContinueStatement::codegen(IRStream &f){
+    //    auto scope = ScheatContext::local()->getNowScope();
+    //    if (scope.empty()) {
+    //        scheato->FatalError(location, __FILE_NAME__, __LINE__,
+    //                            "Compiler seem not tobe working well.");
+    //        return nullptr;
+    //    }
+    f << "br label %" << scope + "\n";
     return nullptr;
 }
 

@@ -56,6 +56,7 @@ enum class TokenKind : int {
     tok_while,
     tok_loaded,
     tok_return,
+    tok_break,
     
     tok_local,
     tok_global,

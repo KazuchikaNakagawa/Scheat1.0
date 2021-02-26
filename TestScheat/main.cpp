@@ -36,7 +36,7 @@ int main(int argc, const char * argv[]) {
     }
     ScheatEncoder::printout();
     ScheatEncoder::encode();
-    system("clang++ -o HW HelloWorld.o -L/usr/local/lib/Scheat -lFoundation -v");
+    //system("clang++ -o HW HelloWorld.o -L/usr/local/lib/Scheat -lFoundation -v");
     return 0;
 }
 

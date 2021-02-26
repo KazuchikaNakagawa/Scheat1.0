@@ -668,6 +668,36 @@ public:
     }
 };
 
+class BreakStatement : public StatementNode {
+public:
+    string scope;
+    Value * codegen(IRStream &) override;
+    string userdump() override{ return "break;"; };
+    static unique_ptr<BreakStatement>
+    init(SourceLocation loc, string sc){
+        auto ptr = make_unique<BreakStatement>();
+        ptr->location = loc;
+        ptr->scope = sc;
+        ptr->type = TypeData::VoidType;
+        return ptr;
+    }
+};
+
+class ContinueStatement : public StatementNode {
+public:
+    string scope;
+    Value * codegen(IRStream &) override;
+    string userdump() override{ return "break;"; };
+    static unique_ptr<ContinueStatement>
+    init(SourceLocation loc, string sc){
+        auto ptr = make_unique<ContinueStatement>();
+        ptr->location = loc;
+        ptr->scope = sc;
+        ptr->type = TypeData::VoidType;
+        return ptr;
+    }
+};
+
 class IfStatement : public StatementNode {
 public:
     unique_ptr<Expr> condition;
@@ -694,16 +724,18 @@ class ForStatement : public StatementNode {
 public:
     unique_ptr<Expr> count;
     unique_ptr<Statement> body;
+    string scopeName;
     string userdump() override{
         return "for (" + count->userdump() + "):" + body->userdump();
     };
     Value * codegen(IRStream &) override;
     static unique_ptr<ForStatement>
-    init(unique_ptr<Expr> intExpr, unique_ptr<Statement> statement){
+    init(unique_ptr<Expr> intExpr, unique_ptr<Statement> statement, string sn){
         auto ptr = make_unique<ForStatement>();
         ptr->location = intExpr->location;
         ptr->count = move(intExpr);
         ptr->body = move(statement);
+        ptr->scopeName = sn;
         return ptr;
     };
 };
@@ -712,15 +744,18 @@ class WhileStatement : public StatementNode {
 public:
     unique_ptr<Expr> condition;
     unique_ptr<Statement> body;
+    string scopeName;
     string userdump() override{
         return "while (" + condition->userdump() + ") {" + body->userdump() + "}";
     }
     Value * codegen(IRStream &) override;
     static
     unique_ptr<WhileStatement> init(unique_ptr<Expr> b,
-                                    unique_ptr<Statement> s){
+                                    unique_ptr<Statement> s,
+                                    string sn){
         auto ptr = make_unique<WhileStatement>();
         ptr->location = b->location;
+        ptr->scopeName = sn;
         ptr->condition = move(b);
         ptr->body = move(s);
         return ptr;
