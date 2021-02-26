@@ -60,6 +60,8 @@ extern "C" String ScheatString_copy(String *);
 
 extern "C" String ScheatString_add(String, String);
 
+extern "C" int Int_init() {return 0;};
+
 extern "C" struct Array {
     uint32_t count;
     unsigned long long elemSize;

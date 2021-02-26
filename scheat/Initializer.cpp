@@ -90,7 +90,7 @@ static scheat::TypeData IntType = scheat::TypeData("Int", "i32");
 static scheat::TypeData StringType = scheat::TypeData("String", "%String");
 
 void scheat::InitializeFoundationClass(){
-    auto Int = new Class(new TypeData("i32"));
+    auto Int = new Class(new TypeData("Int","i32"));
     Int->context->name = "Int";
     auto opadd = new Operator("+", "add");
     opadd->position = infix;
@@ -117,6 +117,6 @@ void scheat::InitializeFoundationClass(){
     Int->operators["*"] = opmul;
     
     ScheatContext::global->addClass("Int", Int);
-    auto String = new Class(new TypeData("String"));
+    auto String = new Class(&TypeData::StringType);
     ScheatContext::global->addClass("String", String);
 }

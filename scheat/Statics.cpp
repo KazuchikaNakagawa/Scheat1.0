@@ -99,6 +99,7 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare i8* @Array_at(%Array*, i32)\n";
     global->stream_body << "declare %Array @Array_init(i64)\n";
     ScheatContext::global->stream_body << "declare %String @inputString()\n";
+    global->stream_body << "declare i32 @Int_init()\n";
     ScheatContext::global->stream_body << "declare i32 @inputInt()\n";
     Function *initf = new Function(TypeData("Void", "void"), "init");
     initf->context->stream_entry << "define void @" << getFileName(scheato->sourceFile) << "_init(){\n";
@@ -107,6 +108,7 @@ void ScheatContext::Init(_Scheat *sch){
     push(initf->context);
     //contextCenter.push_back(initf->context);
     init = initf->context;
+    init->type = &TypeData::VoidType;
     pushNewNamespace(scheato->productName);
     ScheatContext::global->addFunction(getFileName(scheato->sourceFile) + "_init", initf);
     ScheatContext::main = nullptr;
@@ -143,6 +145,14 @@ void ScheatContext::Init(_Scheat *sch){
     opmul->rhs_type = &TypeData::IntType;
     Int->operators["*"] = opmul;
     
+    auto opne = new Operator("!=", "sirane-");
+    opne->position = infix;
+    opne->precidence = secondary;
+    opne->return_type = TypeData::BoolType;
+    opne->lhs_type = &TypeData::IntType;
+    opne->rhs_type = &TypeData::IntType;
+    Int->operators["!="] = opne;
+    
     auto opeq = new Operator("==", "eqeq");
     opeq->position = infix;
     opeq->precidence = secondary;
@@ -150,6 +160,38 @@ void ScheatContext::Init(_Scheat *sch){
     opeq->lhs_type = &TypeData::IntType;
     opeq->rhs_type = &TypeData::IntType;
     Int->operators["=="] = opeq;
+    
+    auto oplt = new Operator("<", "lll");
+    oplt->position = infix;
+    oplt->precidence = secondary;
+    oplt->return_type = TypeData::BoolType;
+    oplt->lhs_type = &TypeData::IntType;
+    oplt->rhs_type = &TypeData::IntType;
+    Int->operators["<"] = oplt;
+    
+    auto opst = new Operator("=<", "llll?");
+    opst->position = infix;
+    opst->precidence = secondary;
+    opst->return_type = TypeData::BoolType;
+    opst->lhs_type = &TypeData::IntType;
+    opst->rhs_type = &TypeData::IntType;
+    Int->operators["=<"] = opst;
+    
+    auto opbt = new Operator(">=", "eqeq");
+    opbt->position = infix;
+    opbt->precidence = secondary;
+    opbt->return_type = TypeData::BoolType;
+    opbt->lhs_type = &TypeData::IntType;
+    opbt->rhs_type = &TypeData::IntType;
+    Int->operators[">="] = opbt;
+    
+    auto opgt = new Operator(">", "elelele");
+    opgt->position = infix;
+    opgt->precidence = secondary;
+    opgt->return_type = TypeData::BoolType;
+    opgt->lhs_type = &TypeData::IntType;
+    opgt->rhs_type = &TypeData::IntType;
+    Int->operators[">"] = opgt;
     
     ScheatContext::global->addClass("Int", Int);
     auto String = new Class(new TypeData("String", "%String"));
@@ -180,14 +222,15 @@ void ScheatContext::printout(){
 
 void ScheatContext::AddMain(){
     Function *mainf = new Function(TypeData::IntType, "main");
-    mainf->argTypes.push_back(TypeData("i32"));
-    mainf->argTypes.push_back(TypeData("i8**"));
-    mainf->return_type = TypeData("i32");
+    mainf->argTypes.push_back(TypeData::IntType);
+    mainf->argTypes.push_back(TypeData::StringType.pointer());
+    mainf->return_type = TypeData::IntType;
+    mainf->context->type = &TypeData::IntType;
     ScheatContext::main = mainf->context;
     ScheatContext::contextCenter.push_back(ScheatContext::main);
-    Variable *argc = new Variable("argc", TypeData("i32"));
+    Variable *argc = new Variable("argc", TypeData::IntType);
     ScheatContext::main->addVariable("argc", argc);
-    Variable *argv = new Variable("argv", TypeData("i8**"));
+    Variable *argv = new Variable("argv", TypeData::StringType);
     ScheatContext::main->addVariable("argv", argv);
     mainf->codegen(ScheatContext::main->stream_entry);
     ScheatContext::push(ScheatContext::main);

@@ -53,7 +53,9 @@ enum class TokenKind : int {
     tok_export,
     tok_to,
     tok_with,
+    tok_while,
     tok_loaded,
+    tok_return,
     
     tok_local,
     tok_global,

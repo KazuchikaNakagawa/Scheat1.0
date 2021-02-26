@@ -58,6 +58,9 @@
 		82806DD5250E15DA0010F012 /* Statics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82806DD4250E15DA0010F012 /* Statics.cpp */; };
 		8283093824F93CDC006EFFEA /* CScheat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8283093524F93BEE006EFFEA /* CScheat.h */; };
 		8283093B24FBF990006EFFEA /* libscheat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829849EB24D2DA20004A7A64 /* libscheat.a */; };
+		82850A4125E7998700936175 /* libLLVMBPFAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82850A4025E7998700936175 /* libLLVMBPFAsmParser.a */; };
+		82850A6025E79A3A00936175 /* libLLVMBPFAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82850A4025E7998700936175 /* libLLVMBPFAsmParser.a */; };
+		82850A7125E79A8E00936175 /* libLLVMAArch64AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82850A7025E79A8E00936175 /* libLLVMAArch64AsmParser.a */; };
 		8289BA00258A3C6900F7DC0B /* ScheatKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8289B9FF258A3C6900F7DC0B /* ScheatKit.cpp */; };
 		828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828FFCB724D80E28007BEBFF /* main.cpp */; };
 		8292381A25A5A89A002157FC /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8292381925A5A89A002157FC /* Utilities.cpp */; };
@@ -96,7 +99,7 @@
 		82D6F4D324F3EE240003D0EA /* ScheatARC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D224F3EE240003D0EA /* ScheatARC.hpp */; };
 		82D6F4D524F3EE240003D0EA /* ScheatARCPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82D6F4D424F3EE240003D0EA /* ScheatARCPriv.hpp */; };
 		82D6F4D724F3EE240003D0EA /* ScheatARC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82D6F4D624F3EE240003D0EA /* ScheatARC.cpp */; };
-		82E5E0F825A9D54600B3316C /* libLLVMBPFAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E06225A9D54000B3316C /* libLLVMBPFAsmParser.a */; };
+		82E5E0F825A9D54600B3316C /* libLLVMBPFAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E06225A9D54000B3316C /* libLLVMBPFAsmParser.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		82E5E0F925A9D54600B3316C /* libLLVMMipsInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E06325A9D54000B3316C /* libLLVMMipsInfo.a */; };
 		82E5E0FA25A9D54600B3316C /* libLLVMTableGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E06425A9D54000B3316C /* libLLVMTableGen.a */; };
 		82E5E0FB25A9D54600B3316C /* libLLVMOrcJIT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E5E06525A9D54000B3316C /* libLLVMOrcJIT.a */; };
@@ -606,6 +609,8 @@
 		82806DD4250E15DA0010F012 /* Statics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Statics.cpp; sourceTree = "<group>"; };
 		8283093524F93BEE006EFFEA /* CScheat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CScheat.h; sourceTree = "<group>"; };
 		8283093624F93CB2006EFFEA /* CScheat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CScheat.cpp; sourceTree = "<group>"; };
+		82850A4025E7998700936175 /* libLLVMBPFAsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMBPFAsmParser.a; path = ../../../../usr/local/Cellar/llvm/11.1.0/lib/libLLVMBPFAsmParser.a; sourceTree = "<group>"; };
+		82850A7025E79A8E00936175 /* libLLVMAArch64AsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAArch64AsmParser.a; path = ../../../../usr/local/Cellar/llvm/11.1.0/lib/libLLVMAArch64AsmParser.a; sourceTree = "<group>"; };
 		8289B9EC258A3BF900F7DC0B /* libScheatDriver.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatDriver.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8289B9FE258A3C3D00F7DC0B /* ScheatKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatKit.h; sourceTree = "<group>"; };
 		8289B9FF258A3C6900F7DC0B /* ScheatKit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatKit.cpp; sourceTree = "<group>"; };
@@ -873,6 +878,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82850A4125E7998700936175 /* libLLVMBPFAsmParser.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -896,6 +902,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82850A7125E79A8E00936175 /* libLLVMAArch64AsmParser.a in Frameworks */,
 				82E5E1FE25A9E01500B3316C /* libLLVMAArch64AsmParser.a in Frameworks */,
 				82E5E1FF25A9E01500B3316C /* libLLVMAArch64CodeGen.a in Frameworks */,
 				82E5E20025A9E01500B3316C /* libLLVMAArch64Desc.a in Frameworks */,
@@ -1067,6 +1074,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82850A6025E79A3A00936175 /* libLLVMBPFAsmParser.a in Frameworks */,
 				82E5E0F825A9D54600B3316C /* libLLVMBPFAsmParser.a in Frameworks */,
 				82E5E0F925A9D54600B3316C /* libLLVMMipsInfo.a in Frameworks */,
 				82E5E0FA25A9D54600B3316C /* libLLVMTableGen.a in Frameworks */,
@@ -1428,6 +1436,8 @@
 		82984A0324D2E070004A7A64 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82850A7025E79A8E00936175 /* libLLVMAArch64AsmParser.a */,
+				82850A4025E7998700936175 /* libLLVMBPFAsmParser.a */,
 				82E5E06C25A9D54000B3316C /* libLLVMAArch64AsmParser.a */,
 				82E5E09425A9D54200B3316C /* libLLVMAArch64CodeGen.a */,
 				82E5E0CE25A9D54400B3316C /* libLLVMAArch64Desc.a */,
@@ -2620,7 +2630,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/lib;
+				FRAMEWORK_SEARCH_PATHS = /usr/local/Cellar/llvm/11.1.0/lib;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2635,8 +2645,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/include;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/lib;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/11.1.0/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/11.1.0/lib;
 				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -2691,7 +2701,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/lib;
+				FRAMEWORK_SEARCH_PATHS = /usr/local/Cellar/llvm/11.1.0/lib;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2704,8 +2714,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/include;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/lib;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/11.1.0/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/11.1.0/lib;
 				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -2730,7 +2740,10 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/lib,
+					/usr/local/Cellar/llvm/11.1.0/lib,
+				);
 				PRODUCT_NAME = spica;
 				SKIP_INSTALL = YES;
 			};
@@ -2744,7 +2757,10 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/10.0.0_3/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/Cellar/llvm/10.0.0_3/lib,
+					/usr/local/Cellar/llvm/11.1.0/lib,
+				);
 				PRODUCT_NAME = spica;
 				SKIP_INSTALL = YES;
 			};
@@ -2816,8 +2832,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/include;
 				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/11.0.0_1/lib,
 					"$(SDKROOT)/usr/lib/system",
+					/usr/local/Cellar/llvm/11.1.0/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -2841,8 +2857,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/include;
 				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/llvm/11.0.0_1/lib,
 					"$(SDKROOT)/usr/lib/system",
+					/usr/local/Cellar/llvm/11.1.0/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -2865,7 +2881,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/include;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/lib;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/11.1.0/lib;
 				PRODUCT_NAME = scheat;
 			};
 			name = Debug;
@@ -2887,7 +2903,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/include;
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/11.0.0_1/lib;
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/llvm/11.1.0/lib;
 				PRODUCT_NAME = scheat;
 			};
 			name = Release;

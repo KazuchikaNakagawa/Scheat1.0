@@ -31,9 +31,10 @@ public:
         if (ir_used.find("*") != std::string::npos){
             return "p" + loaded().mangledName();
         }
-        return ir_used;
+        return name;
     };
     
+    __deprecated
     TypeData(std::string nm){
         name = nm;
         
@@ -97,6 +98,7 @@ public:
     static TypeData IntType;
     static TypeData StringType;
     static TypeData BoolType;
+    static TypeData VoidType;
 };
 }
 

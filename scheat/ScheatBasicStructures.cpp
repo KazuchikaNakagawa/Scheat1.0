@@ -23,6 +23,7 @@ using namespace scheat;
 TypeData TypeData::IntType = TypeData("Int", "i32");
 TypeData TypeData::StringType = TypeData("String", "%String");
 TypeData TypeData::BoolType = TypeData("Bool", "i1");
+TypeData TypeData::VoidType = TypeData("Void", "void");
 
 std::string Function::getMangledName(){
     std::string base = "@" + return_type.mangledName() + "_";
@@ -51,9 +52,9 @@ Class::Class(TypeData *ty) : type(ty){
 };
 
 std::string Function::lltype(){
-    std::string base = return_type.mangledName() + "(";
+    std::string base = return_type.ir_used + "(";
     for (int i = 0; i < argTypes.size(); i++) {
-        base = base + argTypes[i].mangledName();
+        base = base + argTypes[i].ir_used;
         
         if (i < argTypes.size() - 1) {
             base = base + ", ";
@@ -70,7 +71,7 @@ void IRStream::exportTo(std::ofstream &f){
 }
 
 void IRStream::printout(){
-    for (int i = 0; i < irs.size(); i++) {
-        std::cout << irs[i];
+    for (auto ir : irs) {
+        cout << ir;
     }
 }

@@ -227,14 +227,20 @@ Value *PostfixOperatorPrimaryExpr::codegen(IRStream &f){
 
 Value *FunctionCallTerm::codegen(IRStream &f){
     if (func->return_type.ir_used == "void") {
-        ScheatContext::push(func->context);
+        //ScheatContext::push(func->context);
         
         vector<Value *> arges_val = args->codegenAsArray(f);
         
-        ScheatContext::pop();
+        //ScheatContext::pop();
         f << "call " << func->lltype() << " @" << func->name << "(";
+        
+        int c = 1;
         for (auto ptr : arges_val) {
             f << ptr->asValue();
+            if (c < arges_val.size()) {
+                f << ", ";
+            }
+            c++;
         }
         f << ")\n";
         return nullptr;
@@ -242,8 +248,12 @@ Value *FunctionCallTerm::codegen(IRStream &f){
         vector<Value *> arges_val = args->codegenAsArray(f);
         auto reg = ScheatContext::local()->getRegister();
         f << reg << " = call " << func->lltype() << " @" << func->name << "(";
+        int c = 1;
         for (auto ptr : arges_val) {
             f << ptr->asValue();
+            if (c < arges_val.size()) {
+                f << ", ";
+            }
         }
         f << ")\n";
         return new Value(reg, func->return_type);
@@ -282,6 +292,16 @@ Value *InfixOperatorExpr::codegen(IRStream &f){
         string eqopt = "";
         if (op->value == "==") {
             eqopt = "eq";
+        }else if (op->value == "<"){
+            eqopt = "ult";
+        }else if (op->value == ">"){
+            eqopt = "ugt";
+        }else if (op->value == "!="){
+            eqopt = "ne";
+        }else if (op->value == "=<" || op->value == "<="){
+            eqopt = "ule";
+        }else if (op->value == ">="){
+            eqopt = "uge";
         }
         
         f << reg << " = icmp " << eqopt << " " << l->asValue() << ", " << r->value << "\n";
@@ -590,7 +610,7 @@ Value *StringTerm::codegen(IRStream &f){
     f << reg << " = load i8*, i8** " << rn << "\n";
     string v = "call %String @String_init_pi8(i8* " + reg + ")";
     string rr = ScheatContext::local()->getRegister();
-    ScheatContext::local()->stream_body << rr << " = " << v << "\n";
+    f << rr << " = " << v << "\n";
     return new Value(rr, TypeData::StringType);
 }
 
@@ -602,7 +622,7 @@ vector<TypeData> ArgumentExpr::getTypes(){
         return {type};
     }
     auto c = container->getTypes();
-    c.insert(c.begin(), type);
+    c.push_back(type);
     return c;
 }
 
@@ -622,7 +642,17 @@ Value *DeclareFunctionStatement::codegen(IRStream &f){
     ScheatContext::push(context);
     body->codegen(context->stream_body);
     ScheatContext::pop();
-    context->stream_body << "ret " << (context->type ? context->type->ir_used : "void") << "\n";
+    //context->stream_body << "ret " << (context->type ? context->type->ir_used : "void") << "\n";
+    if (!context->type || context->type->ir_used == "void") {
+        context->stream_body << "ret void\n";
+    }else if (context->type->ir_used.find("*") != string::npos){
+        context->stream_body << context->type->ir_used << " null\n";
+    }else{
+        auto r = context->getRegister();
+        context->stream_body << r << " = call " << context->type->ir_used << " @" <<
+        context->type->name + "_init()\n";
+        context->stream_body << "ret " << context->type->ir_used << " " << r << "\n";
+    }
     context->stream_tail << "}\n";
     return nullptr;
 }
@@ -692,6 +722,7 @@ unique_ptr<ArgumentExpr> ArgumentExpr::init(unique_ptr<Expr> bdy){
 
 unique_ptr<ArgumentExpr> ArgumentExpr::addArg(unique_ptr<ArgumentExpr> args, unique_ptr<Expr> n){
     auto ptr = make_unique<ArgumentExpr>();
+    ptr->type = n->type;
     ptr->container = move(args);
     ptr->self = move(n);
     return ptr;

@@ -197,7 +197,8 @@ static unique_ptr<IdentifierExpr> parseFirstIdentifierExpr(Token *&tok){
             return nullptr;
         }
         eatThis(tok);
-        auto funcptr = ScheatContext::local()->findFunc(fname + args->demangled(), args->getTypes());
+        auto s = fname + args->demangled();
+        auto funcptr = ScheatContext::local()->findFunc(s, args->getTypes());
         if (!funcptr) {
             scheato->FatalError(ktok->location, __FILE_NAME__, __LINE__, "there are no function such a type");
             return nullptr;
@@ -831,6 +832,12 @@ parseIfStatement(Token *&tok){
             return nullptr;
         }
     }
+    if (tok->kind != scheat::TokenKind::tok_period) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "the end of a statement must be period.");
+        return nullptr;
+    }
+    
     tok = tok->prev;
     tok->kind = scheat::TokenKind::tok_comma;
     return IfStatement::init(move(expr), move(s), move(elseS));
@@ -864,7 +871,14 @@ parseForStatement(Token *&tok){
     if (!ss) {
         return nullptr;
     }
+    
+    if (tok->kind == scheat::TokenKind::tok_EOF) {
+        tok = tok->prev;
+        return ForStatement::init(move(i), move(ss));
+    }
+    
     tok = tok->prev;
+    tok->kind = scheat::TokenKind::tok_comma;
     return ForStatement::init(move(i), move(ss));
 }
 
@@ -894,7 +908,12 @@ parseWhileStatement(Token *&tok){
         return nullptr;
     }
     
-    
+    if (tok->kind == scheat::TokenKind::tok_EOF) {
+        tok = tok->prev;
+        return WhileStatement::init(move(cond), move(statement));
+    }
+    tok = tok->prev;
+    tok->kind = scheat::TokenKind::tok_comma;
     return WhileStatement::init(move(cond), move(statement));
 }
 
@@ -914,6 +933,10 @@ parseDeclareFunctionStatement(Token *&tok){
     eatThis(tok);
     
     if (tok->kind == scheat::TokenKind::tok_with) {
+        eatThis(tok);
+    }
+    
+    if (tok->kind != scheat::TokenKind::tok_paren_l) {
         eatThis(tok);
     }
     
@@ -938,7 +961,7 @@ parseDeclareFunctionStatement(Token *&tok){
         }
         
         if (tok->kind != scheat::TokenKind::val_identifier) {
-            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be sonstitute <name> of <type>");
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be constitute <name> of <type>");
             return nullptr;
         }
         
@@ -947,7 +970,7 @@ parseDeclareFunctionStatement(Token *&tok){
         eatThis(tok);
         
         if (tok->kind != scheat::TokenKind::tok_of) {
-            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be sonstitute <name> of <type>");
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be constitute <name> of <type>");
             return nullptr;
         }
         
@@ -956,7 +979,7 @@ parseDeclareFunctionStatement(Token *&tok){
         auto type = parseTypeExpr(tok);
         if (!type) {
             if (tok->kind != scheat::TokenKind::tok_of) {
-                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be sonstitute <name> of <type>");
+                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be constitute <name> of <type>");
                 return nullptr;
             }
         }
@@ -966,6 +989,18 @@ parseDeclareFunctionStatement(Token *&tok){
         argNames.push_back(argName);
         argTypes.push_back(*type);
         
+        if (tok->kind != scheat::TokenKind::tok_comma) {
+            break;
+        }else{
+            eatThis(tok);
+        }
+    }
+    
+    if (tok->kind == scheat::TokenKind::tok_paren_r) {
+        eatThis(tok);
+    }else{
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there must be a right parentheses");
+        return nullptr;
     }
     
     if (tok->kind == scheat::TokenKind::tok_comma) {
@@ -996,15 +1031,14 @@ parseDeclareFunctionStatement(Token *&tok){
         return nullptr;
     }
     
-    string type_ir_used = "void";
     
-    if (context->type) {
-        type_ir_used = context->type->ir_used;
+    if (!context->type) {
+        context->type = &TypeData::VoidType;
     }
     
     ScheatContext::pop();
     
-    func = new Function(type_ir_used, buf);
+    func = new Function(*context->type, buf);
     
     func->argTypes = argTypes;
     func->context = context;
@@ -1085,6 +1119,30 @@ static unique_ptr<DeclareVariableStatement> parseDeclareVariableStatement(Token 
     stmtptr->name = var->mangledName;
     
     return stmtptr;
+}
+
+static unique_ptr<ReturnStatement>
+parseReturnStatement(Token *&tok){
+    eatThis(tok);
+    auto expr = parseExpr(tok);
+    if (!expr) {
+        return nullptr;
+    }
+    if (!ScheatContext::local()->type) {
+        ScheatContext::local()->type = new TypeData(expr->type);
+        return ReturnStatement::init(move(expr));
+    }
+    if (ScheatContext::local()->type->ir_used == expr->type.ir_used) {
+        return ReturnStatement::init(move(expr));
+    }
+    else{
+        scheato->FatalError(expr->location, __FILE_NAME__, __LINE__, "%s is expected to return %s value, but returned %s",
+                            ScheatContext::local()->name.c_str(),
+                            ScheatContext::local()->type->ir_used.c_str(),
+                            expr->type.ir_used.c_str());
+        return nullptr;
+    }
+    return nullptr;
 }
 
 static unique_ptr<ReassignStatement>
@@ -1169,9 +1227,13 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
         return parseDeclareFunctionStatement(tokens);
     }
     
-//    if (tokens->kind == tok_while) {
-//
-//    }
+    if (tokens->kind == scheat::TokenKind::tok_return) {
+        return parseReturnStatement(tokens);
+    }
+    
+    if (tokens->kind == scheat::TokenKind::tok_while) {
+        return parseWhileStatement(tokens);
+    }
     
     if (tokens->kind == scheat::TokenKind::tok_do) {
         eatThis(tokens);

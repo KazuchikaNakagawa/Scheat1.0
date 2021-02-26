@@ -319,6 +319,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "return") {
+        tok->kind = TokenKind::tok_return;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "global") {
         tok->kind = TokenKind::tok_global;
         tadd;
@@ -410,9 +417,11 @@ void Lexer::genTok(){
         return;
     }
     
-    if (buf == "SCHEAT") {
-        printf("Scheat is a new programming language.\n");
-        host->FatalError(location, __FILE_NAME__, __LINE__, "You cannot stop learning Scheat.");
+    if (buf == "while") {
+        tok->kind = TokenKind::tok_while;
+        tadd;
+        clear();
+        return;
     }
     
     if (state == identifierState) {
@@ -521,8 +530,14 @@ void Token::out(){
         case TokenKind::tok_with:
             printf("with token\n");
             break;
+        case TokenKind::tok_while:
+            printf("while token\n");
+            break;
         case TokenKind::tok_loaded:
             printf("loaded token\n");
+            break;
+        case TokenKind::tok_return:
+            printf("return token\n");
             break;
         case TokenKind::tok_local:
             printf("local token\n");

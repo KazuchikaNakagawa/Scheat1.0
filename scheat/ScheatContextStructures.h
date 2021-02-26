@@ -107,7 +107,7 @@ public:
         return "@" + name;
     }
     ExternalFunction(TypeData _return_type, string fullName)
-    : Function(_return_type.ir_used, fullName, false)
+    : Function(_return_type, fullName, false)
     {
         
     };

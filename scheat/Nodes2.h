@@ -397,7 +397,7 @@ public:
         string buf = "_";
         auto arr = getTypes();
         for (auto t : arr) {
-            buf += t.ir_used + "_";
+            buf += t.name + "_";
         }
         return buf;
     }
@@ -645,6 +645,27 @@ class DoneStatement : public StatementNode {
 public:
     Value * codegen(IRStream &) override{ return nullptr; };
     string userdump() override { return ""; };
+};
+
+class ReturnStatement : public StatementNode {
+public:
+    unique_ptr<Expr> expr;
+    Value * codegen(IRStream &f) override{
+        auto v = expr->codegen(f);
+        f << "ret " << v->asValue() << "\n";
+        return nullptr;
+    };
+    string userdump() override{
+        return "return " + expr->userdump();
+    };
+    static unique_ptr<ReturnStatement>
+    init(unique_ptr<Expr> p){
+        auto ptr = make_unique<ReturnStatement>();
+        ptr->type = p->type;
+        ptr->location = p->location;
+        ptr->expr = move(p);
+        return ptr;
+    }
 };
 
 class IfStatement : public StatementNode {
