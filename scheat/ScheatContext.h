@@ -45,7 +45,9 @@ public:
         scopeStacks.pop();
     }
     TypeData *type = nullptr;
-    string getNowScope() { return scopeStacks.top(); };
+    string getNowScope() {
+        if (scopeStacks.empty()) return "";
+        return scopeStacks.top(); };
     Variable *findVariable(std::string);
     Class *findClass(std::string);
     Function *findFunc(std::string, vector<TypeData>);

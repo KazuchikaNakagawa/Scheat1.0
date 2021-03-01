@@ -13,8 +13,8 @@
 using namespace scheat;
 int main(int argc, const char * argv[]) {
     Scheat scheat = Scheat();
-    scheat.setDebugSetting(true);
-    scheat.allowDeepDebug(true);
+    scheat.logInfo(true);
+    scheat.logAllInfo(true);
     /*
      target datalayout = "e-m:o-i64:64-f80:128-n8:16:32:64-S128"
      target triple = "x86_64-apple-macosx10.14.0"

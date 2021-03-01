@@ -1075,6 +1075,7 @@ parseBreakStatement(Token *&tok){
                             "break statement can be used in only loop statements.");
         return nullptr;
     }
+    
     auto location = tok->location;
     eatThis(tok);
     return BreakStatement::init(location, scope);
@@ -1276,6 +1277,15 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     if (tokens->kind == scheat::TokenKind::tok_done) {
         eatThis(tokens);
         return make_unique<DoneStatement>();
+    }
+    
+    if (tokens->kind == scheat::TokenKind::val_str) {
+        auto tok = tokens;
+        eatThis(tokens);
+        if (!scheato->logsTopString()) {
+            return make_unique<DoneStatement>();
+        }
+        return PrintStatement::init(ArgumentExpr::init(make_unique<StringTerm>(tok)));
     }
     
     

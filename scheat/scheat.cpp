@@ -200,7 +200,8 @@ _Scheat::_Scheat(Scheat *sch){
     delegate = sch->delegate;
     productName = sch->productName;
     onlyAssembles = sch->onlyAssemble;
-    delLL = sch->delLL;
+    delLL = sch->deletesIRFiles;
+    logTopString = sch->logTopString;
     tokens = nullptr;
 }
 
@@ -212,7 +213,7 @@ void Scheat::ready(){
     }
 }
 
-void Scheat::addSome(){
+void Scheat::addMore(){
     if (scheato == nullptr) {
         ready();
         return;
@@ -352,14 +353,14 @@ void Scheat::complementSettings(){
     }
 }
 
-void Scheat::setDebugSetting(bool o){
+void Scheat::logInfo(bool o){
     debug = o;
-    if (schobj != nullptr) schobj->setDebugSetting(o);
+    if (schobj != nullptr) schobj->logInfo(o);
 }
 
-void Scheat::allowDeepDebug(bool b){
+void Scheat::logAllInfo(bool b){
     deepDebug = b;
-    if (schobj != nullptr) schobj->allowDeepDebug(b);
+    if (schobj != nullptr) schobj->logAllInfo(b);
 };
 
 void ScheatAnalyzer::parse(){

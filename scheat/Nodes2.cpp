@@ -22,7 +22,7 @@ Value *Class::getProperty(string s, Value *v, IRStream &f){
             return nullptr;
         }
         auto r = ScheatContext::local()->getRegister();
-        f << r << " = getelementptr " << type->ir_used << ", " << type->pointer().ir_used << " ";
+        f << r << " = getelementptr " << type->ir_used << ", " << type->pointer().ir_used << " i32 0, i32 0\n";
         
         return parentClass->getProperty(s, new Value(r, *parentClass->type),f);
     }else{

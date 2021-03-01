@@ -53,7 +53,7 @@ static void compileScheat(OptionStream &options, Option *source){
     
     auto delOption = options.getOption("-ll", type_no_args);
     if (delOption) {
-        scheat.delLL = false;
+        scheat.deletesIRFiles = false;
     }
     
     auto asmOption = options.getOption("-c", type_no_args);
@@ -63,8 +63,14 @@ static void compileScheat(OptionStream &options, Option *source){
     
     auto deepLogOption = options.getOption("-Log", type_no_args);
     if (deepLogOption) {
-        scheat.setDebugSetting(true);
-        scheat.allowDeepDebug(true);
+        scheat.logInfo(true);
+        scheat.logAllInfo(true);
+    }
+    
+    auto LTSOption = options.getOption("-enableFastLog", type_no_args);
+    
+    if (LTSOption) {
+        scheat.logTopString = true;
     }
     
     scheat.complementSettings();
@@ -96,10 +102,10 @@ okok:
     //std::cout << "> ";
     Scheat scheat;
     //scheat.allowDeepDebug(true);
-    scheat.setDebugSetting(true);
+    scheat.logInfo(true);
     scheat.isMain = true;
     while (true) {
-        scheat.addSome();
+        scheat.addMore();
         std::string code;
         cout << "> ";
         std::getline(std::cin, code);

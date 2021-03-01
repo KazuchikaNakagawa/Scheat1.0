@@ -15,20 +15,9 @@ int main(int argc,const char *argv[]){
     OptionStream options(argc, argv);
     options.parse();
     options.printBuffer();
-    if (options.isIncluded("-b")) {
-        printf("waaaao\n");
-    }
-    auto aopt = options.getOption("-d", type_string);
-    if (!aopt) {
-        printf("no args such name and args.\n");
-    }else{
-        printf("%s %s\n", aopt->name.c_str(), aopt->value[0].data.svalue);
-    }
-    auto bopt = options.getOption("-d", type_string);
-    if (!bopt) {
-        printf("no args such name and args.\n");
-    }else{
-        printf("%s %s\n", bopt->name.c_str(), bopt->value[0].data.svalue);
+    auto UTSOption = options.getOption("-enableFastLog", type_no_args);
+    if (UTSOption) {
+        printf("found!\n");
     }
     return 0;
 }

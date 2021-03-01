@@ -47,6 +47,7 @@ class _Scheat {
     bool hasError;
     bool delLL;
     bool onlyAssembles = false;
+    bool logTopString = false;
 public:
     /// returns true if this fails to compile.
     /// this is regarded as a flag.
@@ -65,12 +66,13 @@ public:
     std::string loggingFile = "";
     std::string productName;
     ScheatDelegate *delegate = nullptr;
-    void setDebugSetting(bool o) {
+    void logInfo(bool o) {
         debug = o;
     };
+    bool logsTopString() { return logTopString; };
     bool deletesLLFile() { return delLL; };
     bool getDebugSetting() {return debug;};
-    void allowDeepDebug(bool b){
+    void logAllInfo(bool b){
         deepDebug = b;
     };
     bool onlyAsm() {return onlyAssembles;};
