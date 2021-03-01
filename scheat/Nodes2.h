@@ -740,6 +740,51 @@ public:
     };
 };
 
+class ClassStatement : public StatementNode {
+public:
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+};
+
+class ClassStatements : public ClassStatement {
+public:
+    unique_ptr<ClassStatements> statements;
+    unique_ptr<ClassStatement> statement;
+    static unique_ptr<ClassStatements>
+    init(unique_ptr<ClassStatements> ptr1, unique_ptr<ClassStatement> ptr2){
+        auto ptr = make_unique<ClassStatements>();
+        ptr->statements = move(ptr1);
+        ptr->statement = move(ptr2);
+        return ptr;
+    }
+    static unique_ptr<ClassStatements>
+    init(unique_ptr<ClassStatement> ptr1){
+        auto ptr = make_unique<ClassStatements>();
+        ptr->statements = nullptr;
+        ptr->statement = move(ptr1);
+        return ptr;
+    }
+    Value * codegen(IRStream &f) override{
+        if (statements) {
+            statements->codegen(f);
+        }
+        statement->codegen(f);
+        return nullptr;
+    }
+};
+
+class ClassDefinitionStatement : public StatementNode {
+public:
+    string name;
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    unique_ptr<ClassStatements> statements;
+    unique_ptr<ClassDefinitionStatement>
+    init(unique_ptr<ClassStatements> stmt){
+        return nullptr;
+    }
+};
+
 class WhileStatement : public StatementNode {
 public:
     unique_ptr<Expr> condition;

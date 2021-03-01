@@ -14,6 +14,24 @@ using namespace scheat;
 using namespace scheat::nodes2;
 using namespace std;
 
+Value *Class::getProperty(string s, Value *v, IRStream &f){
+    auto pair = properties.find(s);
+    if (pair == properties.end()) {
+        
+        if (!parentClass) {
+            return nullptr;
+        }
+        auto r = ScheatContext::local()->getRegister();
+        f << r << " = getelementptr " << type->ir_used << ", " << type->pointer().ir_used << " ";
+        
+        return parentClass->getProperty(s, new Value(r, *parentClass->type),f);
+    }else{
+        
+    }
+    
+    return nullptr;
+}
+
 
 static string strreplace(string &str, string target, string into){
     string base = str;

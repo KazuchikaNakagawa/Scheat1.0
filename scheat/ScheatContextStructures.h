@@ -75,6 +75,7 @@ class Function{
 public:
     
     std::string name;
+    int index = 0;
     virtual std::string getMangledName();
     TypeData return_type;
     std::vector<TypeData> argTypes;
@@ -132,7 +133,9 @@ public:
     TypeData type;
     Property(TypeData ty = TypeData("the Void", "i8*")) : type(ty) { index = 0; };
 };
-
+namespace nodes2{
+class Value;
+}
 class Class {
     
     unsigned int propCount = 0;
@@ -143,6 +146,7 @@ public:
     Class *parentClass;
     TypeData *type;
     Context *context;
+    nodes2::Value *getProperty(string, nodes2::Value *, IRStream &);
     Operator *findOperator(string);
     unsigned int size = 0;
     Class(TypeData *ty);
