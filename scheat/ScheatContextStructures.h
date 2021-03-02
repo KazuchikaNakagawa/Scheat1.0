@@ -141,6 +141,7 @@ class Class {
     unsigned int propCount = 0;
 public:
     std::map<std::string, Property> properties;
+    map<string, Function> members;
     std::map<std::string, Operator*> operators;
     std::vector<TypeData *> bitMap;
     Class *parentClass;

@@ -776,12 +776,17 @@ public:
 class ClassDefinitionStatement : public StatementNode {
 public:
     string name;
+    Class *classObject;
     Value * codegen(IRStream &) override;
     string userdump() override;
     unique_ptr<ClassStatements> statements;
     unique_ptr<ClassDefinitionStatement>
-    init(unique_ptr<ClassStatements> stmt){
-        return nullptr;
+    init(Token *idtok,unique_ptr<ClassStatements> stmt){
+        auto ptr = make_unique<ClassDefinitionStatement>();
+        ptr->statements = move(stmt);
+        ptr->name = idtok->value.strValue;
+        ptr->location = idtok->location;
+        return ptr;
     }
 };
 

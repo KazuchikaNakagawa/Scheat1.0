@@ -265,6 +265,17 @@ Value *ContinueStatement::codegen(IRStream &f){
     return nullptr;
 }
 
+Value *ClassDefinitionStatement::codegen(IRStream &f){
+    ScheatContext::global->stream_body << "%" << name << " = type{";
+    for (auto pair : classObject->properties) {
+        ScheatContext::global->stream_body << pair.second.type.ir_used << ", ";
+    }
+    ScheatContext::global->stream_body.irs.pop_back();
+    ScheatContext::global->stream_body << "}\n";
+    
+    return nullptr;
+}
+
 Value *FunctionCallTerm::codegen(IRStream &f){
     if (func->return_type.ir_used == "void") {
         //ScheatContext::push(func->context);
