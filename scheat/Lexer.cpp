@@ -347,6 +347,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "class") {
+        tok->kind = TokenKind::tok_class;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "print") {
         tok->kind = TokenKind::embbed_func_print;
         tadd;
@@ -548,6 +555,9 @@ void Token::out(){
             break;
         case TokenKind::tok_break:
             printf("break token\n");
+            break;
+        case TokenKind::tok_class:
+            printf("class token\n");
             break;
         case TokenKind::tok_local:
             printf("local token\n");

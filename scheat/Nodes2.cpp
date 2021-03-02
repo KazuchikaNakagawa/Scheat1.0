@@ -270,7 +270,13 @@ Value *ClassDefinitionStatement::codegen(IRStream &f){
     for (auto pair : classObject->properties) {
         ScheatContext::global->stream_body << pair.second.type.ir_used << ", ";
     }
+    
+    for (auto pair : classObject->members) {
+        ScheatContext::global->stream_body << pair.second.lltype() << ", ";
+    }
+    
     ScheatContext::global->stream_body.irs.pop_back();
+    
     ScheatContext::global->stream_body << "}\n";
     
     return nullptr;

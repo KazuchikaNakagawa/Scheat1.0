@@ -1227,6 +1227,43 @@ bool isIncluded(TokenKind k, Token *tokens){
     return false;
 }
 
+static unique_ptr<ClassStatement>
+parseClassStatement(Token *&tok){
+    return nullptr;
+}
+
+static unique_ptr<ClassDefinitionStatement>
+parseClassDeclareStatement(Token *&tok){
+    auto idtok = tok;
+    eatThis(tok);
+    if (tok->kind != scheat::TokenKind::tok_class) {
+        return nullptr;
+    }
+    eatThis(tok);
+    
+    unique_ptr<ClassStatements> statements = nullptr;
+    while (tok->kind != scheat::TokenKind::tok_done) {
+        auto ptr = parseClassStatement(tok);
+        if (!ptr) {
+            return nullptr;
+        }
+        statements = ClassStatements::init(move(statements), move(ptr));
+        if (tok->kind == scheat::TokenKind::tok_period) {
+            eatThis(tok);
+        }
+    }
+    
+    auto classType = ScheatContext::getNamespace() + idtok->value.strValue;
+    
+    auto classObj = new Class(new TypeData(classType, "%" + classType));
+    auto context = ScheatContext::global->create(idtok->value.strValue);
+    
+    ScheatContext::global->addClass(idtok->value.strValue, classObj);
+    
+    classObj->context = context;
+    return nullptr;
+}
+
 extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     // statement : this id is expr.
     if (tokens == nullptr) {
@@ -1239,6 +1276,9 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
         return parseDeclareVariableStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::val_identifier) {
+        if (tokens->next->kind == scheat::TokenKind::tok_class) {
+            return parseClassDeclareStatement(tokens);
+        }
         return parseFunctionCallStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::embbed_func_print) {

@@ -57,6 +57,7 @@ enum class TokenKind : int {
     tok_loaded,
     tok_return,
     tok_break,
+    tok_class,
     
     tok_local,
     tok_global,

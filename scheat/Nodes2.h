@@ -775,10 +775,28 @@ public:
 
 class ClassDefinitionStatement : public StatementNode {
 public:
+    
+    // Name class:
+    //     (declarations).
+    // end.
     string name;
+    
+    // saving class object
     Class *classObject;
+    
+    // context of initializer function
+    Context *initializer;
+    
+    // context of deinitializer function
+    Context *deinitializer;
+    
+    // context of copy function
+    Context *copyinitializer;
+    
     Value * codegen(IRStream &) override;
     string userdump() override;
+    
+    // (declarations)
     unique_ptr<ClassStatements> statements;
     unique_ptr<ClassDefinitionStatement>
     init(Token *idtok,unique_ptr<ClassStatements> stmt){
@@ -792,9 +810,18 @@ public:
 
 class WhileStatement : public StatementNode {
 public:
+    
+    // while (condition), (statements).
+    
+    // (condition)
     unique_ptr<Expr> condition;
+    
+    // (statements)
     unique_ptr<Statement> body;
+    
+    // compiler needs to memorize
     string scopeName;
+    
     string userdump() override{
         return "while (" + condition->userdump() + ") {" + body->userdump() + "}";
     }
@@ -814,11 +841,20 @@ public:
 
 class ReassignStatement : public StatementNode {
 public:
+    
+    // (pointer) is (value)
+    
+    // (pointer)
     unique_ptr<IdentifierExpr> variable;
+    
+    // (value)
     unique_ptr<Expr> value;
+    
     static unique_ptr<ReassignStatement>
     init(unique_ptr<IdentifierExpr>, unique_ptr<Expr>);
+    
     Value * codegen(IRStream &) override;
+    
     string userdump() override{
         return "assign(" + variable->userdump() + ", " + value->userdump() + ")";
     }
@@ -826,7 +862,12 @@ public:
 
 class PrintStatement : public StatementNode {
 public:
+    
+    // print(Arg)
+    
+    // Arg
     unique_ptr<ArgumentExpr> arg;
+    
     static unique_ptr<PrintStatement> init(unique_ptr<ArgumentExpr> a){
         auto ptr = make_unique<PrintStatement>();
         ptr->location = a->location;
@@ -835,6 +876,27 @@ public:
     };
     Value * codegen(IRStream &) override;
     string userdump() override{ return "print(" + arg->userdump() + ")"; };
+};
+
+
+class PropertyDeclareStatement : public ClassStatement {
+public:
+    
+    // its A is V (of Type).
+    
+    Value * codegen(IRStream &) override;
+    
+    string userdump() override;
+    
+    // Type
+    TypeData *type;
+    
+    // A
+    string name;
+    
+    // V
+    unique_ptr<Expr> initializedValue = nullptr;
+    
 };
 
 // ====================================
