@@ -32,9 +32,11 @@ class Node {
 public:
     SourceLocation location;
     TypeData type;
-    virtual Value *codegen(IRStream &) {return nullptr;};
+    Context *context;
+    virtual Value *codegen(IRStream &f) {return nullptr;};
     virtual Value *codegenAsRef(IRStream &f) {return codegen(f);};
     virtual string userdump() { return "UNDEFINED"; };
+    Node();
     virtual ~Node() {};
 };
 
@@ -798,7 +800,7 @@ public:
     
     // (declarations)
     unique_ptr<ClassStatements> statements;
-    unique_ptr<ClassDefinitionStatement>
+    static unique_ptr<ClassDefinitionStatement>
     init(Token *idtok,unique_ptr<ClassStatements> stmt){
         auto ptr = make_unique<ClassDefinitionStatement>();
         ptr->statements = move(stmt);
@@ -889,14 +891,29 @@ public:
     string userdump() override;
     
     // Type
-    TypeData *type;
+    TypeData *propertyType;
     
     // A
     string name;
-    
+
     // V
     unique_ptr<Expr> initializedValue = nullptr;
     
+    Class *host;
+    
+    static unique_ptr<PropertyDeclareStatement>
+    init(Class *c, string name, unique_ptr<Expr> expr, TypeData *t = nullptr){
+        auto ptr = make_unique<PropertyDeclareStatement>();
+        ptr->host = c;
+        ptr->name = name;
+        if (t) {
+            *ptr->propertyType = expr->type;
+        }else{
+            ptr->propertyType = t;
+        }
+        
+        return ptr;
+    }
 };
 
 // ====================================

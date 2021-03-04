@@ -272,7 +272,7 @@ Value *ClassDefinitionStatement::codegen(IRStream &f){
     }
     
     for (auto pair : classObject->members) {
-        ScheatContext::global->stream_body << pair.second.lltype() << ", ";
+        ScheatContext::global->stream_body << pair.second->lltype() << ", ";
     }
     
     ScheatContext::global->stream_body.irs.pop_back();
@@ -280,6 +280,10 @@ Value *ClassDefinitionStatement::codegen(IRStream &f){
     ScheatContext::global->stream_body << "}\n";
     
     return nullptr;
+}
+
+Node::Node(){
+    context = ScheatContext::local();
 }
 
 Value *FunctionCallTerm::codegen(IRStream &f){

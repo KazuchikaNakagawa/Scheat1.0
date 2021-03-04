@@ -17,6 +17,49 @@ namespace scheat{
 using namespace std;
 //using namespace basics;
 
+// represents scope, locals
+// LABEL:
+//      code;
+class Scope {
+    unsigned int registerIndex = 0;
+    unsigned int labelCount = 0;
+    map<string, Variable *> variables;
+    string name = "";
+public:
+    Scope *parent = nullptr;
+    virtual bool breakable() const{ return false; };
+    virtual bool continuable() const { return false; };
+    string getRegister(){
+        string v = "%r" + to_string(registerIndex);
+        registerIndex++;
+        return v;
+    }
+    virtual bool exists(string key){
+        return variables.find(key) != variables.end();
+    }
+};
+
+class IfScope : public Scope {
+public:
+    bool breakable() const override{
+        return false;
+    }
+    bool continuable() const override{
+        return false;
+    }
+    
+};
+
+class CompilerInfo {
+    
+};
+
+class CodeGeneratorInfo {
+    
+};
+
+
+
 class Context {
     unsigned int rnum;
     unsigned int labelcount = 0;
@@ -74,6 +117,11 @@ public:
     void addClass(std::string, Class *);
     
     void addVariable(std::string, Variable *);
+    
+    Function *createFunction(TypeData *return_type,
+                             string name,
+                             string ir_name,
+                             vector<TypeData> arguments);
     
     void dump(std::ofstream &);
     

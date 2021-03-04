@@ -88,6 +88,14 @@ void Context::addClass(std::string key, Class *value){
     classes[key] = value;
 }
 
+Function *Context::createFunction(TypeData *return_type,
+                                  string name,
+                                  string ir_name,
+                                  vector<TypeData> arguments){
+    
+    return nullptr;
+}
+
 
 void Context::addVariable(std::string key, Variable *value){
     variables[key] = value;

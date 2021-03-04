@@ -1258,10 +1258,27 @@ parseClassDeclareStatement(Token *&tok){
     auto classObj = new Class(new TypeData(classType, "%" + classType));
     auto context = ScheatContext::global->create(idtok->value.strValue);
     
+    
     ScheatContext::global->addClass(idtok->value.strValue, classObj);
     
+    {};
+    
+    auto initfunc = new Function(TypeData(classType, "%"+classType),classType + "_init");
+    
+    ScheatContext::global->addFunction(classType + "_init", initfunc);
+    
+    classObj->constructor = initfunc;
+    
     classObj->context = context;
-    return nullptr;
+    
+    auto ret = ClassDefinitionStatement::init(idtok, move(statements));
+    ret->classObject = classObj;
+    
+    /*
+     
+     */
+    
+    return ret;
 }
 
 extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){

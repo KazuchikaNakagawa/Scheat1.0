@@ -62,6 +62,7 @@ public:
     // if prefix operator, this will be nullptr
     TypeData *lhs_type;
     std::string func_name;
+    int index = 0;
     Operator(std::string func, std::string symbols) : func_name(symbols), value(func){
         
     }
@@ -85,7 +86,7 @@ public:
     Context *context;
     Function(TypeData ,std::string,bool demangle = true);
     string asValue();
-    
+    bool isMemberFunction = false;
     bool ifTypesAdjust(vector<TypeData> argTy){
         if (argTypes.size() != argTy.size()) {
             return false;
@@ -141,7 +142,7 @@ class Class {
     unsigned int propCount = 0;
 public:
     std::map<std::string, Property> properties;
-    map<string, Function> members;
+    map<string, Function *> members;
     std::map<std::string, Operator*> operators;
     std::vector<TypeData *> bitMap;
     Class *parentClass;
@@ -150,6 +151,22 @@ public:
     nodes2::Value *getProperty(string, nodes2::Value *, IRStream &);
     Operator *findOperator(string);
     unsigned int size = 0;
+    void addProperty(string key,Property p){
+        p.index = propCount;
+        properties[key] = p;
+        propCount++;
+    }
+    void addMemberFunc(string key, Function *f){
+        f->index = propCount;
+        f->isMemberFunction = true;
+        members[key] = f;
+        propCount++;
+    };
+    void addOperator(string key, Operator *op){
+        op->index = propCount;
+        operators[key] = op;
+        propCount++;
+    }
     Class(TypeData *ty);
     Function *destructor = nullptr;
     Function *constructor = nullptr;
