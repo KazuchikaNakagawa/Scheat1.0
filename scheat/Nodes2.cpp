@@ -272,7 +272,7 @@ Value *ClassDefinitionStatement::codegen(IRStream &f){
     }
     
     for (auto pair : classObject->members) {
-        ScheatContext::global->stream_body << pair.second->lltype() << ", ";
+        ScheatContext::global->stream_body << pair.second->funcType() << ", ";
     }
     
     ScheatContext::global->stream_body.irs.pop_back();
@@ -331,7 +331,7 @@ Value *FunctionCallTerm::codegen(IRStream &f){
         vector<Value *> arges_val = args->codegenAsArray(f);
         
         //ScheatContext::pop();
-        f << "call " << func->lltype() << " @" << func->name << "(";
+        f << "call " << func->funcType() << " @" << func->name << "(";
         
         int c = 1;
         for (auto ptr : arges_val) {
@@ -346,7 +346,7 @@ Value *FunctionCallTerm::codegen(IRStream &f){
     }else{
         vector<Value *> arges_val = args->codegenAsArray(f);
         auto reg = ScheatContext::local()->getRegister();
-        f << reg << " = call " << func->lltype() << " @" << func->name << "(";
+        f << reg << " = call " << func->funcType() << " @" << func->name << "(";
         int c = 1;
         for (auto ptr : arges_val) {
             f << ptr->asValue();
@@ -565,11 +565,11 @@ Value *FunctionAttributeExpr::codegen(IRStream &f){
     }
     
     if (type == "Void") {
-        f << "call " << func->lltype() << " " << func->getMangledName() << "(";
+        f << "call " << func->funcType() << " " << func->getMangledName() << "(";
         return nullptr;
     }else{
         reg = ScheatContext::local()->getRegister();
-        f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
+        f << reg << " = call " << func->funcType() << " " << func->getMangledName() << "(";
     }
     
     for (int i = 0; i < values.size(); i++) {
@@ -836,7 +836,7 @@ Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
 Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
     values.insert(values.begin(), parent);
     if (func->return_type == "Void") {
-        f << "call " << func->lltype() << " " << func->getMangledName() << "(";
+        f << "call " << func->funcType() << " " << func->getMangledName() << "(";
         for (auto vptr : values) {
             f << vptr->asValue();
         }
@@ -844,7 +844,7 @@ Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
         return nullptr;
     }else{
         string reg = ScheatContext::local()->getRegister();
-        f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
+        f << reg << " = call " << func->funcType() << " " << func->getMangledName() << "(";
         for (auto vptr : values) {
             f << vptr->asValue();
         }

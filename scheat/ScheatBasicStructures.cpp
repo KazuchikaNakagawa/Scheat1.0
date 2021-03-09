@@ -51,7 +51,7 @@ Class::Class(TypeData *ty) : type(ty){
     context = Context::create(ty->name, ScheatContext::global);
 };
 
-std::string Function::lltype(){
+std::string Function::funcType(){
     std::string base = return_type.ir_used + "(";
     for (int i = 0; i < argTypes.size(); i++) {
         base = base + argTypes[i].ir_used;

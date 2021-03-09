@@ -22,27 +22,32 @@ using namespace std;
 //      code;
 
 class Scope;
+class _Function;
 
-// represents like Class
+// represents the objects who has scopes
 class _Context {
     vector<Scope *> scopes;
-    map<string, Function *> funcs;
+    map<string, _Function *> funcs;
 public:
-    bool exists(string key){
-        return false;
+    virtual bool exists(string key){
+        return funcs.find(key) != funcs.end();
     }
     void dump(ofstream&);
+    /// name dont need to include any corons
+    Scope *createScope(string name);
+    _Function *createFunction(TypeData ret,string nm);
 };
 
 class Scope {
     unsigned int registerIndex = 0;
     unsigned int labelCount = 0;
     map<string, Variable *> variables = {};
-    string name = "";
+protected:
     Scope(string name){
         this->name = name;
     }
 public:
+    string name = "";
     _Context *parent = nullptr;
     virtual bool breakable() const{ return false; };
     virtual bool continuable() const { return false; };
@@ -51,7 +56,7 @@ public:
         registerIndex++;
         return v;
     }
-    virtual bool exists(string key){
+    bool exists(string key){
         if (!parent) {
             return variables.find(key) != variables.end();
         }
@@ -63,9 +68,54 @@ public:
     IRStream entry;
     IRStream body;
     IRStream tail;
-    
-    void dump(ofstream &);
+    friend class _Context;
+    virtual void dump(ofstream &);
 };
+
+class _Function : public Scope {
+public:
+    TypeData return_type;
+    string funcName = "";
+    vector<TypeData> argTypes;
+    string funcType();
+    bool typesAdjust(vector<TypeData> types){
+        if (argTypes.size() != types.size()) {
+            return false;
+        }
+        for (int i = 0; i < argTypes.size(); i++) {
+            if (argTypes[i].ir_used != types[i].ir_used) {
+                return false;
+            }
+        }
+        return true;
+    };
+    _Function(TypeData ret,string nm) : Scope("entry"){
+        return_type = ret;
+        funcName = nm;
+    }
+};
+
+class Method;
+class _Class : public _Context {
+    unsigned int propCount = 0;
+public:
+    map<string, Property> properties;
+    map<string, Method *> members;
+    map<string, Operator *> operators;
+    vector<TypeData *> bitMap;
+    bool exists(string key) override;
+    TypeData *type;
+    
+};
+
+class Method : public _Function {
+public:
+    Method(_Class *cl, TypeData ret, string nm) : _Function(ret, nm){
+        
+    }
+};
+
+
 
 class Context {
     unsigned int rnum;

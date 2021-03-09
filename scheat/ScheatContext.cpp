@@ -31,6 +31,28 @@ void _Context::dump(ofstream &f){
     }
 }
 
+_Function *_Context::createFunction(TypeData ret, string nm){
+    auto f = new _Function(ret, nm);
+    return f;
+}
+
+string _Function::funcType(){
+    string base = return_type.ir_used + "(";
+    for (auto s : argTypes) {
+        base += s.ir_used + ",";
+    }
+    base.pop_back();
+    base.push_back(')');
+    return base;
+}
+
+Scope *_Context::createScope(string name){
+    auto sc = new Scope(name);
+    sc->parent = this;
+    scopes.push_back(sc);
+    return sc;
+}
+
 Class *Context::findClass(std::string key){
     auto index = classes.find(key);
     if (index == classes.end()) {
@@ -64,6 +86,11 @@ Variable *Context::findVariable(std::string key){
         v = base->findVariable(key);
         return v;
     }
+}
+
+bool _Class::exists(string key){
+    
+    return false;
 }
 
 void ScheatContext::exportTo(ofstream &f){

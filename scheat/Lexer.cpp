@@ -936,7 +936,7 @@ std::string Function::codegen(IRStream &f){
 }
 
 string Function::asValue(){
-    return lltype() + "* @" + mangledName;
+    return funcType() + "* @" + mangledName;
 }
 
 void Lexer::clearTokens(){

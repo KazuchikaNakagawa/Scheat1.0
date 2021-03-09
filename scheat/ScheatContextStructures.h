@@ -80,9 +80,9 @@ public:
     virtual std::string getMangledName();
     TypeData return_type;
     std::vector<TypeData> argTypes;
-    std::string lltype();
+    std::string funcType();
     /// basically it won't be used
-    std::string codegen(IRStream &);
+    __deprecated std::string codegen(IRStream &);
     Context *context;
     Function(TypeData ,std::string,bool demangle = true);
     string asValue();
