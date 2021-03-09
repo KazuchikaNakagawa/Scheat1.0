@@ -208,7 +208,7 @@ public:
 class VariableAttributeExpr : public IdentifierTerm {
 public:
     SourceLocation location;
-    TypeData type;
+    
     Property varindex;
     string userdump()override{return "."+to_string(varindex.index);};
     Value * codegenWithParent(Value *, IRStream &)override;
@@ -744,8 +744,12 @@ public:
 
 class ClassStatement : public StatementNode {
 public:
-    Value * codegen(IRStream &) override;
-    string userdump() override;
+    Value * codegen(IRStream &) override{
+        return nullptr;
+    };
+    string userdump() override{
+        return "";
+    };
 };
 
 class ClassStatements : public ClassStatement {
@@ -796,15 +800,19 @@ public:
     Context *copyinitializer;
     
     Value * codegen(IRStream &) override;
-    string userdump() override;
+    string userdump() override{
+        return "declare class." +  name + ":\n";
+    };
+    
+    Value *getProperty(Context *,IRStream &, string);
     
     // (declarations)
     unique_ptr<ClassStatements> statements;
     static unique_ptr<ClassDefinitionStatement>
-    init(Token *idtok,unique_ptr<ClassStatements> stmt){
+    init(string _namespace,Token *idtok,unique_ptr<ClassStatements> stmt){
         auto ptr = make_unique<ClassDefinitionStatement>();
         ptr->statements = move(stmt);
-        ptr->name = idtok->value.strValue;
+        ptr->name = _namespace + "_" + idtok->value.strValue;
         ptr->location = idtok->location;
         return ptr;
     }
@@ -888,7 +896,9 @@ public:
     
     Value * codegen(IRStream &) override;
     
-    string userdump() override;
+    string userdump() override{
+        return "property : " + name + "\n";
+    };
     
     // Type
     TypeData *propertyType;
@@ -901,17 +911,20 @@ public:
     
     Class *host;
     
+    Property *p;
+    
     static unique_ptr<PropertyDeclareStatement>
-    init(Class *c, string name, unique_ptr<Expr> expr, TypeData *t = nullptr){
+    init(Class *c, string name, unique_ptr<Expr> expr, Property *p,TypeData *t = nullptr){
         auto ptr = make_unique<PropertyDeclareStatement>();
         ptr->host = c;
         ptr->name = name;
-        if (t) {
-            *ptr->propertyType = expr->type;
+        if (!t) {
+            ptr->propertyType = new TypeData(expr->type);
         }else{
             ptr->propertyType = t;
         }
-        
+        ptr->initializedValue = move(expr);
+        ptr->p = p;
         return ptr;
     }
 };

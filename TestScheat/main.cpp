@@ -24,6 +24,7 @@ int main(int argc, const char * argv[]) {
     scheat.isMain = true;
     
     scheat.sourceFile = "/Users/kaz04/ScheatDocument/XCODETEST.scheat";
+    scheat.deletesIRFiles = false;
     scheat.complementSettings();
     scheat.ready();
     ScheatLexer::lex();

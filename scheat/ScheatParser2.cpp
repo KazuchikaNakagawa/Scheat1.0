@@ -1227,8 +1227,53 @@ bool isIncluded(TokenKind k, Token *tokens){
     return false;
 }
 
+static unique_ptr<PropertyDeclareStatement>
+parsePropertyDeclareStatement(Token *&tok, Class *c){
+    eatThis(tok);
+    Token *idtok = nullptr;
+    while (tok->kind != scheat::TokenKind::tok_is) {
+        if (tok->kind == scheat::TokenKind::val_identifier) {
+            idtok = tok;
+            eatThis(tok);
+            break;
+        }
+        else if (tok->kind == scheat::TokenKind::tok_global) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                                "you declared global variable in class definition.");
+            return nullptr;
+        }
+        else{
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                                "illegal identifier attribute.");
+            return nullptr;
+        }
+        
+    }
+    if (tok->kind != scheat::TokenKind::tok_is) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "'is' keyword found to be nowhere.");
+        return nullptr;
+    }
+    eatThis(tok);
+    
+    auto expr = parseExpr(tok);
+    if (!expr) {
+        return nullptr;
+    }
+    
+    auto prop = Property();
+    prop.type = expr->type;
+    
+    c->addProperty(idtok->value.strValue, prop);
+    
+    return PropertyDeclareStatement::init(c, idtok->value.strValue, move(expr), &c->properties[idtok->value.strValue]);
+}
+
 static unique_ptr<ClassStatement>
-parseClassStatement(Token *&tok){
+parseClassStatement(Token *&tok, Class *c){
+    if (tok->kind == scheat::TokenKind::tok_its) {
+        return parsePropertyDeclareStatement(tok, c);
+    }
     return nullptr;
 }
 
@@ -1237,13 +1282,20 @@ parseClassDeclareStatement(Token *&tok){
     auto idtok = tok;
     eatThis(tok);
     if (tok->kind != scheat::TokenKind::tok_class) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "Undefined Error.");
         return nullptr;
     }
     eatThis(tok);
+    auto classType = ScheatContext::getNamespace() + "_" + idtok->value.strValue;
     
+    auto classObj = new Class(new TypeData(classType, "%" + classType));
+    
+    ScheatContext::push(classObj->context);
+
     unique_ptr<ClassStatements> statements = nullptr;
     while (tok->kind != scheat::TokenKind::tok_done) {
-        auto ptr = parseClassStatement(tok);
+        auto ptr = parseClassStatement(tok, classObj);
         if (!ptr) {
             return nullptr;
         }
@@ -1253,9 +1305,10 @@ parseClassDeclareStatement(Token *&tok){
         }
     }
     
-    auto classType = ScheatContext::getNamespace() + idtok->value.strValue;
+    eatThis(tok);
     
-    auto classObj = new Class(new TypeData(classType, "%" + classType));
+    ScheatContext::pop();
+    
     auto context = ScheatContext::global->create(idtok->value.strValue);
     
     
@@ -1265,13 +1318,48 @@ parseClassDeclareStatement(Token *&tok){
     
     auto initfunc = new Function(TypeData(classType, "%"+classType),classType + "_init");
     
-    ScheatContext::global->addFunction(classType + "_init", initfunc);
+    initfunc->context->stream_entry << "define %" << classType << " @" << initfunc->name << "(){\n";
+    auto self = new Variable("%self", *classObj->type);
+    initfunc->context->addVariable("self", self);
+    initfunc->context->stream_entry << "%self = alloca %" << classType << "\n";
+    for (auto pair : classObj->properties){
+        auto prop = pair.second;
+        initfunc->context->stream_body << "%" << pair.first << " = getelementptr %" << classType << ", %" << classType << "* %self, i32 0, i32 " << to_string(prop.index) << "\n";
+        auto pv = new Variable("%" + pair.first, prop.type);
+        initfunc->context->addVariable(pair.first, pv);
+    }
+    auto r = initfunc->context->getRegister();
+    initfunc->context->stream_tail << r << " = load %" << classType << ", %" << classType << "* %self\n";
+    initfunc->context->stream_tail << "ret %" << classType << " " << r << "\n";
+    initfunc->context->stream_tail << "}\n";
+    
+    auto deinitfunc = new Function(TypeData(classType, "%"+classType),classType + "_deinit");
+    
+    deinitfunc->context->stream_entry << "define void @" << deinitfunc->name << "(i8* %_self){\n";
+    
+    deinitfunc->context->addVariable("self", self);
+    deinitfunc->context->stream_entry << "%self = bitcast i8* %_self to %" << classType << "*\n";
+    for (auto pair : classObj->properties){
+        auto prop = pair.second;
+        deinitfunc->context->stream_body << "%" << pair.first << " = getelementptr %" << classType << ", %" << classType << "* %self, i32 0, i32 " << to_string(prop.index) << "\n";
+        auto pv = new Variable("%" + pair.first, prop.type);
+        deinitfunc->context->addVariable(pair.first, pv);
+    }
+    r = deinitfunc->context->getRegister();
+    deinitfunc->context->stream_tail << r << " = load %" << classType << ", %" << classType << "* %self\n";
+    deinitfunc->context->stream_tail << "ret void\n";
+    deinitfunc->context->stream_tail << "}\n";
+    
+    ScheatContext::global->addFunction(idtok->value.strValue + "_", initfunc);
+    ScheatContext::global->addFunction(idtok->value.strValue + "_deinit", deinitfunc);
     
     classObj->constructor = initfunc;
     
+    classObj->destructor = deinitfunc;
+    
     classObj->context = context;
     
-    auto ret = ClassDefinitionStatement::init(idtok, move(statements));
+    auto ret = ClassDefinitionStatement::init(ScheatContext::getNamespace(),idtok, move(statements));
     ret->classObject = classObj;
     
     /*

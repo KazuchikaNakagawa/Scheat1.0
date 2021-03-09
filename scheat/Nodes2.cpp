@@ -279,11 +279,49 @@ Value *ClassDefinitionStatement::codegen(IRStream &f){
     
     ScheatContext::global->stream_body << "}\n";
     
+    statements->codegen(f);
+    
+    return nullptr;
+}
+
+Value *ClassDefinitionStatement::getProperty(Context * context, IRStream &f, string name){
+    auto p = classObject->properties.find(name);
+    if (p == classObject->properties.end()) {
+        // in Scheat 1.0, we do NOT insert super class object, so
+        // after Scheat2.0, We need to search super(getelementptr i32 0, i32 0)
+        return nullptr;
+    }
+    
     return nullptr;
 }
 
 Node::Node(){
     context = ScheatContext::local();
+}
+
+Value *PropertyDeclareStatement::codegen(IRStream &f){
+    auto v = initializedValue->codegen(host->constructor->context->stream_body);
+    host->constructor->context->stream_body << "store " << v->asValue() << ", " << propertyType->ir_used << "* %" << name << "\n";
+    if (propertyType->ir_used.find("*") == string::npos) {
+        auto a = host->destructor->context;
+        auto preg = a->getRegister();
+        a->stream_body << preg << " = bitcast " << p->type.ir_used << "* %" << name << " to i8*\n";
+        a->stream_body << "call void @" << p->type.name << "_deinit(i8* " << preg << ")\n";
+        
+    }else{
+        /*
+         pointer property is not sure yet
+         */
+        auto a = host->destructor->context;
+        auto preg = a->getRegister();
+        a->stream_body << preg << " = load " << p->type.ir_used << ", "
+        << p->type.pointer().ir_used << " %" << name << "\n";
+        auto sreg = a->getRegister();
+        a->stream_body << sreg << " = bitcast " << p->type.ir_used << " %" << name << " to i8*\n";
+        a->stream_body << "call void @ScheatPointer_unref(i8* " << sreg << ")\n";
+    }
+    
+    return nullptr;
 }
 
 Value *FunctionCallTerm::codegen(IRStream &f){
@@ -790,8 +828,8 @@ unique_ptr<ArgumentExpr> ArgumentExpr::addArg(unique_ptr<ArgumentExpr> args, uni
 }
 
 Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
-    string reg = ScheatContext::local()->getRegister();
-    f << reg << " = getelementptr " << parent->type.ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varindex.index) << "\n";
+    string reg = context->getRegister();
+    f << reg << " = getelementptr " << parent->type.loaded().ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varindex.index) << "\n";
     return new Value(reg, type);
 }
 
@@ -829,7 +867,9 @@ Value *VariableTerm::codegenAsRef(IRStream &f){
 Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
     auto v = parent->codegenAsRef(f);
     if (child != nullptr) {
-        return child->codegenWithParent(v, f);
+        auto v2 = child->codegenWithParent(v, f);
+        v2->type = v2->type.pointer();
+        return v2;
     }
     return v;
 }
@@ -940,7 +980,10 @@ Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
 }
 
 Value *AccessIdentifierExpr::codegen(IRStream &f){
-    return codegenAsRef(f);
+    auto v = codegenAsRef(f);
+    auto r = ScheatContext::local()->getRegister();
+    f << r << " = load " << v->type.loaded().ir_used << ", " << v->asValue() << "\n";
+    return new Value(r, v->type.loaded());
 }
 
 string AccessIdentifierExpr::userdump(){
@@ -955,7 +998,7 @@ string AccessIdentifierExpr::userdump(){
 unique_ptr<AccessIdentifierExpr>
 AccessIdentifierExpr::init(unique_ptr<IdentifierExpr> p, unique_ptr<IdentifierTerm> c){
     auto ptr = make_unique<AccessIdentifierExpr>();
-    ptr->type = c->type;
+    ptr->type = TypeData(c->type.name, c->type.ir_used);
     ptr->location = c->location;
     ptr->parent = move(p);
     ptr->child = move(c);
@@ -1028,7 +1071,7 @@ ReassignStatement::init(unique_ptr<IdentifierExpr> id, unique_ptr<Expr> v){
 }
 
 Value *ReassignStatement::codegen(IRStream &f){
-    auto lv = variable->codegen(f);
+    auto lv = variable->codegenAsRef(f);
     auto rv = value->codegen(f);
     f << "store " << rv->asValue() << ", " << lv->asValue() << "\n";
     return nullptr;
@@ -1088,7 +1131,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             return nullptr;
         }else{
             ScheatContext::global->stream_entry << name << " = common global  " << type.ir_used << " zeroinitializer\n";
-            auto v = value->codegen(f);
+            auto v = value->codegen(ScheatContext::init->stream_body);
             ScheatContext::init->stream_body << "store " << v->asValue() << ", " << type.ir_used << "* " << name << "\n";
             return nullptr;
         }
@@ -1117,7 +1160,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             
         }else{
             ScheatContext::global->stream_entry << name << " = alloca " << type.ir_used << "*\n";
-            auto v = value->codegen(f);
+            auto v = value->codegen(ScheatContext::init->stream_body);
             ScheatContext::init->stream_body << "store " << v->asValue() << ", " << type.ir_used << "* " << name << "\n";
             return nullptr;
         }

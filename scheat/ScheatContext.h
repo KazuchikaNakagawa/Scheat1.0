@@ -20,13 +20,30 @@ using namespace std;
 // represents scope, locals
 // LABEL:
 //      code;
+
+class Scope;
+
+// represents like Class
+class _Context {
+    vector<Scope *> scopes;
+    map<string, Function *> funcs;
+public:
+    bool exists(string key){
+        return false;
+    }
+    void dump(ofstream&);
+};
+
 class Scope {
     unsigned int registerIndex = 0;
     unsigned int labelCount = 0;
-    map<string, Variable *> variables;
+    map<string, Variable *> variables = {};
     string name = "";
+    Scope(string name){
+        this->name = name;
+    }
 public:
-    Scope *parent = nullptr;
+    _Context *parent = nullptr;
     virtual bool breakable() const{ return false; };
     virtual bool continuable() const { return false; };
     string getRegister(){
@@ -35,30 +52,20 @@ public:
         return v;
     }
     virtual bool exists(string key){
+        if (!parent) {
+            return variables.find(key) != variables.end();
+        }
+        if (parent->exists(key)) {
+            return true;
+        }
         return variables.find(key) != variables.end();
     }
-};
-
-class IfScope : public Scope {
-public:
-    bool breakable() const override{
-        return false;
-    }
-    bool continuable() const override{
-        return false;
-    }
+    IRStream entry;
+    IRStream body;
+    IRStream tail;
     
+    void dump(ofstream &);
 };
-
-class CompilerInfo {
-    
-};
-
-class CodeGeneratorInfo {
-    
-};
-
-
 
 class Context {
     unsigned int rnum;

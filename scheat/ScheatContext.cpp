@@ -17,8 +17,26 @@
 using namespace scheat;
 //using namespace scheat::node;
 
+
+void Scope::dump(ofstream &f){
+    f << name << ":\n";
+    entry.exportTo(f);
+    body.exportTo(f);
+    tail.exportTo(f);
+}
+
+void _Context::dump(ofstream &f){
+    for (auto scope : scopes) {
+        scope->dump(f);
+    }
+}
+
 Class *Context::findClass(std::string key){
-    return classes[key];
+    auto index = classes.find(key);
+    if (index == classes.end()) {
+        return base->findClass(key);
+    }
+    return index->second;
 }
 
 string Context::getRegister(){
@@ -86,6 +104,7 @@ Function *Context::findFunc(std::string key, vector<TypeData> ts){
 
 void Context::addClass(std::string key, Class *value){
     classes[key] = value;
+    classes[ScheatContext::getNamespace() + "_" + key] = value;
 }
 
 Function *Context::createFunction(TypeData *return_type,
