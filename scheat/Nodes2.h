@@ -929,6 +929,26 @@ public:
     }
 };
 
+class MethodDeclareStatement : public ClassStatement {
+public:
+    //Function *func;
+    Class *host;
+    Value * codegen(IRStream &) override;
+    string userdump() override{
+        return "UNDEFINED";
+    }
+    unique_ptr<Statement> body;
+    static unique_ptr<MethodDeclareStatement>
+    init(Class *c,Function *f, unique_ptr<Statement> statements){
+        auto ptr = make_unique<MethodDeclareStatement>();
+        ptr->host = c;
+        ptr->body = move(statements);
+        ptr->context = f->context;
+        return ptr;
+    }
+    
+};
+
 // ====================================
 class DataHolder {
 public:

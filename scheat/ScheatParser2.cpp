@@ -1269,11 +1269,142 @@ parsePropertyDeclareStatement(Token *&tok, Class *c){
     return PropertyDeclareStatement::init(c, idtok->value.strValue, move(expr), &c->properties[idtok->value.strValue]);
 }
 
+static unique_ptr<MethodDeclareStatement>
+parseMethodDeclareStatement(Token *&tok, Class *c){
+    eatThis(tok);
+    Token *name = tok;
+    eatThis(tok);
+    if (tok->kind == scheat::TokenKind::tok_with) {
+        eatThis(tok);
+    }
+    
+    if (tok->kind != scheat::TokenKind::tok_paren_l) {
+        eatThis(tok);
+    }
+    
+    if (tok->kind == scheat::TokenKind::tok_paren_l) {
+        eatThis(tok);
+    }
+    auto context = ScheatContext::global->create(name->value.strValue
+                                                 , c->context);
+    vector<string> argNames = {"self"};
+    vector<TypeData> argTypes = {*c->type};
+    while ( tok ) {
+        if (!tok->next) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there are no right parentheses in function.");
+            return nullptr;
+        }
+        if (tok->kind == scheat::TokenKind::tok_paren_r) {
+            eatThis(tok);
+            break;
+        }
+        
+        if (tok->kind != scheat::TokenKind::val_identifier) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be constitute <name> of <type>");
+            return nullptr;
+        }
+        
+        auto argName = tok->value.strValue;
+        
+        eatThis(tok);
+        
+        if (tok->kind != scheat::TokenKind::tok_of) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be constitute <name> of <type>");
+            return nullptr;
+        }
+        
+        eatThis(tok);
+        
+        auto type = parseTypeExpr(tok);
+        if (!type) {
+            if (tok->kind != scheat::TokenKind::tok_of) {
+                scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "argument section must be constitute <name> of <type>");
+                return nullptr;
+            }
+        }
+        
+        context->addVariable(argName, new Variable("%" + argName, *type));
+        if (argName == "self") {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "redefining of self is illegal");
+            return nullptr;
+        }
+        argNames.push_back(argName);
+        argTypes.push_back(*type);
+        
+        if (tok->kind != scheat::TokenKind::tok_comma) {
+            break;
+        }else{
+            eatThis(tok);
+        }
+    }
+    if (tok->kind == scheat::TokenKind::tok_paren_r) {
+        eatThis(tok);
+    }else{
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there must be a right parentheses");
+        return nullptr;
+    }
+    if (tok->kind == scheat::TokenKind::tok_comma) {
+        eatThis(tok);
+    }
+    ScheatContext::push(context);
+    
+    auto statement = parseStatement(tok);
+    tok = tok->prev;
+    
+    if (!statement) {
+        return nullptr;
+    }
+    
+    
+    
+    string buf = name->value.strValue + "_";
+    for (auto ty : argTypes) {
+        buf += ty.mangledName() + "_";
+    }
+    
+    auto func = c->context->findFunc(name->value.strValue, argTypes);
+    auto ptr = MethodDeclareStatement::init(c, func, move(statement));
+    if (func) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
+                            "same function already exists");
+        return nullptr;
+    }
+    if (!context->type) {
+        context->type = &TypeData::VoidType;
+    }
+    ScheatContext::pop();
+    func = new Function(*context->type, buf);
+    
+    func->argTypes = argTypes;
+    func->context = context;
+    
+    c->context->addFunction(buf, func);
+    c->addMemberFunc(buf, func);
+    
+    context->stream_entry << "define " << context->type->ir_used
+    << " @class_" << c->context->name << "_" << buf << "(" << c->type->ir_used << "* %self, ";
+    for (int i = 1; i < argTypes.size(); i++) {
+        context->stream_entry << argTypes[i].ir_used << "* %arg" << to_string(i) << ", ";
+        context->stream_body << "%" << argNames[i] << " = alloca " << argTypes[i].ir_used << "\n";
+        context->stream_body << "store " << argTypes[i].ir_used << " %arg" << to_string(i) << ", " << argTypes[i].pointer().ir_used << " %" << argNames[i] << "\n";
+        context->addVariable(argNames[i], new Variable("%" + argNames[i], argTypes[i]));
+    }
+    for (auto p : c->properties) {
+        context->stream_body << "%" << p.first << " = getelementptr " << c->type->ir_used << ", " << c->type->pointer().ir_used << " %self, i32 0, i32 " << to_string(p.second.index) << "\n";
+        context->addVariable(p.first, new Variable("%" + p.first, p.second.type));
+    }
+    return ptr;
+}
+
 static unique_ptr<ClassStatement>
 parseClassStatement(Token *&tok, Class *c){
     if (tok->kind == scheat::TokenKind::tok_its) {
         return parsePropertyDeclareStatement(tok, c);
     }
+    if (tok->kind == scheat::TokenKind::tok_to) {
+        return parseMethodDeclareStatement(tok, c);
+    }
+    scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "");
     return nullptr;
 }
 

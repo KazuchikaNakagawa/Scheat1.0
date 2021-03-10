@@ -295,6 +295,11 @@ Node::Node(){
     context = ScheatContext::local();
 }
 
+Value *MethodDeclareStatement::codegen(IRStream &f){
+    body->codegen(context->stream_body);
+    return nullptr;
+}
+
 Value *PropertyDeclareStatement::codegen(IRStream &f){
     initializedValue->context = host->constructor->context;
     auto v = initializedValue->codegen(host->constructor->context->stream_body);
