@@ -144,7 +144,7 @@ public:
     std::map<std::string, Property> properties;
     map<string, Function *> members;
     std::map<std::string, Operator*> operators;
-    std::vector<TypeData *> bitMap;
+    std::vector<TypeData> bitMap = {};
     Class *parentClass;
     TypeData *type;
     Context *context;
@@ -154,6 +154,7 @@ public:
     void addProperty(string key,Property p){
         p.index = propCount;
         properties[key] = p;
+        bitMap.push_back(p.type);
         propCount++;
     }
     void addMemberFunc(string key, Function *f){

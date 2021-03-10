@@ -17,6 +17,6 @@ union K {
 
 int main(int argc, const char * argv[]) {
     // insert code here...
-    print_String(String_init("ahsjchkf"));
+    
     return 0;
 }

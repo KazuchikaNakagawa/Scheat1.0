@@ -100,7 +100,8 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare %Array @Array_init(i64)\n";
     ScheatContext::global->stream_body << "declare %String @inputString()\n";
     global->stream_body << "declare i32 @Int_init()\n";
-    global->stream_body << "define void @Int_deinit(){\n" << "ret void\n}\n";
+    global->stream_body << "define void @Int_deinit(i8* %r){\n" << "ret void\n}\n";
+    global->stream_body << "declare void @String_deinit(i8*)\n";
     ScheatContext::global->stream_body << "declare i32 @inputInt()\n";
     Function *initf = new Function(TypeData("Void", "void"), "init");
     initf->context->stream_entry << "define void @" << getFileName(scheato->sourceFile) << "_init(){\n";

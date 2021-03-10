@@ -52,6 +52,8 @@ extern "C" String String_init_pi8(char *);
 
 extern "C" String String_init();
 
+extern "C" void String_deinit(void*);
+
 extern "C" bool ScheatString_isPtr(String *);
 
 extern "C" String ScheatString_assign(String *);

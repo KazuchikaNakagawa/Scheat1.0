@@ -267,12 +267,8 @@ Value *ContinueStatement::codegen(IRStream &f){
 
 Value *ClassDefinitionStatement::codegen(IRStream &f){
     ScheatContext::global->stream_body << "%" << name << " = type{";
-    for (auto pair : classObject->properties) {
-        ScheatContext::global->stream_body << pair.second.type.ir_used << ", ";
-    }
-    
-    for (auto pair : classObject->members) {
-        ScheatContext::global->stream_body << pair.second->lltype() << ", ";
+    for (auto t : classObject->bitMap) {
+        ScheatContext::global->stream_body << t.ir_used << ",";
     }
     
     ScheatContext::global->stream_body.irs.pop_back();
@@ -300,6 +296,7 @@ Node::Node(){
 }
 
 Value *PropertyDeclareStatement::codegen(IRStream &f){
+    initializedValue->context = host->constructor->context;
     auto v = initializedValue->codegen(host->constructor->context->stream_body);
     host->constructor->context->stream_body << "store " << v->asValue() << ", " << propertyType->ir_used << "* %" << name << "\n";
     if (propertyType->ir_used.find("*") == string::npos) {
@@ -705,10 +702,10 @@ Value *StringTerm::codegen(IRStream &f){
     // 一度ロードして使わなくてはならない
     ScheatContext::global->stream_entry <<
     rn << " = global i8* getelementptr inbounds ([" + to_string(strlength) + " x i8], [" + to_string(strlength) + " x i8]* " + sname + ", i64 0, i64 0)\n";
-    string reg = ScheatContext::local()->getRegister();
+    string reg = context->getRegister();
     f << reg << " = load i8*, i8** " << rn << "\n";
     string v = "call %String @String_init_pi8(i8* " + reg + ")";
-    string rr = ScheatContext::local()->getRegister();
+    string rr = context->getRegister();
     f << rr << " = " << v << "\n";
     return new Value(rr, TypeData::StringType);
 }
