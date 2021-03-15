@@ -14,6 +14,8 @@ using namespace scheat;
 using namespace scheat::nodes2;
 using namespace std;
 
+Value Value::VoidValue = Value("null", TypeData::VoidType);
+
 Value *Class::getProperty(string s, Value *v, IRStream &f){
     auto pair = properties.find(s);
     if (pair == properties.end()) {
@@ -297,6 +299,10 @@ Node::Node(){
 
 Value *MethodDeclareStatement::codegen(IRStream &f){
     body->codegen(context->stream_body);
+    if (func->return_type.ir_used == "void") {
+        context->stream_tail << "ret void\n";
+    }
+    context->stream_tail << "}\n";
     return nullptr;
 }
 
@@ -333,7 +339,7 @@ Value *FunctionCallTerm::codegen(IRStream &f){
         vector<Value *> arges_val = args->codegenAsArray(f);
         
         //ScheatContext::pop();
-        f << "call " << func->lltype() << " @" << func->name << "(";
+        f << "call " << func->lltype() << " " << func->name << "(";
         
         int c = 1;
         for (auto ptr : arges_val) {
@@ -636,13 +642,13 @@ static int countof(string t, char c){
 }
 
 Value *VariableTerm::codegen(IRStream &f){
-    auto vp = ScheatContext::local()->findVariable(value);
+    auto vp = context->findVariable(value);
     if (!vp) {
         scheato->FatalError(location, __FILE_NAME__, __LINE__,
                             "this error should be appeared by analyzer. (by Encoder)");
         return nullptr;
     }
-    auto reg = ScheatContext::local()->getRegister();
+    auto reg = context->getRegister();
     f << reg << " = load " << vp->type.ir_used << ", " << vp->type.ir_used << "* " << vp->mangledName << "\n";
     return new Value(reg, type);
 }
@@ -730,7 +736,7 @@ vector<TypeData> ArgumentExpr::getTypes(){
 
 
 Value *DeclareFunctionStatement::codegen(IRStream &f){
-    context->stream_entry << "define " << (context->type ? context->type->ir_used : "void") << " @" << name->name << "(";
+    context->stream_entry << "define " << (context->type ? context->type->ir_used : "void") << " " << name->name << "(";
     for (int i = 0; i < argTypes.size(); i++) {
         context->stream_entry << argTypes[i].ir_used << " %arg" << to_string(i);
         if (i != argTypes.size() - 1) {
@@ -836,12 +842,19 @@ Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
 }
 
 Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
+    values = args->codegenAsArray(f);
     values.insert(values.begin(), parent);
     if (func->return_type == "Void") {
-        f << "call " << func->lltype() << " " << func->getMangledName() << "(";
+        auto r = context->getRegister();
+        f << r << " = getelementptr " << parent->type.loaded().ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(func->index) << "\n";
+        auto r2 = context->getRegister();
+        f << r2 << " = load " << func->asPointer() << ", " << func->asPointer().pointer() << " " << r << "\n";
+        f << "call " << func->lltype() << " " << r2 << "(";
         for (auto vptr : values) {
             f << vptr->asValue();
+            f << ", ";
         }
+        f.irs.pop_back();
         f << ")\n";
         return nullptr;
     }else{
@@ -849,7 +862,9 @@ Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
         f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
         for (auto vptr : values) {
             f << vptr->asValue();
+            f << ",";
         }
+        f.irs.pop_back();
         f << ")\n";
         return new Value(reg, func->return_type);
     }
@@ -870,6 +885,9 @@ Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
     auto v = parent->codegenAsRef(f);
     if (child != nullptr) {
         auto v2 = child->codegenWithParent(v, f);
+        if (!v2) {
+            return nullptr;
+        }
         v2->type = v2->type.pointer();
         return v2;
     }
@@ -983,6 +1001,9 @@ Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
 
 Value *AccessIdentifierExpr::codegen(IRStream &f){
     auto v = codegenAsRef(f);
+    if (!v) {
+        return nullptr;
+    }
     auto r = ScheatContext::local()->getRegister();
     f << r << " = load " << v->type.loaded().ir_used << ", " << v->asValue() << "\n";
     return new Value(r, v->type.loaded());
@@ -1000,7 +1021,7 @@ string AccessIdentifierExpr::userdump(){
 unique_ptr<AccessIdentifierExpr>
 AccessIdentifierExpr::init(unique_ptr<IdentifierExpr> p, unique_ptr<IdentifierTerm> c){
     auto ptr = make_unique<AccessIdentifierExpr>();
-    ptr->type = TypeData(c->type.name, c->type.ir_used);
+    ptr->type = c->type.copy();
     ptr->location = c->location;
     ptr->parent = move(p);
     ptr->child = move(c);

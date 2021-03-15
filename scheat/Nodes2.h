@@ -26,12 +26,13 @@ public:
     string asValue(){
         return type.ir_used + " " + value;
     };
+    static Value VoidValue;
 };
 
 class Node {
 public:
     SourceLocation location;
-    TypeData type;
+    TypeData type = TypeData::VoidType;
     Context *context;
     virtual Value *codegen(IRStream &f) {return nullptr;};
     virtual Value *codegenAsRef(IRStream &f) {return codegen(f);};
@@ -613,14 +614,14 @@ public:
     Function* name;
     vector<TypeData> argTypes;
     vector<string> argNames;
-    Context *context;
+    Context *Fcontext;
     unique_ptr<Statement> body;
     Value * codegen(IRStream &) override;
     static unique_ptr<DeclareFunctionStatement> init(Function *func, unique_ptr<Statement> s, Context *context){
         auto ptr = make_unique<DeclareFunctionStatement>();
         ptr->name = func;
         ptr->body = move(s);
-        ptr->context = context;
+        ptr->Fcontext = context;
         ptr->location = ptr->body->location;
         return ptr;
     };
@@ -931,7 +932,7 @@ public:
 
 class MethodDeclareStatement : public ClassStatement {
 public:
-    //Function *func;
+    Function *func;
     Class *host;
     Value * codegen(IRStream &) override;
     string userdump() override{
@@ -944,6 +945,7 @@ public:
         ptr->host = c;
         ptr->body = move(statements);
         ptr->context = f->context;
+        ptr->func = f;
         return ptr;
     }
     

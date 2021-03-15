@@ -105,7 +105,13 @@ static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token 
                 //return FunctionAttributeExpr::init(attptr, move(ptr), idtok->location);
             }
             
-            auto attptr = classptr->context->findFunc(idtok->value.strValue, ptr->getTypes());
+            auto demangled = idtok->value.strValue + "_";
+            for (auto t : ptr->getTypes()) {
+                demangled += t.name + "_";
+            }
+            
+            
+            auto attptr = classptr->members[demangled];
             if (!attptr) {
                 scheato->FatalError(idtok->location, __FILE_NAME__, __LINE__, "%s's %s function is undefined.",
                                     parentType.name.c_str(),
@@ -1051,7 +1057,7 @@ parseDeclareFunctionStatement(Token *&tok){
     
     ScheatContext::pop();
     
-    func = new Function(*context->type, buf);
+    func = new Function(*context->type, "@" + buf);
     
     func->argTypes = argTypes;
     func->context = context;
@@ -1257,6 +1263,7 @@ parsePropertyDeclareStatement(Token *&tok, Class *c){
     eatThis(tok);
     
     auto expr = parseExpr(tok);
+    expr->context = c->constructor->context;
     if (!expr) {
         return nullptr;
     }
@@ -1285,17 +1292,17 @@ parseMethodDeclareStatement(Token *&tok, Class *c){
     if (tok->kind == scheat::TokenKind::tok_paren_l) {
         eatThis(tok);
     }
-    auto context = ScheatContext::global->create(name->value.strValue
-                                                 , c->context);
-    vector<string> argNames = {"self"};
-    vector<TypeData> argTypes = {*c->type};
+    auto context = ScheatContext::global->create(name->value.strValue);
+    vector<string> argNames = {};
+    vector<TypeData> argTypes = {};
+    context->addVariable("self", new Variable("%self", *c->type));
     while ( tok ) {
         if (!tok->next) {
             scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "there are no right parentheses in function.");
             return nullptr;
         }
         if (tok->kind == scheat::TokenKind::tok_paren_r) {
-            eatThis(tok);
+            
             break;
         }
         
@@ -1361,38 +1368,53 @@ parseMethodDeclareStatement(Token *&tok, Class *c){
     for (auto ty : argTypes) {
         buf += ty.mangledName() + "_";
     }
+    argTypes.insert(argTypes.begin(), c->type->pointer());
+    argNames.insert(argNames.begin(), "self");
     
     auto func = c->context->findFunc(name->value.strValue, argTypes);
-    auto ptr = MethodDeclareStatement::init(c, func, move(statement));
+    
+    
     if (func) {
         scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
                             "same function already exists");
         return nullptr;
     }
+    
     if (!context->type) {
         context->type = &TypeData::VoidType;
     }
     ScheatContext::pop();
     func = new Function(*context->type, buf);
+    func->context = context;
     
+    auto ptr = MethodDeclareStatement::init(c, func, move(statement));
     func->argTypes = argTypes;
     func->context = context;
     
     c->context->addFunction(buf, func);
     c->addMemberFunc(buf, func);
+    auto fname = "@class_" + c->context->name + "_" + buf;
     
     context->stream_entry << "define " << context->type->ir_used
-    << " @class_" << c->context->name << "_" << buf << "(" << c->type->ir_used << "* %self, ";
+    << " " << fname << "(" << c->type->ir_used << "* %self, ";
     for (int i = 1; i < argTypes.size(); i++) {
-        context->stream_entry << argTypes[i].ir_used << "* %arg" << to_string(i) << ", ";
+        context->stream_entry << argTypes[i].ir_used << " %arg" << to_string(i) << ", ";
         context->stream_body << "%" << argNames[i] << " = alloca " << argTypes[i].ir_used << "\n";
         context->stream_body << "store " << argTypes[i].ir_used << " %arg" << to_string(i) << ", " << argTypes[i].pointer().ir_used << " %" << argNames[i] << "\n";
         context->addVariable(argNames[i], new Variable("%" + argNames[i], argTypes[i]));
     }
+    context->stream_entry.irs.pop_back();
+    context->stream_entry << "){\n";
     for (auto p : c->properties) {
         context->stream_body << "%" << p.first << " = getelementptr " << c->type->ir_used << ", " << c->type->pointer().ir_used << " %self, i32 0, i32 " << to_string(p.second.index) << "\n";
         context->addVariable(p.first, new Variable("%" + p.first, p.second.type));
     }
+    c->constructor->context->stream_body
+    << "%" << name->value.strValue << " = getelementptr " << c->type->loaded() << ", " << c->type->ir_used << "* %self, "
+    << "i32 0, i32 " << func->index << "\n"
+    << "store " << func->asPointer() << " " << fname << ", " <<
+    func->asPointer().pointer() << "%" << name->value.strValue << "\n";
+    
     return ptr;
 }
 
@@ -1423,6 +1445,13 @@ parseClassDeclareStatement(Token *&tok){
     auto classObj = new Class(new TypeData(classType, "%" + classType));
     
     ScheatContext::push(classObj->context);
+    auto initfunc = new Function(TypeData(classType, "%"+classType),classType + "_init");
+    
+    initfunc->context->stream_entry << "define %" << classType << " @" << initfunc->name << "(){\n";
+    auto self = new Variable("%self", *classObj->type);
+    initfunc->context->addVariable("self", self);
+    initfunc->context->stream_entry << "%self = alloca %" << classType << "\n";
+    classObj->constructor = initfunc;
 
     unique_ptr<ClassStatements> statements = nullptr;
     while (tok->kind != scheat::TokenKind::tok_done) {
@@ -1447,12 +1476,6 @@ parseClassDeclareStatement(Token *&tok){
     
     {};
     
-    auto initfunc = new Function(TypeData(classType, "%"+classType),classType + "_init");
-    
-    initfunc->context->stream_entry << "define %" << classType << " @" << initfunc->name << "(){\n";
-    auto self = new Variable("%self", *classObj->type);
-    initfunc->context->addVariable("self", self);
-    initfunc->context->stream_entry << "%self = alloca %" << classType << "\n";
     for (auto pair : classObj->properties){
         auto prop = pair.second;
         initfunc->context->stream_body << "%" << pair.first << " = getelementptr %" << classType << ", %" << classType << "* %self, i32 0, i32 " << to_string(prop.index) << "\n";

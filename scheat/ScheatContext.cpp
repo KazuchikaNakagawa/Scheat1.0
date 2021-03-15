@@ -111,8 +111,10 @@ Function *Context::createFunction(TypeData *return_type,
                                   string name,
                                   string ir_name,
                                   vector<TypeData> arguments){
+    auto f = new Function(*return_type, ir_name, false);
+    f->argTypes = arguments;
+    return f;
     
-    return nullptr;
 }
 
 

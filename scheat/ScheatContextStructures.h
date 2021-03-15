@@ -28,6 +28,12 @@ public:
         irs.push_back(vs);
         return *this;
     }
+    IRStream& operator <<(TypeData t){
+        return *this << t.ir_used;
+    }
+    IRStream& operator <<(int i){
+        return *this << to_string(i);
+    }
     void exportTo(std::ofstream &f);
     void printout();
     IRStream(){
@@ -100,6 +106,20 @@ public:
         return true;
     }
     
+    TypeData asPointer(){
+        string a = "the " + return_type.name + "(";
+        string ir = return_type.ir_used + "(";
+        for (auto t : argTypes) {
+            a += t.name + ",";
+            ir += t.ir_used + ",";
+        }
+        a.pop_back();
+        ir.pop_back();
+        a += ")";
+        ir += ")*";
+        return TypeData(a, ir);
+    }
+    
 };
 
 // Grammar: enable to <function name>
@@ -156,17 +176,21 @@ public:
         properties[key] = p;
         bitMap.push_back(p.type);
         propCount++;
+        size += p.type.size;
     }
     void addMemberFunc(string key, Function *f){
         f->index = propCount;
         f->isMemberFunction = true;
         members[key] = f;
         propCount++;
+        bitMap.push_back(f->asPointer());
+        size += 8;
     };
     void addOperator(string key, Operator *op){
         op->index = propCount;
         operators[key] = op;
-        propCount++;
+        size += 8;
+        propCount ++;
     }
     Class(TypeData *ty);
     Function *destructor = nullptr;

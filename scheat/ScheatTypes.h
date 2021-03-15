@@ -15,6 +15,7 @@ class TypeData {
 public:
     std::string ir_used;
     std::string name;
+    unsigned int size = 8;
     
     bool operator==(TypeData rhs){
         return this->name == rhs.name
@@ -38,21 +39,24 @@ public:
     TypeData(std::string nm){
         name = nm;
         
-        char *n_b = (char *)malloc(sizeof(nm) + 1);
+        char *n_b = (char *)malloc(nm.size() + 1);
         int i = 0;
         strcpy(n_b, nm.c_str());
         if (nm == "double") {
             ir_used = "double";
             free(n_b);
+            size = 8;
             return;
         }
         else if (sscanf(n_b, "i%d", &i) == 1) {
             ir_used = nm;
+            size = i;
             free(n_b);
             return;
         }else if (nm == "void"){
             ir_used = "void";
             free(n_b);
+            size = 0;
             return;
         }else{
             free(n_b);
@@ -93,6 +97,10 @@ public:
             return TypeData(cpy,cpy_i);
         }
         return *this;
+    }
+    
+    TypeData copy(){
+        return TypeData(name, ir_used);
     }
     
     static TypeData IntType;
