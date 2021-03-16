@@ -16,10 +16,38 @@ namespace scheat {
 class Context;
 using namespace std;
 
+union IRObj {
+    Context *con;
+    string str;
+    IRObj(Context *c){
+        // do nothing
+        con = c;
+    }
+    IRObj(string s){
+        str = s;
+    }
+    ~IRObj(){
+        // waiwai
+    }
+};
+
+struct IR {
+    IRObj obj;
+    bool isContext;
+    IR(Context *con) : obj(con){
+        isContext = true;
+    };
+    IR(string s) : obj(s){
+        isContext = true;
+    }
+};
+
 class IRStream {
 public:
-    std::vector<std::string> irs;
+    
+    vector<IR> irs;
     IRStream& operator <<(std::string v){
+        
         irs.push_back(v);
         return *this;
     };
@@ -33,6 +61,10 @@ public:
     }
     IRStream& operator <<(int i){
         return *this << to_string(i);
+    }
+    IRStream& operator << (Context *c){
+        irs.push_back(c);
+        return *this;
     }
     void exportTo(std::ofstream &f);
     void printout();

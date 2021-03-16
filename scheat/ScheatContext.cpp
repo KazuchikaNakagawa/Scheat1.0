@@ -144,3 +144,13 @@ void Context::dump(std::ofstream &f){
     }
     
 }
+
+void LocalContext::addFunction(std::string, Function *){
+    scheato->FatalError(SourceLocation::OUTOFFILELOCATION, __FILE_NAME__, __LINE__, "compiler seems not to be working well.");
+}
+
+void LocalContext::addClass(std::string, Class *){
+    scheato->FatalError(SourceLocation::OUTOFFILELOCATION, __FILE_NAME__, __LINE__, "compiler seems not to be working well.");
+}
+
+

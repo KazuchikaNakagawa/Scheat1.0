@@ -67,6 +67,7 @@ public:
     void dump(ofstream &);
 };
 
+// Global Context
 class Context {
     unsigned int rnum;
     unsigned int labelcount = 0;
@@ -119,11 +120,11 @@ public:
         return "scope" + to_string(labelcount);
     }
     
-    void addFunction(std::string, Function *);
+    virtual void addFunction(std::string, Function *);
     
-    void addClass(std::string, Class *);
+    virtual void addClass(std::string, Class *);
     
-    void addVariable(std::string, Variable *);
+    virtual void addVariable(std::string, Variable *);
     
     Function *createFunction(TypeData *return_type,
                              string name,
@@ -133,6 +134,20 @@ public:
     void dump(std::ofstream &);
     
     static Context *create(std::string name, Context *parents = nullptr);
+    Context *createLocal(string name){
+        auto con = new Context();
+        con->name = name;
+        stream_body << con;
+        return con;
+    }
+    virtual void _break();
+};
+
+class LocalContext : public Context{
+public:
+    void addFunction(std::string, Function *) override;
+    void addClass(std::string, Class *) override;
+    
 };
 
 class Context;

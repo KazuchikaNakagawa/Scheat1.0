@@ -66,12 +66,21 @@ std::string Function::lltype(){
 
 void IRStream::exportTo(std::ofstream &f){
     for (int i = 0; i < irs.size(); i++) {
-        f << irs[i];
+        if (irs[i].isContext) {
+            irs[i].obj.con->dump(f);
+        }else{
+            f << irs[i].obj.str;
+        }
+        
     }
 }
 
 void IRStream::printout(){
-    for (auto ir : irs) {
-        cout << ir;
+    for (int i = 0; i < irs.size(); i++) {
+        if (irs[i].isContext) {
+            // wakaran
+        }else{
+            cout << irs[i].obj.str;
+        }
     }
 }
