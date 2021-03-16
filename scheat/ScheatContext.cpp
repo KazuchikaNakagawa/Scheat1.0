@@ -120,7 +120,6 @@ bool Context::isExists(std::string key){
 
 void Context::dump(std::ofstream &f){
     
-    f << "; " << name << "\n";
     stream_entry.exportTo(f);
     stream_body.exportTo(f);
     stream_tail.exportTo(f);

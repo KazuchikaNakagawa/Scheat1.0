@@ -113,7 +113,7 @@ public:
     static Context *create(std::string name, Context *parents = nullptr);
     /// create a local scope context and entry it
     Context *createLocal(string name){
-        auto con = new Context();
+        auto con = new Context(name, nullptr);
         con->name = name;
         stream_body << con;
         ScheatContext::push(con);

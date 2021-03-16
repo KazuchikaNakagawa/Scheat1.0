@@ -16,52 +16,38 @@ namespace scheat {
 class Context;
 using namespace std;
 
-union IRObj {
-    Context *con;
-    string str;
+struct IRObj {
+    string str = "";
+    Context *con = nullptr;
+    
     IRObj(Context *c){
         // do nothing
         con = c;
     }
     IRObj(string s){
-        str = s;
+        for (auto c : s){
+            s.push_back(c);
+        }
     }
     ~IRObj(){
         // waiwai
     }
-    IRObj(IRObj &&ref) : con(ref.con){
-        con = ref.con;
-    }
-    IRObj(const IRObj&){
-        
-    }
+    
 };
 
 struct IR {
-    IRObj obj;
+    string str;
+    Context *context;
     bool isContext;
-    IR(Context *con) : obj(con){
+    IR(Context *con){
+        context = con;
         isContext = true;
     };
-    IR(string s) : obj(s){
-        isContext = true;
-    }
-    IR(const IR &cr) : obj(cr.obj.con){
-        if (cr.isContext) {
-            obj.con = cr.obj.con;
-        }else{
-            obj.str = cr.obj.str;
-        }
+    IR(string s){
+        str = s;
+        isContext = false;
     }
     
-    //IR(IR &&r) : obj(r.obj) = default;
-//    {
-//        if (r.isContext) {
-//            obj.con = r.obj.con;
-//        }else{
-//            obj.str = r.obj.str;
-//        }
-//    }
 };
 
 class IRStream {
@@ -75,7 +61,7 @@ public:
     };
     IRStream& operator <<(const char v[]){
         std::string vs(v);
-        irs.push_back(vs);
+        irs.push_back(IR(vs));
         return *this;
     }
     IRStream& operator <<(TypeData t){
@@ -85,13 +71,13 @@ public:
         return *this << to_string(i);
     }
     IRStream& operator << (Context *c){
-        irs.push_back(c);
+        irs.push_back(IR(c));
         return *this;
     }
     void exportTo(std::ofstream &f);
     void printout();
     IRStream(){
-        //irs = {};
+        irs = {};
     };
 };
 
