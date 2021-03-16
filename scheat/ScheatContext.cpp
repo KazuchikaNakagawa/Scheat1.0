@@ -17,20 +17,6 @@
 using namespace scheat;
 //using namespace scheat::node;
 
-
-void Scope::dump(ofstream &f){
-    f << name << ":\n";
-    entry.exportTo(f);
-    body.exportTo(f);
-    tail.exportTo(f);
-}
-
-void _Context::dump(ofstream &f){
-    for (auto scope : scopes) {
-        scope->dump(f);
-    }
-}
-
 Class *Context::findClass(std::string key){
     auto index = classes.find(key);
     if (index == classes.end()) {
@@ -143,6 +129,20 @@ void Context::dump(std::ofstream &f){
         pair.second->context->dump(f);
     }
     
+}
+
+void LocalContext::_break(){
+    for (auto pair : newVs) {
+        if (pair->type.ir_used.find("*") != string::npos) {
+            auto r = getRegister();
+            stream_body << r << " = bitcast " << pair->type.ir_used << "* " << pair->mangledName << " to i8*\n";
+            stream_body << "call void @ScheatPointer_unref(i8* " << r << ")\n";
+        }else{
+            auto r = getRegister();
+            stream_body << r << " = bitcast " << pair->type.ir_used << "* " << pair->mangledName << " to i8*\n";
+            stream_body << "call void @" << pair->type.name << "_deinit(i8* " << r << ")\n";
+        }
+    }
 }
 
 void LocalContext::addFunction(std::string, Function *){

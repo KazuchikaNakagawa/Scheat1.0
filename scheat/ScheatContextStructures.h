@@ -29,6 +29,12 @@ union IRObj {
     ~IRObj(){
         // waiwai
     }
+    IRObj(IRObj &&ref) : con(ref.con){
+        con = ref.con;
+    }
+    IRObj(const IRObj&){
+        
+    }
 };
 
 struct IR {
@@ -40,6 +46,22 @@ struct IR {
     IR(string s) : obj(s){
         isContext = true;
     }
+    IR(const IR &cr) : obj(cr.obj.con){
+        if (cr.isContext) {
+            obj.con = cr.obj.con;
+        }else{
+            obj.str = cr.obj.str;
+        }
+    }
+    
+    //IR(IR &&r) : obj(r.obj) = default;
+//    {
+//        if (r.isContext) {
+//            obj.con = r.obj.con;
+//        }else{
+//            obj.str = r.obj.str;
+//        }
+//    }
 };
 
 class IRStream {
@@ -69,7 +91,7 @@ public:
     void exportTo(std::ofstream &f);
     void printout();
     IRStream(){
-        irs = {};
+        //irs = {};
     };
 };
 

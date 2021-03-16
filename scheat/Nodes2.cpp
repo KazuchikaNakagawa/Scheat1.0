@@ -143,9 +143,7 @@ Value * ForStatement::codegen(IRStream &f){
     f << re << " = icmp slt i32 " << r << ", " << v->value << "\n";
     f << "br i1 " << re << ", label %" << lbl + "body, label %" << lbl + "for_end\n";
     f << lbl + "body:\n" ;
-    ScheatContext::local()->entryScope(lbl + "for");
-    body->codegen(f);
-    ScheatContext::local()->leave();
+    body->codegen(body->context->stream_body);
     auto r1 = ScheatContext::local()->getRegister();
     auto r2 = ScheatContext::local()->getRegister();
     f << r1 << " = load i32, i32* " << condreg << "\n";
@@ -163,9 +161,7 @@ Value * WhileStatement::codegen(IRStream &f){
     auto re = condition->codegen(f);
     f << "br i1 " << re->value << ", label %" << lbl + "body, label %" << lbl + "while_end\n";
     f << lbl + "body:\n" ;
-    ScheatContext::local()->entryScope(lbl + "while");
-    body->codegen(f);
-    ScheatContext::local()->leave();
+    body->codegen(body->context->stream_body);
     f << "br label %" << lbl + "while\n";
     f << lbl + "while_end:\n";
     return nullptr;

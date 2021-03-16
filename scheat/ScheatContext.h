@@ -15,60 +15,35 @@
 #include <stack>
 namespace scheat{
 using namespace std;
-//using namespace basics;
 
-// represents scope, locals
-// LABEL:
-//      code;
+class Context;
 
-class Scope;
-
-// represents like Class
-class _Context {
-    vector<Scope *> scopes;
-    map<string, Function *> funcs;
+class ScheatContext {
+    static stack<Context *> localcon;
+    static stack<string> namespace_center;
 public:
-    bool exists(string key){
-        return false;
-    }
-    void dump(ofstream&);
-};
-
-class Scope {
-    unsigned int registerIndex = 0;
-    unsigned int labelCount = 0;
-    map<string, Variable *> variables = {};
-    string name = "";
-    Scope(string name){
-        this->name = name;
-    }
-public:
-    _Context *parent = nullptr;
-    virtual bool breakable() const{ return false; };
-    virtual bool continuable() const { return false; };
-    string getRegister(){
-        string v = "%r" + to_string(registerIndex);
-        registerIndex++;
-        return v;
-    }
-    virtual bool exists(string key){
-        if (!parent) {
-            return variables.find(key) != variables.end();
-        }
-        if (parent->exists(key)) {
-            return true;
-        }
-        return variables.find(key) != variables.end();
-    }
-    IRStream entry;
-    IRStream body;
-    IRStream tail;
-    
-    void dump(ofstream &);
+    static vector<Context *> contextCenter;
+    static void Init(_Scheat *);
+    static void AddMain();
+    static void Shutdown(){ //delete ScheatContext::global;
+        
+    };
+    static Context *main;
+    static Context *global;
+    static Context *init;
+    static Context *local();
+    static void pushNewNamespace(string n) { namespace_center.push(n); };
+    static void popNewNamespace() { namespace_center.pop(); };
+    static string getNamespace() { return namespace_center.top(); };
+    static void push(Context *c) { localcon.push(c); };
+    static void pop() { localcon.pop(); };
+    static void printout();
+    static void exportTo(ofstream &);
 };
 
 // Global Context
 class Context {
+protected:
     unsigned int rnum;
     unsigned int labelcount = 0;
     std::map<std::string, Variable *> variables;
@@ -89,9 +64,11 @@ public:
     IRStream stream_tail;
     std::string name;
     Context *base;
+    __deprecated
     void entryScope(string s){
         scopeStacks.push(s);
     }
+    __deprecated
     void leave(){
         scopeStacks.pop();
     }
@@ -134,45 +111,32 @@ public:
     void dump(std::ofstream &);
     
     static Context *create(std::string name, Context *parents = nullptr);
+    /// create a local scope context and entry it
     Context *createLocal(string name){
         auto con = new Context();
         con->name = name;
         stream_body << con;
+        ScheatContext::push(con);
+        con->labelcount = this->labelcount;
+        con->rnum = this->rnum;
+        con->base = this;
         return con;
     }
-    virtual void _break();
+    virtual void _break(){
+        
+    };
 };
 
 class LocalContext : public Context{
+    vector<Variable *> newVs;
 public:
     void addFunction(std::string, Function *) override;
     void addClass(std::string, Class *) override;
-    
-};
-
-class Context;
-
-class ScheatContext {
-    static stack<Context *> localcon;
-    static stack<string> namespace_center;
-public:
-    static vector<Context *> contextCenter;
-    static void Init(_Scheat *);
-    static void AddMain();
-    static void Shutdown(){ //delete ScheatContext::global;
-        
-    };
-    static Context *main;
-    static Context *global;
-    static Context *init;
-    static Context *local();
-    static void pushNewNamespace(string n) { namespace_center.push(n); };
-    static void popNewNamespace() { namespace_center.pop(); };
-    static string getNamespace() { return namespace_center.top(); };
-    static void push(Context *c) { localcon.push(c); };
-    static void pop() { localcon.pop(); };
-    static void printout();
-    static void exportTo(ofstream &);
+    void addVariable(std::string n, Variable *v) override{
+        newVs.push_back(v);
+        Context::addVariable(n, v);
+    }
+    void _break() override;
 };
 
 }

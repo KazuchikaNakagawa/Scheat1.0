@@ -877,11 +877,11 @@ parseForStatement(Token *&tok){
     auto scope = ScheatContext::local()->getLabel();
     auto scopename = scope + "for";
     
-    ScheatContext::local()->entryScope(scopename);
+    ScheatContext::local()->createLocal(scopename);
     
     auto ss = parseStatement(tok);
     
-    ScheatContext::local()->leave();
+    ScheatContext::pop();
     if (!ss) {
         return nullptr;
     }
@@ -918,11 +918,11 @@ parseWhileStatement(Token *&tok){
     
     auto scope = ScheatContext::local()->getLabel();
     auto scopeName = scope + "while";
-    ScheatContext::local()->entryScope(scopeName);
+    ScheatContext::local()->createLocal(scopeName);
     
     auto statement = parseStatement(tok);
     
-    ScheatContext::local()->leave();
+    ScheatContext::pop();
     if (!statement) {
         return nullptr;
     }
