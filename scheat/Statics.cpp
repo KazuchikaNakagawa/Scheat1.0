@@ -104,9 +104,10 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare void @String_deinit(i8*)\n";
     ScheatContext::global->stream_body << "declare i32 @inputInt()\n";
     Function *initf = new Function(TypeData("Void", "void"), "init");
-    initf->context->stream_entry << "define void @" << getFileName(scheato->sourceFile) << "_init(){\n";
+    initf->context->stream_entry << "\ndefine void @" << getFileName(scheato->sourceFile) << "_init(){\n";
     initf->context->stream_entry << "entry:\n";
     initf->context->stream_tail << "ret void\n}\n";
+    global->stream_body << "\n";
     push(initf->context);
     //contextCenter.push_back(initf->context);
     init = initf->context;
@@ -196,7 +197,7 @@ void ScheatContext::Init(_Scheat *sch){
     Int->operators[">"] = opgt;
     
     ScheatContext::global->addClass("Int", Int);
-    auto String = new Class(new TypeData("String", "%String"));
+    auto String = new Class(&TypeData::StringType);
     auto countFunction = new ExternalFunction(TypeData::IntType, "String_count");
     countFunction->return_type = TypeData::IntType;
     countFunction->argTypes.push_back(TypeData::StringType.pointer());
@@ -206,6 +207,9 @@ void ScheatContext::Init(_Scheat *sch){
     
     auto Bool = new Class(&TypeData::BoolType);
     Bool->context->name = "Bool";
+    
+    auto Void = new Class(&TypeData::VoidType);
+    ScheatContext::global->addClass("Void", Void);
     
 }
 

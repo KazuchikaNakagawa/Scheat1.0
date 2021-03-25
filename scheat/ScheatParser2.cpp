@@ -826,7 +826,9 @@ parseIfStatement(Token *&tok){
     }else{
         eatThis(tok);
     }
+    auto context = ScheatContext::local()->createLocal("if");
     auto s = parseStatement(tok);
+    ScheatContext::pop();
     if (!s) {
         return nullptr;
     }
@@ -841,12 +843,16 @@ parseIfStatement(Token *&tok){
     if (tok->kind == scheat::TokenKind::tok_EOF) {
         tok = tok->prev;
         tok->kind = scheat::TokenKind::tok_period;
-        return IfStatement::init(move(expr), move(s), move(elseS));
+        auto ifs = IfStatement::init(move(expr), move(s), move(elseS));
+        ifs->context = context;
+        return ifs;
     }
     
     tok = tok->prev;
     tok->kind = scheat::TokenKind::tok_comma;
-    return IfStatement::init(move(expr), move(s), move(elseS));
+    auto ifs = IfStatement::init(move(expr), move(s), move(elseS));
+    ifs->context = context;
+    return ifs;
 }
 
 static unique_ptr<ForStatement>
@@ -1293,6 +1299,7 @@ parseMethodDeclareStatement(Token *&tok, Class *c){
         eatThis(tok);
     }
     auto context = ScheatContext::global->create(name->value.strValue);
+    context->base = c->context;
     vector<string> argNames = {};
     vector<TypeData> argTypes = {};
     context->addVariable("self", new Variable("%self", *c->type));
@@ -1395,8 +1402,7 @@ parseMethodDeclareStatement(Token *&tok, Class *c){
     c->addMemberFunc(buf, func);
     auto fname = "@class_" + c->context->name + "_" + buf;
     
-    context->stream_entry << "define " << context->type->ir_used
-    << " " << fname << "(" << c->type->ir_used << "* %self, ";
+    context->stream_entry << "define " << context->type->ir_used << " " << fname << "(" << c->type->ir_used << "* %self" << ", ";
     for (int i = 1; i < argTypes.size(); i++) {
         context->stream_entry << argTypes[i].ir_used << " %arg" << to_string(i) << ", ";
         context->stream_body << "%" << argNames[i] << " = alloca " << argTypes[i].ir_used << "\n";
@@ -1426,7 +1432,7 @@ parseClassStatement(Token *&tok, Class *c){
     if (tok->kind == scheat::TokenKind::tok_to) {
         return parseMethodDeclareStatement(tok, c);
     }
-    scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "");
+    scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "illegal statement in class.");
     return nullptr;
 }
 
@@ -1447,7 +1453,7 @@ parseClassDeclareStatement(Token *&tok){
     ScheatContext::push(classObj->context);
     auto initfunc = new Function(TypeData(classType, "%"+classType),classType + "_init");
     
-    initfunc->context->stream_entry << "define %" << classType << " @" << initfunc->name << "(){\n";
+    initfunc->context->stream_entry << "\ndefine %" << classType << " @" << initfunc->name << "(){\n";
     auto self = new Variable("%self", *classObj->type);
     initfunc->context->addVariable("self", self);
     initfunc->context->stream_entry << "%self = alloca %" << classType << "\n";
@@ -1489,7 +1495,7 @@ parseClassDeclareStatement(Token *&tok){
     
     auto deinitfunc = new Function(TypeData(classType, "%"+classType),classType + "_deinit");
     
-    deinitfunc->context->stream_entry << "define void @" << deinitfunc->name << "(i8* %_self){\n";
+    deinitfunc->context->stream_entry << "\ndefine void @" << deinitfunc->name << "(i8* %_self){\n";
     
     deinitfunc->context->addVariable("self", self);
     deinitfunc->context->stream_entry << "%self = bitcast i8* %_self to %" << classType << "*\n";

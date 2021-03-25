@@ -100,7 +100,7 @@ void _Scheat::FatalError(SourceLocation location, const char *fn, unsigned int l
     va_end(arg);
     fprintf(fp, "\n");
     fclose(fp);
-    exit(0);
+    exit(9);
 }
 
 void OldScheat::Log(const char *fn, unsigned int line, const char *fmt, ...)

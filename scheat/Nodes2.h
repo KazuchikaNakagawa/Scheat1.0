@@ -13,6 +13,7 @@
 #include "ScheatTypes.h"
 #include "ScheatToken.h"
 #include "ScheatContextStructures.h"
+#include "ScheatContext.h"
 
 namespace scheat {
 using namespace std;
@@ -543,17 +544,7 @@ public:
     unique_ptr<StatementNode> statement;
     Token *perTok;
     unique_ptr<Statement> stmt;
-    Value * codegen(IRStream &f) override {
-        if (stmt != nullptr) {
-            stmt->codegen(f);
-        }
-        if (statement) {
-            statement->codegen(f);
-        }
-        
-        return nullptr;
-        
-    };
+    Value * codegen(IRStream &f) override;
     string userdump() override{ return "UNDEFINED"; };
     Statement() {};
     Statement(unique_ptr<Statement> stn){

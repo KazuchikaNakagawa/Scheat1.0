@@ -211,13 +211,7 @@ public:
     nodes2::Value *getProperty(string, nodes2::Value *, IRStream &);
     Operator *findOperator(string);
     unsigned int size = 0;
-    void addProperty(string key,Property p){
-        p.index = propCount;
-        properties[key] = p;
-        bitMap.push_back(p.type);
-        propCount++;
-        size += p.type.size;
-    }
+    void addProperty(string key,Property p);
     void addMemberFunc(string key, Function *f){
         f->index = propCount;
         f->isMemberFunction = true;

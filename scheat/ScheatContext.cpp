@@ -20,14 +20,17 @@ using namespace scheat;
 Class *Context::findClass(std::string key){
     auto index = classes.find(key);
     if (index == classes.end()) {
+        if (!base) {
+            return nullptr;
+        }
         return base->findClass(key);
     }
     return index->second;
 }
 
 string Context::getRegister(){
-    std::string v = "%r" + std::to_string(rnum);
-    rnum++;
+    std::string v = "%r" + std::to_string(*rnum);
+    (*rnum)++;
     return v;
 }
 
@@ -134,14 +137,25 @@ void LocalContext::_break(){
     for (auto pair : newVs) {
         if (pair->type.ir_used.find("*") != string::npos) {
             auto r = getRegister();
-            stream_body << r << " = bitcast " << pair->type.ir_used << "* " << pair->mangledName << " to i8*\n";
-            stream_body << "call void @ScheatPointer_unref(i8* " << r << ")\n";
+            stream_tail << r << " = bitcast " << pair->type.ir_used << "* " << pair->mangledName << " to i8*\n";
+            stream_tail << "call void @ScheatPointer_unref(i8* " << r << ")\n";
         }else{
             auto r = getRegister();
-            stream_body << r << " = bitcast " << pair->type.ir_used << "* " << pair->mangledName << " to i8*\n";
-            stream_body << "call void @" << pair->type.name << "_deinit(i8* " << r << ")\n";
+            stream_tail << r << " = bitcast " << pair->type.ir_used << "* " << pair->mangledName << " to i8*\n";
+            stream_tail << "call void @" << pair->type.name << "_deinit(i8* " << r << ")\n";
         }
     }
+}
+
+LocalContext *Context::createLocal(std::string name){
+    auto con = new LocalContext();
+    con->name = name;
+    stream_body << con;
+    ScheatContext::push(con);
+    con->labelcount = this->labelcount;
+    con->rnum = this->rnum;
+    con->base = this;
+    return con;
 }
 
 void LocalContext::addFunction(std::string, Function *){

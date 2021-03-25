@@ -122,7 +122,7 @@ unique_ptr<FunctionCallTerm> FunctionCallTerm::init(Token *token, Function *func
 }
 
 Value *LoadExpr::codegen(IRStream &f){
-    string r = ScheatContext::local()->getRegister();
+    string r = context->getRegister();
     auto v = expr->codegen(f);
     f << r << " = load " << type.ir_used << ", " << v->asValue() << "\n";
     delete v;
@@ -137,15 +137,15 @@ Value * ForStatement::codegen(IRStream &f){
     f << "store i32 0, i32* " << condreg << "\n";
     f << "br label %" << lbl << "for\n";
     f << lbl << "for:\n";
-    auto r = ScheatContext::local()->getRegister();
+    auto r = context->getRegister();
     f << r << " = load i32, i32* " << condreg << "\n";
-    auto re = ScheatContext::local()->getRegister();
+    auto re = context->getRegister();
     f << re << " = icmp slt i32 " << r << ", " << v->value << "\n";
     f << "br i1 " << re << ", label %" << lbl + "body, label %" << lbl + "for_end\n";
     f << lbl + "body:\n" ;
     body->codegen(body->context->stream_body);
-    auto r1 = ScheatContext::local()->getRegister();
-    auto r2 = ScheatContext::local()->getRegister();
+    auto r1 = context->getRegister();
+    auto r2 = context->getRegister();
     f << r1 << " = load i32, i32* " << condreg << "\n";
     f << r2 << " = add nsw i32 1, " << r1 << "\n";
     f << "store i32 " << r2 << ", i32* " << condreg << "\n";
@@ -183,7 +183,7 @@ Value *GlobalExpr::codegenAsRef(IRStream &f){
 
 Value *GlobalExpr::codegen(IRStream &f){
     auto v = codegenAsRef(f);
-    string reg = ScheatContext::local()->getRegister();
+    string reg = context->getRegister();
     f << reg << " = load " << v->type.ir_used << ", " << v->asValue() << "\n";
     return new Value(reg, v->type);
 }
@@ -203,7 +203,7 @@ Value *PostfixOperatorExpr::codegen(IRStream &f){
         delete l;
         return nullptr;
     }else{
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << op->return_type.ir_used << "(" << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ")\n";
         delete l;
         return new Value(reg, op->return_type);
@@ -218,7 +218,7 @@ Value *PrefixOperatorExpr::codegen(IRStream &f){
         delete r;
         return nullptr;
     }else{
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << op->return_type.ir_used << "(" << op->rhs_type->ir_used << ") " << op->func_name << "(" << r->asValue() << ")\n";
         delete r;
         return new Value(reg, op->return_type);
@@ -233,7 +233,7 @@ Value *PostfixOperatorPrimaryExpr::codegen(IRStream &f){
         delete lv;
         return nullptr;
     }else{
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ") " << op->func_name << "(" << lv->asValue() << ")\n";
         delete lv;
         return new Value(reg, op->return_type);
@@ -349,7 +349,7 @@ Value *FunctionCallTerm::codegen(IRStream &f){
         return nullptr;
     }else{
         vector<Value *> arges_val = args->codegenAsArray(f);
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << func->lltype() << " @" << func->name << "(";
         int c = 1;
         for (auto ptr : arges_val) {
@@ -365,18 +365,21 @@ Value *FunctionCallTerm::codegen(IRStream &f){
 }
 
 Value *IfStatement::codegen(IRStream &f){
-    auto condv = condition->codegen(f);
-    auto labels = ScheatContext::local()->getLabel();
-    f << "br " << condv->asValue() << ", label %" << labels + "if" << ", label %" << labels + "else" << "\n";
-    f << labels + "if" << ":\n";
+    IRStream& f0 = context->stream_body;
+    auto condv = condition->codegen(f0);
+    auto labels = context->getLabel();
+    f0 << "br " << condv->asValue() << ", label %" << labels + "if" << ", label %" << labels + "else" << "\n";
+    f0 << labels + "if" << ":\n";
     thenS->codegen(f);
-    f << "br label %" << labels + "if" + "_end\n";
-    f << labels + "else" << ":\n";
+    f0 << "br label %" << labels + "if" + "_end\n";
+    f0 << labels + "else" << ":\n";
     
     if (elseS != nullptr) elseS->codegen(f);
-    f << "br label %" << labels + "if" + "_end\n";
-    f << labels + "if" + "_end:\n";
+    f0 << "br label %" << labels + "if" + "_end\n";
+    f0 << labels + "if" + "_end:\n";
+    context->_break();
     return nullptr;
+    
 }
 
 Value *InfixOperatorExpr::codegen(IRStream &f){
@@ -384,14 +387,14 @@ Value *InfixOperatorExpr::codegen(IRStream &f){
     auto r = rhs->codegen(f);
     if (l->type == TypeData::IntType &&
         r->type == TypeData::IntType && op->return_type == TypeData::IntType) {
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = " << op->func_name << " nsw i32 " << l->value << ", " << r->value << "\n";
         return new Value(reg, TypeData::IntType);
     }
     if (l->type == TypeData::IntType
         && r->type == TypeData::IntType
         && op->return_type == TypeData::BoolType) {
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         string eqopt = "";
         if (op->value == "==") {
             eqopt = "eq";
@@ -416,7 +419,7 @@ Value *InfixOperatorExpr::codegen(IRStream &f){
         delete r;
         return nullptr;
     }else{
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
@@ -432,7 +435,7 @@ Value *PostfixOperatorTerm::codegen(IRStream &f){
         delete l;
         return nullptr;
     }else{
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << op->return_type.ir_used << "(" << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ")\n";
         delete l;
         return new Value(reg, op->return_type);
@@ -444,7 +447,7 @@ Value * InfixOperatorTerm::codegen(IRStream &f){
     auto l = lhs->codegen(f);
     auto r = rhs->codegen(f);
     if (l->type == TypeData::IntType) {
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = " << op->func_name << " nsw i32 " << l->value << ", " << r->value
         << "\n";
         delete l;
@@ -458,7 +461,7 @@ Value * InfixOperatorTerm::codegen(IRStream &f){
         return nullptr;
     }else{
         // incompleted code
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ")\n";
         delete l;
         delete r;
@@ -474,7 +477,7 @@ Value *PrefixOperatorTerm::codegen(IRStream &f){
         delete r;
         return nullptr;
     }else{
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << op->return_type.ir_used << "(" << op->rhs_type->ir_used << ") " << op->func_name << "(" << r->asValue() << ")\n";
         delete r;
         return new Value(reg, op->return_type);
@@ -515,7 +518,7 @@ Value *InfixOperatorPrimaryExpr::codegen(IRStream &f){
     auto r = rhs->codegen(f);
     
     if (l->type == TypeData::IntType) {
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         
         if (op->value == "*") {
             f << reg << " = mul nsw " << l->asValue() << ", " << r->value << "\n";
@@ -532,7 +535,7 @@ Value *InfixOperatorPrimaryExpr::codegen(IRStream &f){
         delete r;
         return nullptr;
     }else{
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << op->return_type.ir_used << " " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
@@ -555,7 +558,7 @@ Value *FunctionAttributeExpr::codegenAsRef(IRStream &f){
     if (!value) {
         return nullptr;
     }
-    auto r = ScheatContext::local()->getRegister();
+    auto r = context->getRegister();
     f << r << " = alloca " << value->type.ir_used << "\n";
     f << "store " << value->asValue() << ", " << value->type.ir_used << "* " << r << "\n";
     return new Value(r, value->type.pointer());
@@ -569,10 +572,12 @@ Value *FunctionAttributeExpr::codegen(IRStream &f){
     }
     
     if (type == "Void") {
+        auto s = func->getMangledName();
         f << "call " << func->lltype() << " " << func->getMangledName() << "(";
         return nullptr;
     }else{
-        reg = ScheatContext::local()->getRegister();
+        auto s = func->getMangledName();
+        reg = context->getRegister();
         f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
     }
     
@@ -594,7 +599,7 @@ Value *PrefixOperatorPrimaryExpr::codegen(IRStream &f){
         delete r;
         return nullptr;
     }else{
-        auto reg = ScheatContext::local()->getRegister();
+        auto reg = context->getRegister();
         f << reg << " = call " << op->return_type.ir_used << "";
         delete r;
         return new Value(reg, op->return_type);
@@ -637,6 +642,20 @@ static int countof(string t, char c){
     return i;
 }
 
+Value *Statement::codegen(IRStream &f){
+    {
+        if (stmt != nullptr) {
+            stmt->codegen(context->stream_body);
+        }
+        if (statement) {
+            statement->codegen(context->stream_body);
+        }
+        
+        return nullptr;
+        
+    };
+}
+
 Value *VariableTerm::codegen(IRStream &f){
     auto vp = context->findVariable(value);
     if (!vp) {
@@ -676,7 +695,7 @@ Value *AllocationExpr::codegen(IRStream &f){
                             "this expression's type is undefined.");
         return nullptr;
     }
-    auto r = ScheatContext::local()->getRegister();
+    auto r = context->getRegister();
     f << r << " = call i8*(i64, void(i8*)*) @_ScheatPointer_alloc(" << to_string(cln->size) << ", " << ((cln->destructor != nullptr) ? cln->destructor->asValue() : "void(i8*)* null") << ")\n";
     f << "store " << val->asValue() << ", " << val->type.ir_used + "*" << r << "\n";
     return new Value(r, cln->type->pointer());
@@ -854,11 +873,15 @@ Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
         f << ")\n";
         return nullptr;
     }else{
-        string reg = ScheatContext::local()->getRegister();
-        f << reg << " = call " << func->lltype() << " " << func->getMangledName() << "(";
+        auto r = context->getRegister();
+        f << r << " = getelementptr " << parent->type.loaded().ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(func->index) << "\n";
+        auto r2 = context->getRegister();
+        f << r2 << " = load " << func->asPointer() << ", " << func->asPointer().pointer() << " " << r << "\n";
+        auto reg = context->getRegister();
+        f << reg << " = call " << func->lltype() << " " << r2 << "(";
         for (auto vptr : values) {
             f << vptr->asValue();
-            f << ",";
+            f << ", ";
         }
         f.irs.pop_back();
         f << ")\n";
@@ -868,7 +891,7 @@ Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
 }
 
 Value *VariableTerm::codegenAsRef(IRStream &f){
-    auto vp = ScheatContext::local()->findVariable(value);
+    auto vp = context->findVariable(value);
     if (!vp) {
         scheato->FatalError(location, __FILE_NAME__, __LINE__,
                             "this error should be appeared by analyzer. (by Encoder)");
@@ -884,8 +907,11 @@ Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
         if (!v2) {
             return nullptr;
         }
+        auto r = context->getRegister();
+        f << r << " = alloca " << v2->type.ir_used << "\n";
+        f << "store " << v2->asValue() << ", " << v2->type.ir_used << "* " << r << "\n";
         v2->type = v2->type.pointer();
-        return v2;
+        return new Value(r, v2->type);
     }
     return v;
 }
@@ -945,12 +971,12 @@ Value *CastExpr::codegen(IRStream &f){
     }
     if (*--v->type.ir_used.end() == '*') {
         scheato->DevLog(location, __FILE_NAME__, __LINE__, "pointer cast");
-        string reg = ScheatContext::local()->getRegister();
+        string reg = context->getRegister();
         
         f << reg << " = bitcast " << v->asValue() << " to " << type.ir_used << "*\n";
         return new Value(reg, type);
     }else{
-        string reg = ScheatContext::local()->getRegister();
+        string reg = context->getRegister();
         f << reg << " = sext " << v->asValue() << " to " << type.ir_used << "\n";
         return new Value(reg, type);
     }
@@ -1000,7 +1026,10 @@ Value *AccessIdentifierExpr::codegen(IRStream &f){
     if (!v) {
         return nullptr;
     }
-    auto r = ScheatContext::local()->getRegister();
+    if (v->type.ir_used.find("*") == string::npos) {
+        return v;
+    }
+    auto r = context->getRegister();
     f << r << " = load " << v->type.loaded().ir_used << ", " << v->asValue() << "\n";
     return new Value(r, v->type.loaded());
 }
@@ -1127,7 +1156,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
                 return nullptr;
             }
             ScheatContext::push(ff->context);
-            string r = ScheatContext::local()->getRegister();
+            string r = context->getRegister();
             ff->context->stream_body << r << " = call %String @String_init()\n";
             ff->context->stream_body << "store %String " << r << ", %String* " << name << "\n";
             

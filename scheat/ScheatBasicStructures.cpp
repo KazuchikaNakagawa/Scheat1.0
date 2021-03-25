@@ -64,10 +64,20 @@ std::string Function::lltype(){
     return base;
 }
 
+void Class::addProperty(string key, Property p){
+    p.index = propCount;
+    properties[key] = p;
+    bitMap.push_back(p.type);
+    propCount++;
+    size += p.type.size;
+    context->addVariable(key, new Variable(key, p.type));
+}
+
 void IRStream::exportTo(std::ofstream &f){
     for (int i = 0; i < irs.size(); i++) {
         auto ir = irs[i];
         if (irs[i].isContext) {
+            f << "; context:" << irs[i].context->name << endl;
             irs[i].context->dump(f);
         }else{
             f << irs[i].str;
@@ -79,7 +89,9 @@ void IRStream::exportTo(std::ofstream &f){
 void IRStream::printout(){
     for (int i = 0; i < irs.size(); i++) {
         if (irs[i].isContext) {
-            // wakaran
+            irs[i].context->stream_entry.printout();
+            irs[i].context->stream_body.printout();
+            irs[i].context->stream_tail.printout();
         }else{
             cout << irs[i].str;
         }

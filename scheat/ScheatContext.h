@@ -41,18 +41,20 @@ public:
     static void exportTo(ofstream &);
 };
 
+class LocalContext;
+
 // Global Context
 class Context {
 protected:
-    unsigned int rnum;
-    unsigned int labelcount = 0;
+    unsigned int* rnum;
+    int labelcount = 0;
     std::map<std::string, Variable *> variables;
     std::map<std::string, Function *> funcs;
     std::map<std::string , Class *> classes;
-    Context(std::string name, Context *parents){
+    Context(std::string name, Context *parents) : rnum((unsigned int *)malloc(sizeof(unsigned int))){
         variables = {};
         funcs = {};
-        rnum = 0;
+        *rnum = 0;
         base = parents;
         this->name = name;
     }
@@ -81,10 +83,10 @@ public:
     Function *findFunc(std::string, vector<TypeData>);
     bool isExists(std::string);
     std::string getRegister();
-    Context(){
+    Context() : rnum((unsigned int*)malloc(sizeof(unsigned int))){
         variables = {};
         funcs = {};
-        rnum = 0;
+        *rnum = 0;
         base = nullptr;
         name = "";
         scopeStacks.push("");
@@ -112,16 +114,7 @@ public:
     
     static Context *create(std::string name, Context *parents = nullptr);
     /// create a local scope context and entry it
-    Context *createLocal(string name){
-        auto con = new Context(name, nullptr);
-        con->name = name;
-        stream_body << con;
-        ScheatContext::push(con);
-        con->labelcount = this->labelcount;
-        con->rnum = this->rnum;
-        con->base = this;
-        return con;
-    }
+    LocalContext *createLocal(string name);
     virtual void _break(){
         
     };
@@ -137,6 +130,9 @@ public:
         Context::addVariable(n, v);
     }
     void _break() override;
+    LocalContext() : Context(){
+        
+    }
 };
 
 }
