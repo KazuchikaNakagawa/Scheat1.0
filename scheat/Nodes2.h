@@ -203,6 +203,7 @@ public:
         return "UNDEFINED";
     }
     virtual Value * codegenWithParent(Value *,IRStream &) {return nullptr;};
+    virtual Value * codegenAsRefWithParent(Value *,IRStream &) {return nullptr;};
     Value * codegen(IRStream &) override;
     Value * codegenAsRef(IRStream &) override{ return nullptr; };
 };
@@ -214,6 +215,7 @@ public:
     Property varindex;
     string userdump()override{return "."+to_string(varindex.index);};
     Value * codegenWithParent(Value *, IRStream &)override;
+    Value * codegenAsRefWithParent(Value *, IRStream &) override;
     Value * codegenAsRef(IRStream &) override;
     static unique_ptr<VariableAttributeExpr>
     init(Property, SourceLocation location);
@@ -233,6 +235,7 @@ public:
     Value * codegenWithParent(Value *, IRStream &) override;
     Value * codegen(IRStream &) override;
     Value * codegenAsRef(IRStream &) override;
+    Value * codegenAsRefWithParent(Value *, IRStream &) override;
     static unique_ptr<FunctionAttributeExpr>
     init(Function *, unique_ptr<ArgumentExpr>, SourceLocation);
 };
@@ -697,6 +700,7 @@ public:
     unique_ptr<Expr> condition;
     unique_ptr<Statement> thenS;
     unique_ptr<Statement> elseS;
+    LocalContext *local;
     // todo
     string userdump() override{
         return "if (" + condition->userdump() + "){\n" + thenS->userdump() + "\n}else{\n" + elseS->userdump() + "\n}";
@@ -704,12 +708,13 @@ public:
     
     Value * codegen(IRStream &) override;
     static unique_ptr<IfStatement>
-    init(unique_ptr<Expr> b, unique_ptr<Statement> t, unique_ptr<Statement> e){
+    init(LocalContext *lc,unique_ptr<Expr> b, unique_ptr<Statement> t, unique_ptr<Statement> e){
         auto ptr = make_unique<IfStatement>();
         ptr->location = b->location;
         ptr->condition = move(b);
         ptr->thenS = move(t);
         ptr->elseS = move(e);
+        ptr->local = lc;
         return ptr;
     }
 };
@@ -935,7 +940,7 @@ public:
         auto ptr = make_unique<MethodDeclareStatement>();
         ptr->host = c;
         ptr->body = move(statements);
-        ptr->context = f->context;
+        //ptr->context = f->context;
         ptr->func = f;
         return ptr;
     }

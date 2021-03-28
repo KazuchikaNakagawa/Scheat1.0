@@ -150,11 +150,11 @@ void LocalContext::_break(){
 LocalContext *Context::createLocal(std::string name){
     auto con = new LocalContext();
     con->name = name;
-    stream_body << con;
     ScheatContext::push(con);
     con->labelcount = this->labelcount;
     con->rnum = this->rnum;
     con->base = this;
+    con->strmap = strmap;
     return con;
 }
 

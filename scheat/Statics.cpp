@@ -92,7 +92,7 @@ void ScheatContext::Init(_Scheat *sch){
     global->stream_body << "declare void @print_String(%String)\n";
     global->stream_body << "declare %String @String_init_pi8(i8*)\n";
     global->stream_body << "declare %String @String_init()\n";
-    global->stream_body << "declare %String @String_add(%String, %String)\n";
+    global->stream_body << "declare %String @ScheatString_add(%String, %String)\n";
     global->stream_body << "declare %String @String_copy(%String)\n";
     global->stream_body << "declare i32 @String_count(%String*)\n";
     global->stream_body << "declare void @Array_append(%Array*, i8*)\n";
@@ -101,7 +101,10 @@ void ScheatContext::Init(_Scheat *sch){
     ScheatContext::global->stream_body << "declare %String @inputString()\n";
     global->stream_body << "declare i32 @Int_init()\n";
     global->stream_body << "define void @Int_deinit(i8* %r){\n" << "ret void\n}\n";
+    global->stream_body << "define void @Bool_deinit(i8* %r){\n" << "ret void\n}\n";
     global->stream_body << "declare void @String_deinit(i8*)\n";
+    global->stream_body << "declare i1 @String_eq_eq(%String, %String)\n";
+    //global->stream_body << "declare %String_a";
     ScheatContext::global->stream_body << "declare i32 @inputInt()\n";
     Function *initf = new Function(TypeData("Void", "void"), "init");
     initf->context->stream_entry << "\ndefine void @" << getFileName(scheato->sourceFile) << "_init(){\n";
@@ -202,11 +205,27 @@ void ScheatContext::Init(_Scheat *sch){
     countFunction->return_type = TypeData::IntType;
     countFunction->argTypes.push_back(TypeData::StringType.pointer());
     String->context->addFunction("count", countFunction);
+    auto stropeq = new Operator("==", "@String_eq_eq");
+    stropeq->position = infix;
+    stropeq->precidence = secondary;
+    stropeq->return_type = TypeData::BoolType;
+    stropeq->lhs_type = &TypeData::StringType;
+    stropeq->rhs_type = &TypeData::StringType;
+    String->operators["=="] = stropeq;
+    
+    auto stropadd = new Operator("+", "@ScheatString_add");
+    stropadd->position = infix;
+    stropadd->precidence = secondary;
+    stropadd->return_type = TypeData::StringType;
+    stropadd->lhs_type = &TypeData::StringType;
+    stropadd->rhs_type = &TypeData::StringType;
+    String->operators["+"] = stropadd;
     
     ScheatContext::global->addClass("String", String);
     
     auto Bool = new Class(&TypeData::BoolType);
     Bool->context->name = "Bool";
+    ScheatContext::global->addClass("Bool", Bool);
     
     auto Void = new Class(&TypeData::VoidType);
     ScheatContext::global->addClass("Void", Void);

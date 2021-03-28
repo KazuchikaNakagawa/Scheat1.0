@@ -445,6 +445,22 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "true") {
+        tok->kind = TokenKind::val_bool;
+        tok->value.boolValue = true;
+        tadd;
+        clear();
+        return;
+    }
+    
+    if (buf == "false") {
+        tok->kind = TokenKind::val_bool;
+        tok->value.boolValue = false;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (state == identifierState) {
         tok->value.strValue = buf;
         tok->kind = TokenKind::val_identifier;

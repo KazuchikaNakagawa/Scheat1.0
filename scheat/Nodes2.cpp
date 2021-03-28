@@ -365,19 +365,19 @@ Value *FunctionCallTerm::codegen(IRStream &f){
 }
 
 Value *IfStatement::codegen(IRStream &f){
-    IRStream& f0 = context->stream_body;
+    IRStream& f0 = local->stream_body;
     auto condv = condition->codegen(f0);
     auto labels = context->getLabel();
     f0 << "br " << condv->asValue() << ", label %" << labels + "if" << ", label %" << labels + "else" << "\n";
     f0 << labels + "if" << ":\n";
-    thenS->codegen(f);
+    thenS->codegen(local->stream_body);
     f0 << "br label %" << labels + "if" + "_end\n";
     f0 << labels + "else" << ":\n";
     
-    if (elseS != nullptr) elseS->codegen(f);
+    if (elseS != nullptr) elseS->codegen(local->stream_body);
     f0 << "br label %" << labels + "if" + "_end\n";
     f0 << labels + "if" + "_end:\n";
-    context->_break();
+    context->stream_body << local;
     return nullptr;
     
 }
@@ -714,9 +714,15 @@ Value *StringTerm::codegen(IRStream &f){
     string r = "@str";
     if (ScheatContext::global->strmap.find(substr) == ScheatContext::global->strmap.end()) {
         r = r + to_string(ScheatContext::global->strmap.size());
-        ScheatContext::global->strmap[substr] = true;
+        ScheatContext::global->strmap[substr] = ScheatContext::global->strmap.size();
     }else{
         r = r + to_string(ScheatContext::global->strmap[substr]);
+        string reg = context->getRegister();
+        f << reg << " = load i8*, i8** " << r << "\n";
+        string v = "call %String @String_init_pi8(i8* " + reg + ")";
+        string rr = context->getRegister();
+        f << rr << " = " << v << "\n";
+        return new Value(rr, TypeData::StringType);
     }
     auto rn = r;
     int strlength = value.size() - countof(value, '\\') - 2;
@@ -852,8 +858,27 @@ unique_ptr<ArgumentExpr> ArgumentExpr::addArg(unique_ptr<ArgumentExpr> args, uni
 
 Value *VariableAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
     string reg = context->getRegister();
-    f << reg << " = getelementptr " << parent->type.loaded().ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varindex.index) << "\n";
+    auto v = codegenAsRefWithParent(parent, f);
+    f << reg << " = load " << v->type.loaded() << ", " << v->asValue() << "\n";
     return new Value(reg, type);
+}
+
+Value *VariableAttributeExpr::codegenAsRefWithParent(Value * parent, IRStream &f){
+    string reg = context->getRegister();
+    f << reg << " = getelementptr " << parent->type.loaded().ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(varindex.index) << "\n";
+    return new Value(reg, type.pointer());
+}
+
+Value *FunctionAttributeExpr::codegenAsRefWithParent(Value *parent, IRStream &f){
+    auto v = codegenWithParent(parent, f);
+    if (!v) {
+        scheato->FatalError(location, __FILE_NAME__, __LINE__, "illegal access: Void value");
+        return nullptr;
+    }
+    auto r = context->getRegister();
+    f << r << " = alloca " << v->type << "\n";
+    f << "store " << v->asValue() << ", " << v->type.pointer() << " " << r << "\n";
+    return new Value(r, v->type.pointer());
 }
 
 Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
@@ -903,15 +928,11 @@ Value *VariableTerm::codegenAsRef(IRStream &f){
 Value *AccessIdentifierExpr::codegenAsRef(IRStream &f){
     auto v = parent->codegenAsRef(f);
     if (child != nullptr) {
-        auto v2 = child->codegenWithParent(v, f);
+        auto v2 = child->codegenAsRefWithParent(v, f);
         if (!v2) {
             return nullptr;
         }
-        auto r = context->getRegister();
-        f << r << " = alloca " << v2->type.ir_used << "\n";
-        f << "store " << v2->asValue() << ", " << v2->type.ir_used << "* " << r << "\n";
-        v2->type = v2->type.pointer();
-        return new Value(r, v2->type);
+        return v2;
     }
     return v;
 }
@@ -1022,16 +1043,22 @@ Value *NewIdentifierExpr::codegenAsRef(IRStream &f){
 }
 
 Value *AccessIdentifierExpr::codegen(IRStream &f){
-    auto v = codegenAsRef(f);
-    if (!v) {
+//    auto v = codegenAsRef(f);
+//    if (!v) {
+//        return nullptr;
+//    }
+//    if (v->type.ir_used.find("*") == string::npos) {
+//        return v;
+//    }
+//    auto r = context->getRegister();
+//    f << r << " = load " << v->type.loaded().ir_used << ", " << v->asValue() << "\n";
+//    return new Value(r, v->type.loaded());
+    auto p = parent->codegenAsRef(f);
+    if (!p) {
         return nullptr;
     }
-    if (v->type.ir_used.find("*") == string::npos) {
-        return v;
-    }
-    auto r = context->getRegister();
-    f << r << " = load " << v->type.loaded().ir_used << ", " << v->asValue() << "\n";
-    return new Value(r, v->type.loaded());
+    
+    return child->codegenWithParent(p, f);
 }
 
 string AccessIdentifierExpr::userdump(){

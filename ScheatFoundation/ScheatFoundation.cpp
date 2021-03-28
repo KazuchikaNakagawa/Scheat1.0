@@ -162,8 +162,8 @@ String ScheatString_add(String lhs, String rhs){
     String str;
     unsigned long ll = strlen(lhs.buf.char_ptr);
     unsigned long rl = strlen(rhs.buf.char_ptr);
-    lhs.buf.char_ptr = (char *)realloc(lhs.buf.char_ptr, 8 * (ll+rl));
-    
+    str.buf.char_ptr = (char *)malloc(ll + rl);
+    sprintf(str.buf.char_ptr, "%s%s", lhs.buf.char_ptr, rhs.buf.char_ptr);
     return str;
 }
 

@@ -12,8 +12,6 @@
 /* The classes below are exported */
 #pragma GCC visibility push(default)
 
-#include "ScheatBasicStructures.h"
-
 namespace scheatRun{
 namespace instruction{
 enum class InstructionType : uint8_t {
@@ -103,25 +101,30 @@ enum class InstructionType : uint8_t {
     extended,
 };
 
-// 8|1|8 bit
+enum InstLength : uint8_t {
+    _8bit,
+    _16bit,
+    _32bit,
+    _64bit
+};
+
 struct InstructionHead;
 
-class Instruction;
+class Instruction{
+    InstructionType inst;
+    InstLength length;
+};
 }
 class ScheatRun
 {
     ScheatRun(){};
 public:
-    __unavailable
-    void HelloWorld(const char *);
     
     static void FatalError(unsigned int, const char *format, ...);
     
     static void Debug(unsigned int, const char *format, ...);
     
     void run(std::string);
-    
-    void runStream(instruction::InstructionHead *);
     
     ScheatRun(const ScheatRun&) = delete;
     

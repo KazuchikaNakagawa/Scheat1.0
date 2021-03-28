@@ -54,6 +54,10 @@ extern "C" String String_init();
 
 extern "C" void String_deinit(void*);
 
+extern "C" bool String_eq_eq(String l, String r){
+    return strcmp(l.buf.char_ptr, r.buf.char_ptr) == 0;
+};
+
 extern "C" bool ScheatString_isPtr(String *);
 
 extern "C" String ScheatString_assign(String *);

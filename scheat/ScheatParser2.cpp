@@ -828,7 +828,7 @@ parseIfStatement(Token *&tok){
     }
     auto context = ScheatContext::local()->createLocal("if");
     auto s = parseStatement(tok);
-    ScheatContext::pop();
+    
     if (!s) {
         return nullptr;
     }
@@ -840,18 +840,17 @@ parseIfStatement(Token *&tok){
             return nullptr;
         }
     }
+    ScheatContext::pop();
     if (tok->kind == scheat::TokenKind::tok_EOF) {
         tok = tok->prev;
         tok->kind = scheat::TokenKind::tok_period;
-        auto ifs = IfStatement::init(move(expr), move(s), move(elseS));
-        ifs->context = context;
+        auto ifs = IfStatement::init(context, move(expr), move(s), move(elseS));
         return ifs;
     }
     
     tok = tok->prev;
     tok->kind = scheat::TokenKind::tok_comma;
-    auto ifs = IfStatement::init(move(expr), move(s), move(elseS));
-    ifs->context = context;
+    auto ifs = IfStatement::init(context,move(expr), move(s), move(elseS));
     return ifs;
 }
 
@@ -981,7 +980,7 @@ parseDeclareFunctionStatement(Token *&tok){
             return nullptr;
         }
         if (tok->kind == scheat::TokenKind::tok_paren_r) {
-            eatThis(tok);
+            //eatThis(tok);
             break;
         }
         
@@ -1300,6 +1299,7 @@ parseMethodDeclareStatement(Token *&tok, Class *c){
     }
     auto context = ScheatContext::global->create(name->value.strValue);
     context->base = c->context;
+    context->type = nullptr;
     vector<string> argNames = {};
     vector<TypeData> argTypes = {};
     context->addVariable("self", new Variable("%self", *c->type));
@@ -1395,6 +1395,7 @@ parseMethodDeclareStatement(Token *&tok, Class *c){
     func->context = context;
     
     auto ptr = MethodDeclareStatement::init(c, func, move(statement));
+    ptr->context = context;
     func->argTypes = argTypes;
     func->context = context;
     
@@ -1505,8 +1506,6 @@ parseClassDeclareStatement(Token *&tok){
         auto pv = new Variable("%" + pair.first, prop.type);
         deinitfunc->context->addVariable(pair.first, pv);
     }
-    r = deinitfunc->context->getRegister();
-    deinitfunc->context->stream_tail << r << " = load %" << classType << ", %" << classType << "* %self\n";
     deinitfunc->context->stream_tail << "ret void\n";
     deinitfunc->context->stream_tail << "}\n";
     
