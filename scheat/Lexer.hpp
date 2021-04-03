@@ -13,10 +13,11 @@
 #include "ScheatToken.h"
 #include "Classes.h"
 #include <fstream>
+#include "ScheatStd.hpp"
 
 namespace scheat {
 class _Scheat;
-class SourceLocation;
+using namespace scheatSTD;
 
 namespace lexer {
 enum LexerState {

@@ -25,4 +25,4 @@ void scheat::eatThis(scheat::Token *&tokref){
     }
 }
 
-scheat::SourceLocation scheat::SourceLocation::OUTOFFILELOCATION = SourceLocation(-999, -999);
+//scheat::SourceLocation scheat::SourceLocation::OUTOFFILELOCATION = SourceLocation(-999, -999);

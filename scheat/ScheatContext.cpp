@@ -159,11 +159,11 @@ LocalContext *Context::createLocal(std::string name){
 }
 
 void LocalContext::addFunction(std::string, Function *){
-    scheato->FatalError(SourceLocation::OUTOFFILELOCATION, __FILE_NAME__, __LINE__, "compiler seems not to be working well.");
+    scheato->FatalError(SourceLocation::OUTOFFILE, __FILE_NAME__, __LINE__, "compiler seems not to be working well.");
 }
 
 void LocalContext::addClass(std::string, Class *){
-    scheato->FatalError(SourceLocation::OUTOFFILELOCATION, __FILE_NAME__, __LINE__, "compiler seems not to be working well.");
+    scheato->FatalError(SourceLocation::OUTOFFILE, __FILE_NAME__, __LINE__, "compiler seems not to be working well.");
 }
 
 

@@ -8,6 +8,10 @@
 #include <stdio.h>
 #include "Utilities.h"
 
+#include "ScheatStd.hpp"
+
+typedef scheatSTD::SourceLocation SourceLocation;
+
 string getFileName(string path){
     string kbuf = "";
     for (auto c : path) {
@@ -25,4 +29,3 @@ string getFileName(string path){
     return "";
 }
 
-scheat::Some scheat::nil = scheat::_nil;

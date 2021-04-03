@@ -85,6 +85,14 @@
 		82A1A23424D80AFE009C2E5F /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975224D32B5500F13264 /* libncurses.5.tbd */; };
 		82A1A23524D80AFE009C2E5F /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974C24D321B400F13264 /* libncurses.tbd */; };
 		82A1A23624D80AFE009C2E5F /* libscheat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829849EB24D2DA20004A7A64 /* libscheat.a */; };
+		82AD9AA32615D343003B1427 /* ScheatDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82AD9A4B2615D315003B1427 /* ScheatDebugger.cpp */; };
+		82AD9AB62615D7D1003B1427 /* ScheatInstructions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82AD9AB42615D7D1003B1427 /* ScheatInstructions.cpp */; };
+		82AD9AB72615D7D1003B1427 /* ScheatInstructions.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82AD9AB52615D7D1003B1427 /* ScheatInstructions.hpp */; };
+		82AD9ACB2615D83E003B1427 /* ScheatStd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82AD9AC92615D83E003B1427 /* ScheatStd.cpp */; };
+		82AD9ACC2615D83E003B1427 /* ScheatStd.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82AD9ACA2615D83E003B1427 /* ScheatStd.hpp */; };
+		82AD9AEF2618439E003B1427 /* ScheatBin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82AD9AED2618439E003B1427 /* ScheatBin.cpp */; };
+		82AD9AF02618439E003B1427 /* ScheatBin.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82AD9AEE2618439E003B1427 /* ScheatBin.hpp */; };
+		82AD9B0126187C64003B1427 /* ScheatStd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82AD9AC92615D83E003B1427 /* ScheatStd.cpp */; };
 		82AEB63224DC3DC400889AC3 /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975224D32B5500F13264 /* libncurses.5.tbd */; };
 		82AEB63324DC3DC400889AC3 /* libncurses.5.4.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6975324D32B5500F13264 /* libncurses.5.4.tbd */; };
 		82AEB63424DC3DC400889AC3 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6974C24D321B400F13264 /* libncurses.tbd */; };
@@ -631,6 +639,15 @@
 		829CD925251F28A900139E5F /* Nodes2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Nodes2.cpp; sourceTree = "<group>"; };
 		829CD926251F28A900139E5F /* Nodes2.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = Nodes2.h; sourceTree = "<group>"; };
 		82A1A23B24D80AFE009C2E5F /* scheat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = scheat; sourceTree = BUILT_PRODUCTS_DIR; };
+		82AD9A4B2615D315003B1427 /* ScheatDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatDebugger.cpp; sourceTree = "<group>"; };
+		82AD9A4C2615D316003B1427 /* ScheatDebugger.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatDebugger.hpp; sourceTree = "<group>"; };
+		82AD9A8F2615D33C003B1427 /* libScheatDebugger.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libScheatDebugger.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		82AD9AB42615D7D1003B1427 /* ScheatInstructions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatInstructions.cpp; sourceTree = "<group>"; };
+		82AD9AB52615D7D1003B1427 /* ScheatInstructions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatInstructions.hpp; sourceTree = "<group>"; };
+		82AD9AC92615D83E003B1427 /* ScheatStd.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatStd.cpp; sourceTree = "<group>"; };
+		82AD9ACA2615D83E003B1427 /* ScheatStd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatStd.hpp; sourceTree = "<group>"; };
+		82AD9AED2618439E003B1427 /* ScheatBin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatBin.cpp; sourceTree = "<group>"; };
+		82AD9AEE2618439E003B1427 /* ScheatBin.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatBin.hpp; sourceTree = "<group>"; };
 		82AEB66824DC3DC400889AC3 /* libscheatIRBuilder.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libscheatIRBuilder.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82AEB66C24DC3E2500889AC3 /* ScheatIR.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatIR.hpp; sourceTree = "<group>"; };
 		82AEB66D24DC3E3500889AC3 /* ScheatIR_Hidd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatIR_Hidd.hpp; sourceTree = "<group>"; };
@@ -1242,6 +1259,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82AD9A8D2615D33C003B1427 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82AEB63124DC3DC400889AC3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1299,6 +1323,8 @@
 				826720A824F7CA1200C94D22 /* ScheatEngine.h */,
 				8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */,
 				82B3FB072507729F007594A9 /* ScheatRun2.cpp */,
+				82AD9AED2618439E003B1427 /* ScheatBin.cpp */,
+				82AD9AEE2618439E003B1427 /* ScheatBin.hpp */,
 			);
 			path = ScheatRun;
 			sourceTree = "<group>";
@@ -1347,6 +1373,8 @@
 		829849D024D1B5A7004A7A64 = {
 			isa = PBXGroup;
 			children = (
+				82AD9AC82615D812003B1427 /* ScheatUtils */,
+				82AD9A4A2615D2FA003B1427 /* ScheatDebugger */,
 				8289B9FD258A3C0C00F7DC0B /* ScheatDriver */,
 				82041407252365D10073CB03 /* ScheatHelp */,
 				820413C6251F7BBC0073CB03 /* FoundationTest */,
@@ -1380,6 +1408,7 @@
 				8289B9EC258A3BF900F7DC0B /* libScheatDriver.a */,
 				8227D74C25A9868500BCB932 /* libScheatFoundation.dylib */,
 				82E5E2FF25B5832B00B3316C /* CLParserTest */,
+				82AD9A8F2615D33C003B1427 /* libScheatDebugger.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1613,6 +1642,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		82AD9A4A2615D2FA003B1427 /* ScheatDebugger */ = {
+			isa = PBXGroup;
+			children = (
+				82AD9A4B2615D315003B1427 /* ScheatDebugger.cpp */,
+				82AD9A4C2615D316003B1427 /* ScheatDebugger.hpp */,
+				82AD9AB42615D7D1003B1427 /* ScheatInstructions.cpp */,
+				82AD9AB52615D7D1003B1427 /* ScheatInstructions.hpp */,
+			);
+			path = ScheatDebugger;
+			sourceTree = "<group>";
+		};
+		82AD9AC82615D812003B1427 /* ScheatUtils */ = {
+			isa = PBXGroup;
+			children = (
+				82AD9AC92615D83E003B1427 /* ScheatStd.cpp */,
+				82AD9ACA2615D83E003B1427 /* ScheatStd.hpp */,
+			);
+			path = ScheatUtils;
+			sourceTree = "<group>";
+		};
 		82AEB66B24DC3E0100889AC3 /* ScheatIR */ = {
 			isa = PBXGroup;
 			children = (
@@ -1649,6 +1698,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8225412B24E175F700DBF05C /* ScheatRun.h in Headers */,
+				82AD9AF02618439E003B1427 /* ScheatBin.hpp in Headers */,
 				8225412D24E175F700DBF05C /* ScheatRunPriv.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1693,6 +1743,15 @@
 				829CD928251F28A900139E5F /* Nodes2.h in Headers */,
 				829CD924251F26B600139E5F /* ScheatParser2.h in Headers */,
 				8262653225275F4700E71311 /* ScheatEncoder.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82AD9A8B2615D33C003B1427 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82AD9ACC2615D83E003B1427 /* ScheatStd.hpp in Headers */,
+				82AD9AB72615D7D1003B1427 /* ScheatInstructions.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1906,6 +1965,23 @@
 			productReference = 82A1A23B24D80AFE009C2E5F /* scheat */;
 			productType = "com.apple.product-type.tool";
 		};
+		82AD9A8E2615D33C003B1427 /* ScheatDebugger */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82AD9A902615D33C003B1427 /* Build configuration list for PBXNativeTarget "ScheatDebugger" */;
+			buildPhases = (
+				82AD9A8B2615D33C003B1427 /* Headers */,
+				82AD9A8C2615D33C003B1427 /* Sources */,
+				82AD9A8D2615D33C003B1427 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScheatDebugger;
+			productName = ScheatDebugger;
+			productReference = 82AD9A8F2615D33C003B1427 /* libScheatDebugger.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		82AEB62824DC3DC400889AC3 /* scheatIRBuilder */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82AEB66524DC3DC400889AC3 /* Build configuration list for PBXNativeTarget "scheatIRBuilder" */;
@@ -1995,6 +2071,9 @@
 					829849F924D2DFA4004A7A64 = {
 						CreatedOnToolsVersion = 12.0;
 					};
+					82AD9A8E2615D33C003B1427 = {
+						CreatedOnToolsVersion = 12.4;
+					};
 					82AEB61C24DC346400889AC3 = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -2034,6 +2113,7 @@
 				8289B9EB258A3BF900F7DC0B /* ScheatDriver */,
 				8227D74B25A9868500BCB932 /* ScheatFoundation */,
 				82E5E2FE25B5832B00B3316C /* CLParserTest */,
+				82AD9A8E2615D33C003B1427 /* ScheatDebugger */,
 			);
 		};
 /* End PBXProject section */
@@ -2060,6 +2140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82B3FB082507729F007594A9 /* ScheatRun2.cpp in Sources */,
+				82AD9AEF2618439E003B1427 /* ScheatBin.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2108,6 +2189,7 @@
 				82806DD2250E0BA70010F012 /* ScheatBasicStructures.cpp in Sources */,
 				82097C8F25076A31002D048A /* CScheat.cpp in Sources */,
 				8292381A25A5A89A002157FC /* Utilities.cpp in Sources */,
+				82AD9B0126187C64003B1427 /* ScheatStd.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
 				829CD923251F26B600139E5F /* ScheatParser2.cpp in Sources */,
 				82FF1F3F255631A90047DEF4 /* Initializer.cpp in Sources */,
@@ -2135,6 +2217,16 @@
 				82E5E2EC25B16CF200B3316C /* CommandLineOptions.cpp in Sources */,
 				828FFCBA24D80E2D007BEBFF /* main.cpp in Sources */,
 				82E5E2DB25B07FC200B3316C /* ScheatMake.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82AD9A8C2615D33C003B1427 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82AD9AB62615D7D1003B1427 /* ScheatInstructions.cpp in Sources */,
+				82AD9ACB2615D83E003B1427 /* ScheatStd.cpp in Sources */,
+				82AD9AA32615D343003B1427 /* ScheatDebugger.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2908,6 +3000,56 @@
 			};
 			name = Release;
 		};
+		82AD9A912615D33C003B1427 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		82AD9A922615D33C003B1427 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R28UD9U8M7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		82AEB61D24DC346400889AC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3180,6 +3322,15 @@
 			buildConfigurations = (
 				82A1A23924D80AFE009C2E5F /* Debug */,
 				82A1A23A24D80AFE009C2E5F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82AD9A902615D33C003B1427 /* Build configuration list for PBXNativeTarget "ScheatDebugger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82AD9A912615D33C003B1427 /* Debug */,
+				82AD9A922615D33C003B1427 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

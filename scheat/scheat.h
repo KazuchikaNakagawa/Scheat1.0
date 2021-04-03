@@ -9,11 +9,11 @@
 #define scheat_
 #include <string>
 #pragma GCC visibility push(default)
-
+#include "ScheatStd.hpp"
 #include "Classes.h"
 namespace scheat{
 
-struct SourceLocation;
+using namespace scheatSTD;
 
 class _Scheat;
 using namespace std;

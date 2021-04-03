@@ -64,7 +64,7 @@ typedef int i32;
 typedef short i16;
 typedef char i8;
 
-struct Register{
+class Register{
 private:
     i64 *begin;
     i64 *bp;
@@ -80,18 +80,36 @@ public:
     
     void push(i64 d){
         begin = (i64 *)realloc(begin, bp-begin+8);
+        memcpy(bp, &d, 8);
+        bp += 8;
     };
-    i64* R(){
+    void pop(){
+        begin = (i64 *)realloc(begin, bp-begin-8);
+        bp -= 8;
+    }
+    inline i64* R(){
         return bp;
     };
-    i32* D(){
+    inline i32* D(){
         return (i32 *)(bp + 4);
     }
-    i16* W(){
+    inline i16* W(){
         return (i16 *)(bp + 6);
     }
-    i8* B(){
+    inline i8* B(){
         return (i8*)(bp + 7);
+    }
+    inline i64 getR(){
+        return *R();
+    }
+    inline i32 getD(){
+        return *D();
+    }
+    inline i16 getW(){
+        return *W();
+    }
+    inline i8 getB(){
+        return *B();
     }
 };
 
@@ -99,9 +117,14 @@ public:
 class ScheatRunEngine {
 public:
     EngineError *err;
-    void* rbp;
-    void* rsp;
     stack<Heap> heaps;
+    Register registers[10];
+    Register& rbp(){
+        return registers[7];
+    }
+    Register& rsp(){
+        return registers[8];
+    }
     
 };
 

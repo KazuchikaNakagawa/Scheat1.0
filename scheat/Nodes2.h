@@ -14,10 +14,11 @@
 #include "ScheatToken.h"
 #include "ScheatContextStructures.h"
 #include "ScheatContext.h"
+#include "ScheatStd.hpp"
 
 namespace scheat {
 using namespace std;
-struct SourceLocation;
+using namespace scheatSTD;
 namespace nodes2 {
 class Value {
 public:

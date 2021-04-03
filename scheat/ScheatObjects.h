@@ -13,6 +13,7 @@
 #include <iostream>
 #include "ScheatToken.h"
 #include "scheat.h"
+#include "ScheatStd.hpp"
 
 #define SV_P 18
 namespace scheat {
@@ -26,6 +27,7 @@ extern void LLParse(_Scheat *);
 }
 
 using namespace std;
+using namespace scheatSTD;
 
 struct DebugOption {
     bool enableDebug;

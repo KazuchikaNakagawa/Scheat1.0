@@ -8,16 +8,19 @@
 #ifndef ScheatToken_h
 #define ScheatToken_h
 #include <string>
+#include "ScheatStd.hpp"
 
 namespace scheat {
 
-struct SourceLocation {
-    SourceLocation(int l = 1, int c = 0) : line(l), column(c){};
-    int line;
-    int column;
-    ~SourceLocation() = default;
-    static SourceLocation OUTOFFILELOCATION;
-};
+using namespace scheatSTD;
+
+//struct __deprecated SourceLocation {
+//    SourceLocation(int l = 1, int c = 0) : line(l), column(c){};
+//    int line;
+//    int column;
+//    ~SourceLocation() = default;
+//    static SourceLocation OUTOFFILELOCATION;
+//};
 
 enum class TokenKind : int {
     
@@ -140,8 +143,8 @@ struct Token {
         }
         delete this;
     }
-    Token(Token &&) {};
-    Token(const Token &) {};
+    Token(Token &&) : location(SourceLocation::OUTOFFILE) {};
+    Token(const Token &) : location(SourceLocation::OUTOFFILE) {};
 };
 
 extern void eatThis(Token *&);
