@@ -42,6 +42,7 @@ enum class TokenKind : int {
     tok_range,
     tok_if,
     tok_for,
+    tok_from,
     tok_times,
     tok_do,
     tok_done,

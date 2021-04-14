@@ -263,16 +263,39 @@ Value *ContinueStatement::codegen(IRStream &f){
     return nullptr;
 }
 
+bool TypeData::isSubTypeOf(TypeData type){
+    while (type.ir_used.find("*") != string::npos) {
+        type = type.loaded();
+    }
+    auto cls = ScheatContext::global->findClass(name);
+    if (!cls) {
+        return false;
+    }
+    while (cls) {
+        if (cls->type->name == type.name) {
+            return true;
+        }else{
+            cls = cls->parentClass;
+        }
+    }
+    return false;
+}
+
 Value *ClassDefinitionStatement::codegen(IRStream &f){
     ScheatContext::global->stream_body << "%" << name << " = type{";
+    if (classObject->bitMap.empty()) {
+        goto a;
+    }
     for (auto t : classObject->bitMap) {
         ScheatContext::global->stream_body << t.ir_used << ",";
     }
     
     ScheatContext::global->stream_body.irs.pop_back();
-    
+    a:
     ScheatContext::global->stream_body << "}\n";
-    
+    if (!statements) {
+        return nullptr;
+    }
     statements->codegen(f);
     
     return nullptr;
@@ -701,6 +724,45 @@ Value *AllocationExpr::codegen(IRStream &f){
     return new Value(r, cln->type->pointer());
 }
 
+unique_ptr<ReassignExpr> ReassignExpr::init(unique_ptr<Expr> i, unique_ptr<Expr> v){
+    auto ptr = make_unique<ReassignExpr>();
+    ptr->location = i->location;
+    ptr->idexpr = move(i);
+    ptr->value = move(v);
+    return ptr;
+}
+
+Value *ReassignExpr::codegen(IRStream &f){
+    auto idv = idexpr->codegenAsRef(context->stream_body);
+    if (!idv) {
+        
+        return nullptr;
+    }
+    if (idv->type.ir_used.find("*") == string::npos) {
+        scheato->FatalError(idexpr->location, __FILE_NAME__, __LINE__, "code generator seems not to work well.");
+        return nullptr;
+    }
+    
+    auto vv = value->codegen(context->stream_body);
+    if (!vv) {
+        return nullptr;
+    }
+    
+    if (idv->type.loaded() == vv->type) {
+        
+    }else{
+        auto r = context->getRegister();
+        context->stream_body
+        << r << " = bitcast " << idv->type << " to " << vv->type << "*\n";
+        idv->type = vv->type.pointer();
+        idv->value = r;
+    }
+    
+    context->stream_body
+    << "store " << idv->asValue() << ", " << vv->asValue() << "\n";
+    return nullptr;
+}
+
 Value *StringTerm::codegen(IRStream &f){
     
     string substr = value;
@@ -883,7 +945,16 @@ Value *FunctionAttributeExpr::codegenAsRefWithParent(Value *parent, IRStream &f)
 
 Value *FunctionAttributeExpr::codegenWithParent(Value *parent, IRStream &f){
     values = args->codegenAsArray(f);
-    values.insert(values.begin(), parent);
+    if (func->argTypes[0].ir_used != parent->type.ir_used) {
+        auto r = context->getRegister();
+        f << r << " = bitcast " << parent->asValue() << " to " <<
+        func->argTypes[0].ir_used << "\n";
+        parent->value = r;
+        parent->type = func->argTypes[0];
+        values.insert(values.begin(), parent);
+    }else{
+        values.insert(values.begin(), parent);
+    }
     if (func->return_type == "Void") {
         auto r = context->getRegister();
         f << r << " = getelementptr " << parent->type.loaded().ir_used << ", " << parent->asValue() << ", i32 0, i32 " << to_string(func->index) << "\n";

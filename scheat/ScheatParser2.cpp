@@ -1441,6 +1441,24 @@ static unique_ptr<ClassDefinitionStatement>
 parseClassDeclareStatement(Token *&tok){
     auto idtok = tok;
     eatThis(tok);
+    
+    Class *superClass = nullptr;
+    
+    if (tok->kind == scheat::TokenKind::tok_from) {
+        eatThis(tok);
+        if (tok->kind != scheat::TokenKind::val_identifier) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "no identifier after from token");
+            return nullptr;
+        }
+        string k = tok->value.strValue;
+        superClass = ScheatContext::global->findClass(k);
+        if (!superClass) {
+            scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "class named %s is undefined.", k.c_str());
+            return nullptr;
+        }
+        eatThis(tok);
+    }
+    
     if (tok->kind != scheat::TokenKind::tok_class) {
         scheato->FatalError(tok->location, __FILE_NAME__, __LINE__,
                             "Undefined Error.");
@@ -1453,11 +1471,35 @@ parseClassDeclareStatement(Token *&tok){
     
     ScheatContext::push(classObj->context);
     auto initfunc = new Function(TypeData(classType, "%"+classType),classType + "_init");
-    
+    if (superClass) {
+        
+        classObj->bitMap = superClass->bitMap;
+        classObj->properties = superClass->properties;
+        classObj->operators = superClass->operators;
+    }
     initfunc->context->stream_entry << "\ndefine %" << classType << " @" << initfunc->name << "(){\n";
     auto self = new Variable("%self", *classObj->type);
     initfunc->context->addVariable("self", self);
     initfunc->context->stream_entry << "%self = alloca %" << classType << "\n";
+    if (superClass) {
+        auto r = initfunc->context->getRegister();
+        initfunc->context->stream_entry << r << " = call " << superClass->type->ir_used << " @" << superClass->type->name << "_init()\n";
+        auto rSelf = initfunc->context->getRegister();
+        initfunc->context->stream_entry << rSelf << " = bitcast %" << classType << "* %self to "
+        << superClass->type->ir_used << "*\n";
+        initfunc->context->stream_entry
+        << "store " << superClass->type->ir_used << " " << r << ", "
+        << superClass->type->ir_used << "* " << rSelf << "\n";
+//        auto rCast = initfunc->context->getRegister();
+//        initfunc->context->stream_entry <<
+//        rCast << " = bitcast " << superClass->type->ir_used << "* "
+//        << rSelf << " to %" << classType << "*\n";
+//        auto rLoad = initfunc->context->getRegister();
+//        initfunc->context->stream_entry <<
+//        rLoad << " = load %" << classType << ", %" << classType <<
+//        "* " << rCast << "\n";
+//        initfunc->context->stream_entry << "store %" << classType << " " << rLoad << ", %" << classType << "* %self\n";
+    }
     classObj->constructor = initfunc;
 
     unique_ptr<ClassStatements> statements = nullptr;
@@ -1500,6 +1542,9 @@ parseClassDeclareStatement(Token *&tok){
     
     deinitfunc->context->addVariable("self", self);
     deinitfunc->context->stream_entry << "%self = bitcast i8* %_self to %" << classType << "*\n";
+    if (superClass) {
+        deinitfunc->context->stream_entry << "call void @" << superClass->type->name << "_deinit(i8* %_self)\n";
+    }
     for (auto pair : classObj->properties){
         auto prop = pair.second;
         deinitfunc->context->stream_body << "%" << pair.first << " = getelementptr %" << classType << ", %" << classType << "* %self, i32 0, i32 " << to_string(prop.index) << "\n";
@@ -1517,6 +1562,8 @@ parseClassDeclareStatement(Token *&tok){
     classObj->destructor = deinitfunc;
     
     classObj->context = context;
+    
+    classObj->parentClass = superClass;
     
     auto ret = ClassDefinitionStatement::init(ScheatContext::getNamespace(),idtok, move(statements));
     ret->classObject = classObj;
@@ -1540,7 +1587,8 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
         return parseDeclareVariableStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::val_identifier) {
-        if (tokens->next->kind == scheat::TokenKind::tok_class) {
+        if (tokens->next->kind == scheat::TokenKind::tok_class
+            || tokens->next->kind == scheat::TokenKind::tok_from) {
             return parseClassDeclareStatement(tokens);
         }
         return parseFunctionCallStatement(tokens);

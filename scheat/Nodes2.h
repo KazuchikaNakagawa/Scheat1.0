@@ -506,6 +506,16 @@ public:
     };
 };
 
+class ReassignExpr : public Expr {
+public:
+    unique_ptr<Expr> idexpr;
+    unique_ptr<Expr> value;
+    Value * codegen(IRStream &) override;
+    string userdump() override;
+    static unique_ptr<ReassignExpr>
+    init(unique_ptr<Expr>, unique_ptr<Expr>);
+};
+
 class AllocationExpr : public Expr {
 public:
     unique_ptr<Expr> expr;

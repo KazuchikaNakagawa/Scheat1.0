@@ -99,6 +99,8 @@ public:
         return *this;
     }
     
+    bool isSubTypeOf(TypeData);
+    
     TypeData copy(){
         return TypeData(name, ir_used);
     }

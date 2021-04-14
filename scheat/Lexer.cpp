@@ -319,6 +319,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "from") {
+        tok->kind = TokenKind::tok_from;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "remember") {
         tok->kind = TokenKind::tok_external;
         tadd;
@@ -525,6 +532,9 @@ void Token::out(){
             printf("for token\n");
             break;
             
+        case TokenKind::tok_from:
+            printf("from token\n");
+            break;
         case TokenKind::tok_times:
             printf("times token\n");
             break;
