@@ -635,6 +635,22 @@ static unique_ptr<LoadExpr> parseLoadExpr(Token *&tok){
     return LoadExpr::init(p->type.loaded(), move(p));
 }
 
+static unique_ptr<ReassignExpr>
+parseReassignExpr(Token *&tok, unique_ptr<Expr> e){
+    eatThis(tok);
+    auto expr = parseExpr(tok);
+    if (!expr) {
+        return nullptr;
+    }
+    if (!(expr->type == e->type)) {
+        if (!e->type.isSubTypeOf(expr->type)) {
+            scheato->FatalError(expr->location, __FILE_NAME__, __LINE__, "assigned expression is type %s but assigned type %s", e->type.name.c_str(), expr->type.ir_used.c_str());
+            return nullptr;
+        }
+    }
+    return ReassignExpr::init(move(e), move(expr));
+}
+
 extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
     // expr : operatedExpr t_of id
     //      | the expr
@@ -654,6 +670,10 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
             return nullptr;
         }
         return CastExpr::init(*type, move(ptr));
+    }
+    
+    if (tok->kind == TokenKind::tok_is) {
+        return parseReassignExpr(tok, move(ptr));
     }
     
     return ptr;
@@ -821,11 +841,15 @@ parseIfStatement(Token *&tok){
         return nullptr;
     }
     if (tok->kind != scheat::TokenKind::tok_comma) {
+        if (tok->kind == scheat::TokenKind::tok_do) {
+            goto legal;
+        }
         scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "no comma after if clause.");
         return nullptr;
     }else{
         eatThis(tok);
     }
+    legal:
     auto context = ScheatContext::local()->createLocal("if");
     auto s = parseStatement(tok);
     
@@ -1281,6 +1305,40 @@ parsePropertyDeclareStatement(Token *&tok, Class *c){
     return PropertyDeclareStatement::init(c, idtok->value.strValue, move(expr), &c->properties[idtok->value.strValue]);
 }
 
+static unique_ptr<DoStatement>
+parseDoStatement(Token *&tok){
+    if (tok->kind == scheat::TokenKind::tok_do) {
+        eatThis(tok);
+    }else{
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "if you want to use scope, write like -> do{ statements }");
+        return nullptr;
+    }
+    if (tok->kind != scheat::TokenKind::tok_brace_l) {
+        scheato->FatalError(tok->location, __FILE_NAME__, __LINE__, "if you want to use scope, write like -> do{ statements }");
+        return nullptr;
+    }else{
+        eatThis(tok);
+    }
+    unique_ptr<Statement> ptr = nullptr;
+    while (tok) {
+        if (tok->kind == scheat::TokenKind::tok_brace_r) {
+            eatThis(tok);
+            break;
+        }
+        auto st = parseStatement_single(tok);
+        if (!st) {
+            return nullptr;
+        }
+        if (tok->kind == scheat::TokenKind::tok_period) {
+            eatThis(tok);
+        }else if (tok->kind == scheat::TokenKind::tok_comma){
+            eatThis(tok);
+        }
+        ptr = Statement::init(move(ptr), move(st));
+    }
+    return DoStatement::init(move(ptr));
+}
+
 static unique_ptr<MethodDeclareStatement>
 parseMethodDeclareStatement(Token *&tok, Class *c){
     eatThis(tok);
@@ -1616,6 +1674,11 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     }
     
     if (tokens->kind == scheat::TokenKind::tok_do) {
+        // do {}
+        if (tokens->next->kind == scheat::TokenKind::tok_brace_l) {
+            return parseDoStatement(tokens);
+        }
+        // do for X times
         eatThis(tokens);
         if (tokens->kind == scheat::TokenKind::tok_for) {
             return parseForStatement(tokens);

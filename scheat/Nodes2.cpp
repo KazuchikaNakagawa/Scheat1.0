@@ -751,6 +751,10 @@ Value *ReassignExpr::codegen(IRStream &f){
     if (idv->type.loaded() == vv->type) {
         
     }else{
+        if (!idv->type.loaded().isSubTypeOf(vv->type)) {
+            scheato->FatalError(idexpr->location, __FILE_NAME__, __LINE__, "compiler should warn this.");
+            return nullptr;
+        }
         auto r = context->getRegister();
         context->stream_body
         << r << " = bitcast " << idv->type << " to " << vv->type << "*\n";
@@ -1217,7 +1221,7 @@ ReassignStatement::init(unique_ptr<IdentifierExpr> id, unique_ptr<Expr> v){
 }
 
 Value *ReassignStatement::codegen(IRStream &f){
-    auto lv = variable->codegenAsRef(f);
+    auto lv = variable->codegen(f);
     auto rv = value->codegen(f);
     f << "store " << rv->asValue() << ", " << lv->asValue() << "\n";
     return nullptr;

@@ -511,7 +511,9 @@ public:
     unique_ptr<Expr> idexpr;
     unique_ptr<Expr> value;
     Value * codegen(IRStream &) override;
-    string userdump() override;
+    string userdump() override{
+        return idexpr->userdump() + " = " + value->userdump();
+    };
     static unique_ptr<ReassignExpr>
     init(unique_ptr<Expr>, unique_ptr<Expr>);
 };
@@ -524,32 +526,6 @@ public:
     static unique_ptr<AllocationExpr> init(unique_ptr<Expr>);
 };
 
-// expr : primary
-//      | primary OP expr
-//      | OP expr
-//      | expr OP
-//      | expr_syntax
-//class OperatedExpr : public Node {
-//public:
-//    bool syntaxedExpr = false;
-//    unique_ptr<PrimaryExpr> lhs;
-//    Operator *op;
-//    unique_ptr<Expr> rhs;
-//    unique_ptr<Expr> syntax = nullptr;
-//    Value * codegen(IRStream &) override;
-//    string userdump() override{return "UNDEFINED";};
-//    __deprecated_msg("this class is for unique_ptr")
-//    OperatedExpr() {};
-//    static unique_ptr<OperatedExpr> init(unique_ptr<PrimaryExpr>);
-//    static unique_ptr<OperatedExpr> initAsOperatedExpr(unique_ptr<PrimaryExpr>,
-//                                                      Operator *,
-//                                                      unique_ptr<Expr>);
-//    static unique_ptr<OperatedExpr> initAsPrefixOperatorExpr(Operator *,
-//                                                            unique_ptr<Expr>);
-//    static unique_ptr<OperatedExpr> initAsPostfixOperatorExpr(unique_ptr<Expr>,
-//                                                      Operator *);
-//    static unique_ptr<OperatedExpr> initAsSyntaxedExpr(unique_ptr<Expr>);
-//};
 
 // statement : StatementNode .
 //           | StatementNode , statement
@@ -632,6 +608,27 @@ public:
     };
 };
 
+class DoStatement : public StatementNode {
+public:
+    unique_ptr<Statement> statement;
+    Value * codegen(IRStream &f) override{
+        statement->codegen(f);
+        return &Value::VoidValue;
+    }
+    string userdump() override{
+        if (!statement) {
+            return nullptr;
+        }
+        return statement->userdump();
+    }
+    static unique_ptr<DoStatement>
+    init(unique_ptr<Statement> s){
+        auto ptr = make_unique<DoStatement>();
+        ptr->statement = move(s);
+        return ptr;
+    }
+};
+
 class FunctionCallStatement : public StatementNode {
 public:
     unique_ptr<Expr> callee;
@@ -646,6 +643,17 @@ public:
         auto ptr = make_unique<FunctionCallStatement>();
         ptr->callee = move(p);
         return ptr;
+    }
+};
+
+class ExprStatement : public StatementNode {
+public:
+    unique_ptr<Expr> expr;
+    Value * codegen(IRStream &f) override{
+        return expr->codegen(f);
+    };
+    string userdump() override{
+        return "trash " + expr->userdump();
     }
 };
 
