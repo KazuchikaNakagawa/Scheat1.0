@@ -25,17 +25,17 @@ TypeData TypeData::StringType = TypeData("String", "%String");
 TypeData TypeData::BoolType = TypeData("Bool", "i1");
 TypeData TypeData::VoidType = TypeData("Void", "void");
 
-std::string Function::getMangledName(){
-    std::string base = "@" + return_type.mangledName() + "_";
-    for (int i = 0; i < argTypes.size(); i++) {
-        base = base + argTypes[i].mangledName();
-        
-        if (i < argTypes.size()) {
-            base = base + "_";
-        }
-    }
-    return base + mangledName;
-}
+//std::string Function::getMangledName(){
+//    std::string base = "@" + return_type.mangledName() + "_";
+//    for (int i = 0; i < argTypes.size(); i++) {
+//        base = base + argTypes[i].mangledName();
+//
+//        if (i < argTypes.size()) {
+//            base = base + "_";
+//        }
+//    }
+//    return base + mangledName;
+//}
 
 Operator *Class::findOperator(string key){
     auto iter = operators.find(key);

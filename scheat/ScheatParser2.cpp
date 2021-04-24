@@ -643,7 +643,7 @@ parseReassignExpr(Token *&tok, unique_ptr<Expr> e){
         return nullptr;
     }
     if (!(expr->type == e->type)) {
-        if (!e->type.isSubTypeOf(expr->type)) {
+        if (!e->type.loaded().isSubTypeOf(expr->type)) {
             scheato->FatalError(expr->location, __FILE_NAME__, __LINE__, "assigned expression is type %s but assigned type %s", e->type.name.c_str(), expr->type.ir_used.c_str());
             return nullptr;
         }
@@ -1299,6 +1299,7 @@ parsePropertyDeclareStatement(Token *&tok, Class *c){
     
     auto prop = Property();
     prop.type = expr->type;
+    prop.index = c->properties.size();
     
     c->addProperty(idtok->value.strValue, prop);
     
@@ -1528,14 +1529,15 @@ parseClassDeclareStatement(Token *&tok){
     auto classObj = new Class(new TypeData(classType, "%" + classType));
     
     ScheatContext::push(classObj->context);
-    auto initfunc = new Function(TypeData(classType, "%"+classType),classType + "_init");
+    auto initfunc = new Function(TypeData(classType, "%"+classType),"init");
     if (superClass) {
         
         classObj->bitMap = superClass->bitMap;
         classObj->properties = superClass->properties;
         classObj->operators = superClass->operators;
+        classObj->setPropertyCount(superClass->getPropertyCount());
     }
-    initfunc->context->stream_entry << "\ndefine %" << classType << " @" << initfunc->name << "(){\n";
+    initfunc->context->stream_entry << "\ndefine %" << classType << " " << initfunc->getMangledName() << "(){\n";
     auto self = new Variable("%self", *classObj->type);
     initfunc->context->addVariable("self", self);
     initfunc->context->stream_entry << "%self = alloca %" << classType << "\n";
@@ -1633,6 +1635,15 @@ parseClassDeclareStatement(Token *&tok){
     return ret;
 }
 
+static unique_ptr<ExprStatement>
+parseExprStatement(Token *&tok){
+    auto expr = parseExpr(tok);
+    if (!expr) {
+        return nullptr;
+    }
+    return ExprStatement::init(move(expr));
+}
+
 extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     // statement : this id is expr.
     if (tokens == nullptr) {
@@ -1644,12 +1655,15 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     if (tokens->kind == TokenKind::tok_this) {
         return parseDeclareVariableStatement(tokens);
     }
+    if (tokens->kind == scheat::TokenKind::tok_the) {
+        return parseExprStatement(tokens);
+    }
     if (tokens->kind == scheat::TokenKind::val_identifier) {
         if (tokens->next->kind == scheat::TokenKind::tok_class
             || tokens->next->kind == scheat::TokenKind::tok_from) {
             return parseClassDeclareStatement(tokens);
         }
-        return parseFunctionCallStatement(tokens);
+        return parseExprStatement(tokens);
     }
     if (tokens->kind == scheat::TokenKind::embbed_func_print) {
         return parsePrintStatement(tokens);
@@ -1704,9 +1718,9 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     }
     
     
-    if (isIncluded(scheat::TokenKind::tok_is, tokens)) {
-        return parseReassignStatement(tokens);
-    }
+//    if (isIncluded(scheat::TokenKind::tok_is, tokens)) {
+//        return parseReassignStatement(tokens);
+//    }
     
     scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__,
                         "Syntax Error: Invalid syntax.");

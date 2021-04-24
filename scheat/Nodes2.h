@@ -655,6 +655,14 @@ public:
     string userdump() override{
         return "trash " + expr->userdump();
     }
+    static unique_ptr<ExprStatement>
+    init(unique_ptr<Expr> e){
+        auto ptr = make_unique<ExprStatement>();
+        ptr->expr = move(e);
+        ptr->type = TypeData::VoidType;
+        ptr->location = ptr->expr->location;
+        return ptr;
+    }
 };
 
 class DoneStatement : public StatementNode {

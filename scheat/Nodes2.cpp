@@ -358,7 +358,7 @@ Value *FunctionCallTerm::codegen(IRStream &f){
         vector<Value *> arges_val = args->codegenAsArray(f);
         
         //ScheatContext::pop();
-        f << "call " << func->lltype() << " " << func->name << "(";
+        f << "call " << func->return_type << " " << func->getMangledName() << "(";
         
         int c = 1;
         for (auto ptr : arges_val) {
@@ -373,7 +373,7 @@ Value *FunctionCallTerm::codegen(IRStream &f){
     }else{
         vector<Value *> arges_val = args->codegenAsArray(f);
         auto reg = context->getRegister();
-        f << reg << " = call " << func->lltype() << " @" << func->name << "(";
+        f << reg << " = call " << func->return_type << " " << func->getMangledName() << "(";
         int c = 1;
         for (auto ptr : arges_val) {
             f << ptr->asValue();
@@ -733,7 +733,7 @@ unique_ptr<ReassignExpr> ReassignExpr::init(unique_ptr<Expr> i, unique_ptr<Expr>
 }
 
 Value *ReassignExpr::codegen(IRStream &f){
-    auto idv = idexpr->codegenAsRef(context->stream_body);
+    auto idv = idexpr->codegen(context->stream_body);
     if (!idv) {
         
         return nullptr;
@@ -763,7 +763,7 @@ Value *ReassignExpr::codegen(IRStream &f){
     }
     
     context->stream_body
-    << "store " << idv->asValue() << ", " << vv->asValue() << "\n";
+    << "store " << vv->asValue() << ", " << idv->asValue() << "\n";
     return nullptr;
 }
 
@@ -840,7 +840,7 @@ Value *DeclareFunctionStatement::codegen(IRStream &f){
     if (!context->type || context->type->ir_used == "void") {
         context->stream_body << "ret void\n";
     }else if (context->type->ir_used.find("*") != string::npos){
-        context->stream_body << context->type->ir_used << " null\n";
+        context->stream_body << "ret " << context->type->ir_used << " null\n";
     }else{
         auto r = context->getRegister();
         context->stream_body << r << " = call " << context->type->ir_used << " @" <<

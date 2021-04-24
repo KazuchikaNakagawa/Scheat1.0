@@ -123,7 +123,7 @@ public:
     
     std::string name;
     int index = 0;
-    virtual std::string getMangledName();
+    virtual std::string getMangledName(){ return mangledName; };
     TypeData return_type;
     std::vector<TypeData> argTypes;
     std::string lltype();
@@ -231,6 +231,8 @@ public:
     Function *constructor = nullptr;
     Function *copyConstructor = nullptr;
     Function *assignedConstructor = nullptr;
+    unsigned int getPropertyCount() const{ return propCount; };
+    void setPropertyCount(unsigned int i) {propCount = i;};
 };
 }
 
