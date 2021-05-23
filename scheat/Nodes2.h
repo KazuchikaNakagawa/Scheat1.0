@@ -131,6 +131,17 @@ public:
     };
 };
 
+class NullTerm : public Term {
+public:
+    NullTerm(SourceLocation l){
+        type = TypeData("the Void", "i8*");
+        location = l;
+    }
+    Value * codegen(IRStream &) override{
+        return new Value("null",type);
+    }
+};
+
 //class IdentifierExprTemplate : public Term {
 //public:
 //    Value * codegen(IRStream &) override{ return nullptr; };
@@ -268,6 +279,7 @@ public:
     
     unique_ptr<ArgumentExpr> args;
     Value * codegen(IRStream &) override;
+    Value * codegenAsRef(IRStream &) override;
     string userdump() override;
 //    void addArgument(bool insertToTop, unique_ptr<ArgumentExpr> arg) {
 //        if (insertToTop) {

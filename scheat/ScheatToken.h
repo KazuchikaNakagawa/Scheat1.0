@@ -32,6 +32,7 @@ enum class TokenKind : int {
     val_double,
     val_bool,
     val_operator,
+    val_null,
     
     tok_this,
     tok_the,

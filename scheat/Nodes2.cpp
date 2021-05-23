@@ -344,7 +344,7 @@ Value *PropertyDeclareStatement::codegen(IRStream &f){
         a->stream_body << preg << " = load " << p->type.ir_used << ", "
         << p->type.pointer().ir_used << " %" << name << "\n";
         auto sreg = a->getRegister();
-        a->stream_body << sreg << " = bitcast " << p->type.ir_used << " %" << name << " to i8*\n";
+        a->stream_body << sreg << " = bitcast " << p->type.ir_used << " " << preg << " to i8*\n";
         a->stream_body << "call void @ScheatPointer_unref(i8* " << sreg << ")\n";
     }
     
@@ -355,20 +355,20 @@ Value *FunctionCallTerm::codegen(IRStream &f){
     if (func->return_type.ir_used == "void") {
         //ScheatContext::push(func->context);
         
-        vector<Value *> arges_val = args->codegenAsArray(f);
+        vector<Value *> arges_val = args->codegenAsArray(context->stream_body);
         
         //ScheatContext::pop();
         f << "call " << func->return_type << " " << func->getMangledName() << "(";
         
         int c = 1;
         for (auto ptr : arges_val) {
-            f << ptr->asValue();
+            context->stream_body << ptr->asValue();
             if (c < arges_val.size()) {
-                f << ", ";
+                context->stream_body << ", ";
             }
             c++;
         }
-        f << ")\n";
+        context->stream_body << ")\n";
         return nullptr;
     }else{
         vector<Value *> arges_val = args->codegenAsArray(f);
@@ -378,7 +378,7 @@ Value *FunctionCallTerm::codegen(IRStream &f){
         for (auto ptr : arges_val) {
             f << ptr->asValue();
             if (c < arges_val.size()) {
-                f << ", ";
+                context->stream_body << ", ";
             }
         }
         f << ")\n";
@@ -943,8 +943,20 @@ Value *FunctionAttributeExpr::codegenAsRefWithParent(Value *parent, IRStream &f)
         return nullptr;
     }
     auto r = context->getRegister();
-    f << r << " = alloca " << v->type << "\n";
-    f << "store " << v->asValue() << ", " << v->type.pointer() << " " << r << "\n";
+    
+    string deinitname = "";
+    
+    if (v->type.ir_used.find("*") == string::npos) {
+        deinitname = v->type.name + "_deinit";
+        f << r << " = call i8* @ScheatPointer_alloc(i64 "
+        << v->type.size << ", void(i8*)* @" << deinitname << ")\n";
+    }else{
+    
+    f << r << " = call i8* @ScheatPointer_alloc(i64 "
+    << v->type.size << ", void(i8*)* null)";
+    }
+    f << r << " = alloca " << v->type << "\n"
+     << "store " << v->asValue() << ", " << v->type.pointer() << " " << r << "\n";
     return new Value(r, v->type.pointer());
 }
 
@@ -1070,7 +1082,7 @@ Value *CastExpr::codegen(IRStream &f){
         scheato->DevLog(location, __FILE_NAME__, __LINE__, "pointer cast");
         string reg = context->getRegister();
         
-        f << reg << " = bitcast " << v->asValue() << " to " << type.ir_used << "*\n";
+        f << reg << " = bitcast " << v->asValue() << " to " << type.ir_used << "\n";
         return new Value(reg, type);
     }else{
         string reg = context->getRegister();
@@ -1228,6 +1240,33 @@ Value *ReassignStatement::codegen(IRStream &f){
     return nullptr;
 }
 
+Value *FunctionCallTerm::codegenAsRef(IRStream &f){
+    auto v = codegen(f);
+    if (!v) {
+        scheato->FatalError(location, __FILE_NAME__, __LINE__, "illegal access: Void value");
+        return nullptr;
+    }
+    auto r = context->getRegister();
+    
+    string deinitname = "";
+    
+    if (v->type.ir_used.find("*") == string::npos) {
+        deinitname = v->type.name + "_deinit";
+        f << r << " = call i8* @ScheatPointer_alloc(i64 "
+        << v->type.size << ", void(i8*)* @" << deinitname << ")\n";
+    }else{
+    
+    f << r << " = call i8* @ScheatPointer_alloc(i64 "
+    << v->type.size << ", void(i8*)* null)\n";
+    }
+    auto r3 = context->getRegister();
+    f << r3 << " = bitcast i8* " << r << " to " << v->type.ir_used << "*\n";
+    auto r2 = context->getRegister();
+    f << r2 << " = alloca " << v->type << "\n";
+    f << "store " << v->asValue() << ", " << v->type.pointer() << " " << r3 << "\n";
+    return new Value(r2, v->type.pointer());
+}
+
 Value *DeclareVariableStatement::codegen(IRStream &f){
     
     if (scheato->hasProbrem()) {
@@ -1282,6 +1321,7 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
             return nullptr;
         }else{
             ScheatContext::global->stream_entry << name << " = common global  " << type.ir_used << " zeroinitializer\n";
+            value->context = ScheatContext::init;
             auto v = value->codegen(ScheatContext::init->stream_body);
             ScheatContext::init->stream_body << "store " << v->asValue() << ", " << type.ir_used << "* " << name << "\n";
             return nullptr;

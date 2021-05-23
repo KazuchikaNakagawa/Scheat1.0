@@ -440,6 +440,11 @@ extern unique_ptr<Term> parseTerm(Token *&tok){
         eatThis(tok);
     }
     
+    else if (tok->kind == TokenKind::val_null){
+        ptr = make_unique<NullTerm>(tok->location);
+        eatThis(tok);
+    }
+    
     else if (tok->kind == TokenKind::val_identifier
              || tok->kind == TokenKind::tok_the
              || tok->kind == TokenKind::tok_loaded) {
@@ -1572,7 +1577,7 @@ parseClassDeclareStatement(Token *&tok){
 //        initfunc->context->stream_entry << "store %" << classType << " " << rLoad << ", %" << classType << "* %self\n";
     }
     classObj->constructor = initfunc;
-
+    ScheatContext::global->addClass(idtok->value.strValue, classObj);
     unique_ptr<ClassStatements> statements = nullptr;
     while (tok->kind != scheat::TokenKind::tok_done) {
         auto ptr = parseClassStatement(tok, classObj);
@@ -1590,7 +1595,6 @@ parseClassDeclareStatement(Token *&tok){
     ScheatContext::pop();
     
     auto context = ScheatContext::global->create(idtok->value.strValue);
-    
     
     ScheatContext::global->addClass(idtok->value.strValue, classObj);
     

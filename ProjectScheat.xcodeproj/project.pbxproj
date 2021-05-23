@@ -587,8 +587,6 @@
 		8205E18924D31CF4001C5130 /* libedit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libedit.tbd; path = usr/lib/libedit.tbd; sourceTree = SDKROOT; };
 		8205E18B24D31D02001C5130 /* libcurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurses.tbd; path = usr/lib/libcurses.tbd; sourceTree = SDKROOT; };
 		8205E18D24D31D0D001C5130 /* libm.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libm.tbd; path = usr/lib/libm.tbd; sourceTree = SDKROOT; };
-		8214272625456D530084CBA4 /* ProjectPlebs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectPlebs.h; sourceTree = "<group>"; };
-		8224EB222568D32F00581ABC /* ProjectPlebs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectPlebs.cpp; sourceTree = "<group>"; };
 		8225412824E175F700DBF05C /* libScheatRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libScheatRun.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8225412A24E175F700DBF05C /* ScheatRun.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatRun.h; sourceTree = "<group>"; };
 		8225412C24E175F700DBF05C /* ScheatRunPriv.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatRunPriv.hpp; sourceTree = "<group>"; };
@@ -1445,8 +1443,6 @@
 				8262652F25275F4700E71311 /* ScheatEncoder.cpp */,
 				82806DD1250E0BA70010F012 /* ScheatBasicStructures.cpp */,
 				8283093624F93CB2006EFFEA /* CScheat.cpp */,
-				8214272625456D530084CBA4 /* ProjectPlebs.h */,
-				8224EB222568D32F00581ABC /* ProjectPlebs.cpp */,
 				82FF1F3E255631A90047DEF4 /* Initializer.cpp */,
 				8292381925A5A89A002157FC /* Utilities.cpp */,
 				827428E02657D34600555F45 /* ScheatAST.hpp */,

@@ -424,6 +424,13 @@ void Lexer::genTok(){
         return;
     }
     
+    if (buf == "null") {
+        tok->kind = TokenKind::val_null;
+        tadd;
+        clear();
+        return;
+    }
+    
     if (buf == "for") {
         tok->kind = TokenKind::tok_for;
         tadd;
@@ -503,6 +510,9 @@ void Token::out(){
         case TokenKind::val_operator:
             printf("operator token ->%s ", value.strValue.c_str());
             printf("encoded ->%s\n", this->encodeOperator().c_str());
+            break;
+        case TokenKind::val_null:
+            printf("null token\n");
             break;
         case TokenKind::tok_this:
             printf("this token\n");
