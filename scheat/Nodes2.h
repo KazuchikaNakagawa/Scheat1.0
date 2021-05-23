@@ -8,13 +8,7 @@
 #ifndef YANodes_hpp
 #define YANodes_hpp
 
-#include <stdio.h>
-#include <string>
-#include "ScheatTypes.h"
-#include "ScheatToken.h"
-#include "ScheatContextStructures.h"
-#include "ScheatContext.h"
-#include "ScheatStd.hpp"
+#include "ScheatAST.hpp"
 
 namespace scheat {
 using namespace std;

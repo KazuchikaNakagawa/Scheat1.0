@@ -5,8 +5,16 @@
 //  Created by かずちか on 2020/09/26.
 //
 
-#include "ScheatParser2.h"
+#include "ScheatAST.hpp"
+#include "Nodes2.h"
 #include <fstream>
+#include <stdio.h>
+#include <vector>
+#include <stack>
+#include <map>
+#include <string>
+#include "ScheatStatics.h"
+#include "ScheatContext.h"
 /*
  Parsing
  
@@ -26,7 +34,10 @@
 using namespace std;
 using namespace scheat;
 using namespace nodes2;
-using namespace parser2;
+
+namespace scheat{
+
+namespace parser2{
 
 unique_ptr<StatementNode> parseStatement_single(Token *&);
 
@@ -81,9 +92,9 @@ static Operator *findOperator(Token *tok, TypeData type, OperatorPosition positi
 }
 
 //extern unique_ptr<IdentifierExprTemplate> parseIdentifierExpr(Token *&);
-static unique_ptr<ArgumentExpr> parseArgumentExpr(Token*& tok);
+extern unique_ptr<ArgumentExpr> parseArgumentExpr(Token*& tok);
 
-static unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token *&tok){
+extern unique_ptr<IdentifierTerm> parseIdentifierTerm(TypeData parentType,Token *&tok){
     
     if (tok->kind == scheat::TokenKind::val_identifier){
         auto idtok = tok;
@@ -331,7 +342,7 @@ static unique_ptr<Term> parseTermNodes(Token*& tok){
     return nullptr;
 }
 
-static unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
+unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
     if (tok->kind == scheat::TokenKind::tok_paren_r) {
         return ArgumentExpr::init(nullptr);
     }
@@ -360,7 +371,7 @@ static unique_ptr<ArgumentExpr> parseArgumentExpr(Token *&tok){
 }
 
 
-extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
+extern unique_ptr<Term> parseTerm(Token *&tok){
     // term : identifierExpr
     //      | int
     //      | string
@@ -474,14 +485,14 @@ extern unique_ptr<Term> scheat::parser2::parseTerm(Token *&tok){
         return ptr;
     }
     eatThis(tok);
-    auto rhs = parsePrimary(tok);
+    auto rhs = parsePrimaryExpr(tok);
     if (!rhs) {
         return nullptr;
     }
     return nullptr;
 }
 
-static unique_ptr<PrimaryExpr> parseOperatedPrimaryExpr(Token *&tok){
+unique_ptr<PrimaryExpr> parseOperatedPrimaryExpr(Token *&tok){
     // primary : term
     //         | term op primary
     //         | op primary
@@ -489,7 +500,7 @@ static unique_ptr<PrimaryExpr> parseOperatedPrimaryExpr(Token *&tok){
     if (tok->kind == TokenKind::val_operator) {
         auto saved = tok;
         eatThis(tok);
-        auto term = parsePrimary(tok);
+        auto term = parsePrimaryExpr(tok);
         auto op = findOperator(tok, term->type, prefix, primary);
         if (!op) {
             tok = saved;
@@ -514,7 +525,7 @@ infix_postfix:
             // infix
             auto saved = tok;
             eatThis(tok);
-            auto primaryptr = parsePrimary(tok);
+            auto primaryptr = parsePrimaryExpr(tok);
             if (!primaryptr) {
                 return nullptr;
             }
@@ -544,14 +555,14 @@ infix_postfix:
     return ptr;
 }
 
-extern unique_ptr<PrimaryExpr> scheat::parser2::parsePrimary(Token *&tok){
+unique_ptr<PrimaryExpr> parsePrimaryExpr(Token *&tok){
     // primary : term
     //         | term op primary
     //         | op primary
     return parseOperatedPrimaryExpr(tok);
 }
 
-static unique_ptr<Expr> parseOperatedExpr(Token *&tok){
+unique_ptr<Expr> parseOperatedExpr(Token *&tok){
     if (tok == nullptr) {
         return nullptr;
     }
@@ -577,7 +588,7 @@ static unique_ptr<Expr> parseOperatedExpr(Token *&tok){
     }
     
 infix_postfix:
-    auto prim = parsePrimary(tok);
+    auto prim = parsePrimaryExpr(tok);
     
     if (!prim) {
         return nullptr;
@@ -626,7 +637,7 @@ infix_postfix:
     return nullptr;
 }
 
-static unique_ptr<LoadExpr> parseLoadExpr(Token *&tok){
+unique_ptr<LoadExpr> parseLoadExpr(Token *&tok){
     eatThis(tok);
     auto p = parseExpr(tok);
     if (!p) {
@@ -651,7 +662,7 @@ parseReassignExpr(Token *&tok, unique_ptr<Expr> e){
     return ReassignExpr::init(move(e), move(expr));
 }
 
-extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
+unique_ptr<Expr> parseExpr(Token* &tok) {
     // expr : operatedExpr t_of id
     //      | the expr
     if (tok->kind == TokenKind::tok_loaded) {
@@ -681,7 +692,7 @@ extern unique_ptr<Expr> scheat::parser2::parseExpr(Token* &tok) {
 
 
 
-extern void parser2::parse(_Scheat *sch,Token *tokens){
+void parse(_Scheat *sch,Token *tokens){
     scheato = sch;
     //sch->statements = new DataHolder();
     auto stmts = make_unique<Statements>();
@@ -713,7 +724,7 @@ extern void parser2::parse(_Scheat *sch,Token *tokens){
     return;
 };
 
-static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
+unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
     unique_ptr<NewIdentifierExpr> ptr = nullptr;
     bool glbl = false;
     if (tok->kind == scheat::TokenKind::tok_this) {
@@ -752,7 +763,7 @@ static unique_ptr<NewIdentifierExpr> parseNewIdentifierExpr(Token *& tok){
     return ptr;
 }
 
-extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
+unique_ptr<Statement> parseStatement(Token *&tokens){
     auto sts = make_unique<Statement>();
     sts->stmt = nullptr;
     sts -> statement = parseStatement_single(tokens);
@@ -790,7 +801,7 @@ extern unique_ptr<Statement> parser2::parseStatement(Token *&tokens){
     return sts;
 }
 
-static unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
+unique_ptr<StatementNode> parseFunctionCallStatement(Token *&tok){
     auto p = parseIdentifierExpr(tok);
     if ((p->type.ir_used) != "void") {
         scheato->Warning(p->location, __FILE_NAME__, __LINE__,
@@ -829,7 +840,7 @@ static unique_ptr<PrintStatement> parsePrintStatement(Token *&tok){
     return PrintStatement::init(move(ptr));
 }
 
-static unique_ptr<IfStatement>
+unique_ptr<IfStatement>
 parseIfStatement(Token *&tok){
     eatThis(tok);
     auto expr = parseExpr(tok);
@@ -878,7 +889,7 @@ parseIfStatement(Token *&tok){
     return ifs;
 }
 
-static unique_ptr<ForStatement>
+unique_ptr<ForStatement>
 parseForStatement(Token *&tok){
     eatThis(tok);
     auto i = parseExpr(tok);
@@ -925,7 +936,7 @@ parseForStatement(Token *&tok){
     return ForStatement::init(move(i), move(ss), scope);
 }
 
-static unique_ptr<WhileStatement>
+unique_ptr<WhileStatement>
 parseWhileStatement(Token *&tok){
     eatThis(tok);
     auto cond = parseExpr(tok);
@@ -1306,7 +1317,7 @@ parsePropertyDeclareStatement(Token *&tok, Class *c){
     return PropertyDeclareStatement::init(c, idtok->value.strValue, move(expr), &c->properties[idtok->value.strValue]);
 }
 
-static unique_ptr<DoStatement>
+unique_ptr<DoStatement>
 parseDoStatement(Token *&tok){
     if (tok->kind == scheat::TokenKind::tok_do) {
         eatThis(tok);
@@ -1635,7 +1646,7 @@ parseClassDeclareStatement(Token *&tok){
     return ret;
 }
 
-static unique_ptr<ExprStatement>
+unique_ptr<ExprStatement>
 parseExprStatement(Token *&tok){
     auto expr = parseExpr(tok);
     if (!expr) {
@@ -1725,4 +1736,8 @@ extern unique_ptr<StatementNode> parseStatement_single(Token *&tokens){
     scheato->FatalError(tokens->location, __FILE_NAME__, __LINE__,
                         "Syntax Error: Invalid syntax.");
     return nullptr;
+}
+
+}
+
 }

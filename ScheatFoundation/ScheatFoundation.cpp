@@ -32,6 +32,14 @@ public:
     void release(void *);
     void subscribe(void *, void(*)(void*));
     
+    void dump(){
+        for (auto pair : rmaps) {
+            long long ptr = (long long)pair.first;
+            auto ref = pair.second.count;
+            printf("%llx : referenced %d\n", ptr, ref);
+        }
+    }
+    
     static ScheatARC& shared(){
         static ScheatARC arc;
         return arc;
@@ -59,8 +67,8 @@ void *ScheatARC::create(uint64_t size, void(*fp)(void*)){
 
 void* ScheatARC::copy(void *ptr){
     if (rmaps.find(ptr) == rmaps.end()) {
-        printf("Null Pointer Exception: copied external pointer, released pointer or undefined pointer.\n");
-        exit(0);
+//        printf("at %llx Null Pointer Exception: copied external pointer, released pointer or undefined pointer.\n", (long long)ptr);
+//        exit(0);
         return nullptr;
     }
     rmaps[ptr].count++;
@@ -69,8 +77,8 @@ void* ScheatARC::copy(void *ptr){
 
 void ScheatARC::unref(void *ptr){
     if (rmaps.find(ptr) == rmaps.end()) {
-        printf("Null Pointer Exception: copied external pointer, released pointer or undefined pointer.\n");
-        exit(0);
+//        printf("at %llx Null Pointer Exception: copied external pointer, released pointer or undefined pointer.\n", (long long)ptr);
+//        exit(0);
         return;
     }
     auto refd = &rmaps[ptr];
@@ -162,7 +170,8 @@ String ScheatString_add(String lhs, String rhs){
     String str;
     unsigned long ll = strlen(lhs.buf.char_ptr);
     unsigned long rl = strlen(rhs.buf.char_ptr);
-    str.buf.char_ptr = (char *)malloc(ll + rl);
+    str.buf.char_ptr = (char *)ScheatPointer_alloc((ll + rl)*8, nullptr);
+    //printf("added new ptr is %llx\n", (long long)str.buf.char_ptr);
     sprintf(str.buf.char_ptr, "%s%s", lhs.buf.char_ptr, rhs.buf.char_ptr);
     return str;
 }
@@ -222,8 +231,8 @@ String String_init_pi8(char *p){
     auto n = strlen(p);
     s.buf.char_ptr = (char *)ScheatPointer_alloc(8 * n, nullptr);
     sprintf(s.buf.char_ptr, "%s", p);
-    ScheatARC::shared().subscribe(s.buf.char_ptr);
-    //printf("CHARACTER POINTER WAS SET. %s\n" , s.buf.char_ptr);
+    //printf("CHARACTER POINTER WAS SET. %llx\n" , (long long)s.buf.char_ptr);
+    //ScheatARC::shared().dump();
     return s;
 }
 

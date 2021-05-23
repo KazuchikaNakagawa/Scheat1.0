@@ -63,6 +63,7 @@ public:
     map<string, int> strmap = {};
     IRStream stream_entry;
     IRStream stream_body;
+    IRStream stream_destruct;
     IRStream stream_tail;
     std::string name;
     Context *base;

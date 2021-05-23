@@ -16,7 +16,7 @@
 #include "ScheatContext.h"
 #include "Lexer.hpp"
 #include "Classes.h"
-#include "ScheatParser2.h"
+#include "ScheatAST.hpp"
 #include "ScheatEncoder.h"
 #include "Utilities.h"
 

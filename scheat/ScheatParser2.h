@@ -20,23 +20,23 @@
 namespace scheat {
 using namespace std;
 using namespace nodes2;
-namespace parser2 {
-
-// this parser was started to build another type of parser.
-// we solve type inferences, identifier existence, and so on when parsing.
-void parse(_Scheat *,Token *);
-
-unique_ptr<Statement> parseStatement(Token *&);
-
-//unique_ptr<StatementNode> parseStatement_single(Token *&);
-
-unique_ptr<Expr> parseExpr(Token *&);
-
-unique_ptr<PrimaryExpr> parsePrimary(Token *&);
-
-unique_ptr<Term> parseTerm(Token *&);
-
-}
+//namespace parser2 {
+//
+//// this parser was started to build another type of parser.
+//// we solve type inferences, identifier existence, and so on when parsing.
+//void parse(_Scheat *,Token *);
+//
+//unique_ptr<Statement> parseStatement(Token *&);
+//
+////unique_ptr<StatementNode> parseStatement_single(Token *&);
+//
+//unique_ptr<Expr> parseExpr(Token *&);
+//
+//unique_ptr<PrimaryExpr> parsePrimary(Token *&);
+//
+//unique_ptr<Term> parseTerm(Token *&);
+//
+//}
 
 }
 

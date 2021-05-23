@@ -53,6 +53,8 @@
 		826720E224F7F4C900C94D22 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826720E124F7F4C900C94D22 /* main.cpp */; };
 		826720E824F7F7AE00C94D22 /* libFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 826720D024F7D4DA00C94D22 /* libFoundation.a */; };
 		82730C5524FFB88900C27D79 /* Tokens.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82730C5424FFB88900C27D79 /* Tokens.cpp */; };
+		827428CF2657D31300555F45 /* ScheatParser2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829CD921251F26B600139E5F /* ScheatParser2.cpp */; };
+		827428E12657D68400555F45 /* ScheatAST.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 827428E02657D34600555F45 /* ScheatAST.hpp */; };
 		82806DD0250E0A6A0010F012 /* ScheatContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82806DCF250E0A6A0010F012 /* ScheatContext.cpp */; };
 		82806DD2250E0BA70010F012 /* ScheatBasicStructures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82806DD1250E0BA70010F012 /* ScheatBasicStructures.cpp */; };
 		82806DD5250E15DA0010F012 /* Statics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82806DD4250E15DA0010F012 /* Statics.cpp */; };
@@ -67,7 +69,6 @@
 		829849EE24D2DA20004A7A64 /* scheat.h in Headers */ = {isa = PBXBuildFile; fileRef = 829849ED24D2DA20004A7A64 /* scheat.h */; };
 		829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 829849EF24D2DA20004A7A64 /* scheatPriv.hpp */; };
 		829849F224D2DA20004A7A64 /* scheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829849F124D2DA20004A7A64 /* scheat.cpp */; };
-		829CD923251F26B600139E5F /* ScheatParser2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829CD921251F26B600139E5F /* ScheatParser2.cpp */; };
 		829CD924251F26B600139E5F /* ScheatParser2.h in Headers */ = {isa = PBXBuildFile; fileRef = 829CD922251F26B600139E5F /* ScheatParser2.h */; };
 		829CD927251F28A900139E5F /* Nodes2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829CD925251F28A900139E5F /* Nodes2.cpp */; };
 		829CD928251F28A900139E5F /* Nodes2.h in Headers */ = {isa = PBXBuildFile; fileRef = 829CD926251F28A900139E5F /* Nodes2.h */; };
@@ -611,6 +612,7 @@
 		826720E124F7F4C900C94D22 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		826720E924F9042E00C94D22 /* ScheatObjects.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatObjects.h; sourceTree = "<group>"; };
 		82730C5424FFB88900C27D79 /* Tokens.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tokens.cpp; sourceTree = "<group>"; };
+		827428E02657D34600555F45 /* ScheatAST.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatAST.hpp; sourceTree = "<group>"; };
 		82806DCF250E0A6A0010F012 /* ScheatContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatContext.cpp; sourceTree = "<group>"; };
 		82806DD1250E0BA70010F012 /* ScheatBasicStructures.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatBasicStructures.cpp; sourceTree = "<group>"; };
 		82806DD3250E11080010F012 /* ScheatStatics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatStatics.h; sourceTree = "<group>"; };
@@ -633,7 +635,6 @@
 		829849F124D2DA20004A7A64 /* scheat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scheat.cpp; sourceTree = "<group>"; };
 		829849FA24D2DFA4004A7A64 /* TestScheat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestScheat; sourceTree = BUILT_PRODUCTS_DIR; };
 		829849FC24D2DFA4004A7A64 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		82984A0524D2E0B7004A7A64 /* Nodes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Nodes.cpp; sourceTree = "<group>"; };
 		829CD921251F26B600139E5F /* ScheatParser2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatParser2.cpp; sourceTree = "<group>"; };
 		829CD922251F26B600139E5F /* ScheatParser2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheatParser2.h; sourceTree = "<group>"; };
 		829CD925251F28A900139E5F /* Nodes2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Nodes2.cpp; sourceTree = "<group>"; };
@@ -1436,7 +1437,6 @@
 				829849EF24D2DA20004A7A64 /* scheatPriv.hpp */,
 				829849F124D2DA20004A7A64 /* scheat.cpp */,
 				82806DD4250E15DA0010F012 /* Statics.cpp */,
-				82984A0524D2E0B7004A7A64 /* Nodes.cpp */,
 				82730C5424FFB88900C27D79 /* Tokens.cpp */,
 				82ECF52C24D3A72900EB8316 /* Lexer.cpp */,
 				829CD925251F28A900139E5F /* Nodes2.cpp */,
@@ -1449,6 +1449,7 @@
 				8224EB222568D32F00581ABC /* ProjectPlebs.cpp */,
 				82FF1F3E255631A90047DEF4 /* Initializer.cpp */,
 				8292381925A5A89A002157FC /* Utilities.cpp */,
+				827428E02657D34600555F45 /* ScheatAST.hpp */,
 			);
 			path = scheat;
 			sourceTree = "<group>";
@@ -1739,6 +1740,7 @@
 				82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */,
 				8283093824F93CDC006EFFEA /* CScheat.h in Headers */,
 				829849EE24D2DA20004A7A64 /* scheat.h in Headers */,
+				827428E12657D68400555F45 /* ScheatAST.hpp in Headers */,
 				829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */,
 				829CD928251F28A900139E5F /* Nodes2.h in Headers */,
 				829CD924251F26B600139E5F /* ScheatParser2.h in Headers */,
@@ -2188,10 +2190,10 @@
 			files = (
 				82806DD2250E0BA70010F012 /* ScheatBasicStructures.cpp in Sources */,
 				82097C8F25076A31002D048A /* CScheat.cpp in Sources */,
+				827428CF2657D31300555F45 /* ScheatParser2.cpp in Sources */,
 				8292381A25A5A89A002157FC /* Utilities.cpp in Sources */,
 				82AD9B0126187C64003B1427 /* ScheatStd.cpp in Sources */,
 				82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */,
-				829CD923251F26B600139E5F /* ScheatParser2.cpp in Sources */,
 				82FF1F3F255631A90047DEF4 /* Initializer.cpp in Sources */,
 				82806DD5250E15DA0010F012 /* Statics.cpp in Sources */,
 				8262653125275F4700E71311 /* ScheatEncoder.cpp in Sources */,

@@ -436,14 +436,15 @@ Value *InfixOperatorExpr::codegen(IRStream &f){
         f << reg << " = icmp " << eqopt << " " << l->asValue() << ", " << r->value << "\n";
         return new Value(reg, TypeData::BoolType);
     }
+    l = lhs->codegenAsRef(f);
     if (op->return_type.name == "Void") {
-        f << "call void(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
+        context->stream_body << "call void(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
         return nullptr;
     }else{
         auto reg = context->getRegister();
-        f << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
+        context->stream_entry << reg << " = call " << op->return_type.ir_used << "(" << op->lhs_type->ir_used << ", " << op->rhs_type->ir_used << ") " << op->func_name << "(" << l->asValue() << ", " << r->asValue() << ")\n";
         delete l;
         delete r;
         return new Value(reg, op->return_type);
@@ -1287,31 +1288,43 @@ Value *DeclareVariableStatement::codegen(IRStream &f){
         }
     }else{
         // it is local variable
+        auto r = context->getRegister();
+        context->stream_destruct <<
+        r << " = bitcast " << value->type.ir_used << "* "
+        << name << " to i8*\n";
+        if (value->type.ir_used.find("*") != string::npos) {
+            
+            context->stream_destruct <<
+            "call void @ScheatPointer_unref(i8* " << r << ")\n";
+        }else{
+            context->stream_destruct <<
+            "call void @" << value->type.name << "_deinit(i8* " << r << ")\n";
+        }
         if (value->type.name == "Int") {
-            f << name << " = alloca i32\n";
+            context->stream_body << name << " = alloca i32\n";
             auto v = value->codegen(f);
             
             if (!v) {
                 return nullptr;
             }
             
-            f << "store i32 " << v->value << ", i32* " << name << "\n";
+            context->stream_body << "store i32 " << v->value << ", i32* " << name << "\n";
             return nullptr;
         }else if (value->type.name == "String"){
-            f << name << " = alloca  %String\n";
+            context->stream_body << name << " = alloca  %String\n";
             auto v = value->codegen(f);
             if (!v) {
                 return nullptr;
             }
-            f << "store %String " << v->value << ", %String* " << name << "\n";
+            context->stream_body << "store %String " << v->value << ", %String* " << name << "\n";
             return nullptr;
 //        }else if (value->type.name == "Bool") {
 //            f << name << " = alloca i1\n";
             
         }else{
-            ScheatContext::global->stream_entry << name << " = alloca " << type.ir_used << "*\n";
-            auto v = value->codegen(ScheatContext::init->stream_body);
-            ScheatContext::init->stream_body << "store " << v->asValue() << ", " << type.ir_used << "* " << name << "\n";
+            context->stream_body << name << " = alloca " << type.ir_used << "\n";
+            auto v = value->codegen(context->stream_body);
+            context->stream_body << "store " << v->asValue() << ", " << type.ir_used << "* " << name << "\n";
             return nullptr;
         }
         

@@ -125,6 +125,7 @@ void Context::dump(std::ofstream &f){
     
     stream_entry.exportTo(f);
     stream_body.exportTo(f);
+    stream_destruct.exportTo(f);
     stream_tail.exportTo(f);
     
     for (auto pair : funcs) {
