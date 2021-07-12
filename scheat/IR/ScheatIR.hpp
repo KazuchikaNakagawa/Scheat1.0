@@ -48,6 +48,8 @@ public:
     static const std::string If;
 };
 
+class GlobalContext;
+
 // Context
 // function, global
 class Context{
@@ -66,10 +68,10 @@ public:
     IR storeInst(Scope* target, IR ptr, IR val);
     IR varInst(Scope* target, string name, TypeData type);
     IR loadInst(Scope* target, IR value);
-    IR accessInst(Scope *target, IR value, string name);
+    IR accessInst(GlobalContext *,Scope *target, IR value, string name);
 };
 
-class GlobalContext;
+
 
 class LocalContext;
 

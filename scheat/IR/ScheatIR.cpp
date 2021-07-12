@@ -61,6 +61,13 @@ struct scheat::IR::Ofstream {
         ofs << s;
         return *this;
     }
+    Ofstream& operator <<(int i){
+        if (!linebeginning) {
+            startLine();
+        }
+        ofs << i;
+        return *this;
+    }
     void endLine(){
         linebeginning = false;
     }
@@ -148,6 +155,23 @@ public:
     friend class Context;
 };
 
+class scheat::IR::GlobalContext : Context {
+    map<TypeData, map<string, pair<int, TypeData>>> properties;
+    
+public:
+    void addProperty(TypeData className, string name, int index, TypeData type);
+    pair<int, TypeData> getproperty(TypeData classData, string name){
+        if (properties[classData].find(name) == properties[classData].end()) {
+            perror("ScheatIR:Out of range Error");
+            
+        }
+        return properties[classData][name];
+    }
+};
+
+void GlobalContext::addProperty(TypeData className, string name, int index, TypeData type){
+    properties[className][name] = make_pair(index, type);
+}
 
 class AllocateInst: public IR {
     scheat::TypeData type;
@@ -177,6 +201,30 @@ public:
         f << "store " << value.writeTextLLVMIR(f).value() << ", " << pointer.writeTextLLVMIR(f).value();
         f.endLine();
         return IRValue();
+    }
+};
+
+class AccessInst : public IR {
+    IR resultRegister;
+    IR value;
+    string name;
+    GlobalContext *global;
+public:
+    AccessInst(GlobalContext *m,IR ptr, string id, IR registerInst){
+        value = ptr;
+        name = id;
+        global = m;
+        resultRegister = registerInst;
+    }
+    IRValue writeTextLLVMIR(Ofstream &f) override{
+        auto tvalue = value.writeTextLLVMIR(f);
+        auto pair = global->getproperty(tvalue.type.loaded(), name);
+        auto rvalue = resultRegister.writeTextLLVMIR(f);
+        f << rvalue.v << " = getelementptr " << tvalue.type.loaded().ir_used << ", "
+        << tvalue.value() << ", i32 0, i32 " << pair.first;
+        f.endLine();
+        rvalue.type = pair.second.pointer();
+        return rvalue;
     }
 };
 
@@ -232,4 +280,8 @@ IR Context::varInst(Scope *target, string name, TypeData type){
 IR Context::loadInst(Scope *target, IR value){
     auto k = LoadInst(registerInst(target), value);
     return k;
+}
+
+IR Context::accessInst(GlobalContext *gc,Scope *target, IR value, string name){
+    return AccessInst(gc, value, name, registerInst(target));
 }
