@@ -69,6 +69,7 @@ public:
     IR varInst(Scope* target, string name, TypeData type);
     IR loadInst(Scope* target, IR value);
     IR accessInst(GlobalContext *,Scope *target, IR value, string name);
+    IR branchInst(IR condition, Scope *body, Scope *el);
 };
 
 

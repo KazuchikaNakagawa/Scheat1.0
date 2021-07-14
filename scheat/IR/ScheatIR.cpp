@@ -8,6 +8,7 @@
 #include "ScheatIR.hpp"
 #include <fstream>
 #include <llvm/IR/Module.h>
+#include <llvm/IR/IRBuilder.h>
 #include <llvm/Linker/Linker.h>
 #include <llvm/IRReader/IRReader.h>
 #include <llvm/Support/SourceMgr.h>
@@ -95,7 +96,9 @@ public:
         perror("Writing assembly is not available yet.");
         return IRValue();
     };
-    virtual llvm::Value* writeLLVMIR(unique_ptr<llvm::LLVMContext>){
+    virtual llvm::Value* writeLLVMIR(llvm::LLVMContext&,
+                                     llvm::IRBuilder<>&,
+                                     unique_ptr<llvm::Module>&){
         perror("Writing LLVM IR is not available yet.");
         return nullptr;
     };
@@ -156,21 +159,20 @@ public:
 };
 
 class scheat::IR::GlobalContext : Context {
-    map<TypeData, map<string, pair<int, TypeData>>> properties;
+    map<string, map<string, pair<int, TypeData>>> properties;
     
 public:
     void addProperty(TypeData className, string name, int index, TypeData type);
-    pair<int, TypeData> getproperty(TypeData classData, string name){
-        if (properties[classData].find(name) == properties[classData].end()) {
+    pair<int, TypeData> getProperty(TypeData classData, string name){
+        if (properties[classData.ir_used].find(name) == properties[classData.ir_used].end()) {
             perror("ScheatIR:Out of range Error");
-            
         }
-        return properties[classData][name];
+        return properties[classData.ir_used][name];
     }
 };
 
 void GlobalContext::addProperty(TypeData className, string name, int index, TypeData type){
-    properties[className][name] = make_pair(index, type);
+    properties[className.ir_used][name] = make_pair(index, type);
 }
 
 class AllocateInst: public IR {
@@ -187,6 +189,11 @@ public:
         r.type = type;
         return r;
     }
+    llvm::Value * writeLLVMIR(llvm::LLVMContext &context, llvm::IRBuilder<> &builder, unique_ptr<llvm::Module>& module) override{
+        
+        return builder.CreateAlloca(llvm::Type::getInt32Ty(context), registerInst.writeLLVMIR(context, builder, module));
+    }
+    
 };
 
 class StoreInst : public IR {
@@ -218,7 +225,7 @@ public:
     }
     IRValue writeTextLLVMIR(Ofstream &f) override{
         auto tvalue = value.writeTextLLVMIR(f);
-        auto pair = global->getproperty(tvalue.type.loaded(), name);
+        auto pair = global->getProperty(tvalue.type.loaded(), name);
         auto rvalue = resultRegister.writeTextLLVMIR(f);
         f << rvalue.v << " = getelementptr " << tvalue.type.loaded().ir_used << ", "
         << tvalue.value() << ", i32 0, i32 " << pair.first;
@@ -242,6 +249,12 @@ public:
         f.endLine();
         return IRValue(reg.writeTextLLVMIR(f).v, v.type.loaded());
     }
+    
+};
+
+class BranchInst : public IR {
+    IR cond;
+public:
     
 };
 

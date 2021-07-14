@@ -47,6 +47,15 @@
 		8227D71C25A97F8100BCB932 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8227D71B25A97F8100BCB932 /* libc++abi.tbd */; };
 		8227D73A25A9849500BCB932 /* libc++.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8227D73925A9849500BCB932 /* libc++.1.0.dylib */; };
 		8227D75E25A986A900BCB932 /* ScheatCFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 826720D524F7D52A00C94D22 /* ScheatCFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82476ABF269D8E190073C953 /* LLVMNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82476ABD269D8E190073C953 /* LLVMNode.cpp */; };
+		82476AC0269D8E190073C953 /* LLVMNode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82476ABE269D8E190073C953 /* LLVMNode.hpp */; };
+		82476AC3269DB41E0073C953 /* LLVMStatementNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82476AC1269DB41E0073C953 /* LLVMStatementNode.cpp */; };
+		82476AC4269DB41E0073C953 /* LLVMStatementNode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82476AC2269DB41E0073C953 /* LLVMStatementNode.hpp */; };
+		82476AC6269DB5340073C953 /* LLVMNodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 82476AC5269DB5100073C953 /* LLVMNodes.h */; };
+		82476AC9269DB5A80073C953 /* LLVMExpr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82476AC7269DB5A80073C953 /* LLVMExpr.cpp */; };
+		82476ACA269DB5A80073C953 /* LLVMExpr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82476AC8269DB5A80073C953 /* LLVMExpr.hpp */; };
+		82476ACD269DB8820073C953 /* LLVMPrimaryExpr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82476ACB269DB8820073C953 /* LLVMPrimaryExpr.cpp */; };
+		82476ACE269DB8820073C953 /* LLVMPrimaryExpr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82476ACC269DB8820073C953 /* LLVMPrimaryExpr.hpp */; };
 		82525113266BBE94006ED207 /* ScheatLogManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82525111266BBE94006ED207 /* ScheatLogManager.cpp */; };
 		82525114266BBE94006ED207 /* ScheatLogManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82525112266BBE94006ED207 /* ScheatLogManager.hpp */; };
 		8262653125275F4700E71311 /* ScheatEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8262652F25275F4700E71311 /* ScheatEncoder.cpp */; };
@@ -435,6 +444,14 @@
 		82E6976A24D32C0200F13264 /* libz.1.2.8.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E6976524D32C0200F13264 /* libz.1.2.8.tbd */; };
 		82ECF52E24D3A72900EB8316 /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82ECF52C24D3A72900EB8316 /* Lexer.cpp */; };
 		82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82ECF52D24D3A72900EB8316 /* Lexer.hpp */; };
+		82EF3019269DC541001F9E09 /* LLVMTerm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EF3017269DC541001F9E09 /* LLVMTerm.cpp */; };
+		82EF301A269DC541001F9E09 /* LLVMTerm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82EF3018269DC541001F9E09 /* LLVMTerm.hpp */; };
+		82EF301D269E7BCC001F9E09 /* LLVMIntTerm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EF301B269E7BCC001F9E09 /* LLVMIntTerm.cpp */; };
+		82EF301E269E7BCC001F9E09 /* LLVMIntTerm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82EF301C269E7BCC001F9E09 /* LLVMIntTerm.hpp */; };
+		82EF3021269EC996001F9E09 /* LLVMStringTerm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EF301F269EC996001F9E09 /* LLVMStringTerm.cpp */; };
+		82EF3022269EC996001F9E09 /* LLVMStringTerm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82EF3020269EC996001F9E09 /* LLVMStringTerm.hpp */; };
+		82EF3025269EED2F001F9E09 /* ScheatContextForLLVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EF3023269EED2F001F9E09 /* ScheatContextForLLVM.cpp */; };
+		82EF3026269EED2F001F9E09 /* ScheatContextForLLVM.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 82EF3024269EED2F001F9E09 /* ScheatContextForLLVM.hpp */; };
 		82FF1F3F255631A90047DEF4 /* Initializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82FF1F3E255631A90047DEF4 /* Initializer.cpp */; };
 /* End PBXBuildFile section */
 
@@ -600,6 +617,15 @@
 		8227D72A25A9808A00BCB932 /* dylib1.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = dylib1.o; path = usr/lib/dylib1.o; sourceTree = SDKROOT; };
 		8227D73925A9849500BCB932 /* libc++.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.0.dylib"; path = "../../../../usr/local/Cellar/llvm/10.0.1_1/lib/libc++.1.0.dylib"; sourceTree = "<group>"; };
 		8227D74C25A9868500BCB932 /* libScheatFoundation.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libScheatFoundation.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		82476ABD269D8E190073C953 /* LLVMNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LLVMNode.cpp; sourceTree = "<group>"; };
+		82476ABE269D8E190073C953 /* LLVMNode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LLVMNode.hpp; sourceTree = "<group>"; };
+		82476AC1269DB41E0073C953 /* LLVMStatementNode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LLVMStatementNode.cpp; sourceTree = "<group>"; };
+		82476AC2269DB41E0073C953 /* LLVMStatementNode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LLVMStatementNode.hpp; sourceTree = "<group>"; };
+		82476AC5269DB5100073C953 /* LLVMNodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LLVMNodes.h; sourceTree = "<group>"; };
+		82476AC7269DB5A80073C953 /* LLVMExpr.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LLVMExpr.cpp; sourceTree = "<group>"; };
+		82476AC8269DB5A80073C953 /* LLVMExpr.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LLVMExpr.hpp; sourceTree = "<group>"; };
+		82476ACB269DB8820073C953 /* LLVMPrimaryExpr.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LLVMPrimaryExpr.cpp; sourceTree = "<group>"; };
+		82476ACC269DB8820073C953 /* LLVMPrimaryExpr.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LLVMPrimaryExpr.hpp; sourceTree = "<group>"; };
 		82525111266BBE94006ED207 /* ScheatLogManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatLogManager.cpp; sourceTree = "<group>"; };
 		82525112266BBE94006ED207 /* ScheatLogManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatLogManager.hpp; sourceTree = "<group>"; };
 		8262652F25275F4700E71311 /* ScheatEncoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatEncoder.cpp; sourceTree = "<group>"; };
@@ -838,6 +864,14 @@
 		82E6976524D32C0200F13264 /* libz.1.2.8.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.8.tbd; path = usr/lib/libz.1.2.8.tbd; sourceTree = SDKROOT; };
 		82ECF52C24D3A72900EB8316 /* Lexer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lexer.cpp; sourceTree = "<group>"; };
 		82ECF52D24D3A72900EB8316 /* Lexer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lexer.hpp; sourceTree = "<group>"; };
+		82EF3017269DC541001F9E09 /* LLVMTerm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LLVMTerm.cpp; sourceTree = "<group>"; };
+		82EF3018269DC541001F9E09 /* LLVMTerm.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LLVMTerm.hpp; sourceTree = "<group>"; };
+		82EF301B269E7BCC001F9E09 /* LLVMIntTerm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LLVMIntTerm.cpp; sourceTree = "<group>"; };
+		82EF301C269E7BCC001F9E09 /* LLVMIntTerm.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LLVMIntTerm.hpp; sourceTree = "<group>"; };
+		82EF301F269EC996001F9E09 /* LLVMStringTerm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LLVMStringTerm.cpp; sourceTree = "<group>"; };
+		82EF3020269EC996001F9E09 /* LLVMStringTerm.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LLVMStringTerm.hpp; sourceTree = "<group>"; };
+		82EF3023269EED2F001F9E09 /* ScheatContextForLLVM.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScheatContextForLLVM.cpp; sourceTree = "<group>"; };
+		82EF3024269EED2F001F9E09 /* ScheatContextForLLVM.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScheatContextForLLVM.hpp; sourceTree = "<group>"; };
 		82FF1F3D2556317E0047DEF4 /* Initializers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Initializers.h; sourceTree = "<group>"; };
 		82FF1F3E255631A90047DEF4 /* Initializer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Initializer.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1336,6 +1370,30 @@
 			path = ScheatRun;
 			sourceTree = "<group>";
 		};
+		82476ABC269D8DC10073C953 /* LLVMNode */ = {
+			isa = PBXGroup;
+			children = (
+				82476AC5269DB5100073C953 /* LLVMNodes.h */,
+				82476AC7269DB5A80073C953 /* LLVMExpr.cpp */,
+				82476AC8269DB5A80073C953 /* LLVMExpr.hpp */,
+				82476ABD269D8E190073C953 /* LLVMNode.cpp */,
+				82476ABE269D8E190073C953 /* LLVMNode.hpp */,
+				82476AC1269DB41E0073C953 /* LLVMStatementNode.cpp */,
+				82476AC2269DB41E0073C953 /* LLVMStatementNode.hpp */,
+				82476ACB269DB8820073C953 /* LLVMPrimaryExpr.cpp */,
+				82476ACC269DB8820073C953 /* LLVMPrimaryExpr.hpp */,
+				82EF3017269DC541001F9E09 /* LLVMTerm.cpp */,
+				82EF3018269DC541001F9E09 /* LLVMTerm.hpp */,
+				82EF301B269E7BCC001F9E09 /* LLVMIntTerm.cpp */,
+				82EF301C269E7BCC001F9E09 /* LLVMIntTerm.hpp */,
+				82EF301F269EC996001F9E09 /* LLVMStringTerm.cpp */,
+				82EF3020269EC996001F9E09 /* LLVMStringTerm.hpp */,
+				82EF3023269EED2F001F9E09 /* ScheatContextForLLVM.cpp */,
+				82EF3024269EED2F001F9E09 /* ScheatContextForLLVM.hpp */,
+			);
+			path = LLVMNode;
+			sourceTree = "<group>";
+		};
 		82525110266BBE72006ED207 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -1462,6 +1520,7 @@
 				8283093524F93BEE006EFFEA /* CScheat.h */,
 				829237EE25A5A74E002157FC /* Utilities.h */,
 				829849EF24D2DA20004A7A64 /* scheatPriv.hpp */,
+				82476ABC269D8DC10073C953 /* LLVMNode */,
 				829849F124D2DA20004A7A64 /* scheat.cpp */,
 				82806DD4250E15DA0010F012 /* Statics.cpp */,
 				82730C5424FFB88900C27D79 /* Tokens.cpp */,
@@ -1761,14 +1820,23 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82476ACA269DB5A80073C953 /* LLVMExpr.hpp in Headers */,
+				82EF3026269EED2F001F9E09 /* ScheatContextForLLVM.hpp in Headers */,
 				82ECF52F24D3A72900EB8316 /* Lexer.hpp in Headers */,
 				8283093824F93CDC006EFFEA /* CScheat.h in Headers */,
+				82476ACE269DB8820073C953 /* LLVMPrimaryExpr.hpp in Headers */,
 				82889A4E26614BF400067DA2 /* ScheatIR.hpp in Headers */,
+				82EF301A269DC541001F9E09 /* LLVMTerm.hpp in Headers */,
+				82EF301E269E7BCC001F9E09 /* LLVMIntTerm.hpp in Headers */,
+				82476AC0269D8E190073C953 /* LLVMNode.hpp in Headers */,
 				82525114266BBE94006ED207 /* ScheatLogManager.hpp in Headers */,
 				829849EE24D2DA20004A7A64 /* scheat.h in Headers */,
 				827428E12657D68400555F45 /* ScheatAST.hpp in Headers */,
 				829849F024D2DA20004A7A64 /* scheatPriv.hpp in Headers */,
+				82476AC6269DB5340073C953 /* LLVMNodes.h in Headers */,
 				829CD928251F28A900139E5F /* Nodes2.h in Headers */,
+				82EF3022269EC996001F9E09 /* LLVMStringTerm.hpp in Headers */,
+				82476AC4269DB41E0073C953 /* LLVMStatementNode.hpp in Headers */,
 				829CD924251F26B600139E5F /* ScheatParser2.h in Headers */,
 				8262653225275F4700E71311 /* ScheatEncoder.h in Headers */,
 			);
@@ -2214,8 +2282,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82EF3019269DC541001F9E09 /* LLVMTerm.cpp in Sources */,
 				82806DD2250E0BA70010F012 /* ScheatBasicStructures.cpp in Sources */,
+				82476AC3269DB41E0073C953 /* LLVMStatementNode.cpp in Sources */,
 				82097C8F25076A31002D048A /* CScheat.cpp in Sources */,
+				82EF301D269E7BCC001F9E09 /* LLVMIntTerm.cpp in Sources */,
 				827428CF2657D31300555F45 /* ScheatParser2.cpp in Sources */,
 				82525113266BBE94006ED207 /* ScheatLogManager.cpp in Sources */,
 				8292381A25A5A89A002157FC /* Utilities.cpp in Sources */,
@@ -2226,8 +2297,13 @@
 				82889A4D26614BF400067DA2 /* ScheatIR.cpp in Sources */,
 				8262653125275F4700E71311 /* ScheatEncoder.cpp in Sources */,
 				829849F224D2DA20004A7A64 /* scheat.cpp in Sources */,
+				82476AC9269DB5A80073C953 /* LLVMExpr.cpp in Sources */,
 				829CD927251F28A900139E5F /* Nodes2.cpp in Sources */,
+				82EF3021269EC996001F9E09 /* LLVMStringTerm.cpp in Sources */,
 				82806DD0250E0A6A0010F012 /* ScheatContext.cpp in Sources */,
+				82EF3025269EED2F001F9E09 /* ScheatContextForLLVM.cpp in Sources */,
+				82476ABF269D8E190073C953 /* LLVMNode.cpp in Sources */,
+				82476ACD269DB8820073C953 /* LLVMPrimaryExpr.cpp in Sources */,
 				82730C5524FFB88900C27D79 /* Tokens.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
